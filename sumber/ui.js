@@ -30,16 +30,6 @@
   const NAMA = { bawah: 'Di bawah sumbu-x', potong: 'Memotong sumbu-x', garis: 'Parabola dan garis', parab: 'Dua parabola', silang: 'Dua kurva bersilangan', sumbuy: 'Terhadap sumbu-y', kanan: 'Kanan dikurangi kiri' };
   const glif = (id) => '<svg viewBox="0 0 32 32" aria-hidden="true">' + (GLIF[id] || GLIF.bawah) + '</svg>';
   const ubin = (id) => '<span class="ubin fx-' + id + '">' + glif(id) + '</span>';
-  function untaian(el) {
-    const W = Math.max(320, el.clientWidth || 900), H = 74, n = Math.min(7, Math.max(5, Math.floor(W / 120))), ids = URUT.slice(0, 7);
-    const pilih = []; for (let i = 0; i < n; i++) pilih.push(ids[Math.round(i * (ids.length - 1) / (n - 1))]);
-    const atas = 6, kendur = 20; let s = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%" height="100%" preserveAspectRatio="none" aria-hidden="true"><path d="M-6 ' + atas + ' Q ' + (W / 2) + ' ' + (atas + 2 * kendur) + ' ' + (W + 6) + ' ' + atas + '" fill="none" stroke="#CFC7B1" stroke-width="2.4" stroke-linecap="round"/>';
-    pilih.forEach((id, i) => { const t = (i + .5) / n, x = W * t, y = atas + 4 * kendur * t * (1 - t), a = Math.atan(4 * kendur * (1 - 2 * t) / W) * 180 / Math.PI, fw = 30, fh = 36;
-      s += '<g transform="translate(' + x.toFixed(1) + ' ' + y.toFixed(1) + ') rotate(' + a.toFixed(1) + ')"><g class="bendera" style="animation-delay:-' + (i * .55).toFixed(2) + 's"><path d="M' + (-fw / 2) + ' 0H' + (fw / 2) + 'L0 ' + fh + 'Z" fill="var(--f-' + id + ')" stroke="var(--f-' + id + ')" stroke-width="6" stroke-linejoin="round"/><g transform="translate(-7 4) scale(.44)" style="color:#fff;stroke:#fff;fill:none;stroke-width:3;stroke-linecap:round">' + GLIF[id] + '</g></g></g>'; });
-    el.innerHTML = s + '</svg>';
-  }
-  const gayaBendera = document.createElement('style'); gayaBendera.textContent = '.bendera{transform-box:fill-box;transform-origin:50% 0;animation:ayun 4.2s ease-in-out infinite alternate}@keyframes ayun{from{transform:rotate(-2.6deg)}to{transform:rotate(2.6deg)}}'; document.head.appendChild(gayaBendera);
-
   /* ---------- DOM mini ---------- */
   function el(tag, attrs, ...anak) {
     const e = document.createElement(tag);
@@ -138,5 +128,5 @@
   }
   async function layarPenuh() { try { const d = document.documentElement; if (!document.fullscreenElement && d.requestFullscreen) await d.requestFullscreen(); if (screen.orientation && screen.orientation.lock) await screen.orientation.lock('landscape'); } catch (e) { /* abaikan */ } }
 
-  root.UI = { speed: 1, instan: false, IK, ik, glif, ubin, GLIF, URUT, NAMA, untaian, el, esc, tidur, anim, token, Batal, dialog, konfirmasi, info, toast, papanKetik, keypadAngka, seret, pasangPutar, layarPenuh, ALFA };
+  root.UI = { speed: 1, instan: false, IK, ik, glif, ubin, GLIF, URUT, NAMA, el, esc, tidur, anim, token, Batal, dialog, konfirmasi, info, toast, papanKetik, keypadAngka, seret, pasangPutar, layarPenuh, ALFA };
 })(window);

@@ -6,10 +6,12 @@
   'use strict';
   const buat = (awalan, n) => Array.from({ length: n }, (_, i) => awalan + ' ' + String(i + 1).padStart(2, '0'));
   const DAFTAR_KELAS = {
-    /* kelas utama: 21 murid = 7 kelompok × 3 (kelompok dibentuk otomatis dari tes awal) */
-    xiia: buat('SISWA KELAS A', 21),
-    /* kelas cadangan (tersembunyi): kelompok disusun guru; dipakai untuk uji dan jika ada kelas kedua */
-    xiib: buat('SISWA KELAS B', 21)
+    /* nama samaran sampai guru mengisi daftar asli (urutan tetap). Jumlah murid per kelas bebas (maks 49); 7 kelompok, anggota per kelompok menyesuaikan. */
+    xiia: buat('SISWA A', 21),
+    xiib: buat('SISWA B', 21),
+    xiic: buat('SISWA C', 21),
+    xiid: buat('SISWA D', 21),
+    ujim: buat('SISWA UJI', 21)
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = DAFTAR_KELAS; else root.DAFTAR_KELAS = DAFTAR_KELAS;
 })(typeof window !== 'undefined' ? window : globalThis);

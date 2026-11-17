@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="color-scheme" content="light">
-<meta name="theme-color" content="#FBF8F1">
+<meta name="theme-color" content="#F7F4EC">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="robots" content="noindex">
 <title>Area & Calculus — Guru</title>
@@ -12,22 +12,22 @@
 <style>/* Area & Calculus — tema cerah (biru laut, tosca, pasir). Semua komponen kustom (tanpa tampilan bawaan peramban). Landscape saja. */
 :root {
   color-scheme: light;
-  --awan: #FBF8F1; --putih: #fff; --tinta: #12263F; --tinta-2: #2B3F58; --tinta-3: #55657A; --garis: #E2DCCB; --garis-2: #CFC7B1;
-  --markisa: #0F766E; --markisa-tua: #0B5A54; --markisa-muda: #E3F2F0; --markisa-100: #CFE8E4;
-  --mentari: #F3A64B; --mentari-100: #FDEED6; --mentari-800: #7A4A0E;
+  --awan: #F7F4EC; --putih: #fff; --tinta: #12254A; --tinta-2: #2B3F58; --tinta-3: #55657A; --garis: #E2DCCB; --garis-2: #CFC7B1;
+  --markisa: #13294B; --markisa-tua: #0A1A33; --markisa-muda: #E9EEF7; --markisa-100: #CCD7EA;
+  --mentari: #E0AE4A; --mentari-100: #FBF1D8; --mentari-800: #6E4C0B;
   --mint: #2FA36B; --mint-100: #DDF3E6; --mint-800: #14663F;
-  --koral: #BE3455; --koral-100: #FBE0E6; --koral-800: #8E1F3B;
-  --jingga: #D9822B; --jingga-100: #FBE8D0; --jingga-800: #8A4B0B;
+  --koral: #B3232D; --koral-100: #FBE1DF; --koral-800: #7E1820;
+  --jingga: #B8832B; --jingga-100: #F8EBCF; --jingga-800: #6E4C0B;
   /* tujuh bagian materi (pos) + dua aksen cadangan */
-  --f-bawah: #D94F70; --f-bawah-t: #FBE3E9; --f-bawah-d: #8E1F3B;
-  --f-potong: #E08A1E; --f-potong-t: #FDEED6; --f-potong-d: #8A4B0B;
-  --f-garis: #1B9C8F; --f-garis-t: #DDF2EF; --f-garis-d: #0B5A54;
-  --f-parab: #3B6FD6; --f-parab-t: #E0EAFB; --f-parab-d: #1E3F8F;
-  --f-silang: #7E5BD6; --f-silang-t: #ECE6FA; --f-silang-d: #43288F;
-  --f-sumbuy: #4C9A3F; --f-sumbuy-t: #E6F3DD; --f-sumbuy-d: #2A5E1F;
-  --f-kanan: #3D6A8F; --f-kanan-t: #E1ECF5; --f-kanan-d: #1B3F5E;
-  --f-tangga: #C0762E; --f-tangga-t: #F7E7D4; --f-tangga-d: #7A4A0E;
-  --f-sepotong: #12263F; --f-sepotong-t: #E3E8EE; --f-sepotong-d: #12263F;
+  --f-bawah: #C23A3F; --f-bawah-t: #FBE1DF; --f-bawah-d: #7E1820;
+  --f-potong: #C9922F; --f-potong-t: #FBF1D8; --f-potong-d: #6E4C0B;
+  --f-garis: #2A5AA7; --f-garis-t: #E3EBF8; --f-garis-d: #0A1A33;
+  --f-parab: #5B7FB8; --f-parab-t: #E5ECF7; --f-parab-d: #26406E;
+  --f-silang: #8C5A1E; --f-silang-t: #F4EADB; --f-silang-d: #5A3A0F;
+  --f-sumbuy: #8A2B4A; --f-sumbuy-t: #F6E3EA; --f-sumbuy-d: #5E1B33;
+  --f-kanan: #3C4F6B; --f-kanan-t: #E4E9F0; --f-kanan-d: #1F2C40;
+  --f-tangga: #A8742A; --f-tangga-t: #F4E8CC; --f-tangga-d: #6E4C0B;
+  --f-sepotong: #12254A; --f-sepotong-t: #E3E8EE; --f-sepotong-d: #12254A;
   --r: .9rem; --r-lg: 1.3rem; --bayang: 0 .1rem .2rem rgba(18,38,63,.07), 0 .6rem 1.4rem -.6rem rgba(18,38,63,.22);
   --tampil: "Fraunces", "Segoe UI", system-ui, sans-serif; --isi: "Jakarta", "Segoe UI", system-ui, sans-serif; --mat: "Fraunces Math", "Cambria Math", Cambria, Georgia, "Times New Roman", serif;
   --ease: cubic-bezier(.2,.8,.2,1); --pegas: cubic-bezier(.34,1.56,.64,1);
@@ -52,7 +52,7 @@ button { font: inherit; color: inherit; }
 
 /* ---------- kerangka aplikasi ---------- */
 #app { position: fixed; inset: 0; display: flex; flex-direction: column; background:
-  radial-gradient(40rem 22rem at 4% -6rem, #FBD9A6 0, rgba(255,231,163,0) 70%), radial-gradient(40rem 22rem at 98% -5rem, #CFE8E4 0, rgba(228,217,252,0) 70%), var(--awan); }
+  radial-gradient(40rem 22rem at 4% -6rem, #F2D690 0, rgba(255,231,163,0) 70%), radial-gradient(40rem 22rem at 98% -5rem, #CCD7EA 0, rgba(228,217,252,0) 70%), var(--awan); }
 .bar-atas { flex: none; display: flex; align-items: center; gap: 1rem; padding: .55rem 2.2rem; height: 3.4rem; }
 .logo { font-family: var(--tampil); font-weight: 700; font-size: 1.45rem; letter-spacing: -.02em; display: inline-flex; gap: .4rem; align-items: center; }
 .logo b { background: var(--mentari); padding: 0 .35em .05em; border-radius: .5rem; transform: rotate(-3deg); display: inline-block; box-shadow: 0 .14rem 0 rgba(122,86,0,.28); }
@@ -68,16 +68,16 @@ button { font: inherit; color: inherit; }
 .btn:active { transform: translateY(.2rem); box-shadow: 0 0 0 var(--markisa-tua); }
 .btn.sekunder { background: #fff; color: var(--markisa-tua); border-color: var(--garis-2); box-shadow: 0 .2rem 0 var(--garis-2); }
 .btn.hijau { background: var(--mint); border-color: var(--mint); color: #0B3A24; box-shadow: 0 .2rem 0 #1F7F52; }
-.btn.sorot { background: var(--mentari); border-color: var(--mentari); color: var(--tinta); box-shadow: 0 .2rem 0 #B5772B; }
-.btn.bahaya { background: var(--koral); border-color: var(--koral); box-shadow: 0 .2rem 0 #C32F42; }
+.btn.sorot { background: var(--mentari); border-color: var(--mentari); color: var(--tinta); box-shadow: 0 .2rem 0 #9A6F1E; }
+.btn.bahaya { background: var(--koral); border-color: var(--koral); box-shadow: 0 .2rem 0 #8E1B22; }
 .btn.besar { min-height: 3.6rem; font-size: 1.25rem; padding: 0 2.2rem; border-radius: 1.1rem; }
 .btn.kecil { min-height: 2.4rem; padding: 0 .9rem; font-size: .9rem; border-radius: .7rem; }
 .btn[disabled], .btn.mati { opacity: .45; pointer-events: none; box-shadow: none; }
 .btn.denyut { animation: denyut 1.6s infinite; }
-@keyframes denyut { 0%,100% { box-shadow: 0 .2rem 0 var(--markisa-tua), 0 0 0 0 rgba(15,118,110,.5); } 60% { box-shadow: 0 .2rem 0 var(--markisa-tua), 0 0 0 .9rem rgba(15,118,110,0); } }
+@keyframes denyut { 0%,100% { box-shadow: 0 .2rem 0 var(--markisa-tua), 0 0 0 0 rgba(19,41,75,.5); } 60% { box-shadow: 0 .2rem 0 var(--markisa-tua), 0 0 0 .9rem rgba(19,41,75,0); } }
 .kartu { background: #fff; border: 1px solid var(--garis); border-radius: var(--r-lg); box-shadow: var(--bayang); padding: 1.1rem 1.3rem; }
 .chip { display: inline-flex; align-items: center; gap: .4rem; padding: .15rem .8rem; border-radius: 99px; font-weight: 700; font-size: .85rem; background: var(--markisa-muda); color: var(--markisa-tua); white-space: nowrap; }
-.chip.ok { background: var(--mint-100); color: var(--mint-800); } .chip.warn { background: var(--jingga-100); color: var(--jingga-800); } .chip.bad { background: var(--koral-100); color: var(--koral-800); } .chip.abu { background: #EFEBDD; color: var(--tinta-2); } .chip.sorot { background: var(--mentari-100); color: var(--mentari-800); }
+.chip.ok { background: var(--mint-100); color: var(--mint-800); } .chip.warn { background: var(--jingga-100); color: var(--jingga-800); } .chip.bad { background: var(--koral-100); color: var(--koral-800); } .chip.abu { background: #ECE7D6; color: var(--tinta-2); } .chip.sorot { background: var(--mentari-100); color: var(--mentari-800); }
 .ik { width: 1.3rem; height: 1.3rem; flex: none; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .ik.besar { width: 2rem; height: 2rem; } .ik.kecil { width: 1rem; height: 1rem; }
 .eyebrow { display: inline-flex; align-items: center; gap: .5rem; font-size: .8rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--tinta-3); margin-bottom: .3rem; }
@@ -103,7 +103,7 @@ button { font: inherit; color: inherit; }
 .dialog .badan { padding: .4rem 1.6rem 1rem; flex: 1; min-height: 0; font-size: 1.1rem; }
 .dialog .kaki { padding: .8rem 1.6rem 1.3rem; display: flex; gap: .8rem; justify-content: flex-end; flex-wrap: wrap; }
 .dialog.lebar { width: min(64rem, 100%); }
-.dialog .tutup-x { margin-left: auto; width: 2.4rem; height: 2.4rem; border-radius: 50%; border: 0; background: #EFEBDD; display: grid; place-items: center; cursor: pointer; }
+.dialog .tutup-x { margin-left: auto; width: 2.4rem; height: 2.4rem; border-radius: 50%; border: 0; background: #ECE7D6; display: grid; place-items: center; cursor: pointer; }
 .toast { position: fixed; left: 50%; bottom: 5rem; transform: translateX(-50%); z-index: 600; background: var(--tinta); color: #fff; padding: .7rem 1.4rem; border-radius: 99px; font-weight: 700; box-shadow: var(--bayang); animation: naik .3s var(--pegas) both; display: flex; gap: .6rem; align-items: center; }
 @keyframes naik { from { opacity: 0; transform: translate(-50%, 1rem); } }
 
@@ -115,10 +115,10 @@ button { font: inherit; color: inherit; }
 .papan-ketik .tuts { display: grid; gap: .45rem; grid-template-columns: repeat(var(--kol, 8), 1fr); }
 .papan-ketik .tut { min-height: 3rem; border-radius: .8rem; border: .12rem solid var(--garis); background: #fff; font-weight: 700; font-size: 1.2rem; cursor: pointer; box-shadow: 0 .15rem 0 var(--garis-2); touch-action: manipulation; }
 .papan-ketik .tut:active { transform: translateY(.15rem); box-shadow: none; background: var(--markisa-muda); }
-.papan-ketik .tut.fungsi { background: #EFEBDD; font-size: .95rem; }
+.papan-ketik .tut.fungsi { background: #ECE7D6; font-size: .95rem; }
 
 /* ---------- putar tablet (hanya landscape) ---------- */
-#putar { position: fixed; inset: 0; z-index: 9999; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; background: linear-gradient(160deg, #0F766E, #12263F 55%, #3B6FD6); color: #fff; text-align: center; padding: 2rem; }
+#putar { position: fixed; inset: 0; z-index: 9999; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; background: linear-gradient(160deg, #13294B, #12254A 55%, #5B7FB8); color: #fff; text-align: center; padding: 2rem; }
 @media (orientation: portrait) { #putar { display: flex; } #app { visibility: hidden; } }
 #putar h2 { color: #fff; font-size: 7vw; } #putar p { font-size: 4vw; opacity: .9; max-width: 80vw; }
 .tablet { width: 28vw; height: 40vw; border: .9vw solid #fff; border-radius: 3.2vw; position: relative; animation: putar 3.2s var(--ease) infinite; box-shadow: 0 2vw 5vw rgba(0,0,0,.25); background: rgba(255,255,255,.12); }
@@ -133,7 +133,7 @@ button { font: inherit; color: inherit; }
 .warna-x { color: var(--f-potong); } .warna-y { color: var(--mint); } .warna-hasil { color: var(--markisa); }
 
 .layar-angka { text-align: center; font-family: var(--tampil); font-size: 3rem; font-weight: 700; padding: .4rem; margin: .6rem auto; max-width: 18rem; border-radius: 1rem; background: var(--markisa-muda); color: var(--markisa-tua); min-height: 4.4rem; } .layar-angka.kosong { color: var(--garis-2); }
-.tuts-angka { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; max-width: 18rem; margin: 0 auto; } .tuts-angka .tut { min-height: 3.3rem; border-radius: .8rem; border: .12rem solid var(--garis); background: #fff; font-weight: 700; font-size: 1.4rem; cursor: pointer; box-shadow: 0 .15rem 0 var(--garis-2); } .tuts-angka .tut:active { transform: translateY(.15rem); box-shadow: none; background: var(--markisa-muda); } .tuts-angka .tut.fungsi { background: #EFEBDD; }
+.tuts-angka { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; max-width: 18rem; margin: 0 auto; } .tuts-angka .tut { min-height: 3.3rem; border-radius: .8rem; border: .12rem solid var(--garis); background: #fff; font-weight: 700; font-size: 1.4rem; cursor: pointer; box-shadow: 0 .15rem 0 var(--garis-2); } .tuts-angka .tut:active { transform: translateY(.15rem); box-shadow: none; background: var(--markisa-muda); } .tuts-angka .tut.fungsi { background: #ECE7D6; }
 .teks-soal-d { font-size: 1.5rem; line-height: 1.4; text-align: center; } .teks-soal-d i, .teks-soal i { font-family: var(--mat); }
 
 /* ---------- matematika ---------- */
@@ -184,7 +184,7 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
 .chip-angka.pakai { animation: none; opacity: .25; pointer-events: none; }
 .chip-angka.keluar { background: var(--mint); box-shadow: 0 .25rem 0 rgba(10,107,80,.4); cursor: default; animation: none; }
 @keyframes goyang { 0%,100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg) translateY(-.15rem); } }
-.mesin { position: relative; background: linear-gradient(160deg, #0F766E, #12263F); border-radius: 2rem; color: #fff; padding: 1.1rem 1.3rem 1.4rem; text-align: center; box-shadow: 0 .6rem 0 #0B1A2C, 0 2rem 3rem -1rem rgba(60,22,154,.5); }
+.mesin { position: relative; background: linear-gradient(160deg, #13294B, #12254A); border-radius: 2rem; color: #fff; padding: 1.1rem 1.3rem 1.4rem; text-align: center; box-shadow: 0 .6rem 0 #081428, 0 2rem 3rem -1rem rgba(60,22,154,.5); }
 .mesin .judul-mesin { font-family: var(--mat); font-size: 1.9rem; font-weight: 700; margin-bottom: .6rem; }
 .mesin .lubang { margin: 0 auto; width: 70%; height: 4.2rem; border-radius: 1rem; background: rgba(0,0,0,.28); display: grid; place-items: center; font-size: 1rem; color: rgba(255,255,255,.75); border: .14rem dashed rgba(255,255,255,.4); transition: all .2s; }
 .mesin .lubang.sambut { background: rgba(255,194,51,.35); border-color: var(--mentari); transform: scale(1.04); }
@@ -194,14 +194,14 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
 @keyframes gir { to { transform: rotate(360deg); } }
 .mesin.jalan { animation: getar .12s linear infinite; }
 @keyframes getar { 0% { transform: translate(0,0); } 25% { transform: translate(.12rem,-.08rem); } 75% { transform: translate(-.12rem,.08rem); } }
-.layar-hitung { background: #0B1A2C; border-radius: .9rem; padding: .5rem; min-height: 3rem; font-family: var(--mat); font-size: 1.5rem; color: #9CF5D3; display: grid; place-items: center; }
+.layar-hitung { background: #081428; border-radius: .9rem; padding: .5rem; min-height: 3rem; font-family: var(--mat); font-size: 1.5rem; color: #9CF5D3; display: grid; place-items: center; }
 .corong { margin: .6rem auto 0; width: 34%; height: 1.4rem; background: rgba(0,0,0,.35); border-radius: 0 0 1.2rem 1.2rem; }
 .panel-titik { margin-top: .6rem; background: #fff; border: 1px solid var(--garis); border-radius: 1.2rem; padding: .6rem 1rem; display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; min-height: 3.6rem; }
 .panel-titik .lab { font-weight: 700; color: var(--tinta-3); font-size: .9rem; text-transform: uppercase; letter-spacing: .05em; }
 .cip-titik { display: inline-flex; align-items: center; padding: .15rem .8rem; border-radius: .8rem; background: var(--markisa-muda); color: var(--markisa-tua); font-weight: 700; font-size: 1.15rem; border: .1rem solid var(--markisa-100); }
 .plot-adegan { flex: 1; display: grid; grid-template-columns: 17rem 1fr; gap: 1rem; min-height: 0; }
 .tabel-titik { background: #fff; border: 1px solid var(--garis); border-radius: 1.2rem; padding: .8rem; display: flex; flex-direction: column; gap: .4rem; align-self: center; }
-.tabel-titik .b { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem; text-align: center; font-weight: 700; padding: .35rem; border-radius: .7rem; font-size: 1.2rem; background: #FAF7EE; transition: all .3s; }
+.tabel-titik .b { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem; text-align: center; font-weight: 700; padding: .35rem; border-radius: .7rem; font-size: 1.2rem; background: #F7F4EC; transition: all .3s; }
 .tabel-titik .b.kepala { background: transparent; font-size: .85rem; color: var(--tinta-3); text-transform: uppercase; letter-spacing: .04em; }
 .tabel-titik .b.sorot { background: var(--mentari-100); transform: scale(1.06); box-shadow: 0 .3rem 1rem -.3rem rgba(122,86,0,.4); }
 .tabel-titik .b.selesai { background: var(--markisa-muda); color: var(--markisa-tua); }
@@ -229,7 +229,7 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
 
 .layar-hitung { white-space: nowrap; overflow: hidden; display: block; text-align: center; line-height: 2.1rem; }
 
-.kecepatan { display: flex; align-items: center; gap: .35rem; padding: .2rem .3rem .2rem .7rem; border: 1px solid var(--garis); border-radius: 99px; background: #FAF7EE; } .kecepatan button { min-width: 2.6rem; min-height: 2.2rem; border: 0; border-radius: 99px; background: transparent; font-weight: 700; color: var(--tinta-2); cursor: pointer; } .kecepatan button.aktif { background: var(--markisa); color: #fff; box-shadow: 0 .12rem 0 var(--markisa-tua); }
+.kecepatan { display: flex; align-items: center; gap: .35rem; padding: .2rem .3rem .2rem .7rem; border: 1px solid var(--garis); border-radius: 99px; background: #F7F4EC; } .kecepatan button { min-width: 2.6rem; min-height: 2.2rem; border: 0; border-radius: 99px; background: transparent; font-weight: 700; color: var(--tinta-2); cursor: pointer; } .kecepatan button.aktif { background: var(--markisa); color: #fff; box-shadow: 0 .12rem 0 var(--markisa-tua); }
 .chip-angka.ketuk { cursor: pointer; }
 /* ---------- alur grafik + penjelasan bertahap ---------- */
 .alur { flex: 1; min-height: 0; width: 100%; display: grid; grid-template-columns: 1.12fr 1fr; gap: 1rem; align-items: stretch; }
@@ -268,7 +268,6 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
 /* selamat datang */
 .welcome { position: absolute; inset: -.4rem -2.2rem -1rem; display: grid; place-items: center; overflow: hidden; text-align: center; }
 .welcome .bg-kurva { position: absolute; inset: 0; } .welcome .bg-kurva svg { width: 100%; height: 100%; } .welcome .bg-kurva path { stroke-dasharray: 30 18; animation: alir 14s linear infinite; } @keyframes alir { to { stroke-dashoffset: -480; } }
-.garland-welcome { position: absolute; left: 0; right: 0; top: -.4rem; height: 4.6rem; pointer-events: none; }
 .isi-welcome { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: .6rem; padding: 3rem 4rem; background: rgba(255,255,255,.72); backdrop-filter: blur(.6rem); border-radius: 2.4rem; box-shadow: var(--bayang); border: 1px solid rgba(255,255,255,.9); animation: masuk .8s var(--ease) both; }
 .judul-besar { font-size: 6.2rem; margin: 0; line-height: 1; } .judul-besar .hl { background: linear-gradient(transparent 60%, var(--mentari) 60%); padding: 0 .15em; border-radius: .4rem; }
 .isi-welcome .sub { font-size: 1.4rem; color: var(--tinta-2); max-width: 40rem; margin-bottom: 1.2rem; }
@@ -315,7 +314,7 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
 .kel-wrap { position: absolute; inset: 0; display: flex; flex-direction: column; gap: .6rem; }
 .grid-kel { flex: 1; min-height: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: .8rem; }
 .kel-kartu { background: #fff; border: .12rem solid var(--garis); border-radius: 1.3rem; padding: .8rem; display: flex; flex-direction: column; gap: .3rem; min-height: 0; overflow: hidden; box-shadow: var(--bayang); }
-.kel-kartu.saya { border-color: var(--markisa); box-shadow: 0 0 0 .3rem var(--markisa-100), var(--bayang); background: linear-gradient(#E3F2F0, #fff 35%); }
+.kel-kartu.saya { border-color: var(--markisa); box-shadow: 0 0 0 .3rem var(--markisa-100), var(--bayang); background: linear-gradient(#E9EEF7, #fff 35%); }
 .kel-judul { display: flex; justify-content: space-between; align-items: center; font-family: var(--tampil); font-weight: 700; font-size: 1.25rem; margin-bottom: .2rem; }
 .kel-nama { display: flex; align-items: center; gap: .5rem; font-size: .9rem; font-weight: 600; padding: .2rem .3rem; border-radius: .7rem; } .kel-nama.aku { background: var(--mentari-100); }
 .av2 { width: 1.7rem; height: 1.7rem; border-radius: 50%; background: var(--t); color: #fff; display: grid; place-items: center; font-size: .65rem; font-weight: 700; flex: none; }
@@ -328,6 +327,17 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
 .peran-kecil { margin-left: auto; font-size: .7rem; font-weight: 700; color: var(--tinta-3); white-space: nowrap; }
 .kel-kartu[class*="fx-"] { border-color: var(--t); }
 
+/* ---------- soal bergambar (tes awal) ---------- */
+.soal-bagi { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 25rem); gap: 1.2rem; align-items: start; }
+.soal-bagi .teks-soal { font-size: 1.75rem; margin-bottom: .6rem; }
+.gambar-soal { border: 1px solid var(--garis); border-radius: 1rem; background: #fff; padding: .4rem; box-shadow: var(--bayang); aspect-ratio: 420 / 300; }
+.gambar-soal svg { width: 100%; height: 100%; }
+#catatan .s-kep .gambar-soal { order: 3; flex: none; width: 10.5rem; padding: .15rem; box-shadow: none; }
+.kel-nama.kosong { color: var(--tinta-3); font-weight: 500; font-style: italic; border: .1rem dashed var(--garis-2); background: transparent; } .av2.kosong { background: transparent; color: var(--tinta-3); border: .1rem dashed var(--garis-2); }
+.kel-nama.baru { background: var(--mentari-100); }
+.titik-hidup { width: .6rem; height: .6rem; border-radius: 50%; background: var(--merah, #B3232D); display: inline-block; margin-right: .1rem; animation: denyut-titik 1.4s infinite; }
+@keyframes denyut-titik { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .35; transform: scale(.7); } }
+
 .tabs-guru { display: flex; gap: .4rem; background: #fff; border: 1px solid var(--garis); border-radius: 99px; padding: .25rem; box-shadow: var(--bayang); }
 .tabs-guru button { display: inline-flex; gap: .45rem; align-items: center; min-height: 2.5rem; padding: 0 1.1rem; border: 0; border-radius: 99px; background: transparent; font-weight: 700; color: var(--tinta-2); cursor: pointer; }
 .tabs-guru button.aktif { background: var(--markisa); color: #fff; box-shadow: 0 .15rem 0 var(--markisa-tua); }
@@ -335,8 +345,8 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
 .stat-guru { display: flex; gap: .8rem; align-items: stretch; margin-bottom: .7rem; } .stat-guru .stat { padding: .6rem 1.2rem; min-width: 11rem; background: var(--tt); border: 0; box-shadow: none; } .stat-guru .stat b { font-family: var(--tampil); font-size: 2.2rem; color: var(--td); line-height: 1.1; display: block; }
 .grid-pantau { flex: 1; min-height: 0; display: grid; grid-template-columns: repeat(6, 1fr); grid-auto-rows: 1fr; gap: .6rem; overflow: auto; }
 .tile-pantau { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .25rem; padding: .4rem; background: #fff; border: .12rem solid var(--garis); border-radius: 1.1rem; cursor: pointer; text-align: center; }
-.tile-pantau .av { width: 2.4rem; height: 2.4rem; border-radius: 50%; background: var(--t); color: #fff; display: grid; place-items: center; font-weight: 700; font-size: .95rem; font-family: var(--tampil); } .tile-pantau .nm { font-weight: 700; font-size: .85rem; line-height: 1.12; max-height: 2.3em; overflow: hidden; } .tile-pantau .st { font-size: .74rem; font-weight: 700; padding: .05rem .5rem; border-radius: 99px; background: #EFEBDD; color: var(--tinta-2); }
-.tile-pantau.belum { background: #F6F2E7; } .tile-pantau.belum .nm { color: var(--tinta-3); } .tile-pantau.aktif { border-color: var(--f-parab); } .tile-pantau.aktif .st { background: var(--f-parab-t); color: var(--f-parab-d); }
+.tile-pantau .av { width: 2.4rem; height: 2.4rem; border-radius: 50%; background: var(--t); color: #fff; display: grid; place-items: center; font-weight: 700; font-size: .95rem; font-family: var(--tampil); } .tile-pantau .nm { font-weight: 700; font-size: .85rem; line-height: 1.12; max-height: 2.3em; overflow: hidden; } .tile-pantau .st { font-size: .74rem; font-weight: 700; padding: .05rem .5rem; border-radius: 99px; background: #ECE7D6; color: var(--tinta-2); }
+.tile-pantau.belum { background: #F2EEE2; } .tile-pantau.belum .nm { color: var(--tinta-3); } .tile-pantau.aktif { border-color: var(--f-parab); } .tile-pantau.aktif .st { background: var(--f-parab-t); color: var(--f-parab-d); }
 .tile-pantau.selesai { border-color: var(--mint); background: var(--mint-100); } .tile-pantau.selesai .st { background: var(--mint); color: #0B3A24; } .tile-pantau.diam .st { background: var(--jingga-100); color: var(--jingga-800); }
 .tile-pantau .kg { position: absolute; top: .3rem; right: .35rem; font-size: .7rem; font-weight: 700; background: var(--markisa); color: #fff; border-radius: 99px; padding: 0 .45rem; }
 
@@ -362,13 +372,13 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
 .tm-atur { justify-content: center; flex-wrap: wrap; }
 
 .ctrl-langkah { align-items: stretch; } .langkah-guru { flex: 1; display: grid; grid-template-columns: repeat(4, 1fr); gap: .6rem; }
-.lg { border: .14rem solid var(--garis-2); border-radius: 1.1rem; padding: .6rem .8rem; display: flex; flex-direction: column; gap: .3rem; background: #fff; } .lg.buka { border-color: var(--mint); background: var(--mint-100); } .lg.tutup { background: #F6F2E7; }
+.lg { border: .14rem solid var(--garis-2); border-radius: 1.1rem; padding: .6rem .8rem; display: flex; flex-direction: column; gap: .3rem; background: #fff; } .lg.buka { border-color: var(--mint); background: var(--mint-100); } .lg.tutup { background: #F2EEE2; }
 .lg-kep { display: flex; align-items: center; gap: .4rem; flex-wrap: wrap; } .lg-kep b { flex: 1; font-size: .92rem; line-height: 1.15; min-width: 6rem; } .lg-kep .no { width: 1.8rem; height: 1.8rem; border-radius: 50%; background: var(--markisa); color: #fff; display: grid; place-items: center; font-family: var(--tampil); font-weight: 700; flex: none; } .lg-kep .chip { font-size: .7rem; }
 .lg-bar { height: .6rem; background: #fff; border-radius: 99px; overflow: hidden; border: 1px solid var(--garis); } .lg-bar i { display: block; height: 100%; background: var(--mint); }
 .lg .btn { min-height: 2.6rem; font-size: .95rem; } .lg-samping { display: flex; flex-direction: column; gap: .4rem; justify-content: center; }
 .arsip-baris { display: flex; align-items: center; gap: .6rem; padding: .6rem .8rem; margin: .4rem 0; background: var(--markisa-muda); border-radius: 1rem; }
 
-.pilih-kelas { display: inline-flex; background: #fff; border: 1px solid var(--garis-2); border-radius: 99px; padding: .2rem; flex: none; } .pilih-kelas button { border: 0; background: transparent; border-radius: 99px; min-height: 2rem; padding: 0 .8rem; font-weight: 700; color: var(--tinta-2); cursor: pointer; } .pilih-kelas button.aktif { background: var(--mentari); color: var(--tinta); box-shadow: 0 .12rem 0 #B5772B; }
+.pilih-kelas { display: inline-flex; background: #fff; border: 1px solid var(--garis-2); border-radius: 99px; padding: .2rem; flex: none; } .pilih-kelas button { border: 0; background: transparent; border-radius: 99px; min-height: 2rem; padding: 0 .8rem; font-weight: 700; color: var(--tinta-2); cursor: pointer; } .pilih-kelas button.aktif { background: var(--mentari); color: var(--tinta); box-shadow: 0 .12rem 0 #9A6F1E; }
 .langkah-guru { grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); }
 .kb { position: absolute; inset: 0; display: flex; flex-direction: column; }
 .kb-kep { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; margin-bottom: .5rem; flex-wrap: wrap; } .kb-aksi { display: flex; align-items: center; gap: .4rem; flex-wrap: wrap; }
@@ -428,7 +438,7 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
 .t2-kartu .chip { white-space: nowrap; }
 .t2-kartu.siap { border: .16rem solid var(--t); background: linear-gradient(180deg, var(--tt), #fff 55%); box-shadow: 0 .25rem 0 var(--t), var(--bayang); }
 .t2-kartu.selesai { border-color: var(--mint); background: linear-gradient(180deg, var(--mint-100), #fff 60%); }
-.t2-kartu.terkunci { background: #F2EEE2; border-style: dashed; border-color: var(--garis-2); box-shadow: none; } .t2-kartu.terkunci h3, .t2-kartu.terkunci p, .t2-kartu.terkunci .t2-meta { opacity: .65; }
+.t2-kartu.terkunci { background: #EFEAD9; border-style: dashed; border-color: var(--garis-2); box-shadow: none; } .t2-kartu.terkunci h3, .t2-kartu.terkunci p, .t2-kartu.terkunci .t2-meta { opacity: .65; }
 .t2-meta { font-weight: 700; color: var(--td); font-size: .95rem; } .t2-kartu.terkunci .t2-meta { color: var(--tinta-3); }
 .t2-tbl { margin-top: auto; align-self: stretch; }
 .no-bulat { width: 2.6rem; height: 2.6rem; border-radius: 50%; background: var(--t); color: #fff; display: grid; place-items: center; font-family: var(--tampil); font-weight: 700; font-size: 1.3rem; flex: none; box-shadow: 0 .15rem 0 rgba(0,0,0,.16); }
@@ -464,12 +474,12 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
 .ref-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: .5rem; }
 .ref-pil { position: relative; display: flex; align-items: center; gap: .5rem; padding: .35rem .6rem .35rem .4rem; border: .14rem solid var(--garis); border-radius: 1rem; background: #fff; font-weight: 700; font-size: .95rem; cursor: pointer; text-align: left; min-height: 3rem; }
 .ref-pil .ubin { width: 2.1rem; height: 2.1rem; padding: .4rem; border-radius: .6rem; flex: none; } .ref-pil .cek { margin-left: auto; width: 1.6rem; height: 1.6rem; border-radius: 50%; border: .12rem solid var(--garis-2); display: grid; place-items: center; color: transparent; flex: none; }
-.ref-pil.on { border-color: var(--t); background: var(--tt); color: var(--td); } .ref-pil.on .cek { background: var(--mint); border-color: var(--mint); color: #0B3A24; } .ref-pil.mati { opacity: .4; background: #F2EEE2; }
+.ref-pil.on { border-color: var(--t); background: var(--tt); color: var(--td); } .ref-pil.on .cek { background: var(--mint); border-color: var(--mint); color: #0B3A24; } .ref-pil.mati { opacity: .4; background: #EFEAD9; }
 /* penghargaan */
 .penghargaan { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .8rem; }
-.kartu-hadiah { position: relative; width: min(46rem, 94%); background: linear-gradient(160deg, #FFF3DE, #fff 45%, #E3F2F0); border: .22rem solid var(--mentari); border-radius: 2rem; padding: 2.4rem 2.2rem 1.4rem; text-align: center; box-shadow: 0 .4rem 0 #B5772B, 0 1.5rem 3rem -1rem rgba(18,38,63,.4); animation: masuk .6s var(--pegas) both; }
+.kartu-hadiah { position: relative; width: min(46rem, 94%); background: linear-gradient(160deg, #FBF1D8, #fff 45%, #E9EEF7); border: .22rem solid var(--mentari); border-radius: 2rem; padding: 2.4rem 2.2rem 1.4rem; text-align: center; box-shadow: 0 .4rem 0 #9A6F1E, 0 1.5rem 3rem -1rem rgba(18,38,63,.4); animation: masuk .6s var(--pegas) both; }
 .pita { position: absolute; top: -1.2rem; left: 50%; transform: translateX(-50%); background: var(--markisa); color: #fff; font-family: var(--tampil); font-weight: 700; font-size: 1.15rem; padding: .35rem 1.6rem; border-radius: .7rem; box-shadow: 0 .2rem 0 var(--markisa-tua); white-space: nowrap; }
-.ph-nama { font-size: 2.4rem; margin: .3rem 0 .2rem; } .gelar { display: inline-block; background: var(--mentari); color: var(--tinta); font-family: var(--tampil); font-weight: 700; font-size: 1.3rem; padding: .25rem 1.2rem; border-radius: 99px; box-shadow: 0 .15rem 0 #B5772B; }
+.ph-nama { font-size: 2.4rem; margin: .3rem 0 .2rem; } .gelar { display: inline-block; background: var(--mentari); color: var(--tinta); font-family: var(--tampil); font-weight: 700; font-size: 1.3rem; padding: .25rem 1.2rem; border-radius: 99px; box-shadow: 0 .15rem 0 #9A6F1E; }
 .poin-besar { margin: .7rem 0 .3rem; font-family: var(--tampil); font-weight: 700; color: var(--markisa); } .poin-besar span { font-size: 4.8rem; line-height: 1; } .poin-besar small { font-size: 1.4rem; margin-left: .4rem; color: var(--tinta-3); }
 .lencana-baris { display: flex; flex-wrap: wrap; gap: .5rem; justify-content: center; min-height: 2.4rem; margin-bottom: .6rem; } .lencana { display: inline-flex; align-items: center; gap: .35rem; background: var(--markisa-muda); border: .12rem solid var(--markisa-100); color: var(--markisa-tua); border-radius: 99px; padding: .25rem .9rem; font-weight: 700; } .lencana .ik { color: #F5B700; }
 .ph-stat { display: grid; grid-template-columns: repeat(4, 1fr); gap: .6rem; margin: .4rem 0; } .ph-stat div { background: #fff; border: 1px solid var(--garis); border-radius: 1rem; padding: .5rem; display: flex; flex-direction: column; } .ph-stat b { font-family: var(--tampil); font-size: 1.6rem; } .ph-stat span { font-size: .85rem; color: var(--tinta-3); }
@@ -521,6 +531,153 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
 .fung-umum .mat, .fung-rumus { display: block; line-height: 2.1; }
 .fung-rumus .ig-l { height: auto; gap: .35rem; font-size: 1rem; margin-left: -.1em; } .fung-rumus .ig { align-items: center; }
 .fung-rumus { margin-bottom: 1.2rem; }
+
+/* Area & Calculus — identitas visual "Tinta & Kuningan": navy tua, emas kuningan, merah tinta koreksi, putih gading.
+   Gaya gambar teknik: garis ukur kuningan, sudut bingkai (crop mark), arsiran diagonal. Dimuat PALING AKHIR (menimpa tema dasar). */
+:root {
+  --navy-950: #081428; --navy-900: #0C1E3E; --navy-800: #12294F; --navy-700: #1B3A6B; --navy-100: #E9EEF7;
+  --emas: #C9922F; --emas-t: #E0AE4A; --emas-m: #F0CC7E; --emas-p: #FBF1D8; --emas-d: #7A5A1A;
+  --merah: #B3232D; --merah-t: #C23A3F; --gading: #F7F4EC; --awan: #F4F1E8;
+  --bayang: inset 0 1px 0 rgba(255,255,255,.95), 0 .1rem .2rem rgba(12,30,62,.06), 0 1rem 1.8rem -1rem rgba(12,30,62,.34);
+  --garis: #E3DDCB; --garis-2: #D2C9AE;
+}
+body { background: var(--awan); color: var(--navy-900); }
+#app { background:
+  linear-gradient(180deg, rgba(255,255,255,.6), rgba(255,255,255,0) 20rem),
+  repeating-linear-gradient(0deg, rgba(18,41,79,.05) 0 1px, transparent 1px 1.6rem),
+  repeating-linear-gradient(90deg, rgba(18,41,79,.05) 0 1px, transparent 1px 1.6rem), var(--awan); }
+h1, h2 { font-weight: 640; letter-spacing: -.012em; }
+
+/* ---------- bilah atas: kuningan di atas navy ---------- */
+.bar-atas { position: relative; height: 3.7rem; padding: .5rem 2.2rem; background: linear-gradient(180deg, var(--navy-800), var(--navy-950)); color: var(--gading); box-shadow: 0 .6rem 1.4rem -.8rem rgba(8,20,40,.7); z-index: 5; }
+.bar-atas::after { content: ""; position: absolute; left: 0; right: 0; bottom: -.28rem; height: .28rem; background: linear-gradient(90deg, var(--emas), var(--emas-m) 35%, var(--emas-t) 60%, var(--emas)); }
+.bar-atas::before { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: .34rem; opacity: .55; background: repeating-linear-gradient(90deg, rgba(240,204,126,.9) 0 1px, transparent 1px .62rem); -webkit-mask: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); mask: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); }
+.logo { color: var(--gading); font-size: 1.4rem; gap: .35rem; letter-spacing: -.01em; }
+.logo::before { content: "∫"; display: inline-grid; place-items: center; width: 2rem; height: 2rem; margin-right: .5rem; border: .1rem solid var(--emas-t); border-radius: 50%; color: var(--emas-m); font-family: var(--mat); font-style: italic; font-weight: 300; font-size: 1.3rem; line-height: 1; padding-bottom: .1rem; box-shadow: inset 0 0 .6rem rgba(224,174,74,.3); }
+.logo b { background: none; padding: 0; transform: none; box-shadow: none; color: var(--emas-t); font-style: italic; font-weight: 600; }
+.bar-atas .chip { background: rgba(247,244,236,.09); color: var(--gading); border: 1px solid rgba(240,204,126,.32); }
+.bar-atas .chip.ok { background: rgba(224,174,74,.16); color: var(--emas-m); border-color: rgba(240,204,126,.5); }
+.bar-atas .chip.warn { background: rgba(179,35,45,.28); color: #FFD3D3; border-color: rgba(255,150,150,.4); }
+.bar-atas .chip.sorot { background: var(--emas-t); color: var(--navy-950); border-color: var(--emas-m); }
+.bar-atas .chip.abu { background: rgba(247,244,236,.07); color: #C9D3E6; }
+.bar-atas .btn.sekunder, .bar-atas .btn.kecil { background: transparent; color: var(--gading); border-color: rgba(240,204,126,.45); box-shadow: none; }
+.bar-atas .btn.sekunder:hover { background: rgba(240,204,126,.14); }
+.bar-atas .btn.sekunder:active { transform: translateY(.1rem); }
+
+/* ---------- tombol ---------- */
+.btn { background: linear-gradient(180deg, var(--navy-700), var(--navy-900)); border-color: var(--navy-950); color: var(--gading); box-shadow: 0 .2rem 0 var(--navy-950), inset 0 1px 0 rgba(240,204,126,.4); }
+.btn:active { box-shadow: 0 0 0 var(--navy-950), inset 0 1px 0 rgba(240,204,126,.2); }
+.btn.sekunder { background: #fff; color: var(--navy-800); border-color: var(--garis-2); box-shadow: 0 .2rem 0 var(--garis-2); }
+.btn.sorot, .btn.hijau { background: linear-gradient(180deg, var(--emas-m), var(--emas-t) 55%, var(--emas)); border-color: #A9761B; color: #2A1B02; box-shadow: 0 .2rem 0 #8A5E12, inset 0 1px 0 rgba(255,255,255,.6); }
+.btn.sorot:active, .btn.hijau:active { box-shadow: 0 0 0 #8A5E12; }
+.btn.bahaya { background: linear-gradient(180deg, var(--merah-t), var(--merah)); border-color: #7E1820; box-shadow: 0 .2rem 0 #6F1219, inset 0 1px 0 rgba(255,255,255,.25); }
+.btn.denyut { animation: denyut-navy 1.7s infinite; }
+.btn.sorot.denyut, .btn.hijau.denyut { animation: denyut-emas 1.7s infinite; }
+@keyframes denyut-navy { 0%,100% { box-shadow: 0 .2rem 0 var(--navy-950), 0 0 0 0 rgba(27,58,107,.55); } 60% { box-shadow: 0 .2rem 0 var(--navy-950), 0 0 0 1rem rgba(27,58,107,0); } }
+@keyframes denyut-emas { 0%,100% { box-shadow: 0 .2rem 0 #8A5E12, 0 0 0 0 rgba(224,174,74,.7); } 60% { box-shadow: 0 .2rem 0 #8A5E12, 0 0 0 1rem rgba(224,174,74,0); } }
+
+/* ---------- kartu bergaya lembar gambar: sudut emas ---------- */
+.kartu { position: relative; background: linear-gradient(180deg, #fff, #FFFEFB); border: 1px solid var(--garis); }
+.kartu::before, .kartu::after { content: ""; position: absolute; width: .85rem; height: .85rem; pointer-events: none; opacity: .85; }
+.kartu::before { top: .45rem; left: .45rem; border-top: .13rem solid var(--emas); border-left: .13rem solid var(--emas); border-top-left-radius: .25rem; }
+.kartu::after { bottom: .45rem; right: .45rem; border-bottom: .13rem solid var(--emas); border-right: .13rem solid var(--emas); border-bottom-right-radius: .25rem; }
+.eyebrow { color: var(--emas-d); letter-spacing: .14em; }
+.eyebrow::before { width: .5rem; height: .5rem; border-radius: .08rem; transform: rotate(45deg); background: var(--t, var(--emas)); }
+.chip { background: var(--navy-100); color: var(--navy-800); }
+.chip.sorot { background: var(--emas-p); color: var(--emas-d); }
+.chip.ok { background: var(--navy-100); color: var(--navy-800); }
+.chip.bad { background: #FBE1DF; color: #7E1820; }
+
+/* ---------- dialog ---------- */
+.tirai { background: rgba(8,20,40,.62); }
+.dialog { border-top: .32rem solid var(--emas-t); background: #FFFEFB; }
+.dialog .tutup-x { background: var(--navy-100); }
+.toast { background: var(--navy-900); border: 1px solid rgba(240,204,126,.45); color: var(--gading); }
+
+/* ---------- tombol angka, opsi, timer ---------- */
+.opsi { border-color: var(--garis); }
+.opsi.pilih { border-color: var(--navy-800); background: var(--navy-100); box-shadow: 0 0 0 .22rem rgba(224,174,74,.5); }
+.opsi.pilih .huruf { background: var(--navy-800); color: var(--emas-m); }
+.opsi .huruf { background: var(--emas-p); color: var(--emas-d); }
+.opsi.benar { background: #EAF5EE; border-color: #2E8B5E; } .opsi.salah { background: #FBE9E8; border-color: var(--merah); }
+.timer { background: var(--navy-900); color: var(--emas-m); }
+
+/* ---------- pengantar (slide) ---------- */
+.intro .kepala-intro { border-left: .32rem solid var(--emas-t); background: linear-gradient(90deg, #fff, #FFFEFB); }
+.intro .kepala-intro h2 { color: var(--navy-900); }
+.intro .titik-langkah i.sudah { background: var(--emas-m); } .intro .titik-langkah i.aktif { background: linear-gradient(90deg, var(--emas), var(--emas-t)); }
+.intro .kendali { border-bottom: .22rem solid var(--emas-t); }
+.hero h1 .hl, .judul-besar .hl { background: linear-gradient(transparent 62%, rgba(224,174,74,.55) 62%); }
+
+/* ---------- sambutan: panggung navy dengan ilustrasi dua kurva ---------- */
+.welcome { inset: 0; border-radius: 1.8rem; overflow: hidden; display: block; text-align: left; color: var(--gading);
+  background: radial-gradient(60rem 38rem at 78% 40%, rgba(27,58,107,.9), transparent 70%), linear-gradient(135deg, var(--navy-950), var(--navy-900) 55%, #0F2650);
+  box-shadow: 0 1.4rem 3rem -1.2rem rgba(8,20,40,.7), inset 0 0 0 .1rem rgba(240,204,126,.28); }
+.welcome::before { content: ""; position: absolute; inset: .7rem; border: 1px solid rgba(240,204,126,.28); border-radius: 1.3rem; pointer-events: none; }
+.welcome::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(240,204,126,.045) 0 1px, transparent 1px 2rem), repeating-linear-gradient(90deg, rgba(240,204,126,.045) 0 1px, transparent 1px 2rem); }
+.hero-premium { position: relative; z-index: 2; height: 100%; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); align-items: center; gap: 1rem; padding: 2.2rem 3.4rem 2.2rem 4.4rem; }
+.hp-sekolah { display: inline-flex; align-items: center; gap: .7rem; font-size: .95rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--emas-m); }
+.hp-sekolah i { width: 2.6rem; height: .14rem; background: linear-gradient(90deg, var(--emas-t), transparent); display: inline-block; }
+.hp-judul { font-size: 7.4rem; line-height: .95; margin: 1.1rem 0 1.2rem; font-weight: 560; color: var(--gading); letter-spacing: -.035em; animation: judul-masuk 1s var(--ease) both; }
+.hp-judul .hp-dan { display: inline-block; margin: 0 .12em; font-style: italic; font-weight: 300; color: var(--emas-t); font-family: var(--mat); transform: translateY(-.03em); }
+@keyframes judul-masuk { from { opacity: 0; transform: translateY(1.4rem); letter-spacing: .02em; } }
+.hp-sub { font-size: 1.4rem; line-height: 1.5; color: #D4DCEB; max-width: 34rem; margin: 0 0 1.8rem; animation: judul-masuk 1s .2s var(--ease) both; }
+.hp-aksi { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; animation: judul-masuk 1s .4s var(--ease) both; }
+.hp-aksi .btn.sekunder { background: transparent; color: var(--gading); border-color: rgba(240,204,126,.55); box-shadow: none; }
+.hp-aksi .btn.sekunder:hover { background: rgba(240,204,126,.14); }
+.hp-aksi .btn:not(.sorot):not(.sekunder) { background: linear-gradient(180deg, #2A4F8C, var(--navy-700)); border-color: rgba(240,204,126,.45); }
+.hp-catatan { margin-top: 1.4rem; font-size: .95rem; color: #9FB0CC; display: flex; align-items: center; gap: .6rem; } .hp-catatan::before { content: ""; width: .5rem; height: .5rem; border-radius: .08rem; background: var(--merah-t); transform: rotate(45deg); }
+.hp-kanan { height: 100%; min-height: 0; display: grid; place-items: center; } .hero-svg { width: 100%; max-height: 100%; filter: drop-shadow(0 1.2rem 1.6rem rgba(0,0,0,.35)); }
+.hs-panel { fill: rgba(247,244,236,.035); stroke: rgba(240,204,126,.5); stroke-width: 1.4; }
+.hs-kisi { stroke: rgba(240,204,126,.1); stroke-width: 1; fill: none; } .hs-kisi.mayor { stroke: rgba(240,204,126,.2); }
+.hs-sumbu { stroke: #F7F4EC; stroke-opacity: .8; stroke-width: 2.4; fill: none; stroke-linecap: round; }
+.hs-kurva { fill: none; stroke-width: 5; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: tarik 1.7s .5s cubic-bezier(.4,.1,.2,1) forwards; } .hs-f { stroke: #F7F4EC; } .hs-g { stroke: #F0646C; animation-delay: .9s; }
+@keyframes tarik { to { stroke-dashoffset: 0; } }
+.hs-sapu { transform-box: fill-box; transform-origin: 0 50%; transform: scaleX(0); animation: sapu 1.8s 2.1s cubic-bezier(.3,.1,.2,1) forwards; } @keyframes sapu { to { transform: scaleX(1); } }
+.hs-titik circle { fill: var(--emas-t); stroke: var(--navy-950); stroke-width: 3; opacity: 0; animation: tampil-titik .5s 1.9s var(--pegas) forwards; } .hs-titik .hs-ring { fill: none; stroke: var(--emas-m); stroke-width: 2; transform-box: fill-box; transform-origin: center; animation: cincin 2.4s 2.2s infinite; } .hs-titik .hs-ring.r2 { animation-delay: 3s; }
+@keyframes tampil-titik { to { opacity: 1; } } @keyframes cincin { 0% { opacity: .9; transform: scale(1); } 100% { opacity: 0; transform: scale(3.2); } }
+.hs-t { font-family: "Fraunces Math", Georgia, serif; font-style: italic; font-size: 22px; fill: #F7F4EC; opacity: 0; animation: tampil-titik .8s 2.2s forwards; } .hs-t.g { fill: #FF9CA2; } .hs-t.ab { fill: var(--emas-m); font-size: 26px; }
+.hs-rm { font-family: "Fraunces Math", Georgia, serif; font-size: 26px; fill: var(--gading); opacity: 0; animation: tampil-titik 1s 3.3s forwards; } .hs-rm .bt { font-size: 15px; fill: var(--emas-t); font-style: italic; } .hs-rm .it { font-style: italic; }
+@media (prefers-reduced-motion: reduce) { .hs-kurva { animation-duration: .01s; } .hs-sapu { animation-duration: .01s; } }
+
+/* ---------- pilih kelas: kartu bergaya papan nama ---------- */
+.kartu-kelas { border-color: var(--navy-800); background: linear-gradient(180deg, #fff, #FBF8EE); box-shadow: 0 .25rem 0 var(--navy-800), 0 1rem 1.6rem -1rem rgba(12,30,62,.4); }
+.kartu-kelas.belum { border-color: var(--garis-2); box-shadow: 0 .25rem 0 var(--garis-2); opacity: .75; }
+.kartu-kelas .kelas-nama { color: var(--navy-900); }
+.ubin { box-shadow: 0 .2rem 0 rgba(8,20,40,.25), inset 0 1px 0 rgba(255,255,255,.35); }
+
+/* ---------- pengantar kelas dua kurva ---------- */
+.judul-slide, .bersiap { position: absolute; inset: 0; border-radius: 1.6rem; overflow: hidden; color: var(--gading); display: grid; align-items: center;
+  background: radial-gradient(50rem 30rem at 82% 45%, rgba(27,58,107,.9), transparent 70%), linear-gradient(135deg, var(--navy-950), var(--navy-900) 55%, #0F2650); box-shadow: 0 1.2rem 2.6rem -1.2rem rgba(8,20,40,.7), inset 0 0 0 .1rem rgba(240,204,126,.28); }
+.judul-slide::before, .bersiap::before { content: ""; position: absolute; inset: .6rem; border: 1px solid rgba(240,204,126,.26); border-radius: 1.1rem; pointer-events: none; }
+.judul-slide { grid-template-columns: minmax(0, 1.12fr) minmax(0, .88fr); padding: 2rem 2.4rem 2rem 3.6rem; gap: 1rem; }
+.js-bg { position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(240,204,126,.045) 0 1px, transparent 1px 2rem), repeating-linear-gradient(90deg, rgba(240,204,126,.045) 0 1px, transparent 1px 2rem); }
+.js-isi { position: relative; z-index: 2; } .js-seni { position: relative; z-index: 2; height: 100%; display: grid; place-items: center; min-height: 0; } .js-seni .hero-svg { max-height: 100%; width: 100%; }
+.js-eyebrow { display: inline-flex; align-items: center; gap: .7rem; font-size: .92rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--emas-m); } .js-eyebrow i { width: 2.4rem; height: .14rem; background: linear-gradient(90deg, var(--emas-t), transparent); display: inline-block; }
+.js-judul { font-size: 4.6rem; line-height: 1.04; margin: 1rem 0 1rem; font-weight: 560; letter-spacing: -.03em; color: var(--gading); } .js-judul .kata { display: inline-block; } .js-judul .kata.kecil { font-size: .55em; font-weight: 300; font-style: italic; color: #B9C6DE; margin-right: .1em; } .js-judul .em { color: var(--emas-t); font-style: italic; font-weight: 500; }
+.js-sub { font-size: 1.3rem; color: #D4DCEB; max-width: 32rem; line-height: 1.5; margin: 0 0 1.2rem; }
+.js-chip { display: flex; flex-wrap: wrap; gap: .5rem; } .js-chip span { padding: .3rem .9rem; border-radius: 99px; border: 1px solid rgba(240,204,126,.5); color: var(--emas-m); font-weight: 700; font-size: .95rem; background: rgba(240,204,126,.08); }
+.soal-besar { position: absolute; inset: 0; margin: auto; width: fit-content; height: fit-content; max-width: 90%; padding: 2.2rem 3.4rem; text-align: center; z-index: 5; background: linear-gradient(180deg, #fff, #FBF8EE); border: .14rem solid var(--emas-t); }
+.soal-besar .sb-teks { font-family: var(--mat); font-size: 3.6rem; line-height: 1.5; color: var(--navy-900); margin: .3rem 0 .3rem; white-space: nowrap; } .soal-besar .sb-ket { font-size: 1.05rem; }
+.dua-fungsi { flex: 1; min-height: 0; width: 100%; display: flex; flex-direction: column; gap: .7rem; }
+.tanya-besar { flex: none; min-height: 5.2rem; display: flex; align-items: center; justify-content: center; text-align: center; flex-wrap: wrap; gap: 0 .5rem; font-family: var(--tampil); font-size: 2.6rem; font-weight: 620; line-height: 1.1; color: var(--navy-900); letter-spacing: -.02em; } .tanya-besar .kata { display: inline-block; } .tanya-besar .em { color: var(--merah); font-style: italic; }
+.df-grafik { flex: 1; min-height: 0; padding: .7rem; display: flex; align-items: center; justify-content: center; } .df-grafik svg { max-height: 100%; }
+.alur-baris.hasil { background: linear-gradient(90deg, var(--emas-p), #fff); border-left-color: var(--emas); }
+.alur-baris .mm-baris { display: flex; flex-wrap: wrap; align-items: baseline; gap: .1rem .55rem; font-family: var(--mat); font-size: 1.18em; line-height: 1.5; } .mm-t { display: inline-block; white-space: nowrap; } .mm-t i { font-style: italic; }
+.sw { display: inline-block; width: 2rem; height: .42rem; border-radius: .3rem; margin-right: .7rem; vertical-align: middle; }
+.catatan-galeri { margin-top: .6rem; padding: .7rem .9rem; border-radius: 1rem; background: var(--emas-p); border: 1px dashed var(--emas); color: var(--emas-d); font-size: .95rem; line-height: 1.4; }
+.bersiap { grid-template-columns: minmax(0, .55fr) minmax(0, 1.2fr); padding: 2rem 3rem; gap: 2rem; }
+.bs-jam { position: relative; z-index: 2; display: grid; place-items: center; } .bs-jam svg { width: min(100%, 22rem); filter: drop-shadow(0 .8rem 1.2rem rgba(0,0,0,.4)); }
+.bs-cincin { fill: rgba(247,244,236,.04); stroke: rgba(240,204,126,.35); stroke-width: 6; } .bs-arc { fill: none; stroke: var(--emas-t); stroke-width: 6; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; transform: rotate(-90deg); transform-origin: 100px 100px; }
+.bs-garis { stroke: rgba(240,204,126,.7); stroke-width: 2; } .bs-jarum { stroke: var(--gading); stroke-width: 4; stroke-linecap: round; } .bs-pusat { fill: var(--emas-t); stroke: var(--navy-950); stroke-width: 3; }
+.bs-isi { position: relative; z-index: 2; } .bs-judul { font-size: 3.6rem; line-height: 1.05; margin: .9rem 0 1.3rem; font-weight: 580; color: var(--gading); letter-spacing: -.025em; } .bs-judul .em { color: var(--emas-t); font-style: italic; }
+.bs-info { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .8rem; margin-bottom: 1.1rem; }
+.bs-kartu { padding: .9rem .6rem; border-radius: 1.1rem; text-align: center; border: 1px solid rgba(240,204,126,.45); background: rgba(240,204,126,.08); } .bs-kartu b { display: block; font-family: var(--tampil); font-size: 2.4rem; line-height: 1; color: var(--emas-m); font-weight: 600; } .bs-kartu span { display: block; margin-top: .4rem; font-size: .9rem; color: #D4DCEB; line-height: 1.25; }
+.bs-catatan { font-size: 1.1rem; color: #B9C6DE; max-width: 36rem; margin: 0; }
+
+/* ---------- pemadatan header (harus muat 1280 px pada layar guru) ---------- */
+.bar-atas { padding: .5rem .9rem; gap: .45rem; }
+.logo { font-size: 1.3rem; } .logo::before { width: 1.8rem; height: 1.8rem; margin-right: .3rem; font-size: 1.15rem; }
 </style>
 </head>
 <body>
@@ -558,16 +715,6 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
   const NAMA = { bawah: 'Di bawah sumbu-x', potong: 'Memotong sumbu-x', garis: 'Parabola dan garis', parab: 'Dua parabola', silang: 'Dua kurva bersilangan', sumbuy: 'Terhadap sumbu-y', kanan: 'Kanan dikurangi kiri' };
   const glif = (id) => '<svg viewBox="0 0 32 32" aria-hidden="true">' + (GLIF[id] || GLIF.bawah) + '</svg>';
   const ubin = (id) => '<span class="ubin fx-' + id + '">' + glif(id) + '</span>';
-  function untaian(el) {
-    const W = Math.max(320, el.clientWidth || 900), H = 74, n = Math.min(7, Math.max(5, Math.floor(W / 120))), ids = URUT.slice(0, 7);
-    const pilih = []; for (let i = 0; i < n; i++) pilih.push(ids[Math.round(i * (ids.length - 1) / (n - 1))]);
-    const atas = 6, kendur = 20; let s = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%" height="100%" preserveAspectRatio="none" aria-hidden="true"><path d="M-6 ' + atas + ' Q ' + (W / 2) + ' ' + (atas + 2 * kendur) + ' ' + (W + 6) + ' ' + atas + '" fill="none" stroke="#CFC7B1" stroke-width="2.4" stroke-linecap="round"/>';
-    pilih.forEach((id, i) => { const t = (i + .5) / n, x = W * t, y = atas + 4 * kendur * t * (1 - t), a = Math.atan(4 * kendur * (1 - 2 * t) / W) * 180 / Math.PI, fw = 30, fh = 36;
-      s += '<g transform="translate(' + x.toFixed(1) + ' ' + y.toFixed(1) + ') rotate(' + a.toFixed(1) + ')"><g class="bendera" style="animation-delay:-' + (i * .55).toFixed(2) + 's"><path d="M' + (-fw / 2) + ' 0H' + (fw / 2) + 'L0 ' + fh + 'Z" fill="var(--f-' + id + ')" stroke="var(--f-' + id + ')" stroke-width="6" stroke-linejoin="round"/><g transform="translate(-7 4) scale(.44)" style="color:#fff;stroke:#fff;fill:none;stroke-width:3;stroke-linecap:round">' + GLIF[id] + '</g></g></g>'; });
-    el.innerHTML = s + '</svg>';
-  }
-  const gayaBendera = document.createElement('style'); gayaBendera.textContent = '.bendera{transform-box:fill-box;transform-origin:50% 0;animation:ayun 4.2s ease-in-out infinite alternate}@keyframes ayun{from{transform:rotate(-2.6deg)}to{transform:rotate(2.6deg)}}'; document.head.appendChild(gayaBendera);
-
   /* ---------- DOM mini ---------- */
   function el(tag, attrs, ...anak) {
     const e = document.createElement(tag);
@@ -666,7 +813,29 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
   }
   async function layarPenuh() { try { const d = document.documentElement; if (!document.fullscreenElement && d.requestFullscreen) await d.requestFullscreen(); if (screen.orientation && screen.orientation.lock) await screen.orientation.lock('landscape'); } catch (e) { /* abaikan */ } }
 
-  root.UI = { speed: 1, instan: false, IK, ik, glif, ubin, GLIF, URUT, NAMA, untaian, el, esc, tidur, anim, token, Batal, dialog, konfirmasi, info, toast, papanKetik, keypadAngka, seret, pasangPutar, layarPenuh, ALFA };
+  root.UI = { speed: 1, instan: false, IK, ik, glif, ubin, GLIF, URUT, NAMA, el, esc, tidur, anim, token, Batal, dialog, konfirmasi, info, toast, papanKetik, keypadAngka, seret, pasangPutar, layarPenuh, ALFA };
+})(window);
+
+;
+/* Ilustrasi sambutan: dua kurva digambar, daerah di antaranya diarsir emas, lalu rumus luasnya muncul. Animasi murni CSS (premium.css). */
+(function (root) {
+  'use strict';
+  function heroSVG() {
+    let kisi = '';
+    for (let x = 60; x <= 520; x += 40) kisi += '<path d="M' + x + ' 40V470" class="hs-kisi' + (x % 120 === 0 ? ' mayor' : '') + '"/>';
+    for (let y = 50; y <= 470; y += 40) kisi += '<path d="M40 ' + y + 'H530" class="hs-kisi' + (y % 120 === 50 ? ' mayor' : '') + '"/>';
+    return '<svg viewBox="0 0 560 520" class="hero-svg" role="img" aria-label="Daerah di antara dua kurva diarsir">'
+      + '<defs><pattern id="hh" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="9" height="9" fill="#E0AE4A" fill-opacity=".14"/><line x1="0" y1="0" x2="0" y2="9" stroke="#E0AE4A" stroke-width="3.2" stroke-opacity=".9"/></pattern>'
+      + '<clipPath id="hc"><rect class="hs-sapu" x="100" y="0" width="420" height="520"/></clipPath></defs>'
+      + '<rect x="14" y="14" width="532" height="492" rx="26" class="hs-panel"/>' + kisi
+      + '<path d="M60 430H525M90 470V46" class="hs-sumbu"/>'
+      + '<path d="M150 430Q310 70 470 430Q310 330 150 430Z" fill="url(#hh)" clip-path="url(#hc)"/>'
+      + '<path class="hs-kurva hs-f" pathLength="1" d="M150 430Q310 70 470 430"/><path class="hs-kurva hs-g" pathLength="1" d="M150 430Q310 330 470 430"/>'
+      + '<g class="hs-titik"><circle class="hs-ring" cx="150" cy="430" r="9"/><circle class="hs-ring r2" cx="470" cy="430" r="9"/><circle cx="150" cy="430" r="7"/><circle cx="470" cy="430" r="7"/></g>'
+      + '<g class="hs-label"><text x="330" y="222" class="hs-t f">y = f(x)</text><text x="318" y="408" class="hs-t g">y = g(x)</text><text x="150" y="460" class="hs-t ab" text-anchor="middle">a</text><text x="470" y="460" class="hs-t ab" text-anchor="middle">b</text></g>'
+      + '<g class="hs-rumus"><text x="280" y="494" text-anchor="middle" class="hs-rm"><tspan class="it">L</tspan> = ∫<tspan class="bt" dy="-13" dx="1">b</tspan><tspan class="bt" dy="25" dx="-7">a</tspan><tspan dy="-12" dx="7"> [ </tspan><tspan class="it">f</tspan>(<tspan class="it">x</tspan>) − <tspan class="it">g</tspan>(<tspan class="it">x</tspan>) ] <tspan class="it">dx</tspan></text></g></svg>';
+  }
+  UI.heroSVG = heroSVG;
 })(window);
 
 ;
@@ -674,6 +843,7 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
 (function (root) {
   'use strict';
   const NS = 'http://www.w3.org/2000/svg';
+  let idPola = 0;
   const S = (tag, attrs, ...anak) => { const e = document.createElementNS(NS, tag); for (const k in (attrs || {})) e.setAttribute(k, attrs[k]); anak.flat().forEach((a) => a != null && e.append(a.nodeType ? a : document.createTextNode(a))); return e; };
   const fmt = (n) => { const r = Math.round(n * 100) / 100; return String(r).replace('-', '−').replace('.', ','); };
 
@@ -689,23 +859,27 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
     const sx = (x) => m.l + (x - o.xmin) / (o.xmax - o.xmin) * pw, sy = (y) => m.t + ph - (y - o.ymin) / (o.ymax - o.ymin) * ph;
     const svg = S('svg', { viewBox: '0 0 ' + W + ' ' + H, class: 'bidang', role: 'img', 'aria-label': o.label || 'Grafik', style: 'width:100%;height:100%;display:block;overflow:visible;font-family:Jakarta,Segoe UI,sans-serif' });
     const lapis = {}; ['grid', 'isi', 'sumbu', 'label', 'putus', 'kurva', 'titik', 'atas'].forEach((n) => { lapis[n] = S('g', { class: 'l-' + n }); svg.append(lapis[n]); });
+    /* arsiran gaya gambar teknik: garis diagonal emas (luas positif), merah (bagian negatif), navy (pembantu); id unik per grafik */
+    const uid = 'ar' + (++idPola), POLA = [['#C9922F', '#E0AE4A'], ['#B3232D', '#C23A3F'], ['#13294B', '#2A5AA7']], defs = S('defs');
+    POLA.forEach((c, i) => defs.append(S('pattern', { id: uid + i, width: 9, height: 9, patternUnits: 'userSpaceOnUse', patternTransform: 'rotate(45)' }, S('rect', { width: 9, height: 9, fill: c[1], 'fill-opacity': .16 }), S('line', { x1: 0, y1: 0, x2: 0, y2: 9, stroke: c[0], 'stroke-width': 3.6, 'stroke-opacity': .9 }))));
+    svg.insertBefore(defs, svg.firstChild);
     svg.insertBefore(S('rect', { x: m.l, y: m.t, width: pw, height: ph, fill: '#fff', stroke: '#E2DCCB', rx: 6 }), lapis.grid);
     (o.xt || []).forEach((v) => { lapis.grid.append(S('line', { x1: sx(v), x2: sx(v), y1: m.t, y2: m.t + ph, stroke: '#ECE6D6' })); lapis.label.append(S('text', { x: sx(v), y: m.t + ph + 20, 'font-size': 15, 'text-anchor': 'middle', fill: '#2B3F58' }, fmt(v))); });
     (o.yt || []).forEach((v) => { lapis.grid.append(S('line', { x1: m.l, x2: m.l + pw, y1: sy(v), y2: sy(v), stroke: '#ECE6D6' })); lapis.label.append(S('text', { x: m.l - 9, y: sy(v) + 5, 'font-size': 15, 'text-anchor': 'end', fill: '#2B3F58' }, fmt(v))); });
-    const ax = S('line', { class: 'sx', x1: m.l, x2: m.l + pw, y1: sy(Math.max(o.ymin, Math.min(o.ymax, 0))), y2: sy(Math.max(o.ymin, Math.min(o.ymax, 0))), stroke: '#12263F', 'stroke-width': 2.6, 'stroke-linecap': 'round' });
-    const ay = S('line', { class: 'sy', x1: sx(Math.max(o.xmin, Math.min(o.xmax, 0))), x2: sx(Math.max(o.xmin, Math.min(o.xmax, 0))), y1: m.t, y2: m.t + ph, stroke: '#12263F', 'stroke-width': 2.6, 'stroke-linecap': 'round' });
+    const ax = S('line', { class: 'sx', x1: m.l, x2: m.l + pw, y1: sy(Math.max(o.ymin, Math.min(o.ymax, 0))), y2: sy(Math.max(o.ymin, Math.min(o.ymax, 0))), stroke: '#12254A', 'stroke-width': 2.6, 'stroke-linecap': 'round' });
+    const ay = S('line', { class: 'sy', x1: sx(Math.max(o.xmin, Math.min(o.xmax, 0))), x2: sx(Math.max(o.xmin, Math.min(o.xmax, 0))), y1: m.t, y2: m.t + ph, stroke: '#12254A', 'stroke-width': 2.6, 'stroke-linecap': 'round' });
     lapis.sumbu.append(ax, ay);
-    const tx = S('text', { class: 'tx', x: m.l + pw - 2, y: m.t + ph + 40, 'font-size': 17, 'font-weight': 700, 'text-anchor': 'end', fill: '#12263F' }, o.labelX || 'x');
-    const ty = S('text', { class: 'ty', x: m.l + 8, y: m.t + 14, 'font-size': 17, 'font-weight': 700, fill: '#12263F' }, o.labelY || 'y');
+    const tx = S('text', { class: 'tx', x: m.l + pw - 2, y: m.t + ph + 40, 'font-size': 17, 'font-weight': 700, 'text-anchor': 'end', fill: '#12254A' }, o.labelX || 'x');
+    const ty = S('text', { class: 'ty', x: m.l + 8, y: m.t + 14, 'font-size': 17, 'font-weight': 700, fill: '#12254A' }, o.labelY || 'y');
     if (!o.tanpaTick) lapis.label.append(tx, ty);
-    const api = { svg, sx, sy, lapis, m, pw, ph, ax, ay, tx, ty, o,
-      titik(x, y, w) { w = w || {}; const g = S('g', { class: 'tt' }); const c = S('circle', { cx: sx(x), cy: sy(y), r: w.r || 8, fill: w.warna || '#0F766E', stroke: '#fff', 'stroke-width': 3 }); g.append(c);
+    const api = { svg, sx, sy, lapis, m, pw, ph, ax, ay, tx, ty, o, pola: (w) => 'url(#' + uid + (w || 0) + ')',
+      titik(x, y, w) { w = w || {}; const g = S('g', { class: 'tt' }); const c = S('circle', { cx: sx(x), cy: sy(y), r: w.r || 8, fill: w.warna || '#13294B', stroke: '#fff', 'stroke-width': 3 }); g.append(c);
         if (w.teks !== false) { const t = S('text', { x: sx(x) + 12, y: sy(y) - 12, 'font-size': 17, 'font-weight': 700, fill: w.warnaTeks || '#2B3F58', 'paint-order': 'stroke', stroke: '#fff', 'stroke-width': 4 }, '(' + fmt(x) + ', ' + fmt(y) + ')'); g.append(t); }
         g.style.transformBox = 'fill-box'; g.style.transformOrigin = 'center'; lapis.titik.append(g); return g; },
-      putus(x, y, warna) { const v = S('line', { x1: sx(x), y1: sy(0 > o.ymax || 0 < o.ymin ? o.ymin : 0), x2: sx(x), y2: sy(0 > o.ymax || 0 < o.ymin ? o.ymin : 0), stroke: warna || '#E08A1E', 'stroke-width': 3, 'stroke-dasharray': '7 6', 'stroke-linecap': 'round' });
-        const h = S('line', { x1: sx(0 > o.xmax || 0 < o.xmin ? o.xmin : 0), y1: sy(y), x2: sx(0 > o.xmax || 0 < o.xmin ? o.xmin : 0), y2: sy(y), stroke: warna || '#E08A1E', 'stroke-width': 3, 'stroke-dasharray': '7 6', 'stroke-linecap': 'round' }); lapis.putus.append(v, h); return { v, h, x, y }; },
-      kurva(garis, w) { w = w || {}; const g = S('g'); (Array.isArray(garis[0][0]) ? garis : [garis]).forEach((seg) => { const d = seg.map((p, i) => (i ? 'L' : 'M') + sx(p[0]).toFixed(1) + ' ' + sy(p[1]).toFixed(1)).join(''); g.append(S('path', { d, fill: 'none', stroke: w.warna || '#0F766E', 'stroke-width': w.tebal || 5, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', pathLength: 1, 'stroke-dasharray': w.sembunyi ? 1 : null, 'stroke-dashoffset': w.sembunyi ? 1 : null })); }); lapis.kurva.append(g); return g; },
-      tegak(x, warna) { const l = S('line', { x1: sx(x), x2: sx(x), y1: m.t, y2: m.t + ph, stroke: warna || '#1B9C8F', 'stroke-width': 2.4, 'stroke-dasharray': '8 6' }); lapis.kurva.append(l); return l; } };
+      putus(x, y, warna) { const v = S('line', { x1: sx(x), y1: sy(0 > o.ymax || 0 < o.ymin ? o.ymin : 0), x2: sx(x), y2: sy(0 > o.ymax || 0 < o.ymin ? o.ymin : 0), stroke: warna || '#C9922F', 'stroke-width': 3, 'stroke-dasharray': '7 6', 'stroke-linecap': 'round' });
+        const h = S('line', { x1: sx(0 > o.xmax || 0 < o.xmin ? o.xmin : 0), y1: sy(y), x2: sx(0 > o.xmax || 0 < o.xmin ? o.xmin : 0), y2: sy(y), stroke: warna || '#C9922F', 'stroke-width': 3, 'stroke-dasharray': '7 6', 'stroke-linecap': 'round' }); lapis.putus.append(v, h); return { v, h, x, y }; },
+      kurva(garis, w) { w = w || {}; const g = S('g'); (Array.isArray(garis[0][0]) ? garis : [garis]).forEach((seg) => { const d = seg.map((p, i) => (i ? 'L' : 'M') + sx(p[0]).toFixed(1) + ' ' + sy(p[1]).toFixed(1)).join(''); g.append(S('path', { d, fill: 'none', stroke: w.warna || '#13294B', 'stroke-width': w.tebal || 5, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', pathLength: 1, 'stroke-dasharray': w.sembunyi ? 1 : null, 'stroke-dashoffset': w.sembunyi ? 1 : null })); }); lapis.kurva.append(g); return g; },
+      tegak(x, warna) { const l = S('line', { x1: sx(x), x2: sx(x), y1: m.t, y2: m.t + ph, stroke: warna || '#2A5AA7', 'stroke-width': 2.4, 'stroke-dasharray': '8 6' }); lapis.kurva.append(l); return l; } };
     return api;
   }
   /* tumbuhkan garis putus dari titik awal ke akhir (rAF) */
@@ -723,7 +897,7 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
        w = 0 (hijau-tosca, luas positif) | 1 (merah muda, bagian negatif) */
   const pv = (p, x) => p.reduce((s, c, i) => s + c * Math.pow(x, i), 0);
   const poli = (spec, i) => (i < 0 ? [0] : spec.k[i]);
-  const WARNA_ISI = ['#1B9C8F', '#D94F70'], WARNA_KURVA = ['#3B6FD6', '#E08A1E', '#7E5BD6', '#4C9A3F'];
+  const WARNA_KURVA = ['#13294B', '#B3232D', '#2A5AA7', '#8C5A1E'];
   const langkahTick = (lo, hi) => { const raw = (hi - lo) / 6; let st = 1; for (const k of [1, 2, 5, 10, 20, 50, 100]) { st = k; if (k >= raw) break; } const o = []; for (let v = Math.ceil(lo / st) * st; v <= hi + 1e-9; v += st) o.push(Math.round(v * 1e6) / 1e6); return o; };
   function lihat(spec) {
     if (spec.v) return Object.assign({ xt: langkahTick(spec.v.xmin, spec.v.xmax), yt: langkahTick(spec.v.ymin, spec.v.ymax) }, spec.v);
@@ -744,7 +918,7 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
     o = o || {}; const tipe = spec.tipe || 'x', v = lihat(spec), b = bidang(Object.assign({ W: o.W || 640, H: o.H || 440, label: o.label || 'Daerah yang dibatasi kurva' }, v, o.tanpaTick ? { xt: [], yt: [], tanpaTick: true } : {}));
     const kurva = spec.k.map((p, i) => b.kurva(tipe === 'x' ? sampelP((t) => pv(p, t), v.xmin, v.xmax, 260, v.ymin, v.ymax, false) : sampelP((t) => pv(p, t), v.ymin, v.ymax, 260, v.xmin, v.xmax, true), { warna: (o.warnaKurva || WARNA_KURVA)[i % 4], tebal: o.tebal || 4.8, sembunyi: !!o.animasi }));
     const isi = spec.z.map((z) => {
-      const path = S('path', { fill: WARNA_ISI[z.w || 0], 'fill-opacity': .34, stroke: 'none' }); b.lapis.isi.append(path); const U = poli(spec, z.u), L = poli(spec, z.l);
+      const path = S('path', { fill: b.pola(z.w), stroke: 'none' }); b.lapis.isi.append(path); const U = poli(spec, z.u), L = poli(spec, z.l);
       const bangun = (t) => {
         if (t <= 0.001) { path.setAttribute('d', ''); return; } const e = z.a + (z.b - z.a) * t, N = 70, atas = [], bawah = [];
         for (let i = 0; i <= N; i++) { const s = z.a + (e - z.a) * i / N; atas.push(tipe === 'x' ? [s, pv(U, s)] : [pv(U, s), s]); bawah.push(tipe === 'x' ? [s, pv(L, s)] : [pv(L, s), s]); }
@@ -753,7 +927,7 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
       bangun(o.animasi ? 0 : 1); return { path, bangun, z };
     });
     const titik = []; const sudah = new Set();
-    if (o.titik !== false) spec.z.forEach((z) => [z.a, z.b].forEach((s) => { const idx = z.u >= 0 ? z.u : z.l, y = pv(poli(spec, idx), s), P = tipe === 'x' ? [s, y] : [y, s], kk = P.join(','); if (sudah.has(kk)) return; sudah.add(kk); const g = b.titik(P[0], P[1], { teks: o.labelTitik !== false, r: 7, warna: '#12263F' }); if (o.animasi) g.setAttribute('opacity', 0); titik.push(g); }));
+    if (o.titik !== false) spec.z.forEach((z) => [z.a, z.b].forEach((s) => { const idx = z.u >= 0 ? z.u : z.l, y = pv(poli(spec, idx), s), P = tipe === 'x' ? [s, y] : [y, s], kk = P.join(','); if (sudah.has(kk)) return; sudah.add(kk); const g = b.titik(P[0], P[1], { teks: o.labelTitik !== false, r: 7, warna: '#12254A' }); if (o.animasi) g.setAttribute('opacity', 0); titik.push(g); }));
     async function jalan(ms, tk) {
       const UI = root.UI; ms = ms || 1400;
       await Promise.all(kurva.map((g) => gambarKurva(g, ms, tk))); if (tk) tk.cek();
@@ -798,7 +972,10 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
   /* gambar satu varian ke dalam bidang baru; animasi opsional (kurva digambar, lalu daerah terisi) */
   const gambarVarian = (v, o) => lukis(v.spec, Object.assign({ animasi: true }, o));
   const statis = (v, o) => lukis(v.spec, Object.assign({ animasi: false, tebal: 4.6 }, o));
-  root.GF = { S, fmt, sampel, bidang, tumbuh, gambarKurva, K, lukis, lihat, dataSVG, gambarVarian, statis, pv, tumbuhIsi };
+  /* grafik statis untuk soal (tes awal): kembalikan elemen SVG atau string HTML */
+  const soalSVG = (q) => lukis(q.grafik.spec, { W: q.grafik.W || 420, H: q.grafik.H || 300, label: 'Grafik soal' }).svg;
+  const soalHTML = (q) => (q.grafik ? '<div class="gambar-soal">' + soalSVG(q).outerHTML + '</div>' : '');
+  root.GF = { soalSVG, soalHTML, S, fmt, sampel, bidang, tumbuh, gambarKurva, K, lukis, lihat, dataSVG, gambarVarian, statis, pv, tumbuhIsi };
 })(window);
 
 ;
@@ -810,10 +987,12 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
   'use strict';
   const buat = (awalan, n) => Array.from({ length: n }, (_, i) => awalan + ' ' + String(i + 1).padStart(2, '0'));
   const DAFTAR_KELAS = {
-    /* kelas utama: 21 murid = 7 kelompok × 3 (kelompok dibentuk otomatis dari tes awal) */
-    xiia: buat('SISWA KELAS A', 21),
-    /* kelas cadangan (tersembunyi): kelompok disusun guru; dipakai untuk uji dan jika ada kelas kedua */
-    xiib: buat('SISWA KELAS B', 21)
+    /* nama samaran sampai guru mengisi daftar asli (urutan tetap). Jumlah murid per kelas bebas (maks 49); 7 kelompok, anggota per kelompok menyesuaikan. */
+    xiia: buat('SISWA A', 21),
+    xiib: buat('SISWA B', 21),
+    xiic: buat('SISWA C', 21),
+    xiid: buat('SISWA D', 21),
+    ujim: buat('SISWA UJI', 21)
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = DAFTAR_KELAS; else root.DAFTAR_KELAS = DAFTAR_KELAS;
 })(typeof window !== 'undefined' ? window : globalThis);
@@ -826,9 +1005,9 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
   'use strict';
   const DAFTAR_ALL = (typeof module !== 'undefined' && module.exports) ? require('./daftar.js') : root.DAFTAR_KELAS;
   const judulKata = (s) => s.toLowerCase().replace(/(^|[\s-])([a-z])/g, (m, a, b) => a + b.toUpperCase());
-  const DUMMY = 30;                    // akun uji coba guru (tidak masuk kelompok dan statistik); harus > jumlah murid kelas mana pun
+  const DUMMY = 49;                    // akun uji coba guru (tidak masuk kelompok dan statistik); harus > jumlah murid kelas mana pun (maks 49 murid per kelas)
   /* PIN guru ada di api/_lib/rahasia.js (hanya server). Di sini hanya hash-nya, untuk masuk guru saat mode mandiri (tanpa server). */
-  const PIN_SHA = 'd961f50b7e925eefbba1a3702b034dce926fd126f9f0ffe594fc1ffb7820f3e0';
+  const PIN_SHA = 'd264270217b2b99d824dc863f4d2bc35be934afb4d9cf63ac80434f791a01f63';
   function sha256(m) {
     const K = [0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5, 0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174, 0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da, 0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7, 0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967, 0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85, 0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070, 0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3, 0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2];
     const b = []; for (let i = 0; i < m.length; i++) b.push(m.charCodeAt(i) & 255);
@@ -849,10 +1028,17 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
      manual:true   = kelompok disusun guru; murid baru boleh masuk setelah guru membuka kelas.
      jigsaw:true   = satu bagian (pos) per kelompok + Pameran pakar dengan rute putaran; langkah = 6.
      tampil:false  = tidak muncul di pilihan kelas (kelas cadangan). */
+  const KJ = (kode, nama, program, o) => Object.assign({ kode, nama, program, daftar: DAFTAR_ALL[kode], durasi: 600, manual: false, jigsaw: true, langkah: 6, jmlKelompok: 7, tampil: true, materi: 'kurva2', siap: true }, o || {});
   const KELAS_CFG = {
-    xiia: { kode: 'xiia', nama: 'XII Matematika Lanjut', daftar: DAFTAR_ALL.xiia, durasi: 480, manual: false, jigsaw: true, langkah: 6, jmlKelompok: 7, maks: 3, tampil: true },
-    xiib: { kode: 'xiib', nama: 'Kelas cadangan', daftar: DAFTAR_ALL.xiib, durasi: 480, manual: true, jigsaw: true, langkah: 6, jmlKelompok: 7, maks: 3, tampil: false }
+    xiia: KJ('xiia', 'XII-A Teknik', 'Teknik'),
+    xiib: KJ('xiib', 'XII-B Teknik', 'Teknik'),
+    xiic: KJ('xiic', 'XII-C Kesehatan', 'Kesehatan'),
+    /* XII-D: dasar integral tentu (dua pertemuan) — materi disiapkan kemudian; kelas sudah terdaftar untuk guru */
+    xiid: KJ('xiid', 'XII-D Soshum', 'Soshum', { materi: 'dasar', siap: false }),
+    /* kelas uji tersembunyi: kelompok disusun guru (menguji mode manual) */
+    ujim: KJ('ujim', 'Kelas uji (manual)', 'Uji', { manual: true, tampil: false })
   };
+  Object.keys(KELAS_CFG).forEach((k) => { const c = KELAS_CFG[k]; c.maks = Math.max(3, Math.ceil(c.daftar.length / c.jmlKelompok)); });
   const KELAS_ID = Object.keys(KELAS_CFG), KELAS_TAMPIL = KELAS_ID.filter((k) => KELAS_CFG[k].tampil);
   let AKTIF = KELAS_TAMPIL[0];
   const cfg = (k) => KELAS_CFG[k || AKTIF] || KELAS_CFG[KELAS_TAMPIL[0]];
@@ -925,34 +1111,52 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
       const f = [c, q, p], F = (x) => (p / 3) * x * x * x + (q / 2) * x * x + c * x, kunci = F(b) - F(a);
       const o = ambilOpsi(kunci, [F(b), F(a) - F(b), pv(f, b) - pv(f, a), p * b * b * b + q * b * b + c * b - (p * a * a * a + q * a * a + c * a), F(b) + F(a)], mn);
       S.push({ tanya: 'Hitunglah ' + igH(a, b) + ' (' + fx(f) + ') <i>dx</i>.', opsi: o, kunci: mn(kunci), jelas: 'Antiturunannya F(x) = ' + antiH(f) + '. Maka ' + hit(f, a, b).html + '. Ingat: hasilnya F(b) − F(a), bukan F(b) saja.' }); }
-    // 2. nilai integral bisa negatif
-    { const c = pil(r, [2, 3, 4, 5, 6]), v = rt(-2 * c * c * c, 3), pen = (z) => rT(z), kunci = pen(v);
-      const o = opsiStr(kunci, [pen(rt(2 * c * c * c, 3)), pen(rt(c * c * c, 3)), pen(rt(-c * c * c, 1)), pen(rt(4 * c * c * c, 3)), pen(rt(-c * c * c, 3))]);
-      S.push({ tanya: 'Hitunglah ' + igH(0, c) + ' (<i>x</i><sup>2</sup> − ' + (c * c) + ') <i>dx</i>.', opsi: o, kunci, jelas: 'Antiturunan ' + fx([-c * c, 0, 1]) + ' adalah ' + antiH([-c * c, 0, 1]) + '. ' + hit([-c * c, 0, 1], 0, c).html + '. Nilai integral boleh negatif: kurva berada di bawah sumbu-x.' }); }
-    // 3. titik potong parabola dan garis (terhadap x)
-    { const s = pil(r, [2, 3]), r1 = pil(r, [-2, -1]), r2 = s + 1 - r1, t = -r1 * r2, kunci = PT(r1, r1 + t) + ' dan ' + PT(r2, r2 + t);
-      const o = opsiStr(kunci, [PT(r1 + t, r1) + ' dan ' + PT(r2 + t, r2), PT(-r1, -r1 + t) + ' dan ' + PT(-r2, -r2 + t), PT(r1, 0) + ' dan ' + PT(r2, 0), PT(r1, t) + ' dan ' + PT(r2, t)]);
-      S.push({ tanya: 'Tentukan titik potong parabola <i>y</i> = ' + fx([0, -s, 1]) + ' dan garis <i>y</i> = ' + fx([t, 1]) + '.', opsi: o, kunci, jelas: 'Samakan: ' + fx([0, -s, 1]) + ' = ' + fx([t, 1]) + ' → ' + fx([-t, -(s + 1), 1]) + ' = 0 → ' + fak(r1) + fak(r2) + ' = 0, jadi x = ' + mn(r1) + ' atau x = ' + r2 + '. Masukkan x ke garis: y = ' + mn(r1 + t) + ' dan y = ' + (r2 + t) + '.' }); }
-    // 4. titik potong parabola mendatar dan garis (terhadap y)
-    { const k = pil(r, [1, 2]), d = pil(r, [1, 2, 3]), c = d + k * (k + 1), y1 = k, y2 = -(k + 1), kunci = PT(y1 + d, y1) + ' dan ' + PT(y2 + d, y2);
-      const o = opsiStr(kunci, [PT(y1, y1 + d) + ' dan ' + PT(y2, y2 + d), PT(-y1 + d, -y1) + ' dan ' + PT(-y2 + d, -y2), PT(y1 + d, 0) + ' dan ' + PT(y2 + d, 0), PT(c, y1) + ' dan ' + PT(c, y2)]);
-      S.push({ tanya: 'Tentukan titik potong parabola mendatar <i>x</i> = ' + c + ' − <i>y</i><sup>2</sup> dan garis <i>x</i> = ' + fx([d, 1], 'y') + '. (Tulis titik sebagai (x, y).)', opsi: o, kunci, jelas: 'Samakan x: ' + c + ' − y² = y + ' + d + ' → y² + y − ' + (c - d) + ' = 0 → ' + fak(y1, 'y') + fak(y2, 'y') + ' = 0. Jadi y = ' + y1 + ' atau y = ' + mn(y2) + '. Masukkan ke x = y + ' + d + ': titiknya ' + kunci + '.' }); }
-    // 5. nilai integral ≠ luas daerah
-    { const A = rint(r, 4, 9), Bn = rint(r, 2, 5), kunci = A + Bn;
-      const o = ambilOpsi(kunci, [A - Bn, Bn - A, A, Bn, -(A + Bn)], mn);
-      S.push({ tanya: 'Kurva <i>y</i> = <i>f</i>(<i>x</i>) di atas sumbu-x pada [0, 2] dengan ' + igH(0, 2) + ' <i>f</i>(<i>x</i>) <i>dx</i> = ' + A + ', dan di bawah sumbu-x pada [2, 4] dengan ' + igH(2, 4) + ' <i>f</i>(<i>x</i>) <i>dx</i> = ' + mn(-Bn) + '. Berapa satuan luas total daerah antara kurva dan sumbu-x pada [0, 4]?', opsi: o, kunci: mn(kunci), jelas: 'Luas tidak boleh negatif. Bagian di bawah sumbu-x dihitung dengan nilai mutlaknya: L = ' + A + ' + |' + mn(-Bn) + '| = ' + A + ' + ' + Bn + ' = ' + kunci + '. Kalau dijumlahkan begitu saja, hasilnya ' + (A - Bn) + ' (luas bertanda), bukan luas.' }); }
-    return S.map((s, i) => { const rr = mulberry(31 + idx * 101 + i * 17), urut = acak(rr, s.opsi.map((_, k) => k)), opsi = urut.map((k) => s.opsi[k]); return { no: i + 1, tanya: s.tanya, opsi, kunci: opsi.indexOf(s.kunci), jelas: s.jelas }; });
+    // 2. diketahui nilai integral, batas ditukar (dengan variasi)
+    { const a = pil(r, [1, 2, 3]), b = a + pil(r, [2, 3, 4]), L = b - a, k = pil(r, [3, 4, 5, 6, 7, 8, 9, 12]), c = pil(r, [2, 3, 4]), d = pil(r, [1, 2, 3]), jn = rint(r, 0, 3), F = '<i>f</i>(<i>x</i>)', dxx = ' <i>dx</i>';
+      const dik = 'Diketahui ' + igH(a, b) + ' ' + F + dxx + ' = ' + k + '. ';
+      let kunci, kand, jelas, tanya;
+      if (jn === 0) { tanya = dik + 'Hitunglah ' + igH(b, a) + ' ' + F + dxx + '.'; kunci = -k; kand = [k, 0, -k * L, k * L]; jelas = 'Menukar batas atas dan bawah mengubah tanda: ' + igH(b, a) + ' ' + F + dxx + ' = −' + igH(a, b) + ' ' + F + dxx + ' = −' + k + '.'; }
+      else if (jn === 1) { tanya = dik + 'Hitunglah ' + igH(b, a) + ' ' + c + F + dxx + '.'; kunci = -c * k; kand = [c * k, -k, k + c, -(k + c)]; jelas = 'Tukar batas: tanda berubah, konstanta ' + c + ' keluar dari integral. ' + igH(b, a) + ' ' + c + F + dxx + ' = −' + c + ' · ' + k + ' = −' + (c * k) + '.'; }
+      else if (jn === 2) { tanya = dik + 'Hitunglah ' + igH(b, a) + ' (' + F + ' + ' + d + ')' + dxx + '.'; kunci = -(k + d * L); kand = [k + d * L, d * L - k, -k - d, -k + d]; jelas = 'Tukar batas: ' + igH(b, a) + ' (' + F + ' + ' + d + ')' + dxx + ' = −' + igH(a, b) + ' (' + F + ' + ' + d + ')' + dxx + ' = −(' + k + ' + ' + d + '(' + b + ' − ' + a + ')) = −(' + k + ' + ' + (d * L) + ') = −' + (k + d * L) + '.'; }
+      else { tanya = dik + 'Hitunglah ' + igH(b, a) + ' (' + c + F + ' − ' + d + ')' + dxx + '.'; kunci = d * L - c * k; kand = [c * k - d * L, -c * k - d * L, c * k + d * L, -c * k]; jelas = 'Tukar batas: ' + igH(b, a) + ' (' + c + F + ' − ' + d + ')' + dxx + ' = −(' + c + ' · ' + k + ' − ' + d + '(' + b + ' − ' + a + ')) = −(' + (c * k) + ' − ' + (d * L) + ') = ' + mn(d * L - c * k) + '.'; }
+      const o = ambilOpsi(kunci, kand, mn); S.push({ tanya, opsi: o, kunci: mn(kunci), jelas, det: { j: 2, jn, a, b, k, c, d, kunci } }); }
+    // 3. batas dipartisi (dipecah di titik tengah)
+    { const a = pil(r, [0, 1, 2]), b = a + pil(r, [2, 3]), c = b + pil(r, [2, 3, 4]), p = pil(r, [3, 4, 5, 6, 7, 9]), q = pil(r, [2, 3, 4, 5, 8]), jn = rint(r, 0, 3), F = '<i>f</i>(<i>x</i>)', dxx = ' <i>dx</i>', ig = (u, v) => igH(u, v) + ' ' + F + dxx;
+      let tanya, kunci, kand, jelas;
+      if (jn === 0) { tanya = 'Diketahui ' + ig(a, b) + ' = ' + p + ' dan ' + ig(b, c) + ' = ' + q + '. Hitunglah ' + ig(a, c) + '.'; kunci = p + q; kand = [p - q, q - p, p * q, -(p + q)]; jelas = 'Batas boleh dipartisi di titik tengah: ' + ig(a, c) + ' = ' + ig(a, b) + ' + ' + ig(b, c) + ' = ' + p + ' + ' + q + ' = ' + (p + q) + '.'; }
+      else if (jn === 1) { const P = p + q; tanya = 'Diketahui ' + ig(a, c) + ' = ' + P + ' dan ' + ig(b, c) + ' = ' + q + '. Hitunglah ' + ig(a, b) + '.'; kunci = p; kand = [P + q, q - P, P, -p]; jelas = 'Dari ' + ig(a, c) + ' = ' + ig(a, b) + ' + ' + ig(b, c) + ' diperoleh ' + ig(a, b) + ' = ' + P + ' − ' + q + ' = ' + p + '.'; }
+      else if (jn === 2) { const P = p + q; tanya = 'Diketahui ' + ig(a, b) + ' = ' + p + ' dan ' + ig(a, c) + ' = ' + P + '. Hitunglah ' + ig(b, c) + '.'; kunci = q; kand = [P + p, p - P, P, -q]; jelas = 'Dari ' + ig(a, c) + ' = ' + ig(a, b) + ' + ' + ig(b, c) + ' diperoleh ' + ig(b, c) + ' = ' + P + ' − ' + p + ' = ' + q + '.'; }
+      else { tanya = 'Diketahui ' + ig(a, b) + ' = ' + (p + q) + ' dan ' + ig(c, b) + ' = ' + q + '. Hitunglah ' + ig(a, c) + '.'; kunci = p; kand = [p + 2 * q, p + q + q, q, -p].filter((v) => v !== p); jelas = 'Batas ditukar dulu: ' + ig(b, c) + ' = −' + ig(c, b) + ' = −' + q + '. Maka ' + ig(a, c) + ' = ' + ig(a, b) + ' + ' + ig(b, c) + ' = ' + (p + q) + ' − ' + q + ' = ' + p + '.'; }
+      const o = ambilOpsi(kunci, kand, mn); S.push({ tanya, opsi: o, kunci: mn(kunci), jelas, det: { j: 3, jn, a, b, c, p, q, kunci } }); }
+    // 4. dari grafik: pilih penulisan integral yang benar (daerah antara parabola dan garis; irisan tegak atau datar)
+    { const r1 = pil(r, [-2, -1, 0]), r2 = pil(r, [2, 3, 4]), m = r1 + r2, nn = -r1 * r2, P = [0, 0, 1], Ln = [nn, m], sel = pa(Ln, P, -1), dy = rint(r, 0, 1) === 1, v = dy ? 'y' : 'x', dv = dy ? 'dy' : 'dx', lain = dy ? 'dx' : 'dy';
+      const ig = (u, w, expr, d2) => igH(u, w) + ' (' + expr + ') <i>' + (d2 || dv) + '</i>', ex = (p) => fx(p, v), bawahSalah = r1 === 0 ? -1 : 0;
+      const benar = ig(r1, r2, ex(sel)), o = [benar, ig(r1, r2, ex(ps(sel, -1))), ig(bawahSalah, r2, ex(sel)), ig(r1, r2, ex(pa(Ln, P, 1))), ig(r1, r2, ex(sel), lain)];
+      const spec = dy ? { tipe: 'y', k: [P, Ln], z: [{ u: 1, l: 0, a: r1, b: r2, w: 0 }] } : { tipe: 'x', k: [P, Ln], z: [{ u: 1, l: 0, a: r1, b: r2, w: 0 }] };
+      const pot = dy ? ' (irisan <b>datar</b>: kurva kanan dikurangi kurva kiri)' : ' (irisan <b>tegak</b>: kurva atas dikurangi kurva bawah)';
+      S.push({ html: true, det: { j: 4, P, Ln, r1, r2, dy }, grafik: { spec, W: 420, H: 300 }, tanya: 'Perhatikan daerah yang diarsir, dibatasi kurva ' + VAR(v === 'x' ? 'y' : 'x') + ' = ' + ex(P) + ' (garis lengkung) dan ' + VAR(v === 'x' ? 'y' : 'x') + ' = ' + ex(Ln) + ' (garis lurus). Penulisan integral tentu yang <b>benar</b> untuk luas daerah itu adalah …', opsi: o, kunci: benar,
+        jelas: 'Titik potong kedua kurva ada di ' + VAR(v) + ' = ' + mn(r1) + ' dan ' + VAR(v) + ' = ' + r2 + ' (lihat titik pada gambar), jadi itulah batas integralnya. Di antara batas itu, ' + (dy ? 'kurva ' + VAR('x') + ' = ' + ex(Ln) + ' berada di sebelah <b>kanan</b>' : 'garis ' + VAR('y') + ' = ' + ex(Ln) + ' berada di <b>atas</b>') + ', jadi integrannya ' + (dy ? 'kanan − kiri' : 'atas − bawah') + ' = (' + ex(Ln) + ') − (' + ex(P) + ') = ' + ex(sel) + pot + ' dan variabelnya ' + dv + '.' }); }
+    // 5. dari grafik fungsi f(x) dan daerah arsiran: hitung luasnya (siswa merangkai integralnya sendiri)
+    { const hasil = cari(() => { const s = pil(r, [4, 6]), k = pil(r, [1, 2]), sg = pil(r, [1, -1]), a = rint(r, 0, s - 2), b = rint(r, a + 1, s), p = [0, sg * k * s, -sg * k], v = i12(p, a, b); return (Math.abs(v) % 6 === 0) ? { s, k, sg, a, b, p, v } : null; });
+      const { s, k, sg, a, b, p } = hasil, I = hit(p, a, b), val = I.nilai, L = sg > 0 ? val : rt(-val.n, val.d), kunci = rT(L);
+      const pecahan = (z) => rT(z);
+      const o = opsiStr(kunci, [rT(rt(-L.n, L.d)), pecahan(rt(L.n, L.d * 2)), pecahan(rt(L.n * 2, L.d)), pecahan(rt(L.n + L.d, L.d)), pecahan(rt(Math.abs(Fv(p, b).n), Fv(p, b).d))]);
+      for (let j = 1; o.length < 5; j++) { const v2 = rT(rt(L.n + j * L.d, L.d)); if (!o.includes(v2)) o.push(v2); }
+      const spec = { tipe: 'x', k: [p], z: [{ u: sg > 0 ? 0 : -1, l: sg > 0 ? -1 : 0, a, b, w: 0 }] };
+      S.push({ det: { j: 5, p, a, b, sg }, grafik: { spec, W: 420, H: 300 }, tanya: 'Perhatikan grafik kurva <i>y</i> = <i>f</i>(<i>x</i>) dengan <i>f</i>(<i>x</i>) = ' + fx(p) + '. Daerah yang diarsir dibatasi kurva, sumbu-<i>x</i>, garis <i>x</i> = ' + a + ', dan garis <i>x</i> = ' + b + '. Berapa satuan luas daerah yang diarsir?', opsi: o, kunci,
+        jelas: (sg > 0 ? 'Kurva berada di atas sumbu-x pada [' + a + ', ' + b + '], jadi luas = ' + igH(a, b) + ' (' + fx(p) + ') <i>dx</i>. ' : 'Kurva berada di bawah sumbu-x pada [' + a + ', ' + b + '], jadi nilai integralnya negatif dan luas = −' + igH(a, b) + ' (' + fx(p) + ') <i>dx</i>. ') + I.html + (sg > 0 ? '.' : ', sehingga luasnya ' + rH(L) + '.') + ' Luas selalu positif.' }); }
+    return S.map((s, i) => { const rr = mulberry(31 + idx * 101 + i * 17), urut = acak(rr, s.opsi.map((_, k) => k)), opsi = urut.map((k) => s.opsi[k]); const q = { no: i + 1, tanya: s.tanya, opsi, kunci: opsi.indexOf(s.kunci), jelas: s.jelas }; if (s.grafik) q.grafik = s.grafik; if (s.html) q.html = true; if (s.det) q.det = s.det; return q; });
   }
   function nilai(idx, jawab) { const so = soalSiswa(idx), hasil = so.map((s, i) => ({ no: i + 1, pilih: jawab[i] == null || jawab[i] === 5 ? null : jawab[i], benar: jawab[i] === s.kunci })); return { benar: hasil.filter((h) => h.benar).length, salah: hasil.filter((h) => !h.benar).length, hasil }; }
 
   /* ---------- kode hasil 5 karakter (4 data + 1 cek), alfabet tanpa 0 O 1 I ---------- */
   const ALFA = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
-  function buatKode(idx, jawab) { let a = 0, kali = 1; for (let i = 0; i < 5; i++) { const v = jawab[i] == null ? 5 : jawab[i]; a += v * kali; kali *= 6; } let n = idx + 31 * a, s = ''; for (let i = 0; i < 4; i++) { s = ALFA[n % 32] + s; n = Math.floor(n / 32); } let c = 0; for (let i = 0; i < 4; i++) c += (ALFA.indexOf(s[i]) + 1) * (2 * i + 3); return s + ALFA[c % 32]; }
+  function buatKode(idx, jawab) { let a = 0, kali = 1; for (let i = 0; i < 5; i++) { const v = jawab[i] == null ? 5 : jawab[i]; a += v * kali; kali *= 6; } let n = idx + 50 * a, s = ''; for (let i = 0; i < 4; i++) { s = ALFA[n % 32] + s; n = Math.floor(n / 32); } let c = 0; for (let i = 0; i < 4; i++) c += (ALFA.indexOf(s[i]) + 1) * (2 * i + 3); return s + ALFA[c % 32]; }
   function bacaKode(kode) {
     const k = String(kode || '').toUpperCase().replace(/[^A-Z2-9]/g, ''); if (k.length !== 5) return { error: 'Kode harus 5 karakter' };
     let c = 0, n = 0; for (let i = 0; i < 4; i++) { const p = ALFA.indexOf(k[i]); if (p < 0) return { error: 'Karakter kode tidak dikenali' }; c += (p + 1) * (2 * i + 3); n = n * 32 + p; }
     if (ALFA[c % 32] !== k[4]) return { error: 'Kode salah ketik (karakter terakhir tidak cocok)' };
-    const idx = n % 31; let a = Math.floor(n / 31); if (a >= 7776) return { error: 'Kode tidak valid' };
+    const idx = n % 50; let a = Math.floor(n / 50); if (a >= 7776) return { error: 'Kode tidak valid' };
     const jawab = []; for (let i = 0; i < 5; i++) { const v = a % 6; jawab.push(v === 5 ? null : v); a = Math.floor(a / 6); }
     return { idx, jawab, kode: k };
   }
@@ -1163,7 +1367,7 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
   const { el, ik, tidur, anim, esc } = UI, { S, fmt, K } = GF, B = BS;
   const m = (n) => String(n).replace('-', '−');
   const NAMA = UI.NAMA, VR = (s) => '<i>' + s + '</i>';
-  const pesta = (x, y) => { if (UI.instan) return; for (let i = 0; i < 26; i++) { const c = el('div', { kelas: 'konfeti', gaya: 'left:' + x + 'px;top:' + y + 'px;background:' + ['#F3A64B', '#0F766E', '#2FA36B', '#BE3455', '#3B6FD6', '#E08A1E'][i % 6] }); document.body.append(c); const a = Math.random() * Math.PI * 2, d = 60 + Math.random() * 140; anim(c, [{ transform: 'translate(0,0) rotate(0)', opacity: 1 }, { transform: 'translate(' + Math.cos(a) * d + 'px,' + (Math.sin(a) * d + 90) + 'px) rotate(' + (Math.random() * 540) + 'deg)', opacity: 0 }], { duration: 900 + Math.random() * 500, easing: 'cubic-bezier(.2,.7,.3,1)' }).then(() => c.remove()); } };
+  const pesta = (x, y) => { if (UI.instan) return; for (let i = 0; i < 26; i++) { const c = el('div', { kelas: 'konfeti', gaya: 'left:' + x + 'px;top:' + y + 'px;background:' + ['#E0AE4A', '#13294B', '#2FA36B', '#B3232D', '#5B7FB8', '#C9922F'][i % 6] }); document.body.append(c); const a = Math.random() * Math.PI * 2, d = 60 + Math.random() * 140; anim(c, [{ transform: 'translate(0,0) rotate(0)', opacity: 1 }, { transform: 'translate(' + Math.cos(a) * d + 'px,' + (Math.sin(a) * d + 90) + 'px) rotate(' + (Math.random() * 540) + 'deg)', opacity: 0 }], { duration: 900 + Math.random() * 500, easing: 'cubic-bezier(.2,.7,.3,1)' }).then(() => c.remove()); } };
   const pop = (e) => anim(e, [{ transform: 'scale(.4)', opacity: 0 }, { transform: 'scale(1.18)', opacity: 1, offset: .6 }, { transform: 'scale(1)', opacity: 1 }], { duration: 520, easing: 'ease-out' });
   const muncul = (e, d) => anim(e, [{ opacity: 0, transform: 'translateY(.9rem)' }, { opacity: 1, transform: 'none' }], { duration: d || 480 });
   const gerak = (ms, fn, tk) => new Promise((res, rej) => { ms = ms / (UI.instan ? 1e6 : UI.speed); const t0 = performance.now(); const f = (t) => { if (tk && tk.batal) return rej(new UI.Batal()); const k = Math.min(1, (t - t0) / ms); fn(k); k < 1 ? requestAnimationFrame(f) : res(); }; requestAnimationFrame(f); });
@@ -1201,9 +1405,9 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
     pita: (zi, pos, lab1, lab2) => async (X) => {
       const z = X.spec.z[zi], tipe = X.spec.tipe || 'x', U = kur(X.spec, z.u), L = kur(X.spec, z.l), b = X.b, up = GF.pv(U, pos), lo = GF.pv(L, pos), g = S('g', { class: 'pita-1' });
       const P = (s, v) => (tipe === 'x' ? [b.sx(s), b.sy(v)] : [b.sx(v), b.sy(s)]), p1 = P(pos, up), p2 = P(pos, lo);
-      const garis = S('line', { x1: p2[0], y1: p2[1], x2: p2[0], y2: p2[1], stroke: '#E08A1E', 'stroke-width': 7, 'stroke-linecap': 'round' }); g.append(garis); X.ov.append(g);
-      const d1 = S('circle', { cx: p1[0], cy: p1[1], r: 8, fill: '#12263F', stroke: '#fff', 'stroke-width': 2.5 }), d2 = S('circle', { cx: p2[0], cy: p2[1], r: 8, fill: '#12263F', stroke: '#fff', 'stroke-width': 2.5 }); g.append(d2);
-      const lt = (p, txt, dx, dy) => S('text', { x: p[0] + dx, y: p[1] + dy, 'font-size': 17, 'font-weight': 700, fill: '#12263F', 'paint-order': 'stroke', stroke: '#fff', 'stroke-width': 4 }, txt);
+      const garis = S('line', { x1: p2[0], y1: p2[1], x2: p2[0], y2: p2[1], stroke: '#C9922F', 'stroke-width': 7, 'stroke-linecap': 'round' }); g.append(garis); X.ov.append(g);
+      const d1 = S('circle', { cx: p1[0], cy: p1[1], r: 8, fill: '#12254A', stroke: '#fff', 'stroke-width': 2.5 }), d2 = S('circle', { cx: p2[0], cy: p2[1], r: 8, fill: '#12254A', stroke: '#fff', 'stroke-width': 2.5 }); g.append(d2);
+      const lt = (p, txt, dx, dy) => S('text', { x: p[0] + dx, y: p[1] + dy, 'font-size': 17, 'font-weight': 700, fill: '#12254A', 'paint-order': 'stroke', stroke: '#fff', 'stroke-width': 4 }, txt);
       await gerak(900, (k) => { garis.setAttribute('x2', p2[0] + (p1[0] - p2[0]) * k); garis.setAttribute('y2', p2[1] + (p1[1] - p2[1]) * k); }, X.t); g.append(d1);
       if (lab1) g.append(lt(p1, lab1, tipe === 'x' ? 10 : 8, tipe === 'x' ? -12 : -12)); if (lab2) g.append(lt(p2, lab2, tipe === 'x' ? 10 : -4, tipe === 'x' ? 22 : 24)); await X.t.tidur(500);
     },
@@ -1213,11 +1417,11 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
       for (let i = 0; i < n; i++) {
         const s0 = z.a + i * lebar, s1 = s0 + lebar, mid = (s0 + s1) / 2, up = GF.pv(U, mid), lo = GF.pv(L, mid); let x, y, ww, hh;
         if (tipe === 'x') { x = b.sx(s0); ww = b.sx(s1) - b.sx(s0); y = b.sy(Math.max(up, lo)); hh = Math.abs(b.sy(up) - b.sy(lo)); } else { y = b.sy(s1); hh = b.sy(s0) - b.sy(s1); x = b.sx(Math.min(up, lo)); ww = Math.abs(b.sx(up) - b.sx(lo)); }
-        const r = S('rect', { x, y, width: ww, height: hh, fill: '#E08A1E', 'fill-opacity': .6, stroke: '#fff', 'stroke-width': 1.4 }); X.ov.append(r); tmp.push(r); await X.t.anim(r, [{ opacity: 0 }, { opacity: 1 }], { duration: 1300 / n });
+        const r = S('rect', { x, y, width: ww, height: hh, fill: '#C9922F', 'fill-opacity': .6, stroke: '#fff', 'stroke-width': 1.4 }); X.ov.append(r); tmp.push(r); await X.t.anim(r, [{ opacity: 0 }, { opacity: 1 }], { duration: 1300 / n });
       }
       await GF.tumbuhIsi(X.g.isi[zi], 700, X.t); await X.t.anim(X.ov, [{ opacity: 1 }, { opacity: 0 }], { duration: 500 }); X.ov.getAnimations().forEach((q) => q.cancel()); X.ov.innerHTML = ''; X.ov.style.opacity = 1;
     },
-    garisPutus: (nilai, tipe, label) => async (X) => { const b = X.b, tg = tipe === 'x', l = S('line', { x1: tg ? b.sx(nilai) : b.m.l, y1: tg ? b.m.t : b.sy(nilai), x2: tg ? b.sx(nilai) : b.m.l, y2: tg ? b.m.t : b.sy(nilai), stroke: '#BE3455', 'stroke-width': 3.4, 'stroke-dasharray': '8 6' }); X.ov.append(l); await GF.tumbuh(l, +l.getAttribute('x1'), +l.getAttribute('y1'), tg ? b.sx(nilai) : b.m.l + b.pw, tg ? b.m.t + b.ph : b.sy(nilai), 800, X.t); if (label) { const tx = S('text', { x: tg ? b.sx(nilai) + 8 : b.m.l + 8, y: tg ? b.m.t + 22 : b.sy(nilai) - 8, 'font-size': 16, 'font-weight': 700, fill: '#8E1F3B', 'paint-order': 'stroke', stroke: '#fff', 'stroke-width': 4 }, label); X.ov.append(tx); } }
+    garisPutus: (nilai, tipe, label) => async (X) => { const b = X.b, tg = tipe === 'x', l = S('line', { x1: tg ? b.sx(nilai) : b.m.l, y1: tg ? b.m.t : b.sy(nilai), x2: tg ? b.sx(nilai) : b.m.l, y2: tg ? b.m.t : b.sy(nilai), stroke: '#B3232D', 'stroke-width': 3.4, 'stroke-dasharray': '8 6' }); X.ov.append(l); await GF.tumbuh(l, +l.getAttribute('x1'), +l.getAttribute('y1'), tg ? b.sx(nilai) : b.m.l + b.pw, tg ? b.m.t + b.ph : b.sy(nilai), 800, X.t); if (label) { const tx = S('text', { x: tg ? b.sx(nilai) + 8 : b.m.l + 8, y: tg ? b.m.t + 22 : b.sy(nilai) - 8, 'font-size': 16, 'font-weight': 700, fill: '#7E1820', 'paint-order': 'stroke', stroke: '#fff', 'stroke-width': 4 }, label); X.ov.append(tx); } }
   };
 
   /* ======================================================== adegan: luas bertanda → luas (pencerminan) */
@@ -1226,7 +1430,7 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
     { cap: 'Pada [1, 3] kurva <b>y = x² − 4x</b> berada <b>di bawah sumbu-x</b>: nilainya negatif.', aksi: async (X) => { await A.kurva(X); await A.titik(X); await A.isi(0)(X); } },
     { cap: 'Integral tentu menghitung <b>luas bertanda</b>: daerah di bawah sumbu-x ikut bernilai negatif.', rumus: IG(1, 3) + ' (' + FX([0, -4, 1]) + ') ' + VR('dx') + ' = ' + EV('<span class="frak"><span class="at">1</span><span class="bw">3</span></span>' + VR('x') + '<sup>3</sup> − 2' + VR('x') + '<sup>2</sup>', 1, 3) + ' = <b style="color:var(--koral-800)">−' + '<span class="frak"><span class="at">22</span><span class="bw">3</span></span></b>' },
     { cap: 'Luas tidak boleh negatif. <b>Cerminkan</b> daerah ke atas sumbu-x: beri tanda minus di depan integral.', aksi: async (X) => { const b = X.b, f = (x) => GF.pv([0, -4, 1], x), pts = []; for (let i = 0; i <= 60; i++) { const x = 1 + 2 * i / 60; pts.push([x, 0]); } const atas = []; for (let i = 0; i <= 60; i++) { const x = 1 + 2 * i / 60; atas.push([x, -f(x)]); }
-      const p = S('path', { d: atas.map((q, i) => (i ? 'L' : 'M') + b.sx(q[0]).toFixed(1) + ' ' + b.sy(q[1]).toFixed(1)).join('') + 'L' + b.sx(3) + ' ' + b.sy(0) + 'L' + b.sx(1) + ' ' + b.sy(0) + 'Z', fill: '#1B9C8F', 'fill-opacity': .38 }); X.ov.append(p); await X.t.anim(p, [{ opacity: 0, transform: 'translateY(' + (b.sy(-4) - b.sy(0)) + 'px)' }, { opacity: 1, transform: 'none' }], { duration: 1100 }); } },
+      const p = S('path', { d: atas.map((q, i) => (i ? 'L' : 'M') + b.sx(q[0]).toFixed(1) + ' ' + b.sy(q[1]).toFixed(1)).join('') + 'L' + b.sx(3) + ' ' + b.sy(0) + 'L' + b.sx(1) + ' ' + b.sy(0) + 'Z', fill: '#2A5AA7', 'fill-opacity': .38 }); X.ov.append(p); await X.t.anim(p, [{ opacity: 0, transform: 'translateY(' + (b.sy(-4) - b.sy(0)) + 'px)' }, { opacity: 1, transform: 'none' }], { duration: 1100 }); } },
     { cap: 'Jadi untuk daerah di bawah sumbu-x:', rumus: 'L = −' + IG(1, 3) + ' (' + FX([0, -4, 1]) + ') ' + VR('dx') + ' = <b style="color:var(--mint-800)"><span class="frak"><span class="at">22</span><span class="bw">3</span></span></b> satuan luas', jeda: 900 }
   ] });
 
@@ -1261,7 +1465,7 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
   const adPilih = (c) => adAlur(c, { judul: 'Irisan tegak atau datar?', spec: SP_DY, titik: false, langkah: [
     { cap: 'Daerah yang sama, kali ini diiris <b>tegak</b>. Perhatikan batas bawah pita.', aksi: async (X) => { await A.kurva(X); await A.isi(0)(X);
       const b = X.b, tegak = (xv, y1, y2, w) => { const l = S('line', { x1: b.sx(xv), y1: b.sy(y1), x2: b.sx(xv), y2: b.sy(y1), stroke: w, 'stroke-width': 8, 'stroke-linecap': 'round' }); X.ov.append(l); return gerak(800, (k) => l.setAttribute('y2', b.sy(y1 + (y2 - y1) * k)), X.t); };
-      await tegak(-1.5, -Math.sqrt(0.5), Math.sqrt(0.5), '#E08A1E'); await tegak(0.5, 0.5, Math.sqrt(2.5), '#3B6FD6'); await A.garisPutus(-1, 'x', 'x = −1')(X); } },
+      await tegak(-1.5, -Math.sqrt(0.5), Math.sqrt(0.5), '#C9922F'); await tegak(0.5, 0.5, Math.sqrt(2.5), '#5B7FB8'); await A.garisPutus(-1, 'x', 'x = −1')(X); } },
     { cap: 'Di kiri x = −1 pita dibatasi dua cabang parabola, di kanan x = −1 dibatasi garis dan parabola. <b>Batas bawah berganti di tengah</b>: integral harus dipecah dua.', rumus: 'L = ∫<sub>−2</sub><sup>−1</sup> (…) ' + VR('dx') + ' + ∫<sub>−1</sub><sup>2</sup> (…) ' + VR('dx') },
     { cap: 'Kalau diiris <b>datar</b>, batas kiri (parabola) dan batas kanan (garis) tidak pernah berganti: <b>satu integral cukup</b>.', aksi: async (X) => { X.ov.getAnimations().forEach((q) => q.cancel()); X.ov.innerHTML = ''; await A.pita(0, 0.5, 'x kanan', 'x kiri')(X); } },
     { cap: 'Pilih irisan yang <b>batas atas–bawah (atau kanan–kiri)</b> nya tidak berganti sepanjang daerah.', rumus: 'dx → y atas − y bawah&emsp;|&emsp;dy → x kanan − x kiri', jeda: 900 }
@@ -1279,7 +1483,7 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
   const adTujuan = (c) => adDaftar(c, { eyebrow: 'Tujuan hari ini', judul: 'Setelah pelajaran ini, kalian bisa …', isi: ['Membedakan <b>nilai integral tentu</b> (bertanda) dan <b>luas daerah</b> (tidak pernah negatif).', 'Menghitung luas daerah di bawah satu kurva, termasuk yang memotong sumbu-x.', 'Menghitung luas daerah antara dua kurva dengan irisan tegak (dx) dan datar (dy).', 'Memilih dx atau dy yang paling tepat, lalu menjelaskannya kepada temanmu.'] });
 
   /* ======================================================== adegan: mesin integral (luas bertanda dan luas) */
-  const RODA = '<svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="14" fill="none" stroke="#fff" stroke-width="7" stroke-dasharray="5.5 5.5"/><circle cx="20" cy="20" r="11" fill="#fff"/><circle cx="20" cy="20" r="4" fill="#0F766E"/></svg>';
+  const RODA = '<svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="14" fill="none" stroke="#fff" stroke-width="7" stroke-dasharray="5.5 5.5"/><circle cx="20" cy="20" r="11" fill="#fff"/><circle cx="20" cy="20" r="4" fill="#13294B"/></svg>';
   async function adMesinLuas(c, cfg) {
     const { a, t } = c; let sibuk = false, selesai = 0; const sp0 = cfg.spec, U = cfg.u, L = cfg.l; const gc = (p, q) => { p = Math.abs(p); q = Math.abs(q); while (q) { const r = p % q; p = q; q = r; } return p || 1; }, jum = (p, q) => { const n = p.n * q.d + q.n * p.d, d = p.d * q.d, g = gc(n, d); return { n: n / g, d: d / g }; }; const selisih = sp0.k.length ? (() => { const p = kur(sp0, U), q = kur(sp0, L), n = Math.max(p.length, q.length), o = []; for (let i = 0; i < n; i++) o[i] = (p[i] || 0) - (q[i] || 0); return o; })() : [0];
     const w = el('div', { gaya: 'flex:1;display:flex;flex-direction:column;min-height:0' }); a.append(w);
@@ -1295,7 +1499,7 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
       const f = el('div', { kelas: 'terbang', gaya: 'left:' + r1.left + 'px;top:' + r1.top + 'px', html: teks }); document.body.append(f);
       await anim(f, [{ transform: 'translate(0,0) scale(1)', opacity: 1 }, { transform: 'translate(' + (r2.left + r2.width / 2 - r1.left - 40) + 'px,' + (r2.top + r2.height / 2 - r1.top - 14) + 'px) scale(.4)', opacity: .1 }], { duration: 550, easing: 'cubic-bezier(.5,0,.8,.5)' }).catch(() => {}); f.remove(); t.cek();
       lb.classList.remove('sambut'); ms.classList.add('jalan'); const seg = segmen(iv[0], iv[1]), tot = B.hit(selisih, iv[0], iv[1]).nilai, mut = seg.map((z) => ({ n: Math.abs(z.v.n), d: z.v.d })), luasV = mut.reduce((s, z) => jum(s, z), { n: 0, d: 1 }), luasStr = mut.map(B.rT).join(' + ');
-      lh.innerHTML = '∫ ' + teks + ' …'; fit(); await t.tidur(c.instan ? 100 : 900); lh.innerHTML = '∫ = <b style="color:#F3A64B">' + m(B.rT(tot)) + '</b>'; fit(); await t.tidur(c.instan ? 100 : 700); ms.classList.remove('jalan'); t.cek();
+      lh.innerHTML = '∫ ' + teks + ' …'; fit(); await t.tidur(c.instan ? 100 : 900); lh.innerHTML = '∫ = <b style="color:#E0AE4A">' + m(B.rT(tot)) + '</b>'; fit(); await t.tidur(c.instan ? 100 : 700); ms.classList.remove('jalan'); t.cek();
       gambarPlot(iv[0], iv[1]); const g = pl.querySelector('svg'); anim(g, [{ opacity: .3 }, { opacity: 1 }], { duration: 500 });
       const hasilNeg = tot.n < 0; const cp = el('div', { kelas: 'hasil-chip' }, el('b', null, teks), el('span', { kelas: hasilNeg ? 'neg' : 'pos', html: '∫ = ' + m(B.rT(tot)) }), el('span', { kelas: 'luas', html: 'luas = ' + (seg.length > 1 ? luasStr + ' = ' : '') + B.rT(luasV) })); hb.append(cp); await pop(cp); lh.textContent = 'siap'; selesai++; sibuk = false;
       if (selesai >= cfg.masukan.length) { ins.innerHTML = cfg.akhir; ins.style.background = 'var(--mint-100)'; ins.style.color = 'var(--mint-800)'; pop(ins); c.siap(); }
@@ -1313,6 +1517,7 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
   async function adGaleri(c) {
     const { a, t, guru } = c; const lihat = new Set(); let idx = 0; const N = UI.URUT.length;
     const g = el('div', { kelas: 'galeri' }); a.append(g); const daftar = el('div', { kelas: 'daftar gulir' }), isi = el('div', { gaya: 'min-height:0;display:flex;flex-direction:column;gap:.4rem' }); g.append(daftar, isi);
+    daftar.append(el('div', { kelas: 'catatan-galeri', html: '<b>Sebentar lagi kelompok dibentuk.</b> Setiap kelompok menguasai <b>satu</b> sub-materi.' }));
     const tabs = UI.URUT.map((id, i) => { const b = el('button', { kelas: 'tab fx-' + id, type: 'button', html: UI.ubin(id) + '<span>Pos ' + (i + 1) + ' · ' + NAMA[id] + '</span>' + ik('centang', 'kecil').replace('class="ik kecil"', 'class="ik kecil centang"'), onclick: () => tampil(i) }); daftar.append(b); return b; });
     let tt;
     function tampil(i) {
@@ -1341,7 +1546,7 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
     const pos = (i) => { const ang = -Math.PI / 2 + (2 * Math.PI * i) / N; return [cx + R * Math.cos(ang), cy + R * Math.sin(ang)]; };
     const noda = []; UI.URUT.forEach((id, i) => { const [x, y] = pos(i), g = S('g'); g.append(S('circle', { cx: x, cy: y, r: 31, fill: 'var(--f-' + id + '-t)', stroke: 'var(--f-' + id + ')', 'stroke-width': i === 0 ? 6 : 3 }), S('text', { x, y: y + 7, 'font-size': 22, 'font-weight': 800, 'text-anchor': 'middle', fill: 'var(--f-' + id + '-d)' }, String(i + 1))); svg.append(g); noda.push(g); });
     svg.append(S('text', { x: cx, y: cy - 4, 'font-size': 15, 'text-anchor': 'middle', fill: '#55657A', 'font-weight': 700 }, 'Pos 1–7'), S('text', { x: cx, y: cy + 16, 'font-size': 13, 'text-anchor': 'middle', fill: '#55657A' }, 'satu pos tiap kelompok'));
-    const tokA = S('g'), tokB = S('g'); tokA.append(S('circle', { r: 17, fill: '#3B6FD6', stroke: '#fff', 'stroke-width': 3 }), S('text', { y: 6, 'font-size': 17, 'font-weight': 800, 'text-anchor': 'middle', fill: '#fff' }, 'A')); tokB.append(S('circle', { r: 17, fill: '#E08A1E', stroke: '#fff', 'stroke-width': 3 }), S('text', { y: 6, 'font-size': 17, 'font-weight': 800, 'text-anchor': 'middle', fill: '#fff' }, 'B'));
+    const tokA = S('g'), tokB = S('g'); tokA.append(S('circle', { r: 17, fill: '#5B7FB8', stroke: '#fff', 'stroke-width': 3 }), S('text', { y: 6, 'font-size': 17, 'font-weight': 800, 'text-anchor': 'middle', fill: '#fff' }, 'A')); tokB.append(S('circle', { r: 17, fill: '#C9922F', stroke: '#fff', 'stroke-width': 3 }), S('text', { y: 6, 'font-size': 17, 'font-weight': 800, 'text-anchor': 'middle', fill: '#fff' }, 'B'));
     const taruh = (tok, i, off) => { const [x, y] = pos(i); tok.setAttribute('transform', 'translate(' + (x + off) + ' ' + (y - 40) + ')'); };
     taruh(tokA, 0, -14); taruh(tokB, 0, 16); svg.append(tokA, tokB); await muncul(w, 420); t.cek();
     const cp = kanan.querySelector('#cp'); const gerakTok = async (tok, dari, ke, off) => { const [x1, y1] = pos(dari), [x2, y2] = pos(ke); await gerak(900, (k) => { tok.setAttribute('transform', 'translate(' + (x1 + (x2 - x1) * k + off) + ' ' + (y1 + (y2 - y1) * k - 40) + ')'); }, t); };
@@ -1351,7 +1556,7 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
   }
 
   /* ======================================================== daftar adegan */
-  const ADEGAN = [
+  const ADEGAN_LAMA = [
     { judul: 'Selamat datang', f: adJudul },
     { judul: 'Mesin integral: luas bertanda', f: adMesin1 },
     { judul: 'Di bawah sumbu-x', f: adBawah },
@@ -1368,7 +1573,7 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
 
   /* ======================================================== pemutar */
   function mount(host, o) {
-    o = o || {}; const guru = !!o.guru; let idx = o.mulai || 0, tok = null, siap = false; const played = new Set(o.played || []); try { UI.speed = [1, 2, 3].includes(+localStorage.getItem('ac_speed')) ? +localStorage.getItem('ac_speed') : 1; } catch (e) { UI.speed = 1; }
+    o = o || {}; const ADEGAN = (B.cfg().materi === 'kurva2' && root.Intro.k2) ? root.Intro.k2() : ADEGAN_LAMA; const guru = !!o.guru; let idx = o.mulai || 0, tok = null, siap = false; const played = new Set(o.played || []); try { UI.speed = [1, 2, 3].includes(+localStorage.getItem('ac_speed')) ? +localStorage.getItem('ac_speed') : 1; } catch (e) { UI.speed = 1; }
     host.innerHTML = '';
     const root0 = el('div', { kelas: 'intro' }), kepala = el('div', { kelas: 'kepala-intro' }), adegan = el('div', { kelas: 'adegan' }), kendali = el('div', { kelas: 'kendali' });
     const judul = el('h2'), no = el('span', { kelas: 'chip' }); kepala.append(judul, no, el('div', { gaya: 'flex:1' }), el('span', { id: 'infoGaleri', kelas: 'chip abu', hidden: true }));
@@ -1394,7 +1599,186 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
     ke(idx);
     return { ke, jumlah: ADEGAN.length, stop() { if (tok) tok.stop(); document.removeEventListener('keydown', tombol); }, idx: () => idx };
   }
-  root.Intro = { mount, JUMLAH: ADEGAN.length };
+  root.Intro = { mount, JUMLAH: ADEGAN_LAMA.length, h: { muncul, pop, gerak, adDaftar, adGaleri, pesta } };
+})(window);
+
+;
+/* Pengantar kelas XII-A/B/C (materi: luas daerah di antara dua kurva). Sembilan slide bergaya motion graphic:
+   judul → ingat kembali (integral tentu sederhana: soal → grafik → arsiran → hitung) → "bagaimana jika ada 2 fungsi?" →
+   contoh dua kurva → mencari titik potong (persamaan "bergeser" antarbaris) → luas dan hitungannya → tujuh sub-materi → tujuan → bersiap tes.
+   Dipakai sama persis oleh tablet murid dan layar guru. Memakai helper Intro.h dari intro.js. */
+(function (root) {
+  'use strict';
+  const { el, ik, anim, esc } = UI, { S } = GF, B = BS, H = Intro.h, { muncul, pop, gerak } = H;
+  const VR = (s) => '<i>' + s + '</i>', IG = B.igH, EV = B.evH;
+  const fr = (n, d) => '<span class="frak"><span class="at">' + n + '</span><span class="bw">' + d + '</span></span>';
+  const NAVY = '#13294B', MERAH = '#B3232D', EMAS = '#C9922F', BIRU = '#2A5AA7';
+  const ease = (k) => k * k * (3 - 2 * k);
+  let idKlip = 0;
+
+  /* ---------------------------------------------------------------- papan: bidang Kartesius yang bisa digambar bertahap */
+  function papan(host, v, o) {
+    o = o || {}; const b = GF.bidang(Object.assign({ W: o.W || 720, H: o.H || 470, label: o.label || 'Grafik' }, v)); host.append(b.svg);
+    const id = 'kl' + (++idKlip), defs = S('defs', null, S('clipPath', { id }, S('rect', { x: b.m.l, y: b.m.t, width: b.pw, height: b.ph })));
+    b.svg.insertBefore(defs, b.svg.firstChild); ['isi', 'kurva', 'putus'].forEach((n) => b.lapis[n].setAttribute('clip-path', 'url(#' + id + ')'));
+    const N = 260, pv = GF.pv;
+    const d = (p, x0, x1) => { let s = '', on = false; for (let i = 0; i <= N; i++) { const x = x0 + (x1 - x0) * i / N, y = pv(p, x); if (!isFinite(y) || y < v.ymin - .6 || y > v.ymax + .6) { on = false; continue; } s += (on ? 'L' : 'M') + b.sx(x).toFixed(1) + ' ' + b.sy(y).toFixed(1); on = true; } return s; };
+    const P = {
+      b, svg: b.svg, d,
+      /* kondisi awal: sumbu dan kisi disembunyikan lalu "digambar" oleh sumbu() */
+      sembunyiSumbu() { b.lapis.grid.style.opacity = 0; b.lapis.label.style.opacity = 0; const ax = b.ax, ay = b.ay; P._ax = ['x1', 'y1', 'x2', 'y2'].map((k) => +ax.getAttribute(k)); P._ay = ['x1', 'y1', 'x2', 'y2'].map((k) => +ay.getAttribute(k)); ax.setAttribute('x2', P._ax[0]); ay.setAttribute('y2', P._ay[3]); ay.setAttribute('y1', P._ay[3]); },
+      async sumbu(t, ms) { const a = P._ax, c = P._ay; await Promise.all([GF.tumbuh(b.ax, a[0], a[1], a[2], a[3], ms || 900, t), GF.tumbuh(b.ay, c[0], c[3], c[2], c[1], ms || 900, t), anim(b.lapis.grid, [{ opacity: 0 }, { opacity: 1 }], { duration: ms || 900 }), anim(b.lapis.label, [{ opacity: 0 }, { opacity: 1 }], { duration: ms || 900, delay: 250 })]); t.cek(); },
+      kurva(p, warna, tebal) { const e = S('path', { d: d(p, v.xmin, v.xmax), fill: 'none', stroke: warna, 'stroke-width': tebal || 5, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', pathLength: 1, 'stroke-dasharray': 1, 'stroke-dashoffset': 1 }); b.lapis.kurva.append(e); e._p = p; return e; },
+      async gambar(e, ms, t) { await anim(e, [{ strokeDashoffset: 1 }, { strokeDashoffset: 0 }], { duration: ms || 1400, easing: 'cubic-bezier(.45,.05,.25,1)' }); t && t.cek(); },
+      selesaiKurva(e) { e.style.strokeDashoffset = 0; e.setAttribute('stroke-dashoffset', 0); },
+      /* morf: koefisien polinom berubah mulus dari p0 ke p1 (kurva "berubah wujud") */
+      async morf(e, p1, ms, t) { const p0 = e._p, n = Math.max(p0.length, p1.length); await gerak(ms, (k) => { const q = []; for (let i = 0; i < n; i++) q[i] = (p0[i] || 0) + ((p1[i] || 0) - (p0[i] || 0)) * ease(k); e.setAttribute('d', d(q, v.xmin, v.xmax)); }, t); e._p = p1; },
+      isi(U, L, a, bb, w) { const p = S('path', { fill: b.pola(w || 0), stroke: 'none' }); b.lapis.isi.append(p); const bangun = (tt) => { if (tt <= .001) { p.setAttribute('d', ''); return; } const e = a + (bb - a) * tt, M = 80, at = [], bw = []; for (let i = 0; i <= M; i++) { const s = a + (e - a) * i / M; at.push([s, pv(U, s)]); bw.push([s, pv(L, s)]); } p.setAttribute('d', at.concat(bw.reverse()).map((q, i) => (i ? 'L' : 'M') + b.sx(q[0]).toFixed(1) + ' ' + b.sy(q[1]).toFixed(1)).join('') + 'Z'); }; bangun(0); return { p, bangun }; },
+      teks(x, y, txt, w) { w = w || {}; const t = S('text', { x: b.sx(x) + (w.dx || 0), y: b.sy(y) + (w.dy || 0), 'font-size': w.ukuran || 19, 'font-weight': 800, fill: w.warna || NAVY, 'text-anchor': w.anchor || 'start', 'paint-order': 'stroke', stroke: '#fff', 'stroke-width': 5, opacity: 0 }, txt); b.lapis.atas.append(t); return t; },
+      tegak(x, y1, y2, warna, t) { const l = S('line', { x1: b.sx(x), x2: b.sx(x), y1: b.sy(y1), y2: b.sy(y1), stroke: warna || MERAH, 'stroke-width': 3.2, 'stroke-dasharray': '8 6', 'stroke-linecap': 'round' }); b.lapis.putus.append(l); return GF.tumbuh(l, b.sx(x), b.sy(y1), b.sx(x), b.sy(y2), 800, t); },
+      titik(x, y, o2) { const g = b.titik(x, y, Object.assign({ r: 8, warna: NAVY }, o2 || {})); g.setAttribute('opacity', 0); return g; },
+      async nyala(g) { g.setAttribute('opacity', 1); await pop(g); },
+      cincin(x, y, warna) { const c = S('circle', { cx: b.sx(x), cy: b.sy(y), r: 10, fill: 'none', stroke: warna || EMAS, 'stroke-width': 3 }); c.style.transformBox = 'fill-box'; c.style.transformOrigin = 'center'; b.lapis.atas.append(c); c.animate([{ opacity: .95, transform: 'scale(1)' }, { opacity: 0, transform: 'scale(3)' }], { duration: 1300, iterations: Infinity }); return c; }
+    };
+    return P;
+  }
+  const lihatSatu = { xmin: -1, xmax: 3, ymin: -1, ymax: 5, xt: [-1, 0, 1, 2, 3], yt: [0, 1, 2, 3, 4, 5] };
+  const lihatDua = { xmin: -2.5, xmax: 3.5, ymin: -1, ymax: 6.5, xt: [-2, -1, 0, 1, 2, 3], yt: [0, 1, 2, 3, 4, 5, 6] };
+  const F1 = [0, 0, 1], F2 = [2, 1, 0];   // y = x²  dan  y = x + 2  (titik potong x = −1 dan x = 2; luas 9/2)
+
+  /* ---------------------------------------------------------------- tata letak dan baris penjelasan */
+  const tata = (c) => { const w = el('div', { kelas: 'alur' }), kiri = el('div', { kelas: 'kartu alur-grafik' }), kanan = el('div', { kelas: 'alur-teks gulir' }); w.append(kiri, kanan); c.a.append(w); return { w, kiri, kanan }; };
+  const baris = (kanan, cap, rumus, kls) => { const r = el('div', { kelas: 'alur-baris' + (kls ? ' ' + kls : '') }); r.innerHTML = '<div class="cap">' + cap + '</div>' + (rumus ? '<div class="rumus-blok">' + rumus + '</div>' : ''); kanan.append(r); return r; };
+  const turun = (kanan) => { kanan.scrollTo({ top: kanan.scrollHeight, behavior: 'smooth' }); };
+  const kedip = (e, n) => anim(e, [{ opacity: 1 }, { opacity: .35 }, { opacity: 1 }], { duration: 800, iterations: n || 2 });
+  const sorotBaris = (r) => anim(r, [{ boxShadow: '0 0 0 0 rgba(224,174,74,0)' }, { boxShadow: '0 0 0 .5rem rgba(224,174,74,.55)', offset: .4 }, { boxShadow: '0 0 0 0 rgba(224,174,74,0)' }], { duration: 1100 });
+  const kolomKiriMasuk = (kiri) => anim(kiri, [{ opacity: 0, transform: 'translateX(-2rem)' }, { opacity: 1, transform: 'none' }], { duration: 600 });
+
+  /* ---------------------------------------------------------------- 1. judul materi */
+  async function adJudul(c) {
+    const { a, t } = c, prog = B.cfg(B.kelasAktif()).program, w = el('div', { kelas: 'judul-slide' }); a.append(w);
+    w.innerHTML = '<div class="js-bg"></div><div class="js-isi"><div class="js-eyebrow"><i></i>Matematika Tingkat Lanjut · ' + esc(B.cfg(B.kelasAktif()).nama) + '</div><h1 class="js-judul"><span class="kata">Luas</span> <span class="kata">Daerah</span><br><span class="kata kecil">di</span> <span class="kata">Antara</span> <span class="kata em">Dua&nbsp;Kurva</span></h1><p class="js-sub">Integral tentu untuk menghitung luas daerah yang dibatasi dua kurva, beserta semua variasinya.</p><div class="js-chip"><span>Integral tentu</span><span>Titik potong</span><span>Atas − bawah</span><span>Kanan − kiri</span></div></div><div class="js-seni" aria-hidden="true">' + UI.heroSVG() + '</div>';
+    void prog; const kata = [...w.querySelectorAll('.kata')]; kata.forEach((k) => { k.style.opacity = 0; });
+    await muncul(w, 500); t.cek();
+    for (const k of kata) { anim(k, [{ opacity: 0, transform: 'translateY(1.2rem)', filter: 'blur(.4rem)' }, { opacity: 1, transform: 'none', filter: 'blur(0)' }], { duration: 650 }); await t.tidur(190); }
+    await t.tidur(900); const kp = [...w.querySelectorAll('.js-chip span')]; for (const k of kp) { anim(k, [{ opacity: 0, transform: 'scale(.7)' }, { opacity: 1, transform: 'none' }], { duration: 420, easing: 'cubic-bezier(.34,1.56,.64,1)' }); await t.tidur(160); }
+    await t.tidur(800); c.siap();
+  }
+
+  /* ---------------------------------------------------------------- 2. yuk, ingat kembali: soal → grafik → arsiran → hitung */
+  async function adIngat(c) {
+    const { a, t } = c, { w, kiri, kanan } = tata(c); w.style.opacity = 0;
+    const soal = el('div', { kelas: 'soal-besar kartu' }); soal.innerHTML = '<div class="eyebrow">Yuk, ingat kembali</div><div class="sb-teks">Hitunglah&ensp;' + IG(0, 2) + ' (4 − ' + VR('x') + '<sup>2</sup>) ' + VR('dx') + '</div><div class="muted sb-ket">Satu soal integral tentu yang sederhana.</div>'; a.append(soal);
+    await muncul(soal, 700); await t.tidur(1500);
+    /* tahap 2: soal "menyusut" ke kolom kanan, grafik muncul di kiri */
+    const r1 = baris(kanan, 'Soal', IG(0, 2) + ' (4 − ' + VR('x') + '<sup>2</sup>) ' + VR('dx')); r1.style.opacity = 0; w.style.opacity = 1; await t.tidur(60);
+    const A = soal.getBoundingClientRect(), Bx = r1.getBoundingClientRect();
+    const geser = anim(soal, [{ transform: 'none', opacity: 1 }, { transform: 'translate(' + (Bx.left - A.left + (Bx.width - A.width) / 2) + 'px,' + (Bx.top - A.top + (Bx.height - A.height) / 2) + 'px) scale(' + Math.min(1, Bx.width / A.width) + ',' + Math.min(1, Bx.height / A.height) + ')', opacity: .0 }], { duration: 900, easing: 'cubic-bezier(.6,0,.2,1)' });
+    anim(r1, [{ opacity: 0 }, { opacity: 1 }], { duration: 700, delay: 500 }); await geser; soal.remove(); t.cek();
+    const p = papan(kiri, lihatSatu, { label: 'Grafik y = 4 − x²' }); p.sembunyiSumbu(); await kolomKiriMasuk(kiri); await p.sumbu(t, 1000);
+    const r2 = baris(kanan, 'Gambar grafik fungsi <i>f</i>(<i>x</i>) = 4 − <i>x</i><sup>2</sup>'); await muncul(r2, 400); const k = p.kurva([4, 0, -1], NAVY, 5.5); await p.gambar(k, 1600, t);
+    const lab = p.teks(0.45, 4.35, 'y = 4 − x²', { warna: NAVY }); await anim(lab, [{ opacity: 0 }, { opacity: 1 }], { duration: 500 }); await t.tidur(500); turun(kanan);
+    const r3 = baris(kanan, 'Batas integral: <i>x</i> = 0 sampai <i>x</i> = 2'); await muncul(r3, 400);
+    await p.tegak(0, 0, 4, MERAH, t); const tg1 = p.titik(0, 4, { teks: true }), tg2 = p.titik(2, 0, { teks: true }); await p.nyala(tg1); await p.nyala(tg2);
+    const l0 = p.teks(0, 0, 'x = 0', { dx: 8, dy: 26, warna: '#7E1820' }), l2 = p.teks(2, 0, 'x = 2', { dx: 8, dy: 26, warna: '#7E1820' }); await Promise.all([anim(l0, [{ opacity: 0 }, { opacity: 1 }], { duration: 400 }), anim(l2, [{ opacity: 0 }, { opacity: 1 }], { duration: 400 })]); await t.tidur(500); turun(kanan);
+    const r4 = baris(kanan, 'Daerah yang <b>diarsir</b> di bawah kurva dan di atas sumbu-<i>x</i> itulah yang kita ukur: nilai integral tentu = luas daerah.'); await muncul(r4, 400);
+    const isi = p.isi(k._p, [0], 0, 2, 0); await GF.tumbuhIsi(isi, 1800, t); await kedip(isi.p, 2); await sorotBaris(r4); await t.tidur(500); turun(kanan);
+    const r5 = baris(kanan, 'Cari antiturunan, lalu substitusi batas:', 'F(' + VR('x') + ') = 4' + VR('x') + ' − ' + fr(VR('x') + '<sup>3</sup>', 3) + '<br>' + EV('4' + VR('x') + ' − ' + fr(VR('x') + '<sup>3</sup>', 3), 0, 2) + ' = (8 − ' + fr(8, 3) + ') − 0'); await muncul(r5, 500); await t.tidur(1400); turun(kanan);
+    const r6 = baris(kanan, 'Hasilnya', '= ' + fr(16, 3) + ' &nbsp;satuan luas', 'hasil'); await pop(r6); const lh = p.teks(0.4, 1.5, 'L = 16/3', { warna: '#7A5A1A', ukuran: 24 }); await anim(lh, [{ opacity: 0 }, { opacity: 1 }], { duration: 500 }); pesta(r6); await t.tidur(900); c.siap();
+  }
+  function pesta(e) { const r = e.getBoundingClientRect(); H.pesta(r.left + r.width / 2, r.top); }
+
+  /* ---------------------------------------------------------------- 3. bagaimana jika ada 2 fungsi? */
+  async function adDuaFungsi(c) {
+    const { a, t } = c, w = el('div', { kelas: 'dua-fungsi' }); a.append(w);
+    const q = el('div', { kelas: 'tanya-besar' }), kartu = el('div', { kelas: 'kartu df-grafik' }); w.append(q, kartu);
+    const setQ = async (txt, em) => { const kata = txt.split(' '); q.innerHTML = kata.map((k, i) => '<span class="kata' + (em && em.includes(i) ? ' em' : '') + '" style="opacity:0">' + k + '</span>').join(' '); for (const s of q.querySelectorAll('.kata')) { anim(s, [{ opacity: 0, transform: 'translateY(.9rem)' }, { opacity: 1, transform: 'none' }], { duration: 520 }); await t.tidur(120); } };
+    await muncul(w, 400); await setQ('Bagaimana jika ada 2 fungsi?', [4, 5]); await t.tidur(500);
+    const p = papan(kartu, lihatDua, { W: 900, H: 400, label: 'Dua kurva' }); p.sembunyiSumbu(); await anim(kartu, [{ opacity: 0, transform: 'translateY(1.5rem)' }, { opacity: 1, transform: 'none' }], { duration: 600 }); await p.sumbu(t, 900);
+    const k1 = p.kurva(F1, NAVY, 5.5); await p.gambar(k1, 1500, t); const l1 = p.teks(2.5, 6.15, 'f(x)', { warna: NAVY, ukuran: 22 }); await anim(l1, [{ opacity: 0 }, { opacity: 1 }], { duration: 400 }); await t.tidur(400);
+    /* kurva kedua "lahir" dari kurva pertama lalu berubah wujud (morf) */
+    const k2 = p.kurva(F1, MERAH, 5.5); k2.style.strokeDashoffset = 0; k2.setAttribute('stroke-dashoffset', 0); await anim(k2, [{ opacity: 0 }, { opacity: 1 }], { duration: 400 }); await p.morf(k2, [0, 0, -.5], 700, t); await p.morf(k2, F2, 1700, t);
+    const l2 = p.teks(2.5, 3.95, 'g(x)', { warna: MERAH, ukuran: 22 }); await anim(l2, [{ opacity: 0 }, { opacity: 1 }], { duration: 400 }); await t.tidur(900);
+    await Promise.all([...q.querySelectorAll('.kata')].map((s) => anim(s, [{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(-.9rem)' }], { duration: 420 }))); await setQ('Bagaimana menghitung luas di antara 2 kurva?', [4, 5, 6, 7]);
+    const isi = p.isi(F2, F1, -1, 2, 0); await GF.tumbuhIsi(isi, 1900, t); const tanda = p.teks(0.5, 1.2, '?', { warna: '#7A5A1A', ukuran: 54, anchor: 'middle' }); await anim(tanda, [{ opacity: 0, transform: 'scale(.3)' }, { opacity: 1, transform: 'none' }], { duration: 600, easing: 'cubic-bezier(.34,1.56,.64,1)' }); await kedip(isi.p, 2); await t.tidur(700); c.siap();
+  }
+
+  /* ---------------------------------------------------------------- 4. contoh: dua kurva di bidang Kartesius */
+  async function adKartesius(c) {
+    const { t } = c, { kiri, kanan } = tata(c); const p = papan(kiri, lihatDua, { label: 'Kurva y = x² dan y = x + 2' }); p.sembunyiSumbu(); await kolomKiriMasuk(kiri); await p.sumbu(t, 1100);
+    const r0 = baris(kanan, 'Perhatikan bidang Kartesius ini. Kita akan menggambar dua kurva.'); await muncul(r0, 450); await t.tidur(500);
+    const r1 = baris(kanan, '<b>Kurva pertama</b>', '<span class="sw" style="background:' + NAVY + '"></span>' + VR('y') + ' = ' + VR('x') + '<sup>2</sup>&ensp;<span class="muted kecil">(parabola)</span>'); await muncul(r1, 450); const k1 = p.kurva(F1, NAVY, 5.5); await p.gambar(k1, 1700, t); const l1 = p.teks(2.5, 6.15, 'y = x²', { warna: NAVY, ukuran: 21 }); await anim(l1, [{ opacity: 0 }, { opacity: 1 }], { duration: 450 }); await t.tidur(600); turun(kanan);
+    const r2 = baris(kanan, '<b>Kurva kedua</b>', '<span class="sw" style="background:' + MERAH + '"></span>' + VR('y') + ' = ' + VR('x') + ' + 2&ensp;<span class="muted kecil">(garis lurus)</span>'); await muncul(r2, 450); const k2 = p.kurva(F2, MERAH, 5.5); await p.gambar(k2, 1700, t); const l2 = p.teks(2.4, 3.95, 'y = x + 2', { warna: MERAH, ukuran: 21 }); await anim(l2, [{ opacity: 0 }, { opacity: 1 }], { duration: 450 }); await t.tidur(700); turun(kanan);
+    const r3 = baris(kanan, 'Kedua kurva <b>berpotongan</b>. Di mana titik pertemuannya? Titik itu akan menjadi <b>batas integral</b>.'); await muncul(r3, 450);
+    const c1 = p.cincin(-1, 1, EMAS), c2 = p.cincin(2, 4, EMAS); const q1 = p.teks(-1, 1, '?', { warna: '#7A5A1A', ukuran: 34, dx: -30, dy: -10 }), q2 = p.teks(2, 4, '?', { warna: '#7A5A1A', ukuran: 34, dx: 14, dy: 36 }); await Promise.all([anim(q1, [{ opacity: 0 }, { opacity: 1 }], { duration: 500 }), anim(q2, [{ opacity: 0 }, { opacity: 1 }], { duration: 500 })]); await sorotBaris(r3); await t.tidur(1400); void c1; void c2; c.siap();
+  }
+
+  /* ---------------------------------------------------------------- persamaan "bergeser" antarbaris (magic move) */
+  const tokenBaris = (tokens) => { const d = el('div', { kelas: 'mm-baris' }); tokens.forEach(([id, h]) => d.append(el('span', { kelas: 'mm-t', 'data-id': id, html: h }))); return d; };
+  async function geserDari(prev, next, t) {
+    const lama = {}; if (prev) prev.querySelectorAll('.mm-t').forEach((e) => { lama[e.dataset.id] = e.getBoundingClientRect(); }); const jobs = [];
+    next.querySelectorAll('.mm-t').forEach((e, i) => { const r = e.getBoundingClientRect(), o = lama[e.dataset.id]; if (o) jobs.push(anim(e, [{ transform: 'translate(' + (o.left - r.left) + 'px,' + (o.top - r.top) + 'px)', color: EMAS }, { transform: 'none', color: 'inherit' }], { duration: 1000, easing: 'cubic-bezier(.6,0,.2,1)' })); else jobs.push(anim(e, [{ opacity: 0, transform: 'translateY(.7rem)' }, { opacity: 1, transform: 'none' }], { duration: 600, delay: 450 + i * 90 })); });
+    await Promise.all(jobs); t.cek();
+  }
+
+  /* ---------------------------------------------------------------- 5. mencari titik potong */
+  async function adTitikPotong(c) {
+    const { t } = c, { kiri, kanan } = tata(c); const p = papan(kiri, lihatDua, { label: 'Mencari titik potong' }); const k1 = p.kurva(F1, NAVY, 5.5), k2 = p.kurva(F2, MERAH, 5.5); p.selesaiKurva(k1); p.selesaiKurva(k2);
+    const l1 = p.teks(2.5, 6.15, 'y = x²', { warna: NAVY, ukuran: 21 }), l2 = p.teks(2.4, 3.95, 'y = x + 2', { warna: MERAH, ukuran: 21 }); l1.setAttribute('opacity', 1); l2.setAttribute('opacity', 1); await kolomKiriMasuk(kiri);
+    const mulaiBaris = async (cap, tokens) => { const r = baris(kanan, cap, ''), q = tokenBaris(tokens); r.querySelector('.rumus-blok') || r.append(el('div', { kelas: 'rumus-blok' })); r.querySelector('.rumus-blok').append(q); r.style.opacity = 0; turun(kanan); await anim(r, [{ opacity: 0 }, { opacity: 1 }], { duration: 350 }); return { r, q }; };
+    let b1 = await mulaiBaris('Di titik potong, kedua kurva punya nilai <i>y</i> yang sama. Samakan kedua fungsinya:', [['A', VR('x') + '<sup>2</sup>'], ['E', '='], ['P', VR('x')], ['Q', '+ 2']]);
+    const c1 = p.cincin(-1, 1, EMAS), c2 = p.cincin(2, 4, EMAS); await t.tidur(1500);
+    const b2 = await mulaiBaris('Pindahkan semua suku ke ruas kiri (tanda berubah):', [['A', VR('x') + '<sup>2</sup>'], ['P', '− ' + VR('x')], ['Q', '− 2'], ['E', '='], ['Z', '0']]); await geserDari(b1.q, b2.q, t); await t.tidur(900);
+    const b3 = await mulaiBaris('Faktorkan:', [['F1', '(' + VR('x') + ' + 1)'], ['F2', '(' + VR('x') + ' − 2)'], ['E', '='], ['Z', '0']]); await geserDari(b2.q, b3.q, t); await t.tidur(900);
+    const b4 = await mulaiBaris('Salah satu faktor harus nol:', [['X1', VR('x') + ' = −1'], ['O', '&ensp;atau&ensp;'], ['X2', VR('x') + ' = 2']]); await geserDari(b3.q, b4.q, t); await t.tidur(500);
+    await Promise.all([p.tegak(-1, 0, 1, MERAH, t), p.tegak(2, 0, 4, MERAH, t)]); const lx1 = p.teks(-1, 0, 'x = −1', { dx: -4, dy: 28, warna: '#7E1820', anchor: 'middle' }), lx2 = p.teks(2, 0, 'x = 2', { dx: 6, dy: 28, warna: '#7E1820', anchor: 'middle' }); await Promise.all([anim(lx1, [{ opacity: 0 }, { opacity: 1 }], { duration: 400 }), anim(lx2, [{ opacity: 0 }, { opacity: 1 }], { duration: 400 })]); await t.tidur(700);
+    const r5 = baris(kanan, 'Cari nilai <i>y</i>: substitusikan ke <i>y</i> = <i>x</i><sup>2</sup>', VR('x') + ' = −1 → ' + VR('y') + ' = (−1)<sup>2</sup> = 1<br>' + VR('x') + ' = 2 → ' + VR('y') + ' = 2<sup>2</sup> = 4'); await muncul(r5, 450); turun(kanan);
+    const g1 = p.titik(-1, 1, { teks: true }), g2 = p.titik(2, 4, { teks: true }); await p.nyala(g1); await t.tidur(300); await p.nyala(g2); c1.remove(); c2.remove();
+    const r6 = baris(kanan, 'Jadi kedua kurva berpotongan di <b>(−1, 1)</b> dan <b>(2, 4)</b>.', '', 'hasil'); await pop(r6); turun(kanan); await t.tidur(900); c.siap();
+  }
+
+  /* ---------------------------------------------------------------- 6. menghitung luas */
+  async function adLuas(c) {
+    const { t } = c, { kiri, kanan } = tata(c); const p = papan(kiri, lihatDua, { label: 'Luas daerah di antara y = x + 2 dan y = x²' }); const k1 = p.kurva(F1, NAVY, 5.5), k2 = p.kurva(F2, MERAH, 5.5); p.selesaiKurva(k1); p.selesaiKurva(k2);
+    [p.teks(2.5, 6.15, 'y = x²', { warna: NAVY, ukuran: 21 }), p.teks(2.4, 3.95, 'y = x + 2', { warna: MERAH, ukuran: 21 })].forEach((x) => x.setAttribute('opacity', 1));
+    [[-1, 1], [2, 4]].forEach(([x, y]) => { const g = p.titik(x, y, { teks: true }); g.setAttribute('opacity', 1); });
+    [-1, 2].forEach((x, i) => { const l = S('line', { x1: p.b.sx(x), x2: p.b.sx(x), y1: p.b.sy(0), y2: p.b.sy(i ? 4 : 1), stroke: MERAH, 'stroke-width': 3.2, 'stroke-dasharray': '8 6' }); p.b.lapis.putus.append(l); });
+    await kolomKiriMasuk(kiri);
+    const r1 = baris(kanan, 'Pada −1 ≤ <i>x</i> ≤ 2, kurva mana yang <b>di atas</b>? Garis <i>y</i> = <i>x</i> + 2. Yang <b>di bawah</b>: parabola <i>y</i> = <i>x</i><sup>2</sup>.'); await muncul(r1, 450);
+    /* pita tipis: tinggi = atas − bawah */
+    const x0 = 0.5, up = p.b.sy(x0 + 2), lo = p.b.sy(x0 * x0), px = p.b.sx(x0), gar = S('line', { x1: px, x2: px, y1: lo, y2: lo, stroke: EMAS, 'stroke-width': 9, 'stroke-linecap': 'round' }); p.b.lapis.atas.append(gar);
+    await gerak(1100, (k) => { gar.setAttribute('y2', lo + (up - lo) * ease(k)); }, t); const lab = p.teks(x0, 2.9, 'atas − bawah', { warna: '#7A5A1A', ukuran: 20, dx: 14, dy: 4 }); await anim(lab, [{ opacity: 0 }, { opacity: 1 }], { duration: 450 }); await t.tidur(800); lab.remove(); gar.remove();
+    const r2 = baris(kanan, 'Luas = integral dari <b>(atas − bawah)</b> dengan batas titik potong:', 'L = ' + IG(-1, 2) + ' ((' + VR('x') + ' + 2) − ' + VR('x') + '<sup>2</sup>) ' + VR('dx') + '<br>&ensp;= ' + IG(-1, 2) + ' (−' + VR('x') + '<sup>2</sup> + ' + VR('x') + ' + 2) ' + VR('dx')); await muncul(r2, 450); turun(kanan);
+    const isi = p.isi(F2, F1, -1, 2, 0); await GF.tumbuhIsi(isi, 2000, t); await kedip(isi.p, 2); await t.tidur(500);
+    const r3 = baris(kanan, 'Antiturunan lalu substitusi batas:', 'F(' + VR('x') + ') = −' + fr(VR('x') + '<sup>3</sup>', 3) + ' + ' + fr(VR('x') + '<sup>2</sup>', 2) + ' + 2' + VR('x') + '<br>F(2) = −' + fr(8, 3) + ' + 2 + 4 = ' + fr(10, 3) + '<br>F(−1) = ' + fr(1, 3) + ' + ' + fr(1, 2) + ' − 2 = −' + fr(7, 6)); await muncul(r3, 500); turun(kanan); await t.tidur(1800);
+    const r4 = baris(kanan, 'Luas daerah', 'L = F(2) − F(−1) = ' + fr(10, 3) + ' + ' + fr(7, 6) + ' = ' + fr(27, 6) + ' = ' + fr(9, 2) + ' = 4,5 &nbsp;satuan luas', 'hasil'); await pop(r4); turun(kanan); const lh = p.teks(0.5, 1.7, 'L = 9/2', { warna: '#7A5A1A', ukuran: 24, anchor: 'middle' }); await anim(lh, [{ opacity: 0 }, { opacity: 1 }], { duration: 500 }); pesta(r4); await t.tidur(800); c.siap();
+  }
+
+  /* ---------------------------------------------------------------- 9. bersiap tes diagnostik */
+  async function adBersiap(c) {
+    const { a, t } = c, w = el('div', { kelas: 'bersiap' }); a.append(w);
+    w.innerHTML = '<div class="bs-jam"><svg viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="86" class="bs-cincin"/><circle cx="100" cy="100" r="86" class="bs-arc" pathLength="1"/><g class="bs-tanda"></g><line x1="100" y1="100" x2="100" y2="38" class="bs-jarum"/><circle cx="100" cy="100" r="7" class="bs-pusat"/></svg></div><div class="bs-isi"><div class="js-eyebrow"><i></i>Tahap berikutnya</div><h1 class="bs-judul">Bersiap untuk<br><span class="em">tes diagnostik awal</span></h1><div class="bs-info"></div><p class="bs-catatan">Ini bukan nilai rapor. Tujuannya mengetahui titik awalmu supaya kelompok belajar bisa seimbang.</p></div>';
+    const tanda = w.querySelector('.bs-tanda'); for (let i = 0; i < 12; i++) { const ang = i * 30 * Math.PI / 180; tanda.append(S('line', { x1: 100 + 74 * Math.sin(ang), y1: 100 - 74 * Math.cos(ang), x2: 100 + 82 * Math.sin(ang), y2: 100 - 82 * Math.cos(ang), class: 'bs-garis' })); }
+    const info = w.querySelector('.bs-info'), sel = [['5', 'soal'], ['PG', 'pilihan ganda'], [String(Math.round(B.cfg(B.kelasAktif()).durasi / 60)), 'menit'], ['≠', 'soal tiap siswa berbeda']];
+    sel.forEach(([b, k]) => info.append(el('div', { kelas: 'bs-kartu', gaya: 'opacity:0', html: '<b>' + b + '</b><span>' + k + '</span>' })));
+    await muncul(w, 500); t.cek(); const jarum = w.querySelector('.bs-jarum'), arc = w.querySelector('.bs-arc'); jarum.style.transformOrigin = '100px 100px';
+    for (const k of info.children) { anim(k, [{ opacity: 0, transform: 'translateY(1rem) scale(.9)' }, { opacity: 1, transform: 'none' }], { duration: 520, easing: 'cubic-bezier(.34,1.56,.64,1)' }); await t.tidur(320); }
+    anim(jarum, [{ transform: 'rotate(0deg)' }, { transform: 'rotate(360deg)' }], { duration: 2600, easing: 'cubic-bezier(.4,0,.2,1)' }); await anim(arc, [{ strokeDashoffset: 1 }, { strokeDashoffset: 0 }], { duration: 2600, easing: 'cubic-bezier(.4,0,.2,1)' }); await t.tidur(500); c.siap();
+  }
+
+  /* ---------------------------------------------------------------- daftar slide (galeri tujuh sub-materi memakai milik Intro) */
+  const adTujuan = (c) => H.adDaftar(c, { eyebrow: 'Tujuan pembelajaran hari ini', judul: 'Setelah pelajaran ini, kalian bisa …', isi: ['Menentukan <b>titik potong</b> dua kurva dan memakainya sebagai batas integral.', 'Menyusun integral luas daerah di antara dua kurva: <b>atas − bawah</b> (irisan tegak, dx) atau <b>kanan − kiri</b> (irisan datar, dy).', 'Menangani kurva yang <b>bertukar posisi</b> dan daerah yang memotong sumbu-x dengan memecah daerahnya.', 'Menghitung luas dengan benar (tidak pernah negatif), lalu <b>menjelaskan caranya</b> kepada temanmu.'] });
+  Intro.k2 = () => [
+    { judul: 'Luas daerah di antara dua kurva', f: adJudul },
+    { judul: 'Yuk, ingat kembali', f: adIngat },
+    { judul: 'Bagaimana jika ada 2 fungsi?', f: adDuaFungsi },
+    { judul: 'Contoh: dua kurva', f: adKartesius },
+    { judul: 'Mencari titik potong', f: adTitikPotong },
+    { judul: 'Menghitung luas daerah', f: adLuas },
+    { judul: 'Sub-materi yang akan dipelajari', f: H.adGaleri },
+    { judul: 'Tujuan pembelajaran', f: adTujuan },
+    { judul: 'Bersiap tes diagnostik', f: adBersiap }
+  ];
 })(window);
 
 ;
@@ -1402,10 +1786,10 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
 (function (root) {
   'use strict';
   const { el, ik, esc } = UI, B = BS, NAMA = UI.NAMA;
-  const HEX = { bawah: '#D94F70', potong: '#E08A1E', garis: '#1B9C8F', parab: '#3B6FD6', silang: '#7E5BD6', sumbuy: '#4C9A3F', kanan: '#3D6A8F' };
-  const TUA = { bawah: '#8E1F3B', potong: '#8A4B0B', garis: '#0B5A54', parab: '#1E3F8F', silang: '#43288F', sumbuy: '#2A5E1F', kanan: '#1B3F5E' };
-  const MUDA = { bawah: '#FBE3E9', potong: '#FDEED6', garis: '#DDF2EF', parab: '#E0EAFB', silang: '#ECE6FA', sumbuy: '#E6F3DD', kanan: '#E1ECF5' };
-  const WARNA = ['#D94F70', '#E08A1E', '#1B9C8F', '#3B6FD6', '#7E5BD6', '#4C9A3F', '#3D6A8F'];
+  const HEX = { bawah: '#C23A3F', potong: '#C9922F', garis: '#2A5AA7', parab: '#5B7FB8', silang: '#8C5A1E', sumbuy: '#8A2B4A', kanan: '#3C4F6B' };
+  const TUA = { bawah: '#7E1820', potong: '#6E4C0B', garis: '#0A1A33', parab: '#26406E', silang: '#5A3A0F', sumbuy: '#5E1B33', kanan: '#1F2C40' };
+  const MUDA = { bawah: '#FBE1DF', potong: '#FBF1D8', garis: '#E3EBF8', parab: '#E5ECF7', silang: '#F4EADB', sumbuy: '#F6E3EA', kanan: '#E4E9F0' };
+  const WARNA = ['#C23A3F', '#C9922F', '#2A5AA7', '#5B7FB8', '#8C5A1E', '#8A2B4A', '#3C4F6B'];
   const bersih = (n) => String(n).replace(/\s*\(.*\)\s*$/, '');
   const inisial = (n) => { const k = bersih(n).split(/\s+/).filter((x) => /^[A-Za-z]/.test(x)); return k.length ? (k[0][0] + (k.length > 1 ? k[k.length - 1][0] : '')).toUpperCase() : '?'; };
 
@@ -1429,7 +1813,7 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
     if (manual) return kartuManual(g, gi);
     const n = g.length, w = WARNA[gi % WARNA.length], pasangan = {};
     g.forEach((s, pos) => { const bp = B.bagianPasangan(pos, n); (pasangan[bp.pasangan] = pasangan[bp.pasangan] || { huruf: bp.huruf, fam: bp.keluarga.length ? bp.keluarga : B.SET[bp.pasangan % 3], anggota: [] }).anggota.push(s); });
-    const baris = Object.keys(pasangan).sort().map((k) => { const p = pasangan[k]; return '<div class="kk-pas"><div class="kk-pk"><span class="kk-huruf" style="background:' + w + '">' + p.huruf + '</span><div class="kk-nm">' + p.anggota.map((s) => '<div><span class="kk-av" style="background:' + w + '">' + esc(inisial(s.nama)) + '</span>' + esc(bersih(s.nama)) + '</div>').join('') + '</div></div><div class="kk-fam">' + p.fam.map((f) => '<span style="background:' + MUDA[f] + ';color:#12263F;border-color:' + HEX[f] + '">' + NAMA[f] + '</span>').join('') + '</div></div>'; }).join('');
+    const baris = Object.keys(pasangan).sort().map((k) => { const p = pasangan[k]; return '<div class="kk-pas"><div class="kk-pk"><span class="kk-huruf" style="background:' + w + '">' + p.huruf + '</span><div class="kk-nm">' + p.anggota.map((s) => '<div><span class="kk-av" style="background:' + w + '">' + esc(inisial(s.nama)) + '</span>' + esc(bersih(s.nama)) + '</div>').join('') + '</div></div><div class="kk-fam">' + p.fam.map((f) => '<span style="background:' + MUDA[f] + ';color:#12254A;border-color:' + HEX[f] + '">' + NAMA[f] + '</span>').join('') + '</div></div>'; }).join('');
     return '<div class="kk" style="--w:' + w + '"><div class="kk-kep"><span class="kk-no">' + (gi + 1) + '</span><b>Kelompok ' + (gi + 1) + '</b><em>' + n + ' murid</em></div>' + baris + '</div>';
   }
 
@@ -1437,21 +1821,21 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
 #cetak-kel{position:fixed;inset:0;z-index:700;background:#CFCBE6;overflow:auto}
 .ck-bar{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:.8rem;padding:.6rem 1.2rem;background:#fff;border-bottom:1px solid var(--garis);box-shadow:var(--bayang)}.ck-bar b{font-family:var(--tampil);font-size:1.2rem}.ck-bar .ruang{flex:1}.ck-bar .muted{font-size:.85rem}
 .ck-lembar{display:flex;flex-direction:column;align-items:center;gap:1.2rem;padding:1.4rem 0 3rem}
-.kh{width:210mm;height:297mm;box-sizing:border-box;background:#fff;position:relative;overflow:hidden;padding:12mm 13mm;box-shadow:0 .5rem 2rem rgba(18,38,63,.25);color:#12263F;font-family:Jakarta,'Segoe UI',sans-serif;font-size:9.5pt;line-height:1.35;display:flex;flex-direction:column;flex:none}
+.kh{width:210mm;height:297mm;box-sizing:border-box;background:#fff;position:relative;overflow:hidden;padding:12mm 13mm;box-shadow:0 .5rem 2rem rgba(18,38,63,.25);color:#12254A;font-family:Jakarta,'Segoe UI',sans-serif;font-size:9.5pt;line-height:1.35;display:flex;flex-direction:column;flex:none}
 .kh *{box-sizing:border-box}
-.kh-kop{border-radius:5mm;padding:7mm 8mm;background:linear-gradient(135deg,#12263F,#0F766E 60%,#1B9C8F);color:#fff;position:relative;overflow:hidden;flex:none}
+.kh-kop{border-radius:5mm;padding:7mm 8mm;background:linear-gradient(135deg,#12254A,#13294B 60%,#2A5AA7);color:#fff;position:relative;overflow:hidden;flex:none}
 .kh-kop svg{position:absolute;right:-6mm;top:-4mm;width:70mm;height:36mm;opacity:.5}
-.kh-eye{font-size:8pt;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:#FBD9A6}.kh-kop h1{font-family:Fraunces,Georgia,serif;font-size:25pt;line-height:1;margin:2mm 0 1mm}.kh-kop h1 b{background:#F3A64B;color:#12263F;padding:0 2.5mm;border-radius:2mm;display:inline-block;transform:rotate(-2deg)}.kh-sub{font-size:9.5pt;color:#CFE8E4;position:relative}
+.kh-eye{font-size:8pt;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:#F2D690}.kh-kop h1{font-family:Fraunces,Georgia,serif;font-size:25pt;line-height:1;margin:2mm 0 1mm}.kh-kop h1 b{background:#E0AE4A;color:#12254A;padding:0 2.5mm;border-radius:2mm;display:inline-block;transform:rotate(-2deg)}.kh-sub{font-size:9.5pt;color:#CCD7EA;position:relative}
 .kh-meta{display:flex;gap:2.5mm;margin-top:3mm;position:relative}.kh-meta span{background:rgba(255,255,255,.18);border:.3mm solid rgba(255,255,255,.35);border-radius:99px;padding:.6mm 3mm;font-size:8pt;font-weight:700}
 .kh-grid{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:4mm;margin-top:5mm}
 .kk{border:.5mm solid var(--w);border-radius:4.5mm;overflow:hidden;display:flex;flex-direction:column;background:#fff}
-.kk-kep{display:flex;align-items:center;gap:2.5mm;background:var(--w);color:#fff;padding:2mm 3.5mm}.kk-kep b{font-family:Fraunces,Georgia,serif;font-size:13pt;flex:1}.kk-kep em{font-style:normal;font-size:8pt;font-weight:700;opacity:.95}.kk-no{width:7mm;height:7mm;border-radius:50%;background:#fff;color:#12263F;display:grid;place-items:center;font-family:Fraunces,Georgia,serif;font-weight:700;font-size:11pt}
+.kk-kep{display:flex;align-items:center;gap:2.5mm;background:var(--w);color:#fff;padding:2mm 3.5mm}.kk-kep b{font-family:Fraunces,Georgia,serif;font-size:13pt;flex:1}.kk-kep em{font-style:normal;font-size:8pt;font-weight:700;opacity:.95}.kk-no{width:7mm;height:7mm;border-radius:50%;background:#fff;color:#12254A;display:grid;place-items:center;font-family:Fraunces,Georgia,serif;font-weight:700;font-size:11pt}
 .kk-pas{padding:2.2mm 3.5mm;border-bottom:.25mm dashed #CFC7B1;flex:1;display:flex;flex-direction:column;justify-content:center;gap:1.4mm}.kk-pas:last-child{border-bottom:0}
 .kk-pk{display:flex;gap:2.5mm;align-items:center}.kk-huruf{width:6mm;height:6mm;border-radius:1.6mm;color:#fff;display:grid;place-items:center;font-family:Fraunces,Georgia,serif;font-weight:700;font-size:9pt;flex:none}.kk-nm{flex:1;display:grid;grid-template-columns:1fr;gap:.8mm;font-weight:700;font-size:9.8pt}.kk-av{display:inline-grid;place-items:center;width:5.2mm;height:5.2mm;border-radius:50%;color:#fff;font-size:6.5pt;margin-right:1.6mm;vertical-align:middle}
 .kk-fam{display:flex;flex-wrap:wrap;gap:1.2mm;margin-left:8.5mm}.kk-fam span{border:.3mm solid;border-radius:99px;padding:.2mm 2.2mm;font-size:7.6pt;font-weight:700}
 .kh-kaki{flex:none;display:flex;justify-content:space-between;font-size:7.8pt;color:#55657A;border-top:.3mm solid #E2DCCB;padding-top:2mm;margin-top:4mm}
 .kh-grid.m3{grid-template-columns:repeat(3,1fr);gap:3mm}.kh-grid.m3 .kk-nm{font-size:8.4pt}.kh-grid.m3 .kk-kep b{font-size:10.5pt}.kh-grid.m3 .kk-kep{padding:1.6mm 2.6mm}.kh-grid.m3 .kk-pas{padding:1.6mm 2.6mm}
-.kk.jig{align-items:stretch}.kk.jig .kk-kep{padding:1.4mm 3mm}.kk.jig .kk-pas{flex-direction:row;align-items:center;justify-content:space-between;padding:.8mm 3mm;gap:2mm}.kk.jig .kk-pk{flex:1;min-width:0}.kk.jig .kk-fam{margin:0;flex:none;max-width:46mm;justify-content:flex-end;gap:.7mm}.kk.jig .kk-fam span{font-size:6.6pt;padding:.1mm 1.4mm}.kk.jig .kk-nm{font-size:8.8pt;gap:0;min-width:0}.kk.jig .kk-nm>div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.kk.jig .kk-posbar{padding:1mm 3mm;font-size:8pt}.kk-posbar{padding:1.6mm 3.5mm;font-weight:700;font-size:8.8pt}.kk-pas .kk-fam{margin-left:8.5mm}.kh-rot{flex:1;min-height:0;margin-top:5mm;display:flex;flex-direction:column;gap:3mm}.rot{width:100%;border-collapse:collapse;font-size:8.4pt}.rot th{background:#0F766E;color:#fff;padding:1.6mm 2mm;text-align:left;font-size:8pt;border:.25mm solid #0F766E}.rot td{padding:1.5mm 2mm;border:.25mm solid #CFC7B1;vertical-align:top}.rot small{font-weight:400;opacity:.9}.rot .rt{font-weight:700;color:#0B5A54;font-size:8pt}.rot-judul{font-weight:700;font-size:9pt;color:#0B5A54;margin-top:2mm}.rot-cat{font-size:8.4pt;color:#2B3F58;border-left:1.6mm solid #F3A64B;padding:1.5mm 3mm;background:#FFF3DE}
+.kk.jig{align-items:stretch}.kk.jig .kk-kep{padding:1.4mm 3mm}.kk.jig .kk-pas{flex-direction:row;align-items:center;justify-content:space-between;padding:.8mm 3mm;gap:2mm}.kk.jig .kk-pk{flex:1;min-width:0}.kk.jig .kk-fam{margin:0;flex:none;max-width:46mm;justify-content:flex-end;gap:.7mm}.kk.jig .kk-fam span{font-size:6.6pt;padding:.1mm 1.4mm}.kk.jig .kk-nm{font-size:8.8pt;gap:0;min-width:0}.kk.jig .kk-nm>div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.kk.jig .kk-posbar{padding:1mm 3mm;font-size:8pt}.kk-posbar{padding:1.6mm 3.5mm;font-weight:700;font-size:8.8pt}.kk-pas .kk-fam{margin-left:8.5mm}.kh-rot{flex:1;min-height:0;margin-top:5mm;display:flex;flex-direction:column;gap:3mm}.rot{width:100%;border-collapse:collapse;font-size:8.4pt}.rot th{background:#13294B;color:#fff;padding:1.6mm 2mm;text-align:left;font-size:8pt;border:.25mm solid #13294B}.rot td{padding:1.5mm 2mm;border:.25mm solid #CFC7B1;vertical-align:top}.rot small{font-weight:400;opacity:.9}.rot .rt{font-weight:700;color:#0A1A33;font-size:8pt}.rot-judul{font-weight:700;font-size:9pt;color:#0A1A33;margin-top:2mm}.rot-cat{font-size:8.4pt;color:#2B3F58;border-left:1.6mm solid #E0AE4A;padding:1.5mm 3mm;background:#FBF1D8}
 @page{size:A4 portrait;margin:0}
 @media print{html,body{background:#fff!important;height:auto!important;overflow:visible!important}body>*:not(#cetak-kel){display:none!important}#cetak-kel{position:static!important;overflow:visible!important;background:#fff!important}.ck-bar{display:none!important}.ck-lembar{display:block;padding:0}.kh{box-shadow:none!important;margin:0;page-break-after:always;break-after:page}.kh:last-child{page-break-after:auto;break-after:auto}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 `;
@@ -1461,7 +1845,7 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
     if (!document.getElementById('cetak-kel-css')) { const st = document.createElement('style'); st.id = 'cetak-kel-css'; st.textContent = CSS; document.head.append(st); }
     const tgl = new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }), total = kel.reduce((a, g) => a + g.length, 0), kelas = o.kelas || 'XII', judulLama = document.title;
     const per = o.jigsaw ? 6 : (o.manual ? 9 : 4), halaman = []; for (let i = 0; i < kel.length; i += per) halaman.push(kel.slice(i, i + per));
-    const hias = '<svg viewBox="0 0 300 150" fill="none" stroke-linecap="round" stroke-width="5"><path d="M0 120C60 120 70 20 130 20S200 120 260 120 290 40 300 30" stroke="#3B6FD6"/><path d="M0 100L60 40 120 100 180 40 240 100 300 50" stroke="#F3A64B"/></svg>';
+    const hias = '<svg viewBox="0 0 300 150" fill="none" stroke-linecap="round" stroke-width="5"><path d="M0 120C60 120 70 20 130 20S200 120 260 120 290 40 300 30" stroke="#5B7FB8"/><path d="M0 100L60 40 120 100 180 40 240 100 300 50" stroke="#E0AE4A"/></svg>';
     const html = halaman.map((hk, hi) => '<section class="kh"><div class="kh-kop">' + hias + '<div class="kh-eye">Matematika Tingkat Lanjut · ' + esc(kelas) + '</div><h1>Kelompok <b>Belajar</b></h1><div class="kh-sub">' + (o.label ? esc(o.label) + ' · ' : '') + tgl + '</div><div class="kh-meta"><span>' + kel.length + ' kelompok</span><span>' + total + ' murid</span><span>' + (o.jigsaw ? 'Satu pos per kelompok' : (o.manual ? 'Satu jenis grafik per kelompok' : 'Kelompok heterogen')) + '</span><span>' + (halaman.length > 1 ? 'Halaman ' + (hi + 1) + ' dari ' + halaman.length : (o.jigsaw ? 'R1–R3 = putaran, angka = nomor pos' : (o.manual ? 'Pameran pakar' : 'Pasangan pakar A · B · C'))) + '</span></div></div><div class="kh-grid' + (o.manual ? ' m3' : '') + '"' + (o.jigsaw && hi === halaman.length - 1 ? ' style="flex:none;grid-auto-rows:auto"' : '') + '>' + hk.map((g, k) => kartuKelompok(g, hi * per + k, o.manual, o.jigsaw)).join('') + '</div>' + (o.jigsaw && hi === halaman.length - 1 ? '<div class="kh-rot">' + tabelRotasi(kel) + '</div>' : '') + '<div class="kh-kaki"><span>SMA Vidatra Bontang · Aplikasi Area &amp; Calculus</span><span>' + (o.jigsaw ? 'Tiap kelompok menjadi pakar untuk satu pos' : (o.manual ? 'Tiap kelompok menjadi pakar untuk satu jenis' : 'Tiap pasangan menjadi pakar')) + '</span></div></section>').join('');
     const w = el('div', { id: 'cetak-kel' }), tutup = () => { w.remove(); document.title = judulLama; };
     const cetak = () => { document.title = 'Kelompok ' + kelas; setTimeout(() => { try { window.print(); } catch (e) { UI.toast('Peramban ini tidak mendukung cetak', 'awas'); } }, 50); };
@@ -1501,7 +1885,7 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
     return new Promise((resolve) => {
       let tutupFn = null; const isi = el('div', { kelas: 'pilih-kelas-isi' });
       isi.append(el('p', { kelas: 'muted', gaya: 'margin:0 0 .8rem' }, wajib ? 'Pilih kelas yang akan kamu ajar sekarang. Kamu bisa menggantinya kapan saja lewat penanda “Kelas aktif” di bagian atas.' : 'Data tiap kelas terpisah. Mengganti kelas tidak menghapus apa pun.'));
-      BS.KELAS_TAMPIL.forEach((k) => { const c = BS.cfg(k); isi.append(el('button', { type: 'button', kelas: 'kartu-pilih k-' + k + (k === kelas ? ' sekarang' : ''), onclick: () => { resolve(k); if (tutupFn) tutupFn(k); }, html: '<span class="kp-ubin">' + c.nama.split(' ')[0] + '</span><span class="kp-teks"><b>' + esc(c.nama) + '</b><small>' + c.daftar.length + ' murid · ' + c.jmlKelompok + ' kelompok × ' + c.maks + ' · ' + (c.manual ? 'disusun guru' : 'otomatis dari tes awal') + '</small></span>' + (k === kelas ? '<span class="chip ok">sedang aktif</span>' : ik('panah', 'kecil')) })); });
+      BS.KELAS_TAMPIL.forEach((k) => { const c = BS.cfg(k); isi.append(el('button', { type: 'button', kelas: 'kartu-pilih k-' + k + (k === kelas ? ' sekarang' : ''), onclick: () => { resolve(k); if (tutupFn) tutupFn(k); }, html: '<span class="kp-ubin">' + c.nama.split(' ')[0] + '</span><span class="kp-teks"><b>' + esc(c.nama) + '</b><small>' + c.daftar.length + ' murid · ' + c.jmlKelompok + ' kelompok × ' + c.maks + ' · ' + (c.siap ? (c.manual ? 'disusun guru' : 'otomatis dari tes awal') : 'materi dasar, menyusul') + '</small></span>' + (k === kelas ? '<span class="chip ok">sedang aktif</span>' : ik('panah', 'kecil')) })); });
       UI.dialog({ lebar: true, judul: 'Pilih kelas', ikon: ik('kelompok', 'besar'), isi, tombol: wajib ? [] : [{ t: 'Tutup', nilai: null, kelas: 'sekunder' }], tutupLuar: !wajib, saatBuka: (b, t) => { tutupFn = t; } }).then((v) => { if (!wajib) { if (v && v !== kelas) gantiKelas(v); resolve(v); } });
     }).then(async (k) => { if (wajib && k && k !== kelas) await gantiKelas(k, true); return k; });
   }
@@ -1509,7 +1893,8 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
   async function gantiKelas(k, tanpaKe) {
     if (k === kelas) return; tmJeda(); kelas = k; LSset('kelas', k); BS.setKelas(k); data = null; TAHAP = buatTahap(); TM = muatTM(); const r = await ga('g-status'); if (r.ok) { data = r; net = 'online'; } if (!tanpaKe) ke(tab); else gambarAtas();
   }
-  function ke(t) { tab = t; gambarAtas(); bersih(); ({ penjelasan: tPenjelasan, pantau: tPantau, kelompok: tKelompok, t2: tTahap2, kode: tKode })[t](); }
+  function belumSiap() { pg.append(el('div', { kelas: 'tengah-isi' }, el('span', { kelas: 'ubin fx-potong', gaya: 'width:5.5rem;height:5.5rem', html: ik('jam') }), el('h2', null, 'Materi ' + esc(BS.cfg(kelas).nama) + ' sedang disiapkan'), el('p', { kelas: 'muted', gaya: 'max-width:38rem;font-size:1.2rem' }, 'Kelas ini memakai materi dasar integral tentu (dua pertemuan: sifat batas, luas di bawah kurva, dan latihan dengan Desmos). Daftar nama dan pengaturan kelas sudah siap; tab Pantau tetap bisa dipakai.'), el('button', { kelas: 'btn', type: 'button', html: ik('kelompok') + 'Ganti kelas', onclick: () => pilihKelasDialog(false) }))); }
+  function ke(t) { tab = t; gambarAtas(); bersih(); if (!BS.cfg(kelas).siap && t !== 'pantau') return belumSiap(); ({ penjelasan: tPenjelasan, pantau: tPantau, kelompok: tKelompok, t2: tTahap2, kode: tKode })[t](); }
 
   /* ---------------- penjelasan = pengantar yang sama dengan siswa ---------------- */
   function tPenjelasan() { const host = el('div', { gaya: 'position:absolute;inset:0' }); pg.append(host); intro = Intro.mount(host, { guru: true, mulai: LS('intro', 0), played: LS('played', []), saatMain: (a) => LSset('played', a), labelAkhir: 'Tes awal dimulai', saatLangkah: (i) => LSset('intro', i), saatSelesai: () => ke('pantau') }); }
@@ -1623,15 +2008,15 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
 
   /* ---------------- tahap lanjutan: langkah, pemahaman, panggung kelas ---------------- */
   const LANG = () => ['Kartu pakar', 'Pameran pakar', 'Tebak bagiannya', 'Cocokkan masalah', 'Tantangan sintesis', 'Tiket keluar'];
-  function konfeti(n) { for (let i = 0; i < n; i++) { const c = el('div', { kelas: 'konfeti', gaya: 'left:' + (innerWidth * (.2 + Math.random() * .6)) + 'px;top:' + (innerHeight * .25) + 'px;background:' + ['#F3A64B', '#0F766E', '#2FA36B', '#BE3455', '#3B6FD6', '#E08A1E'][i % 6] }); document.body.append(c); const a = Math.random() * Math.PI * 2, d = 120 + Math.random() * 360; anim(c, [{ transform: 'translate(0,0) rotate(0)', opacity: 1 }, { transform: 'translate(' + Math.cos(a) * d + 'px,' + (Math.sin(a) * d + 220) + 'px) rotate(' + Math.random() * 720 + 'deg)', opacity: 0 }], { duration: 1400 + Math.random() * 1000, easing: 'cubic-bezier(.2,.7,.3,1)' }).then(() => c.remove()); } }
+  function konfeti(n) { for (let i = 0; i < n; i++) { const c = el('div', { kelas: 'konfeti', gaya: 'left:' + (innerWidth * (.2 + Math.random() * .6)) + 'px;top:' + (innerHeight * .25) + 'px;background:' + ['#E0AE4A', '#13294B', '#2FA36B', '#B3232D', '#5B7FB8', '#C9922F'][i % 6] }); document.body.append(c); const a = Math.random() * Math.PI * 2, d = 120 + Math.random() * 360; anim(c, [{ transform: 'translate(0,0) rotate(0)', opacity: 1 }, { transform: 'translate(' + Math.cos(a) * d + 'px,' + (Math.sin(a) * d + 220) + 'px) rotate(' + Math.random() * 720 + 'deg)', opacity: 0 }], { duration: 1400 + Math.random() * 1000, easing: 'cubic-bezier(.2,.7,.3,1)' }).then(() => c.remove()); } }
   function panggungKelas(t) {
     const grup = (t.grup || []).filter((g) => g.n > 0).sort((a, b) => b.rata - a.rata), orang = (t.peringkat || []).slice(0, 10);
     if (!grup.length && !orang.length) { UI.info('Belum ada poin', '<p class="tengah">Poin muncul setelah siswa mengerjakan langkah di tahap lanjutan.</p>', 'Tutup'); return; }
     const seq = grup.map((g, i) => ({ jenis: 'g', i })).reverse().concat(orang.map((o, i) => ({ jenis: 'o', i })).reverse()), isi = el('div', { kelas: 'panggung-kelas' });
     const kolG = el('div', { kelas: 'pk-kol' }, el('h3', null, 'Kelompok terbaik'), el('div', { kelas: 'muted kecil' }, 'Rata-rata poin per siswa')), kolO = el('div', { kelas: 'pk-kol' }, el('h3', null, 'Bintang kelas'), el('div', { kelas: 'muted kecil' }, 'Poin tertinggi perorangan'));
     const medali = ['#F5B700', '#B8BECF', '#C9803A'];
-    grup.forEach((g, i) => kolG.append(el('div', { kelas: 'pk-baris sembunyi', 'data-k': 'g' + i, html: '<span class="rk" style="background:' + (medali[i] || '#0F766E') + '">' + (i + 1) + '</span><b>Kelompok ' + g.kel + '</b><span class="muted kecil">' + g.n + ' siswa</span><span class="pt">' + Math.round(g.rata) + ' <small>rata-rata</small></span>' })));
-    orang.forEach((o, i) => kolO.append(el('div', { kelas: 'pk-baris sembunyi', 'data-k': 'o' + i, html: '<span class="rk" style="background:' + (medali[i] || '#0F766E') + '">' + (i + 1) + '</span><b>' + esc(o.nama) + '</b><span class="muted kecil">' + (o.kel ? 'K' + o.kel : '') + (o.lencana && o.lencana.length ? ' · ' + o.lencana.length + ' lencana' : '') + '</span><span class="pt">' + o.poin + ' <small>poin</small></span>' })));
+    grup.forEach((g, i) => kolG.append(el('div', { kelas: 'pk-baris sembunyi', 'data-k': 'g' + i, html: '<span class="rk" style="background:' + (medali[i] || '#13294B') + '">' + (i + 1) + '</span><b>Kelompok ' + g.kel + '</b><span class="muted kecil">' + g.n + ' siswa</span><span class="pt">' + Math.round(g.rata) + ' <small>rata-rata</small></span>' })));
+    orang.forEach((o, i) => kolO.append(el('div', { kelas: 'pk-baris sembunyi', 'data-k': 'o' + i, html: '<span class="rk" style="background:' + (medali[i] || '#13294B') + '">' + (i + 1) + '</span><b>' + esc(o.nama) + '</b><span class="muted kecil">' + (o.kel ? 'K' + o.kel : '') + (o.lencana && o.lencana.length ? ' · ' + o.lencana.length + ' lencana' : '') + '</span><span class="pt">' + o.poin + ' <small>poin</small></span>' })));
     isi.append(kolG, kolO); let n = 0;
     const tampil = () => { const x = seq[n++]; const e = isi.querySelector('[data-k="' + x.jenis + x.i + '"]'); if (e) { e.classList.remove('sembunyi'); anim(e, [{ transform: 'translateY(1.2rem) scale(.9)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 450, easing: 'cubic-bezier(.34,1.56,.64,1)' }); } if (x.i === 0) konfeti(x.jenis === 'o' ? 110 : 60); };
     const bMaju = el('button', { kelas: 'btn hijau', type: 'button', html: 'Tampilkan berikutnya' + ik('panah', 'kecil'), onclick: () => { if (n < seq.length) tampil(); if (n >= seq.length) { bMaju.disabled = true; bSemua.disabled = true; } } }), bSemua = el('button', { kelas: 'btn sekunder', type: 'button', html: 'Tampilkan semua', onclick: () => { while (n < seq.length) tampil(); bMaju.disabled = true; bSemua.disabled = true; } });

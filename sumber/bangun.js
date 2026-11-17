@@ -9,11 +9,11 @@ const fonts =
   '@font-face{font-family:"Fraunces Math";font-style:italic;font-weight:100 900;font-display:swap;src:' + font('fraunces-latin-standard-italic.woff2') + '}' +
   '@font-face{font-family:"Jakarta";font-style:normal;font-weight:200 800;font-display:swap;src:' + font('plus-jakarta-sans-latin-wght-normal.woff2') + ';unicode-range:' + LAT + '}' +
   '@font-face{font-family:"Jakarta";font-style:normal;font-weight:200 800;font-display:swap;src:' + font('plus-jakarta-sans-latin-ext-wght-normal.woff2') + ';unicode-range:U+0100-02AF,U+1E00-1EFF,U+2020,U+20A0-20AB,U+20AD-20CF,U+2113,U+2C60-2C7F,U+A720-A7FF}';
-const css = ['tema.css', 'intro.css', 'layar.css', 'guru.css', 'tahap2.css'].map(baca).join('\n');
+const css = ['tema.css', 'intro.css', 'layar.css', 'guru.css', 'tahap2.css', 'premium.css'].map(baca).join('\n');
 const daftar = fs.readFileSync(path.join(R, 'api', '_lib', 'daftar.js'), 'utf8'), bersama = fs.readFileSync(path.join(R, 'api', '_lib', 'bersama.js'), 'utf8');   // rahasia.js (PIN) sengaja TIDAK ikut dibangun
 const NAMA = 'Area & Calculus';
 function rakit(judul, jsAkhir, keluar, tambahan) {
-  const js = [baca('ui.js'), baca('grafik.js'), daftar, bersama, baca('intro.js')].concat((tambahan || []).map(baca), [baca(jsAkhir)]).join('\n;\n');
+  const js = [baca('ui.js'), baca('hero.js'), baca('grafik.js'), daftar, bersama, baca('intro.js'), baca('pengantar.js')].concat((tambahan || []).map(baca), [baca(jsAkhir)]).join('\n;\n');
   const h = baca('halaman.html').replace('@JUDUL@', judul).replace('/*@FONTS*/', () => fonts).replace('/*@CSS*/', () => css).replace('/*@JS*/', () => js);
   fs.writeFileSync(path.join(R, keluar), h); console.log(keluar.padEnd(28), (Buffer.byteLength(h) / 1024).toFixed(0) + ' KB');
 }

@@ -4,15 +4,17 @@ Pembelajaran **luas daerah dengan integral tentu** (di bawah kurva dan antara du
 
 | Halaman | Alamat | Untuk |
 |---|---|---|
-| Murid | `/` | pengantar animasi → tes awal 5 soal → kelompok → 6 langkah → Kartu Penghargaan + catatan PDF |
+| Murid | `/` | pengantar animasi (9 slide) → tes diagnostik 5 soal → kelompok langsung → 6 langkah → Kartu Penghargaan + catatan PDF |
 | Guru | `/guru` (atau tombol **Guru** di layar sambutan) | penjelasan (pengantar yang sama), pantau, kelompok, tahap 2, kode hasil, pewaktu |
+
+Empat kelas terdaftar: **XII-A Teknik**, **XII-B Teknik**, **XII-C Kesehatan** (materi: luas daerah di antara dua kurva dan semua variasinya; siap dipakai) dan **XII-D Soshum** (dasar integral tentu dalam dua pertemuan; materinya menyusul, kelasnya sudah terdaftar). Kelas uji tersembunyi `ujim` hanya untuk uji otomatis.
 
 Keputusan materi: lihat [KEPUTUSAN-MATERI.md](KEPUTUSAN-MATERI.md).
 
 ## Memasang di Vercel (±10 menit)
 
 1. Vercel → **Add New → Project** → impor repositori ini → **Deploy** (tanpa pengaturan build; berkas `index.html` dan `guru.html` hasil build sudah ada di repositori).
-2. Proyek → **Storage → Create Database → Upstash (Redis)**, wilayah **Singapura**, hubungkan ke proyek. Variabel `KV_REST_API_URL` dan `KV_REST_API_TOKEN` terisi otomatis (nama lain `UPSTASH_REDIS_REST_URL/TOKEN` juga dikenali).
+2. Database Redis: **Storage → Create Database → Upstash (Redis)** bila slot gratis masih ada. Bila tidak (batas 1 database), buat database di console.upstash.com (wilayah Singapura) lalu isi **Settings → Environment Variables** dengan `UPSTASH_REDIS_REST_URL` (alamat `https://…upstash.io`) dan `UPSTASH_REDIS_REST_TOKEN` (token biasa, bukan *Read-Only*) untuk Production, Preview, dan Development. Nama `KV_REST_API_URL/TOKEN` juga dikenali. Data tiap proyek tidak bertabrakan karena kunci berawalan `ac:`.
 3. **Deployments → Redeploy** supaya variabel terbaca.
 4. Buka `/`, pilih **Guru**, masukkan PIN. Chip **server aktif** (ikon wifi) berarti tersambung.
 
@@ -20,11 +22,11 @@ Tanpa langkah 2–3 aplikasi berjalan dalam **mode mandiri**: nama tidak dikunci
 
 ### PIN guru
 
-PIN (5 angka) ada di `api/_lib/rahasia.js` — berkas **khusus server** yang **tidak ikut dibangun** ke halaman murid. Halaman murid hanya memuat *hash* PIN (untuk masuk guru saat mode mandiri). Ganti PIN: ubah `PIN_GURU` di `rahasia.js`, ubah `PIN_SHA` di `bersama.js` (hasilnya `sha256("area-calculus:" + PIN)`; lihat `cekPinLokal`), jalankan `node sumber/bangun.js`, lalu commit. Variabel `GURU_PIN` di Vercel (bila ada) ikut berlaku. **Jangan menulis PIN di dokumen atau repositori publik.**
+PIN (5 angka) ada di `api/_lib/rahasia.js` — berkas **khusus server** yang **tidak ikut dibangun** ke halaman murid. Halaman murid hanya memuat *hash* PIN (untuk masuk guru saat mode mandiri). Ganti PIN: ubah `PIN_GURU` di `rahasia.js`, ubah `PIN_SHA` di `bersama.js` (hasilnya `sha256("area-calculus:" + PIN)`; lihat `cekPinLokal`), jalankan `node sumber/bangun.js`, lalu commit. Variabel `GURU_PIN` di Vercel (bila ada) ikut berlaku, jadi **hapus** variabel itu bila masih berisi PIN lama. **Jangan menulis PIN di dokumen atau repositori publik.**
 
 ## Mengisi nama murid
 
-Satu-satunya tempat nama: `api/_lib/daftar.js` (urut tetap = nomor murid). Cara cepat:
+Satu-satunya tempat nama: `api/_lib/daftar.js` (urut tetap = nomor murid). Kunci kelas: `xiia`, `xiib`, `xiic`, `xiid`. Jumlah murid bebas (maksimum 49); selalu 7 kelompok dan anggota tiap kelompok menyesuaikan (jumlah murid ÷ 7, minimal 3). Cara cepat:
 
 ```bash
 node tools/isi-nama.js xiia nama-kelas.txt   # satu nama per baris; huruf mirip dari alfabet lain diganti dan dilaporkan
@@ -32,13 +34,13 @@ node sumber/bangun.js
 node uji/uji-sifat.js
 ```
 
-Setelah itu commit dan **jadikan repositori privat** (daftar nama ikut di dalamnya). Nama kelas ada di `KELAS_CFG` pada `api/_lib/bersama.js`.
+Setelah itu commit dan **jadikan repositori privat** (daftar nama ikut di dalamnya). Nama kelas ada di `KELAS_CFG` pada `api/_lib/bersama.js` (`XII-A Teknik`, `XII-B Teknik`, `XII-C Kesehatan`, `XII-D Soshum`).
 
 ## Alur di kelas (3 JP)
 
 1. **Guru** membuka `/guru` → PIN → pilih kelas → tab **Penjelasan** (12 adegan; murid melihat yang sama di tablet, mulai setelah aba-aba).
-2. **Murid**: pilih nama → konfirmasi → tes awal (8 menit) → hasil dan pembahasan → *Lihat kelompok* (menunggu).
-3. **Guru**: tab **Kelompok** → *Buka kelompok untuk siswa*. Murid melihat kelompok, pos, dan perannya (Host / Penjelajah A / B).
+2. **Murid**: pilih kelas dan nama → konfirmasi → pengantar → tes diagnostik (10 menit, 5 soal pilihan ganda) → hasil dan pembahasan → *Lihat kelompok*.
+3. **Kelompok langsung**: begitu seorang murid menekan *Lihat kelompok*, ia otomatis masuk ke kelompok yang kurang anggota (seimbang menurut skor) dan tablet murid lain ikut menampilkannya dalam ±4 detik tanpa memuat ulang. Murid yang sudah masuk tidak pernah berpindah. Guru tidak perlu membuka apa pun; tab **Kelompok** punya tombol *Kunci* bila perlu menahan.
 4. **Pewaktu** (ikon jam di header) mengikuti rancangan: *Lanjut ke tahap berikutnya* membuka langkah yang sesuai dan mengumumkan Putaran 1–3 serta Transfer ilmu 1–2 ke tablet murid. Tombol-tombol yang sama ada di tab **Tahap 2** (buka/tutup tiap langkah, pengumuman putaran, tabel siapa-ke-mana).
 5. Akhir: **Panggung Kelas** (guru), Kartu Penghargaan dan Catatan belajar (PDF) di tablet murid.
 
@@ -51,9 +53,9 @@ Akun uji coba: layar pilih nama → *Akun uji coba (guru)* (butuh PIN). Tidak ma
 ```bash
 node sumber/bangun.js          # WAJIB setelah mengubah sumber; hasil build (index.html, guru.html, cadangan/) ikut di-commit
 node uji/dev-server.js         # server lokal :3200 dengan Redis TIRUAN di memori
-node uji/uji-sifat.js          # sifat materi: 7 generator × 400 benih, rute rotasi, kode hasil, kelompok, tabel bank soal
+node uji/uji-sifat.js          # sifat materi: 7 generator × 400 benih, tes diagnostik (kunci diverifikasi numerik), rute rotasi, kode hasil, kelompok, bank soal
 node uji/uji-web.js            # API kelas utama (xiia) + tiruan klien murid asli untuk bug PRD §7
-node uji/uji-xiib.js           # API kelas cadangan (kelompok disusun guru)
+node uji/uji-manual.js         # API kelas uji tersembunyi (kelompok disusun guru)
 node uji/isi-kelas.js 3        # bantu uji manual: isi kelas dengan murid tiruan dan buka gerbang
 ```
 

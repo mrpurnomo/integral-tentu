@@ -92,7 +92,7 @@ const handler = async (req, res) => {
         }
         if (idx === B.DUMMY) { /* akun uji coba: lihat kelompok sementara, tidak disimpan dan tidak mengubah kelompok asli */
           const s0 = await semuaSiswa(), sel0 = selesaiNyata(s0); let k0 = await ambilKel(); k0 = k0 ? { kel: JSON.parse(JSON.stringify(k0.kel)) } : { kel: B.bentukKelompok(sel0, ctx().kl) }; const g0 = B.tambahKelompok(k0.kel, { idx, skor: d.hasil.skor }, ctx().kl); return kirim(200, { ok: true, kelompok: tampilKel(k0.kel), saya: g0 < 0 ? 0 : g0, uji: true }); }
-        const gerbang = (await redis('GET', ctx().K.G)) || 'tutup'; let kel = await ambilKel();
+        const gerbang = (await redis('GET', ctx().K.G)) || 'buka'; let kel = await ambilKel();
         if (gerbang === 'tutup') return kirim(200, { ok: true, menunggu: true });
         if (!kel) { const s = await semuaSiswa(); kel = { kel: B.bentukKelompok(selesaiNyata(s), ctx().kl), dibuat: Date.now() }; await simpanKel(kel); await arsipkan(kel, 'otomatis', true); }
         let g = sudahMasuk(kel.kel, idx); if (g < 0) { g = B.tambahKelompok(kel.kel, { idx, skor: d.hasil ? d.hasil.skor : 0 }, ctx().kl); if (g < 0) return kirim(409, { error: 'penuh' }); await simpanKel(kel); }
@@ -103,7 +103,7 @@ const handler = async (req, res) => {
     if (String(b.a || '').startsWith('g-')) {
       if (!pinOk(b.pin)) return kirim(401, { error: 'PIN salah' });
       if (b.a === 'g-status') {
-        const s = await semuaSiswa(), kel = await ambilKel(), gerbang = (await redis('GET', ctx().K.G)) || 'tutup';
+        const s = await semuaSiswa(), kel = await ambilKel(), gerbang = (await redis('GET', ctx().K.G)) || (CFG().manual ? 'tutup' : 'buka');
         const uji = s['s' + B.DUMMY] ? { klaim: true, tahap: s['s' + B.DUMMY].tahap, skor: s['s' + B.DUMMY].hasil ? s['s' + B.DUMMY].hasil.skor : null } : { klaim: false };
         const FAM = Object.keys(B.NAMA_FAM), agr = {}; FAM.forEach((f) => { agr[f] = { kuasai: 0, bingung: 0 }; }); let cs = 0, cn = 0, ts = 0, tn = 0, ds = 0, dn = 0, sel2 = 0, fsum = 0, fn = 0, pjaga = 0, pkelana = 0; const poinSiswa = [];
         Object.keys(s).filter(nyata).forEach((k) => { const t = s[k].t2; if (!t) return; (t.kuasai || []).forEach((f) => { if (agr[f]) agr[f].kuasai++; }); (t.bingung || []).forEach((f) => { if (agr[f]) agr[f].bingung++; }); if (t.cocok) { cs += t.cocok.benar; cn++; } if (t.tiket) { ts += t.tiket.skor; tn++; } if (t.diskusi) { ds += t.diskusi.benar; dn++; } if (t.selesai) sel2++; if (t.fung) { fsum += t.fung.skor; fn++; } if (t.pam && t.pam.peran === 'jaga') pjaga++; if (t.pam && t.pam.peran === 'kelana') pkelana++; if (t.poin != null) poinSiswa.push({ idx: +k.slice(1), nama: nm(+k.slice(1)), poin: t.poin, lencana: t.lencana || [] }); });

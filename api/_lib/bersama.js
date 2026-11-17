@@ -5,9 +5,9 @@
   'use strict';
   const DAFTAR_ALL = (typeof module !== 'undefined' && module.exports) ? require('./daftar.js') : root.DAFTAR_KELAS;
   const judulKata = (s) => s.toLowerCase().replace(/(^|[\s-])([a-z])/g, (m, a, b) => a + b.toUpperCase());
-  const DUMMY = 30;                    // akun uji coba guru (tidak masuk kelompok dan statistik); harus > jumlah murid kelas mana pun
+  const DUMMY = 49;                    // akun uji coba guru (tidak masuk kelompok dan statistik); harus > jumlah murid kelas mana pun (maks 49 murid per kelas)
   /* PIN guru ada di api/_lib/rahasia.js (hanya server). Di sini hanya hash-nya, untuk masuk guru saat mode mandiri (tanpa server). */
-  const PIN_SHA = 'd961f50b7e925eefbba1a3702b034dce926fd126f9f0ffe594fc1ffb7820f3e0';
+  const PIN_SHA = 'd264270217b2b99d824dc863f4d2bc35be934afb4d9cf63ac80434f791a01f63';
   function sha256(m) {
     const K = [0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5, 0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174, 0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da, 0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7, 0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967, 0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85, 0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070, 0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3, 0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2];
     const b = []; for (let i = 0; i < m.length; i++) b.push(m.charCodeAt(i) & 255);
@@ -28,10 +28,17 @@
      manual:true   = kelompok disusun guru; murid baru boleh masuk setelah guru membuka kelas.
      jigsaw:true   = satu bagian (pos) per kelompok + Pameran pakar dengan rute putaran; langkah = 6.
      tampil:false  = tidak muncul di pilihan kelas (kelas cadangan). */
+  const KJ = (kode, nama, program, o) => Object.assign({ kode, nama, program, daftar: DAFTAR_ALL[kode], durasi: 600, manual: false, jigsaw: true, langkah: 6, jmlKelompok: 7, tampil: true, materi: 'kurva2', siap: true }, o || {});
   const KELAS_CFG = {
-    xiia: { kode: 'xiia', nama: 'XII Matematika Lanjut', daftar: DAFTAR_ALL.xiia, durasi: 480, manual: false, jigsaw: true, langkah: 6, jmlKelompok: 7, maks: 3, tampil: true },
-    xiib: { kode: 'xiib', nama: 'Kelas cadangan', daftar: DAFTAR_ALL.xiib, durasi: 480, manual: true, jigsaw: true, langkah: 6, jmlKelompok: 7, maks: 3, tampil: false }
+    xiia: KJ('xiia', 'XII-A Teknik', 'Teknik'),
+    xiib: KJ('xiib', 'XII-B Teknik', 'Teknik'),
+    xiic: KJ('xiic', 'XII-C Kesehatan', 'Kesehatan'),
+    /* XII-D: dasar integral tentu (dua pertemuan) — materi disiapkan kemudian; kelas sudah terdaftar untuk guru */
+    xiid: KJ('xiid', 'XII-D Soshum', 'Soshum', { materi: 'dasar', siap: false }),
+    /* kelas uji tersembunyi: kelompok disusun guru (menguji mode manual) */
+    ujim: KJ('ujim', 'Kelas uji (manual)', 'Uji', { manual: true, tampil: false })
   };
+  Object.keys(KELAS_CFG).forEach((k) => { const c = KELAS_CFG[k]; c.maks = Math.max(3, Math.ceil(c.daftar.length / c.jmlKelompok)); });
   const KELAS_ID = Object.keys(KELAS_CFG), KELAS_TAMPIL = KELAS_ID.filter((k) => KELAS_CFG[k].tampil);
   let AKTIF = KELAS_TAMPIL[0];
   const cfg = (k) => KELAS_CFG[k || AKTIF] || KELAS_CFG[KELAS_TAMPIL[0]];
@@ -104,34 +111,52 @@
       const f = [c, q, p], F = (x) => (p / 3) * x * x * x + (q / 2) * x * x + c * x, kunci = F(b) - F(a);
       const o = ambilOpsi(kunci, [F(b), F(a) - F(b), pv(f, b) - pv(f, a), p * b * b * b + q * b * b + c * b - (p * a * a * a + q * a * a + c * a), F(b) + F(a)], mn);
       S.push({ tanya: 'Hitunglah ' + igH(a, b) + ' (' + fx(f) + ') <i>dx</i>.', opsi: o, kunci: mn(kunci), jelas: 'Antiturunannya F(x) = ' + antiH(f) + '. Maka ' + hit(f, a, b).html + '. Ingat: hasilnya F(b) − F(a), bukan F(b) saja.' }); }
-    // 2. nilai integral bisa negatif
-    { const c = pil(r, [2, 3, 4, 5, 6]), v = rt(-2 * c * c * c, 3), pen = (z) => rT(z), kunci = pen(v);
-      const o = opsiStr(kunci, [pen(rt(2 * c * c * c, 3)), pen(rt(c * c * c, 3)), pen(rt(-c * c * c, 1)), pen(rt(4 * c * c * c, 3)), pen(rt(-c * c * c, 3))]);
-      S.push({ tanya: 'Hitunglah ' + igH(0, c) + ' (<i>x</i><sup>2</sup> − ' + (c * c) + ') <i>dx</i>.', opsi: o, kunci, jelas: 'Antiturunan ' + fx([-c * c, 0, 1]) + ' adalah ' + antiH([-c * c, 0, 1]) + '. ' + hit([-c * c, 0, 1], 0, c).html + '. Nilai integral boleh negatif: kurva berada di bawah sumbu-x.' }); }
-    // 3. titik potong parabola dan garis (terhadap x)
-    { const s = pil(r, [2, 3]), r1 = pil(r, [-2, -1]), r2 = s + 1 - r1, t = -r1 * r2, kunci = PT(r1, r1 + t) + ' dan ' + PT(r2, r2 + t);
-      const o = opsiStr(kunci, [PT(r1 + t, r1) + ' dan ' + PT(r2 + t, r2), PT(-r1, -r1 + t) + ' dan ' + PT(-r2, -r2 + t), PT(r1, 0) + ' dan ' + PT(r2, 0), PT(r1, t) + ' dan ' + PT(r2, t)]);
-      S.push({ tanya: 'Tentukan titik potong parabola <i>y</i> = ' + fx([0, -s, 1]) + ' dan garis <i>y</i> = ' + fx([t, 1]) + '.', opsi: o, kunci, jelas: 'Samakan: ' + fx([0, -s, 1]) + ' = ' + fx([t, 1]) + ' → ' + fx([-t, -(s + 1), 1]) + ' = 0 → ' + fak(r1) + fak(r2) + ' = 0, jadi x = ' + mn(r1) + ' atau x = ' + r2 + '. Masukkan x ke garis: y = ' + mn(r1 + t) + ' dan y = ' + (r2 + t) + '.' }); }
-    // 4. titik potong parabola mendatar dan garis (terhadap y)
-    { const k = pil(r, [1, 2]), d = pil(r, [1, 2, 3]), c = d + k * (k + 1), y1 = k, y2 = -(k + 1), kunci = PT(y1 + d, y1) + ' dan ' + PT(y2 + d, y2);
-      const o = opsiStr(kunci, [PT(y1, y1 + d) + ' dan ' + PT(y2, y2 + d), PT(-y1 + d, -y1) + ' dan ' + PT(-y2 + d, -y2), PT(y1 + d, 0) + ' dan ' + PT(y2 + d, 0), PT(c, y1) + ' dan ' + PT(c, y2)]);
-      S.push({ tanya: 'Tentukan titik potong parabola mendatar <i>x</i> = ' + c + ' − <i>y</i><sup>2</sup> dan garis <i>x</i> = ' + fx([d, 1], 'y') + '. (Tulis titik sebagai (x, y).)', opsi: o, kunci, jelas: 'Samakan x: ' + c + ' − y² = y + ' + d + ' → y² + y − ' + (c - d) + ' = 0 → ' + fak(y1, 'y') + fak(y2, 'y') + ' = 0. Jadi y = ' + y1 + ' atau y = ' + mn(y2) + '. Masukkan ke x = y + ' + d + ': titiknya ' + kunci + '.' }); }
-    // 5. nilai integral ≠ luas daerah
-    { const A = rint(r, 4, 9), Bn = rint(r, 2, 5), kunci = A + Bn;
-      const o = ambilOpsi(kunci, [A - Bn, Bn - A, A, Bn, -(A + Bn)], mn);
-      S.push({ tanya: 'Kurva <i>y</i> = <i>f</i>(<i>x</i>) di atas sumbu-x pada [0, 2] dengan ' + igH(0, 2) + ' <i>f</i>(<i>x</i>) <i>dx</i> = ' + A + ', dan di bawah sumbu-x pada [2, 4] dengan ' + igH(2, 4) + ' <i>f</i>(<i>x</i>) <i>dx</i> = ' + mn(-Bn) + '. Berapa satuan luas total daerah antara kurva dan sumbu-x pada [0, 4]?', opsi: o, kunci: mn(kunci), jelas: 'Luas tidak boleh negatif. Bagian di bawah sumbu-x dihitung dengan nilai mutlaknya: L = ' + A + ' + |' + mn(-Bn) + '| = ' + A + ' + ' + Bn + ' = ' + kunci + '. Kalau dijumlahkan begitu saja, hasilnya ' + (A - Bn) + ' (luas bertanda), bukan luas.' }); }
-    return S.map((s, i) => { const rr = mulberry(31 + idx * 101 + i * 17), urut = acak(rr, s.opsi.map((_, k) => k)), opsi = urut.map((k) => s.opsi[k]); return { no: i + 1, tanya: s.tanya, opsi, kunci: opsi.indexOf(s.kunci), jelas: s.jelas }; });
+    // 2. diketahui nilai integral, batas ditukar (dengan variasi)
+    { const a = pil(r, [1, 2, 3]), b = a + pil(r, [2, 3, 4]), L = b - a, k = pil(r, [3, 4, 5, 6, 7, 8, 9, 12]), c = pil(r, [2, 3, 4]), d = pil(r, [1, 2, 3]), jn = rint(r, 0, 3), F = '<i>f</i>(<i>x</i>)', dxx = ' <i>dx</i>';
+      const dik = 'Diketahui ' + igH(a, b) + ' ' + F + dxx + ' = ' + k + '. ';
+      let kunci, kand, jelas, tanya;
+      if (jn === 0) { tanya = dik + 'Hitunglah ' + igH(b, a) + ' ' + F + dxx + '.'; kunci = -k; kand = [k, 0, -k * L, k * L]; jelas = 'Menukar batas atas dan bawah mengubah tanda: ' + igH(b, a) + ' ' + F + dxx + ' = −' + igH(a, b) + ' ' + F + dxx + ' = −' + k + '.'; }
+      else if (jn === 1) { tanya = dik + 'Hitunglah ' + igH(b, a) + ' ' + c + F + dxx + '.'; kunci = -c * k; kand = [c * k, -k, k + c, -(k + c)]; jelas = 'Tukar batas: tanda berubah, konstanta ' + c + ' keluar dari integral. ' + igH(b, a) + ' ' + c + F + dxx + ' = −' + c + ' · ' + k + ' = −' + (c * k) + '.'; }
+      else if (jn === 2) { tanya = dik + 'Hitunglah ' + igH(b, a) + ' (' + F + ' + ' + d + ')' + dxx + '.'; kunci = -(k + d * L); kand = [k + d * L, d * L - k, -k - d, -k + d]; jelas = 'Tukar batas: ' + igH(b, a) + ' (' + F + ' + ' + d + ')' + dxx + ' = −' + igH(a, b) + ' (' + F + ' + ' + d + ')' + dxx + ' = −(' + k + ' + ' + d + '(' + b + ' − ' + a + ')) = −(' + k + ' + ' + (d * L) + ') = −' + (k + d * L) + '.'; }
+      else { tanya = dik + 'Hitunglah ' + igH(b, a) + ' (' + c + F + ' − ' + d + ')' + dxx + '.'; kunci = d * L - c * k; kand = [c * k - d * L, -c * k - d * L, c * k + d * L, -c * k]; jelas = 'Tukar batas: ' + igH(b, a) + ' (' + c + F + ' − ' + d + ')' + dxx + ' = −(' + c + ' · ' + k + ' − ' + d + '(' + b + ' − ' + a + ')) = −(' + (c * k) + ' − ' + (d * L) + ') = ' + mn(d * L - c * k) + '.'; }
+      const o = ambilOpsi(kunci, kand, mn); S.push({ tanya, opsi: o, kunci: mn(kunci), jelas, det: { j: 2, jn, a, b, k, c, d, kunci } }); }
+    // 3. batas dipartisi (dipecah di titik tengah)
+    { const a = pil(r, [0, 1, 2]), b = a + pil(r, [2, 3]), c = b + pil(r, [2, 3, 4]), p = pil(r, [3, 4, 5, 6, 7, 9]), q = pil(r, [2, 3, 4, 5, 8]), jn = rint(r, 0, 3), F = '<i>f</i>(<i>x</i>)', dxx = ' <i>dx</i>', ig = (u, v) => igH(u, v) + ' ' + F + dxx;
+      let tanya, kunci, kand, jelas;
+      if (jn === 0) { tanya = 'Diketahui ' + ig(a, b) + ' = ' + p + ' dan ' + ig(b, c) + ' = ' + q + '. Hitunglah ' + ig(a, c) + '.'; kunci = p + q; kand = [p - q, q - p, p * q, -(p + q)]; jelas = 'Batas boleh dipartisi di titik tengah: ' + ig(a, c) + ' = ' + ig(a, b) + ' + ' + ig(b, c) + ' = ' + p + ' + ' + q + ' = ' + (p + q) + '.'; }
+      else if (jn === 1) { const P = p + q; tanya = 'Diketahui ' + ig(a, c) + ' = ' + P + ' dan ' + ig(b, c) + ' = ' + q + '. Hitunglah ' + ig(a, b) + '.'; kunci = p; kand = [P + q, q - P, P, -p]; jelas = 'Dari ' + ig(a, c) + ' = ' + ig(a, b) + ' + ' + ig(b, c) + ' diperoleh ' + ig(a, b) + ' = ' + P + ' − ' + q + ' = ' + p + '.'; }
+      else if (jn === 2) { const P = p + q; tanya = 'Diketahui ' + ig(a, b) + ' = ' + p + ' dan ' + ig(a, c) + ' = ' + P + '. Hitunglah ' + ig(b, c) + '.'; kunci = q; kand = [P + p, p - P, P, -q]; jelas = 'Dari ' + ig(a, c) + ' = ' + ig(a, b) + ' + ' + ig(b, c) + ' diperoleh ' + ig(b, c) + ' = ' + P + ' − ' + p + ' = ' + q + '.'; }
+      else { tanya = 'Diketahui ' + ig(a, b) + ' = ' + (p + q) + ' dan ' + ig(c, b) + ' = ' + q + '. Hitunglah ' + ig(a, c) + '.'; kunci = p; kand = [p + 2 * q, p + q + q, q, -p].filter((v) => v !== p); jelas = 'Batas ditukar dulu: ' + ig(b, c) + ' = −' + ig(c, b) + ' = −' + q + '. Maka ' + ig(a, c) + ' = ' + ig(a, b) + ' + ' + ig(b, c) + ' = ' + (p + q) + ' − ' + q + ' = ' + p + '.'; }
+      const o = ambilOpsi(kunci, kand, mn); S.push({ tanya, opsi: o, kunci: mn(kunci), jelas, det: { j: 3, jn, a, b, c, p, q, kunci } }); }
+    // 4. dari grafik: pilih penulisan integral yang benar (daerah antara parabola dan garis; irisan tegak atau datar)
+    { const r1 = pil(r, [-2, -1, 0]), r2 = pil(r, [2, 3, 4]), m = r1 + r2, nn = -r1 * r2, P = [0, 0, 1], Ln = [nn, m], sel = pa(Ln, P, -1), dy = rint(r, 0, 1) === 1, v = dy ? 'y' : 'x', dv = dy ? 'dy' : 'dx', lain = dy ? 'dx' : 'dy';
+      const ig = (u, w, expr, d2) => igH(u, w) + ' (' + expr + ') <i>' + (d2 || dv) + '</i>', ex = (p) => fx(p, v), bawahSalah = r1 === 0 ? -1 : 0;
+      const benar = ig(r1, r2, ex(sel)), o = [benar, ig(r1, r2, ex(ps(sel, -1))), ig(bawahSalah, r2, ex(sel)), ig(r1, r2, ex(pa(Ln, P, 1))), ig(r1, r2, ex(sel), lain)];
+      const spec = dy ? { tipe: 'y', k: [P, Ln], z: [{ u: 1, l: 0, a: r1, b: r2, w: 0 }] } : { tipe: 'x', k: [P, Ln], z: [{ u: 1, l: 0, a: r1, b: r2, w: 0 }] };
+      const pot = dy ? ' (irisan <b>datar</b>: kurva kanan dikurangi kurva kiri)' : ' (irisan <b>tegak</b>: kurva atas dikurangi kurva bawah)';
+      S.push({ html: true, det: { j: 4, P, Ln, r1, r2, dy }, grafik: { spec, W: 420, H: 300 }, tanya: 'Perhatikan daerah yang diarsir, dibatasi kurva ' + VAR(v === 'x' ? 'y' : 'x') + ' = ' + ex(P) + ' (garis lengkung) dan ' + VAR(v === 'x' ? 'y' : 'x') + ' = ' + ex(Ln) + ' (garis lurus). Penulisan integral tentu yang <b>benar</b> untuk luas daerah itu adalah …', opsi: o, kunci: benar,
+        jelas: 'Titik potong kedua kurva ada di ' + VAR(v) + ' = ' + mn(r1) + ' dan ' + VAR(v) + ' = ' + r2 + ' (lihat titik pada gambar), jadi itulah batas integralnya. Di antara batas itu, ' + (dy ? 'kurva ' + VAR('x') + ' = ' + ex(Ln) + ' berada di sebelah <b>kanan</b>' : 'garis ' + VAR('y') + ' = ' + ex(Ln) + ' berada di <b>atas</b>') + ', jadi integrannya ' + (dy ? 'kanan − kiri' : 'atas − bawah') + ' = (' + ex(Ln) + ') − (' + ex(P) + ') = ' + ex(sel) + pot + ' dan variabelnya ' + dv + '.' }); }
+    // 5. dari grafik fungsi f(x) dan daerah arsiran: hitung luasnya (siswa merangkai integralnya sendiri)
+    { const hasil = cari(() => { const s = pil(r, [4, 6]), k = pil(r, [1, 2]), sg = pil(r, [1, -1]), a = rint(r, 0, s - 2), b = rint(r, a + 1, s), p = [0, sg * k * s, -sg * k], v = i12(p, a, b); return (Math.abs(v) % 6 === 0) ? { s, k, sg, a, b, p, v } : null; });
+      const { s, k, sg, a, b, p } = hasil, I = hit(p, a, b), val = I.nilai, L = sg > 0 ? val : rt(-val.n, val.d), kunci = rT(L);
+      const pecahan = (z) => rT(z);
+      const o = opsiStr(kunci, [rT(rt(-L.n, L.d)), pecahan(rt(L.n, L.d * 2)), pecahan(rt(L.n * 2, L.d)), pecahan(rt(L.n + L.d, L.d)), pecahan(rt(Math.abs(Fv(p, b).n), Fv(p, b).d))]);
+      for (let j = 1; o.length < 5; j++) { const v2 = rT(rt(L.n + j * L.d, L.d)); if (!o.includes(v2)) o.push(v2); }
+      const spec = { tipe: 'x', k: [p], z: [{ u: sg > 0 ? 0 : -1, l: sg > 0 ? -1 : 0, a, b, w: 0 }] };
+      S.push({ det: { j: 5, p, a, b, sg }, grafik: { spec, W: 420, H: 300 }, tanya: 'Perhatikan grafik kurva <i>y</i> = <i>f</i>(<i>x</i>) dengan <i>f</i>(<i>x</i>) = ' + fx(p) + '. Daerah yang diarsir dibatasi kurva, sumbu-<i>x</i>, garis <i>x</i> = ' + a + ', dan garis <i>x</i> = ' + b + '. Berapa satuan luas daerah yang diarsir?', opsi: o, kunci,
+        jelas: (sg > 0 ? 'Kurva berada di atas sumbu-x pada [' + a + ', ' + b + '], jadi luas = ' + igH(a, b) + ' (' + fx(p) + ') <i>dx</i>. ' : 'Kurva berada di bawah sumbu-x pada [' + a + ', ' + b + '], jadi nilai integralnya negatif dan luas = −' + igH(a, b) + ' (' + fx(p) + ') <i>dx</i>. ') + I.html + (sg > 0 ? '.' : ', sehingga luasnya ' + rH(L) + '.') + ' Luas selalu positif.' }); }
+    return S.map((s, i) => { const rr = mulberry(31 + idx * 101 + i * 17), urut = acak(rr, s.opsi.map((_, k) => k)), opsi = urut.map((k) => s.opsi[k]); const q = { no: i + 1, tanya: s.tanya, opsi, kunci: opsi.indexOf(s.kunci), jelas: s.jelas }; if (s.grafik) q.grafik = s.grafik; if (s.html) q.html = true; if (s.det) q.det = s.det; return q; });
   }
   function nilai(idx, jawab) { const so = soalSiswa(idx), hasil = so.map((s, i) => ({ no: i + 1, pilih: jawab[i] == null || jawab[i] === 5 ? null : jawab[i], benar: jawab[i] === s.kunci })); return { benar: hasil.filter((h) => h.benar).length, salah: hasil.filter((h) => !h.benar).length, hasil }; }
 
   /* ---------- kode hasil 5 karakter (4 data + 1 cek), alfabet tanpa 0 O 1 I ---------- */
   const ALFA = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
-  function buatKode(idx, jawab) { let a = 0, kali = 1; for (let i = 0; i < 5; i++) { const v = jawab[i] == null ? 5 : jawab[i]; a += v * kali; kali *= 6; } let n = idx + 31 * a, s = ''; for (let i = 0; i < 4; i++) { s = ALFA[n % 32] + s; n = Math.floor(n / 32); } let c = 0; for (let i = 0; i < 4; i++) c += (ALFA.indexOf(s[i]) + 1) * (2 * i + 3); return s + ALFA[c % 32]; }
+  function buatKode(idx, jawab) { let a = 0, kali = 1; for (let i = 0; i < 5; i++) { const v = jawab[i] == null ? 5 : jawab[i]; a += v * kali; kali *= 6; } let n = idx + 50 * a, s = ''; for (let i = 0; i < 4; i++) { s = ALFA[n % 32] + s; n = Math.floor(n / 32); } let c = 0; for (let i = 0; i < 4; i++) c += (ALFA.indexOf(s[i]) + 1) * (2 * i + 3); return s + ALFA[c % 32]; }
   function bacaKode(kode) {
     const k = String(kode || '').toUpperCase().replace(/[^A-Z2-9]/g, ''); if (k.length !== 5) return { error: 'Kode harus 5 karakter' };
     let c = 0, n = 0; for (let i = 0; i < 4; i++) { const p = ALFA.indexOf(k[i]); if (p < 0) return { error: 'Karakter kode tidak dikenali' }; c += (p + 1) * (2 * i + 3); n = n * 32 + p; }
     if (ALFA[c % 32] !== k[4]) return { error: 'Kode salah ketik (karakter terakhir tidak cocok)' };
-    const idx = n % 31; let a = Math.floor(n / 31); if (a >= 7776) return { error: 'Kode tidak valid' };
+    const idx = n % 50; let a = Math.floor(n / 50); if (a >= 7776) return { error: 'Kode tidak valid' };
     const jawab = []; for (let i = 0; i < 5; i++) { const v = a % 6; jawab.push(v === 5 ? null : v); a = Math.floor(a / 6); }
     return { idx, jawab, kode: k };
   }

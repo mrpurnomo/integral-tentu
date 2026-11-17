@@ -2,6 +2,7 @@
 (function (root) {
   'use strict';
   const NS = 'http://www.w3.org/2000/svg';
+  let idPola = 0;
   const S = (tag, attrs, ...anak) => { const e = document.createElementNS(NS, tag); for (const k in (attrs || {})) e.setAttribute(k, attrs[k]); anak.flat().forEach((a) => a != null && e.append(a.nodeType ? a : document.createTextNode(a))); return e; };
   const fmt = (n) => { const r = Math.round(n * 100) / 100; return String(r).replace('-', '−').replace('.', ','); };
 
@@ -17,23 +18,27 @@
     const sx = (x) => m.l + (x - o.xmin) / (o.xmax - o.xmin) * pw, sy = (y) => m.t + ph - (y - o.ymin) / (o.ymax - o.ymin) * ph;
     const svg = S('svg', { viewBox: '0 0 ' + W + ' ' + H, class: 'bidang', role: 'img', 'aria-label': o.label || 'Grafik', style: 'width:100%;height:100%;display:block;overflow:visible;font-family:Jakarta,Segoe UI,sans-serif' });
     const lapis = {}; ['grid', 'isi', 'sumbu', 'label', 'putus', 'kurva', 'titik', 'atas'].forEach((n) => { lapis[n] = S('g', { class: 'l-' + n }); svg.append(lapis[n]); });
+    /* arsiran gaya gambar teknik: garis diagonal emas (luas positif), merah (bagian negatif), navy (pembantu); id unik per grafik */
+    const uid = 'ar' + (++idPola), POLA = [['#C9922F', '#E0AE4A'], ['#B3232D', '#C23A3F'], ['#13294B', '#2A5AA7']], defs = S('defs');
+    POLA.forEach((c, i) => defs.append(S('pattern', { id: uid + i, width: 9, height: 9, patternUnits: 'userSpaceOnUse', patternTransform: 'rotate(45)' }, S('rect', { width: 9, height: 9, fill: c[1], 'fill-opacity': .16 }), S('line', { x1: 0, y1: 0, x2: 0, y2: 9, stroke: c[0], 'stroke-width': 3.6, 'stroke-opacity': .9 }))));
+    svg.insertBefore(defs, svg.firstChild);
     svg.insertBefore(S('rect', { x: m.l, y: m.t, width: pw, height: ph, fill: '#fff', stroke: '#E2DCCB', rx: 6 }), lapis.grid);
     (o.xt || []).forEach((v) => { lapis.grid.append(S('line', { x1: sx(v), x2: sx(v), y1: m.t, y2: m.t + ph, stroke: '#ECE6D6' })); lapis.label.append(S('text', { x: sx(v), y: m.t + ph + 20, 'font-size': 15, 'text-anchor': 'middle', fill: '#2B3F58' }, fmt(v))); });
     (o.yt || []).forEach((v) => { lapis.grid.append(S('line', { x1: m.l, x2: m.l + pw, y1: sy(v), y2: sy(v), stroke: '#ECE6D6' })); lapis.label.append(S('text', { x: m.l - 9, y: sy(v) + 5, 'font-size': 15, 'text-anchor': 'end', fill: '#2B3F58' }, fmt(v))); });
-    const ax = S('line', { class: 'sx', x1: m.l, x2: m.l + pw, y1: sy(Math.max(o.ymin, Math.min(o.ymax, 0))), y2: sy(Math.max(o.ymin, Math.min(o.ymax, 0))), stroke: '#12263F', 'stroke-width': 2.6, 'stroke-linecap': 'round' });
-    const ay = S('line', { class: 'sy', x1: sx(Math.max(o.xmin, Math.min(o.xmax, 0))), x2: sx(Math.max(o.xmin, Math.min(o.xmax, 0))), y1: m.t, y2: m.t + ph, stroke: '#12263F', 'stroke-width': 2.6, 'stroke-linecap': 'round' });
+    const ax = S('line', { class: 'sx', x1: m.l, x2: m.l + pw, y1: sy(Math.max(o.ymin, Math.min(o.ymax, 0))), y2: sy(Math.max(o.ymin, Math.min(o.ymax, 0))), stroke: '#12254A', 'stroke-width': 2.6, 'stroke-linecap': 'round' });
+    const ay = S('line', { class: 'sy', x1: sx(Math.max(o.xmin, Math.min(o.xmax, 0))), x2: sx(Math.max(o.xmin, Math.min(o.xmax, 0))), y1: m.t, y2: m.t + ph, stroke: '#12254A', 'stroke-width': 2.6, 'stroke-linecap': 'round' });
     lapis.sumbu.append(ax, ay);
-    const tx = S('text', { class: 'tx', x: m.l + pw - 2, y: m.t + ph + 40, 'font-size': 17, 'font-weight': 700, 'text-anchor': 'end', fill: '#12263F' }, o.labelX || 'x');
-    const ty = S('text', { class: 'ty', x: m.l + 8, y: m.t + 14, 'font-size': 17, 'font-weight': 700, fill: '#12263F' }, o.labelY || 'y');
+    const tx = S('text', { class: 'tx', x: m.l + pw - 2, y: m.t + ph + 40, 'font-size': 17, 'font-weight': 700, 'text-anchor': 'end', fill: '#12254A' }, o.labelX || 'x');
+    const ty = S('text', { class: 'ty', x: m.l + 8, y: m.t + 14, 'font-size': 17, 'font-weight': 700, fill: '#12254A' }, o.labelY || 'y');
     if (!o.tanpaTick) lapis.label.append(tx, ty);
-    const api = { svg, sx, sy, lapis, m, pw, ph, ax, ay, tx, ty, o,
-      titik(x, y, w) { w = w || {}; const g = S('g', { class: 'tt' }); const c = S('circle', { cx: sx(x), cy: sy(y), r: w.r || 8, fill: w.warna || '#0F766E', stroke: '#fff', 'stroke-width': 3 }); g.append(c);
+    const api = { svg, sx, sy, lapis, m, pw, ph, ax, ay, tx, ty, o, pola: (w) => 'url(#' + uid + (w || 0) + ')',
+      titik(x, y, w) { w = w || {}; const g = S('g', { class: 'tt' }); const c = S('circle', { cx: sx(x), cy: sy(y), r: w.r || 8, fill: w.warna || '#13294B', stroke: '#fff', 'stroke-width': 3 }); g.append(c);
         if (w.teks !== false) { const t = S('text', { x: sx(x) + 12, y: sy(y) - 12, 'font-size': 17, 'font-weight': 700, fill: w.warnaTeks || '#2B3F58', 'paint-order': 'stroke', stroke: '#fff', 'stroke-width': 4 }, '(' + fmt(x) + ', ' + fmt(y) + ')'); g.append(t); }
         g.style.transformBox = 'fill-box'; g.style.transformOrigin = 'center'; lapis.titik.append(g); return g; },
-      putus(x, y, warna) { const v = S('line', { x1: sx(x), y1: sy(0 > o.ymax || 0 < o.ymin ? o.ymin : 0), x2: sx(x), y2: sy(0 > o.ymax || 0 < o.ymin ? o.ymin : 0), stroke: warna || '#E08A1E', 'stroke-width': 3, 'stroke-dasharray': '7 6', 'stroke-linecap': 'round' });
-        const h = S('line', { x1: sx(0 > o.xmax || 0 < o.xmin ? o.xmin : 0), y1: sy(y), x2: sx(0 > o.xmax || 0 < o.xmin ? o.xmin : 0), y2: sy(y), stroke: warna || '#E08A1E', 'stroke-width': 3, 'stroke-dasharray': '7 6', 'stroke-linecap': 'round' }); lapis.putus.append(v, h); return { v, h, x, y }; },
-      kurva(garis, w) { w = w || {}; const g = S('g'); (Array.isArray(garis[0][0]) ? garis : [garis]).forEach((seg) => { const d = seg.map((p, i) => (i ? 'L' : 'M') + sx(p[0]).toFixed(1) + ' ' + sy(p[1]).toFixed(1)).join(''); g.append(S('path', { d, fill: 'none', stroke: w.warna || '#0F766E', 'stroke-width': w.tebal || 5, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', pathLength: 1, 'stroke-dasharray': w.sembunyi ? 1 : null, 'stroke-dashoffset': w.sembunyi ? 1 : null })); }); lapis.kurva.append(g); return g; },
-      tegak(x, warna) { const l = S('line', { x1: sx(x), x2: sx(x), y1: m.t, y2: m.t + ph, stroke: warna || '#1B9C8F', 'stroke-width': 2.4, 'stroke-dasharray': '8 6' }); lapis.kurva.append(l); return l; } };
+      putus(x, y, warna) { const v = S('line', { x1: sx(x), y1: sy(0 > o.ymax || 0 < o.ymin ? o.ymin : 0), x2: sx(x), y2: sy(0 > o.ymax || 0 < o.ymin ? o.ymin : 0), stroke: warna || '#C9922F', 'stroke-width': 3, 'stroke-dasharray': '7 6', 'stroke-linecap': 'round' });
+        const h = S('line', { x1: sx(0 > o.xmax || 0 < o.xmin ? o.xmin : 0), y1: sy(y), x2: sx(0 > o.xmax || 0 < o.xmin ? o.xmin : 0), y2: sy(y), stroke: warna || '#C9922F', 'stroke-width': 3, 'stroke-dasharray': '7 6', 'stroke-linecap': 'round' }); lapis.putus.append(v, h); return { v, h, x, y }; },
+      kurva(garis, w) { w = w || {}; const g = S('g'); (Array.isArray(garis[0][0]) ? garis : [garis]).forEach((seg) => { const d = seg.map((p, i) => (i ? 'L' : 'M') + sx(p[0]).toFixed(1) + ' ' + sy(p[1]).toFixed(1)).join(''); g.append(S('path', { d, fill: 'none', stroke: w.warna || '#13294B', 'stroke-width': w.tebal || 5, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', pathLength: 1, 'stroke-dasharray': w.sembunyi ? 1 : null, 'stroke-dashoffset': w.sembunyi ? 1 : null })); }); lapis.kurva.append(g); return g; },
+      tegak(x, warna) { const l = S('line', { x1: sx(x), x2: sx(x), y1: m.t, y2: m.t + ph, stroke: warna || '#2A5AA7', 'stroke-width': 2.4, 'stroke-dasharray': '8 6' }); lapis.kurva.append(l); return l; } };
     return api;
   }
   /* tumbuhkan garis putus dari titik awal ke akhir (rAF) */
@@ -51,7 +56,7 @@
        w = 0 (hijau-tosca, luas positif) | 1 (merah muda, bagian negatif) */
   const pv = (p, x) => p.reduce((s, c, i) => s + c * Math.pow(x, i), 0);
   const poli = (spec, i) => (i < 0 ? [0] : spec.k[i]);
-  const WARNA_ISI = ['#1B9C8F', '#D94F70'], WARNA_KURVA = ['#3B6FD6', '#E08A1E', '#7E5BD6', '#4C9A3F'];
+  const WARNA_KURVA = ['#13294B', '#B3232D', '#2A5AA7', '#8C5A1E'];
   const langkahTick = (lo, hi) => { const raw = (hi - lo) / 6; let st = 1; for (const k of [1, 2, 5, 10, 20, 50, 100]) { st = k; if (k >= raw) break; } const o = []; for (let v = Math.ceil(lo / st) * st; v <= hi + 1e-9; v += st) o.push(Math.round(v * 1e6) / 1e6); return o; };
   function lihat(spec) {
     if (spec.v) return Object.assign({ xt: langkahTick(spec.v.xmin, spec.v.xmax), yt: langkahTick(spec.v.ymin, spec.v.ymax) }, spec.v);
@@ -72,7 +77,7 @@
     o = o || {}; const tipe = spec.tipe || 'x', v = lihat(spec), b = bidang(Object.assign({ W: o.W || 640, H: o.H || 440, label: o.label || 'Daerah yang dibatasi kurva' }, v, o.tanpaTick ? { xt: [], yt: [], tanpaTick: true } : {}));
     const kurva = spec.k.map((p, i) => b.kurva(tipe === 'x' ? sampelP((t) => pv(p, t), v.xmin, v.xmax, 260, v.ymin, v.ymax, false) : sampelP((t) => pv(p, t), v.ymin, v.ymax, 260, v.xmin, v.xmax, true), { warna: (o.warnaKurva || WARNA_KURVA)[i % 4], tebal: o.tebal || 4.8, sembunyi: !!o.animasi }));
     const isi = spec.z.map((z) => {
-      const path = S('path', { fill: WARNA_ISI[z.w || 0], 'fill-opacity': .34, stroke: 'none' }); b.lapis.isi.append(path); const U = poli(spec, z.u), L = poli(spec, z.l);
+      const path = S('path', { fill: b.pola(z.w), stroke: 'none' }); b.lapis.isi.append(path); const U = poli(spec, z.u), L = poli(spec, z.l);
       const bangun = (t) => {
         if (t <= 0.001) { path.setAttribute('d', ''); return; } const e = z.a + (z.b - z.a) * t, N = 70, atas = [], bawah = [];
         for (let i = 0; i <= N; i++) { const s = z.a + (e - z.a) * i / N; atas.push(tipe === 'x' ? [s, pv(U, s)] : [pv(U, s), s]); bawah.push(tipe === 'x' ? [s, pv(L, s)] : [pv(L, s), s]); }
@@ -81,7 +86,7 @@
       bangun(o.animasi ? 0 : 1); return { path, bangun, z };
     });
     const titik = []; const sudah = new Set();
-    if (o.titik !== false) spec.z.forEach((z) => [z.a, z.b].forEach((s) => { const idx = z.u >= 0 ? z.u : z.l, y = pv(poli(spec, idx), s), P = tipe === 'x' ? [s, y] : [y, s], kk = P.join(','); if (sudah.has(kk)) return; sudah.add(kk); const g = b.titik(P[0], P[1], { teks: o.labelTitik !== false, r: 7, warna: '#12263F' }); if (o.animasi) g.setAttribute('opacity', 0); titik.push(g); }));
+    if (o.titik !== false) spec.z.forEach((z) => [z.a, z.b].forEach((s) => { const idx = z.u >= 0 ? z.u : z.l, y = pv(poli(spec, idx), s), P = tipe === 'x' ? [s, y] : [y, s], kk = P.join(','); if (sudah.has(kk)) return; sudah.add(kk); const g = b.titik(P[0], P[1], { teks: o.labelTitik !== false, r: 7, warna: '#12254A' }); if (o.animasi) g.setAttribute('opacity', 0); titik.push(g); }));
     async function jalan(ms, tk) {
       const UI = root.UI; ms = ms || 1400;
       await Promise.all(kurva.map((g) => gambarKurva(g, ms, tk))); if (tk) tk.cek();
@@ -126,5 +131,8 @@
   /* gambar satu varian ke dalam bidang baru; animasi opsional (kurva digambar, lalu daerah terisi) */
   const gambarVarian = (v, o) => lukis(v.spec, Object.assign({ animasi: true }, o));
   const statis = (v, o) => lukis(v.spec, Object.assign({ animasi: false, tebal: 4.6 }, o));
-  root.GF = { S, fmt, sampel, bidang, tumbuh, gambarKurva, K, lukis, lihat, dataSVG, gambarVarian, statis, pv, tumbuhIsi };
+  /* grafik statis untuk soal (tes awal): kembalikan elemen SVG atau string HTML */
+  const soalSVG = (q) => lukis(q.grafik.spec, { W: q.grafik.W || 420, H: q.grafik.H || 300, label: 'Grafik soal' }).svg;
+  const soalHTML = (q) => (q.grafik ? '<div class="gambar-soal">' + soalSVG(q).outerHTML + '</div>' : '');
+  root.GF = { soalSVG, soalHTML, S, fmt, sampel, bidang, tumbuh, gambarKurva, K, lukis, lihat, dataSVG, gambarVarian, statis, pv, tumbuhIsi };
 })(window);

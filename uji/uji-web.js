@@ -46,14 +46,14 @@ const G = (a, o) => api(Object.assign({ a, pin: PIN }, o));
   // ---- akun uji coba dan tahap lanjutan
   await G('g-reset-semua');
   for (let i = 0; i < N; i++) { await api({ a: 'klaim', idx: i, token: 'T' + i }); const so3 = B.soalSiswa(i); await api({ a: 'hasil', idx: i, token: 'T' + i, jawab: so3.map((q, j) => (j < i % 6 ? q.kunci : (q.kunci + 1) % 5)) }); }
-  r = await api({ a: 'kelompok', idx: 0, token: 'T0' }); ok(r.menunggu === true, 'setelah atur ulang, kelompok terkunci secara bawaan'); await G('g-gerbang', { buka: true }); await api({ a: 'kelompok', idx: 0, token: 'T0' }); const sebelum = (await G('g-status')).kelompok.map((g) => g.length).join(',');
-  r = await api({ a: 'klaim', idx: 30, token: 'X1' }); ok(r.ok && r.uji, 'akun uji coba bisa masuk');
-  r = await api({ a: 'klaim', idx: 30, token: 'X2' }); ok(r.ok, 'akun uji coba boleh dipakai perangkat lain (selalu mulai bersih)');
-  const so24 = B.soalSiswa(30); r = await api({ a: 'hasil', idx: 30, token: 'X2', jawab: so24.map((q) => q.kunci) }); ok(r.ok && r.benar === 5, 'akun uji coba mengirim hasil');
-  r = await api({ a: 'kelompok', idx: 30, token: 'X2' }); ok(r.ok && r.uji && r.kelompok.flat().length >= N, 'akun uji coba melihat kelompok sementara');
+  r = await api({ a: 'kelompok', idx: 0, token: 'T0' }); ok(r.ok && !r.menunggu && r.kelompok.flat().length === N, 'setelah atur ulang, kelas otomatis: kelompok langsung terbuka (tanpa menunggu guru)'); await G('g-gerbang', { buka: true }); await api({ a: 'kelompok', idx: 0, token: 'T0' }); const sebelum = (await G('g-status')).kelompok.map((g) => g.length).join(',');
+  r = await api({ a: 'klaim', idx: B.DUMMY, token: 'X1' }); ok(r.ok && r.uji, 'akun uji coba bisa masuk');
+  r = await api({ a: 'klaim', idx: B.DUMMY, token: 'X2' }); ok(r.ok, 'akun uji coba boleh dipakai perangkat lain (selalu mulai bersih)');
+  const so24 = B.soalSiswa(B.DUMMY); r = await api({ a: 'hasil', idx: B.DUMMY, token: 'X2', jawab: so24.map((q) => q.kunci) }); ok(r.ok && r.benar === 5, 'akun uji coba mengirim hasil');
+  r = await api({ a: 'kelompok', idx: B.DUMMY, token: 'X2' }); ok(r.ok && r.uji && r.kelompok.flat().length >= N, 'akun uji coba melihat kelompok sementara');
   r = await G('g-status'); ok(r.kelompok.map((g) => g.length).join(',') === sebelum && r.daftar.length === N && r.uji.klaim && r.uji.skor === 5, 'kelompok asli dan daftar ' + N + ' siswa tidak berubah oleh akun uji coba');
-  r = await api({ a: 'status' }); ok(!r.diklaim.includes(30) && !r.selesai.includes(30), 'status publik tidak memuat akun uji coba');
-  r = await G('g-reset', { idx: 30 }); r = await G('g-status'); ok(r.uji.klaim === false, 'guru dapat mengatur ulang akun uji coba');
+  r = await api({ a: 'status' }); ok(!r.diklaim.includes(B.DUMMY) && !r.selesai.includes(B.DUMMY), 'status publik tidak memuat akun uji coba');
+  r = await G('g-reset', { idx: B.DUMMY }); r = await G('g-status'); ok(r.uji.klaim === false, 'guru dapat mengatur ulang akun uji coba');
   r = await api({ a: 't2', idx: 3, token: 'T3', t2: { pasangan: 1, kuasai: ['garis', 'xxx'], bingung: ['sumbuy', 'garis'], kartu: ['bawah', 'zzz'], cocok: { benar: 4 }, tiket: { skor: 2 }, diskusi: { benar: 5, total: 6 }, poin: 150, lencana: ['Pakar Pos'], selesai: true } }); ok(r.ok, 'tahap lanjutan: data tersimpan');
   await api({ a: 't2', idx: 4, token: 'T4', t2: { bingung: ['sumbuy'], cocok: { benar: 5 }, tiket: { skor: 3 }, poin: 80 } });
   r = await G('g-status'); const t2 = r.tahap2; ok(t2.agr.garis.kuasai === 1 && t2.agr.garis.bingung === 0 && t2.agr.sumbuy.bingung === 2 && !t2.agr.xxx && t2.cocok === 4.5 && t2.tiket === 2.5 && t2.selesai === 1, 'ringkasan guru: kuasai/bingung tidak tumpang tindih, rata-rata cocok 4,5, tiket 2,5');
@@ -89,6 +89,18 @@ const G = (a, o) => api(Object.assign({ a, pin: PIN }, o));
   r = await api({ a: 'status' }); ok(r.ok && Array.isArray(r.diklaim), 'BUG-1: status publik tanpa identitas berhasil');
   await G('g-pameran', { n: 2 }); r = await api({ a: 't2s' }); ok(r.pameran === 2, 'pameran: putaran yang diumumkan guru terbaca tablet tanpa identitas'); await G('g-pameran', { n: 99 }); r = await api({ a: 't2s' }); ok(r.pameran <= 9, 'pameran: nilai dibatasi'); await G('g-pameran', { n: 0 });
   r = await api({ a: 't2', idx: 7, token: 'TAB7', t2: { fung: { skor: 2 }, pam: { benar: 3, peran: 'kelana' }, kartu: ['bawah'], paham: { bawah: 'ya', evil: 'ya' } } }); ok(r.ok, 'perubahan aditif: bidang lama (fung, pam, kartu, paham) tetap diterima');
+  /* ---- KELOMPOK LANGSUNG: murid masuk kelompok saat melihat kelompok; tampilan murid lain ikut berubah tanpa guru ---- */
+  await G('g-reset-semua'); { const posisi = {}; let stabil = true, bertambah = true, prev = 0, penuh;
+    for (let i = 0; i < N; i++) { await api({ a: 'klaim', idx: i, token: 'L' + i }); const so = B.soalSiswa(i); await api({ a: 'hasil', idx: i, token: 'L' + i, jawab: so.map((q, j) => (j < i % 6 ? q.kunci : (q.kunci + 1) % 5)) });
+      r = await api({ a: 'kelompok', idx: i, token: 'L' + i }); if (!(r.ok && !r.menunggu && r.saya >= 0)) { ok(false, 'murid ke-' + (i + 1) + ' melihat kelompok langsung'); break; }
+      const tot = r.kelompok.flat().length; if (tot !== i + 1) bertambah = false; prev = tot;
+      Object.keys(posisi).forEach((k) => { const g = r.kelompok.findIndex((gg) => gg.some((s) => s.idx === +k)); if (g !== posisi[k].g || r.kelompok[g].findIndex((s) => s.idx === +k) !== posisi[k].p) stabil = false; });
+      posisi[i] = { g: r.saya, p: r.kelompok[r.saya].findIndex((s) => s.idx === i) };
+      if (i === 0) { const lihatAwal = r.kelompok.flat().length; ok(lihatAwal === 1, 'murid pertama melihat dirinya sendiri di sebuah kelompok'); } }
+    ok(bertambah, 'jumlah murid dalam kelompok bertambah satu per satu setiap murid melihat kelompok (' + prev + ' di akhir)');
+    ok(stabil, 'murid yang sudah ada tidak berpindah kelompok dan perannya tetap saat murid lain bergabung');
+    r = await api({ a: 'kelompok', idx: 0, token: 'L0' }); penuh = r.kelompok; ok(penuh.length === 7 && penuh.every((g) => g.length === 3), 'murid pertama (yang melihat lebih awal) kini melihat 7 kelompok × 3 tanpa memuat ulang halaman');
+    ok(new Set(penuh.flat().map((s) => s.idx)).size === N, 'setiap murid tepat satu kelompok'); }
   await G('g-reset-semua');
   console.log(process.exitCode ? '\nADA UJI GAGAL' : '\nSEMUA UJI API (kelas utama) LULUS');
 })();

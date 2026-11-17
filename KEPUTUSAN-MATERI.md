@@ -31,3 +31,16 @@ Dicatat dari pertanyaan awal ke guru (06 §3) dan dari `rancangan-materi-integra
 2. Nama resmi kelas (sekarang "XII Matematika Lanjut").
 3. Pembuatan proyek Vercel + Upstash dan penentuan kapan repositori dijadikan privat.
 4. Jadwal gladi dan hari pakai.
+
+## Revisi 17 November 2026
+
+| Hal | Keputusan |
+|---|---|
+| Tampilan | Identitas baru "Tinta & Kuningan": navy tua, emas kuningan, merah tinta koreksi, putih gading; garis ukur kuningan di header, sudut bingkai emas, arsiran diagonal emas pada daerah. Tanpa tema festival/bendera (itu milik proyek lain) |
+| Kelas | XII-A Teknik, XII-B Teknik, XII-C Kesehatan (luas daerah di antara dua kurva); XII-D Soshum (dasar integral tentu, dua pertemuan, materi menyusul). Kelas uji tersembunyi hanya untuk uji otomatis |
+| PIN guru | Diganti (hanya di rahasia.js dan hash-nya di bersama.js; tidak ditulis di dokumen) |
+| Pengantar (3 kelas) | 9 slide: judul → "Yuk, ingat kembali" (soal → grafik → arsiran → hitung) → "Bagaimana jika ada 2 fungsi?" → contoh dua kurva → mencari titik potong (persamaan bergeser antarbaris) → menghitung luas (9/2) → tujuh sub-materi (navigasi, dijelaskan guru lisan) → tujuan → bersiap tes |
+| Tes diagnostik | 5 soal pilihan ganda, 10 menit, angka berbeda per murid: (1) integral tentu biasa, (2) batas ditukar dengan variasi, (3) batas dipartisi dengan variasi, (4) grafik → pilih penulisan integral yang benar (irisan tegak atau datar), (5) grafik dan f(x) dengan arsiran → hitung luas tanpa integral ditampilkan |
+| Kelompok | Langsung: murid masuk kelompok saat menekan Lihat kelompok; tablet lain terbarui sendiri. Tanpa gerbang guru (guru masih bisa mengunci) |
+| Tujuh pos | Tetap seperti rancangan (mesin yang sudah direncanakan) |
+| Belum | Materi dan tes XII-D; daftar nama asli tiap kelas |
