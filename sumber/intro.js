@@ -181,7 +181,7 @@
     const { a, t } = c, N = B.NPOS, w = el('div', { kelas: 'jig' }); a.append(w);
     const kiri = el('div', { kelas: 'kartu jig-kiri' }), kanan = el('div', { kelas: 'jig-kanan' }); w.append(kiri, kanan);
     kanan.innerHTML = '<div class="eyebrow">Cara kerja kelompok hari ini</div><div class="jig-peran" id="pr"><div class="jp host"><b>Host</b><span>Menetap di meja kelompok asal, menjelaskan pos kelompoknya dan memutar animasi untuk tamu.</span></div><div class="jp a"><b>Penjelajah A</b><span>Berkeliling ke 3 pos berbeda, 10 menit per pos.</span></div><div class="jp b"><b>Penjelajah B</b><span>Berkeliling ke 3 pos lain yang belum dikunjungi A.</span></div></div><div class="sorotan" id="cp" style="margin-top:.5rem;font-size:1.1rem">Contoh rute untuk Kelompok 1</div>';
-    const R = 150, cx = 200, cy = 190, svg = S('svg', { viewBox: '0 -45 400 430', style: 'width:100%;height:100%;display:block;font-family:Jakarta,sans-serif' }); kiri.append(svg);
+    const R = 150, cx = 200, cy = 190, svg = S('svg', { viewBox: '0 -45 400 430', style: 'width:100%;height:100%;display:block;font-family:InstrumentSans,sans-serif' }); kiri.append(svg);
     const pos = (i) => { const ang = -Math.PI / 2 + (2 * Math.PI * i) / N; return [cx + R * Math.cos(ang), cy + R * Math.sin(ang)]; };
     const noda = []; UI.URUT.forEach((id, i) => { const [x, y] = pos(i), g = S('g'); g.append(S('circle', { cx: x, cy: y, r: 31, fill: 'var(--f-' + id + '-t)', stroke: 'var(--f-' + id + ')', 'stroke-width': i === 0 ? 6 : 3 }), S('text', { x, y: y + 7, 'font-size': 22, 'font-weight': 800, 'text-anchor': 'middle', fill: 'var(--f-' + id + '-d)' }, String(i + 1))); svg.append(g); noda.push(g); });
     svg.append(S('text', { x: cx, y: cy - 4, 'font-size': 15, 'text-anchor': 'middle', fill: '#55657A', 'font-weight': 700 }, 'Pos 1–7'), S('text', { x: cx, y: cy + 16, 'font-size': 13, 'text-anchor': 'middle', fill: '#55657A' }, 'satu pos tiap kelompok'));
@@ -212,7 +212,7 @@
 
   /* ======================================================== pemutar */
   function mount(host, o) {
-    o = o || {}; const ADEGAN = (B.cfg().materi === 'kurva2' && root.Intro.k2) ? root.Intro.k2() : ADEGAN_LAMA; const guru = !!o.guru; let idx = o.mulai || 0, tok = null, siap = false; const played = new Set(o.played || []); try { UI.speed = [1, 2, 3].includes(+localStorage.getItem('ac_speed')) ? +localStorage.getItem('ac_speed') : 1; } catch (e) { UI.speed = 1; }
+    o = o || {}; if (B.cfg().materi === 'kurva2' && root.Panggung) return root.Panggung.mount(host, o); const ADEGAN = ADEGAN_LAMA; const guru = !!o.guru; let idx = o.mulai || 0, tok = null, siap = false; const played = new Set(o.played || []); try { UI.speed = [1, 2, 3].includes(+localStorage.getItem('ac_speed')) ? +localStorage.getItem('ac_speed') : 1; } catch (e) { UI.speed = 1; }
     host.innerHTML = '';
     const root0 = el('div', { kelas: 'intro' }), kepala = el('div', { kelas: 'kepala-intro' }), adegan = el('div', { kelas: 'adegan' }), kendali = el('div', { kelas: 'kendali' });
     const judul = el('h2'), no = el('span', { kelas: 'chip' }); kepala.append(judul, no, el('div', { gaya: 'flex:1' }), el('span', { id: 'infoGaleri', kelas: 'chip abu', hidden: true }));

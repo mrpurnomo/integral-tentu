@@ -1,24 +1,24 @@
 /* Area & Calculus — tema cerah (biru laut, tosca, pasir). Semua komponen kustom (tanpa tampilan bawaan peramban). Landscape saja. */
 :root {
   color-scheme: light;
-  --awan: #F7F4EC; --putih: #fff; --tinta: #12254A; --tinta-2: #2B3F58; --tinta-3: #55657A; --garis: #E2DCCB; --garis-2: #CFC7B1;
+  --awan: #F3F5FA; --putih: #fff; --tinta: #12254A; --tinta-2: #2B3F58; --tinta-3: #55657A; --garis: #D8DEEA; --garis-2: #C3CBDD;
   --markisa: #13294B; --markisa-tua: #0A1A33; --markisa-muda: #E9EEF7; --markisa-100: #CCD7EA;
-  --mentari: #E0AE4A; --mentari-100: #FBF1D8; --mentari-800: #6E4C0B;
+  --mentari: #E0AE4A; --mentari-100: #FFF3D1; --mentari-800: #6E4C0B;
   --mint: #2FA36B; --mint-100: #DDF3E6; --mint-800: #14663F;
   --koral: #B3232D; --koral-100: #FBE1DF; --koral-800: #7E1820;
-  --jingga: #B8832B; --jingga-100: #F8EBCF; --jingga-800: #6E4C0B;
+  --jingga: #B8832B; --jingga-100: #FFF3D1; --jingga-800: #6E4C0B;
   /* tujuh bagian materi (pos) + dua aksen cadangan */
   --f-bawah: #C23A3F; --f-bawah-t: #FBE1DF; --f-bawah-d: #7E1820;
-  --f-potong: #C9922F; --f-potong-t: #FBF1D8; --f-potong-d: #6E4C0B;
+  --f-potong: #C9922F; --f-potong-t: #FFF3D1; --f-potong-d: #6E4C0B;
   --f-garis: #2A5AA7; --f-garis-t: #E3EBF8; --f-garis-d: #0A1A33;
   --f-parab: #5B7FB8; --f-parab-t: #E5ECF7; --f-parab-d: #26406E;
   --f-silang: #8C5A1E; --f-silang-t: #F4EADB; --f-silang-d: #5A3A0F;
   --f-sumbuy: #8A2B4A; --f-sumbuy-t: #F6E3EA; --f-sumbuy-d: #5E1B33;
   --f-kanan: #3C4F6B; --f-kanan-t: #E4E9F0; --f-kanan-d: #1F2C40;
-  --f-tangga: #A8742A; --f-tangga-t: #F4E8CC; --f-tangga-d: #6E4C0B;
+  --f-tangga: #A8742A; --f-tangga-t: #FFF3D1; --f-tangga-d: #6E4C0B;
   --f-sepotong: #12254A; --f-sepotong-t: #E3E8EE; --f-sepotong-d: #12254A;
   --r: .9rem; --r-lg: 1.3rem; --bayang: 0 .1rem .2rem rgba(18,38,63,.07), 0 .6rem 1.4rem -.6rem rgba(18,38,63,.22);
-  --tampil: "Fraunces", "Segoe UI", system-ui, sans-serif; --isi: "Jakarta", "Segoe UI", system-ui, sans-serif; --mat: "Fraunces Math", "Cambria Math", Cambria, Georgia, "Times New Roman", serif;
+  --tampil: "Bricolage", "Segoe UI", system-ui, sans-serif; --isi: "InstrumentSans", "Segoe UI", system-ui, sans-serif; --mat: "InstrumentSerif", "Cambria Math", Cambria, Georgia, "Times New Roman", serif;
   --ease: cubic-bezier(.2,.8,.2,1); --pegas: cubic-bezier(.34,1.56,.64,1);
 }
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -66,7 +66,7 @@ button { font: inherit; color: inherit; }
 @keyframes denyut { 0%,100% { box-shadow: 0 .2rem 0 var(--markisa-tua), 0 0 0 0 rgba(19,41,75,.5); } 60% { box-shadow: 0 .2rem 0 var(--markisa-tua), 0 0 0 .9rem rgba(19,41,75,0); } }
 .kartu { background: #fff; border: 1px solid var(--garis); border-radius: var(--r-lg); box-shadow: var(--bayang); padding: 1.1rem 1.3rem; }
 .chip { display: inline-flex; align-items: center; gap: .4rem; padding: .15rem .8rem; border-radius: 99px; font-weight: 700; font-size: .85rem; background: var(--markisa-muda); color: var(--markisa-tua); white-space: nowrap; }
-.chip.ok { background: var(--mint-100); color: var(--mint-800); } .chip.warn { background: var(--jingga-100); color: var(--jingga-800); } .chip.bad { background: var(--koral-100); color: var(--koral-800); } .chip.abu { background: #ECE7D6; color: var(--tinta-2); } .chip.sorot { background: var(--mentari-100); color: var(--mentari-800); }
+.chip.ok { background: var(--mint-100); color: var(--mint-800); } .chip.warn { background: var(--jingga-100); color: var(--jingga-800); } .chip.bad { background: var(--koral-100); color: var(--koral-800); } .chip.abu { background: #E4E9F2; color: var(--tinta-2); } .chip.sorot { background: var(--mentari-100); color: var(--mentari-800); }
 .ik { width: 1.3rem; height: 1.3rem; flex: none; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .ik.besar { width: 2rem; height: 2rem; } .ik.kecil { width: 1rem; height: 1rem; }
 .eyebrow { display: inline-flex; align-items: center; gap: .5rem; font-size: .8rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--tinta-3); margin-bottom: .3rem; }
@@ -92,7 +92,7 @@ button { font: inherit; color: inherit; }
 .dialog .badan { padding: .4rem 1.6rem 1rem; flex: 1; min-height: 0; font-size: 1.1rem; }
 .dialog .kaki { padding: .8rem 1.6rem 1.3rem; display: flex; gap: .8rem; justify-content: flex-end; flex-wrap: wrap; }
 .dialog.lebar { width: min(64rem, 100%); }
-.dialog .tutup-x { margin-left: auto; width: 2.4rem; height: 2.4rem; border-radius: 50%; border: 0; background: #ECE7D6; display: grid; place-items: center; cursor: pointer; }
+.dialog .tutup-x { margin-left: auto; width: 2.4rem; height: 2.4rem; border-radius: 50%; border: 0; background: #E4E9F2; display: grid; place-items: center; cursor: pointer; }
 .toast { position: fixed; left: 50%; bottom: 5rem; transform: translateX(-50%); z-index: 600; background: var(--tinta); color: #fff; padding: .7rem 1.4rem; border-radius: 99px; font-weight: 700; box-shadow: var(--bayang); animation: naik .3s var(--pegas) both; display: flex; gap: .6rem; align-items: center; }
 @keyframes naik { from { opacity: 0; transform: translate(-50%, 1rem); } }
 
@@ -104,7 +104,7 @@ button { font: inherit; color: inherit; }
 .papan-ketik .tuts { display: grid; gap: .45rem; grid-template-columns: repeat(var(--kol, 8), 1fr); }
 .papan-ketik .tut { min-height: 3rem; border-radius: .8rem; border: .12rem solid var(--garis); background: #fff; font-weight: 700; font-size: 1.2rem; cursor: pointer; box-shadow: 0 .15rem 0 var(--garis-2); touch-action: manipulation; }
 .papan-ketik .tut:active { transform: translateY(.15rem); box-shadow: none; background: var(--markisa-muda); }
-.papan-ketik .tut.fungsi { background: #ECE7D6; font-size: .95rem; }
+.papan-ketik .tut.fungsi { background: #E4E9F2; font-size: .95rem; }
 
 /* ---------- putar tablet (hanya landscape) ---------- */
 #putar { position: fixed; inset: 0; z-index: 9999; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; background: linear-gradient(160deg, #13294B, #12254A 55%, #5B7FB8); color: #fff; text-align: center; padding: 2rem; }
@@ -122,7 +122,7 @@ button { font: inherit; color: inherit; }
 .warna-x { color: var(--f-potong); } .warna-y { color: var(--mint); } .warna-hasil { color: var(--markisa); }
 
 .layar-angka { text-align: center; font-family: var(--tampil); font-size: 3rem; font-weight: 700; padding: .4rem; margin: .6rem auto; max-width: 18rem; border-radius: 1rem; background: var(--markisa-muda); color: var(--markisa-tua); min-height: 4.4rem; } .layar-angka.kosong { color: var(--garis-2); }
-.tuts-angka { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; max-width: 18rem; margin: 0 auto; } .tuts-angka .tut { min-height: 3.3rem; border-radius: .8rem; border: .12rem solid var(--garis); background: #fff; font-weight: 700; font-size: 1.4rem; cursor: pointer; box-shadow: 0 .15rem 0 var(--garis-2); } .tuts-angka .tut:active { transform: translateY(.15rem); box-shadow: none; background: var(--markisa-muda); } .tuts-angka .tut.fungsi { background: #ECE7D6; }
+.tuts-angka { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; max-width: 18rem; margin: 0 auto; } .tuts-angka .tut { min-height: 3.3rem; border-radius: .8rem; border: .12rem solid var(--garis); background: #fff; font-weight: 700; font-size: 1.4rem; cursor: pointer; box-shadow: 0 .15rem 0 var(--garis-2); } .tuts-angka .tut:active { transform: translateY(.15rem); box-shadow: none; background: var(--markisa-muda); } .tuts-angka .tut.fungsi { background: #E4E9F2; }
 .teks-soal-d { font-size: 1.5rem; line-height: 1.4; text-align: center; } .teks-soal-d i, .teks-soal i { font-family: var(--mat); }
 
 /* ---------- matematika ---------- */

@@ -101,6 +101,12 @@ const G = (a, o) => api(Object.assign({ a, pin: PIN }, o));
     ok(stabil, 'murid yang sudah ada tidak berpindah kelompok dan perannya tetap saat murid lain bergabung');
     r = await api({ a: 'kelompok', idx: 0, token: 'L0' }); penuh = r.kelompok; ok(penuh.length === 7 && penuh.every((g) => g.length === 3), 'murid pertama (yang melihat lebih awal) kini melihat 7 kelompok × 3 tanpa memuat ulang halaman');
     ok(new Set(penuh.flat().map((s) => s.idx)).size === N, 'setiap murid tepat satu kelompok'); }
+  /* ---- PANGGUNG: guru memutar langkah, tablet murid mengikuti (t2s publik memuat posisi slide) ---- */
+  await G('g-reset-semua'); r = await api({ a: 't2s' }); ok(r.ok && r.slide === null, 'posisi slide awal kosong (murid bebas berjalan sendiri)');
+  r = await G('g-slide', { c: 5, b: 3 }); ok(r.ok, 'guru mengirim posisi slide (bab 5, langkah 3)'); r = await api({ a: 't2s' }); ok(r.slide && r.slide.c === 5 && r.slide.b === 3, 'tablet murid membaca posisi slide tanpa identitas');
+  r = await G('g-slide', { c: -1, b: 0 }); ok(r._s === 400, 'posisi slide tidak valid ditolak'); r = await G('g-slide', { c: 2, b: 999 }); ok(r._s === 400, 'langkah di luar rentang ditolak');
+  r = await api({ a: 'g-slide', c: 1, b: 1, pin: '00000' }); ok(r._s === 401, 'murid tanpa PIN tidak bisa mengatur slide');
+  r = await api({ a: 't2s' }); ok(r.slide && r.slide.c === 5, 'posisi tetap setelah percobaan yang ditolak'); await G('g-reset-semua'); r = await api({ a: 't2s' }); ok(r.slide === null, 'atur ulang semua menghapus posisi slide');
   await G('g-reset-semua');
   console.log(process.exitCode ? '\nADA UJI GAGAL' : '\nSEMUA UJI API (kelas utama) LULUS');
 })();

@@ -1,4 +1,6 @@
-Font yang ditanam ke halaman (berkas .woff2 di folder ini), semuanya berlisensi SIL Open Font License 1.1:
-- Fraunces (Undercase Type) — judul dan huruf matematika miring
-- Plus Jakarta Sans (Tokotype) — teks isi
-Salinan berasal dari paket fontsource (@fontsource/fraunces, @fontsource/plus-jakarta-sans). Lisensi lengkap: https://openfontlicense.org
+Font yang ditanam ke halaman (berkas .ttf di folder ini), semuanya berlisensi SIL Open Font License 1.1 (teks lisensi: OFL-*.txt):
+- Bricolage Grotesque (Mathieu Triay) — judul dan angka besar
+- Instrument Sans (Instrument) — teks isi
+- Instrument Serif (Instrument) — rumus dan huruf matematika miring
+- Geist Mono (Vercel) — angka tabular, pewaktu, kode hasil
+Salinan berasal dari koleksi canvas-fonts. Lisensi lengkap: https://openfontlicense.org

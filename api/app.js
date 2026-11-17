@@ -5,7 +5,7 @@ const B = require('./_lib/bersama.js');
 const { AsyncLocalStorage } = require('node:async_hooks');
 const als = new AsyncLocalStorage();
 const KELAS_OK = B.KELAS_ID, KELAS_DEF = B.KELAS_TAMPIL[0];
-const keys = (kl) => ({ S: 'ac:' + kl + ':siswa', KEL: 'ac:' + kl + ':kelompok', G: 'ac:' + kl + ':gerbang', L: 'ac:' + kl + ':langkah', A: 'ac:' + kl + ':arsip', KB: 'ac:' + kl + ':kelasbuka', P: 'ac:' + kl + ':pameran' });
+const keys = (kl) => ({ S: 'ac:' + kl + ':siswa', KEL: 'ac:' + kl + ':kelompok', G: 'ac:' + kl + ':gerbang', L: 'ac:' + kl + ':langkah', A: 'ac:' + kl + ':arsip', KB: 'ac:' + kl + ':kelasbuka', P: 'ac:' + kl + ':pameran', SL: 'ac:' + kl + ':slide' });
 const ctx = () => als.getStore() || { kl: KELAS_DEF, K: keys(KELAS_DEF) };
 const nm = (i) => B.nama(i, ctx().kl), CFG = () => B.cfg(ctx().kl), NLANGKAH = () => CFG().langkah;
 
@@ -40,6 +40,7 @@ const selesaiNyata = (s) => Object.keys(s).filter((k) => nyata(k) && s[k].hasil)
 const sudahMasuk = (kel, idx) => { for (let g = 0; g < kel.length; g++) if (kel[g].some((s) => s.idx === idx)) return g; return -1; };
 const tampilKel = (kel) => kel.map((g) => g.map((s) => ({ idx: s.idx, nama: nm(s.idx) })));
 
+const bacaSlide = async () => { try { const v = await redis('GET', ctx().K.SL); const o = v ? JSON.parse(v) : null; return o && Number.isInteger(o.c) && Number.isInteger(o.b) ? { c: o.c, b: o.b } : null; } catch (e) { return null; } };
 const handler = async (req, res) => {
   res.setHeader('Cache-Control', 'no-store'); res.setHeader('Content-Type', 'application/json; charset=utf-8');
   const kirim = (kode, o) => { res.statusCode = kode; res.end(JSON.stringify(o)); };
@@ -50,7 +51,7 @@ const handler = async (req, res) => {
   try {
     /* ---------------- aksi siswa ---------------- */
     if (b.a === 'status') { const s = await semuaSiswa(), kb = !CFG().manual || (await redis('GET', ctx().K.KB)) === '1'; return kirim(200, { ok: true, kelasBuka: kb, manual: CFG().manual, diklaim: Object.keys(s).filter(nyata).map((k) => +k.slice(1)), selesai: Object.keys(s).filter((k) => nyata(k) && s[k].hasil).map((k) => +k.slice(1)) }); }
-    if (b.a === 't2s') { const ak = await bacaLangkah(); const pam = Number(await redis('GET', ctx().K.P)) || 0; return kirim(200, { ok: true, buka: ak.length ? Math.max.apply(null, ak) : 0, aktif: ak, pameran: pam, n: NLANGKAH() }); }
+    if (b.a === 't2s') { const ak = await bacaLangkah(); const pam = Number(await redis('GET', ctx().K.P)) || 0; return kirim(200, { ok: true, buka: ak.length ? Math.max.apply(null, ak) : 0, aktif: ak, pameran: pam, n: NLANGKAH(), slide: await bacaSlide() }); }
     if (['klaim', 'ping', 'hasil', 'kelompok', 't2'].includes(b.a)) {
       const idx = bersihIdx(b.idx); if (idx === null || !b.token) return kirim(400, { error: 'Data tidak lengkap' });
       let d = await ambilSiswa(idx);
@@ -115,7 +116,7 @@ const handler = async (req, res) => {
         return kirim(200, { ok: true, sekarang: Date.now(), kelas: ctx().kl, manual: CFG().manual, kelasBuka: !CFG().manual || (await redis('GET', ctx().K.KB)) === '1', pameran: Number(await redis('GET', ctx().K.P)) || 0, nLangkah: NLANGKAH(), daftar, uji, tahap2, kelompok: kel ? tampilKel(kel.kel) : null, gerbang });
       }
       if (b.a === 'g-reset') { const idx = bersihIdx(b.idx); if (idx === null) return kirim(400, { error: 'idx' }); await redis('HDEL', ctx().K.S, 's' + idx); const kel = await ambilKel(); if (kel) { kel.kel = kel.kel.map((g) => g.filter((s) => s.idx !== idx)); await simpanKel(kel); } return kirim(200, { ok: true }); }
-      if (b.a === 'g-reset-semua') { await redis('DEL', ctx().K.S); await redis('DEL', ctx().K.KEL); await redis('DEL', ctx().K.L); await redis('DEL', ctx().K.G); await redis('DEL', ctx().K.KB); await redis('DEL', ctx().K.P); return kirim(200, { ok: true }); }
+      if (b.a === 'g-reset-semua') { await redis('DEL', ctx().K.S); await redis('DEL', ctx().K.KEL); await redis('DEL', ctx().K.L); await redis('DEL', ctx().K.G); await redis('DEL', ctx().K.KB); await redis('DEL', ctx().K.P); await redis('DEL', ctx().K.SL); return kirim(200, { ok: true }); }
       if (b.a === 'g-bentuk' && CFG().manual) return kirim(400, { error: 'kelompok-manual' });
       if (b.a === 'g-bentuk') { const s = await semuaSiswa(); const kel = { kel: B.bentukKelompok(selesaiNyata(s), ctx().kl), dibuat: Date.now() }; await simpanKel(kel); await arsipkan(kel, 'otomatis', true); return kirim(200, { ok: true, kelompok: tampilKel(kel.kel) }); }
       if (b.a === 'g-tambah') { const s = await semuaSiswa(); let kel = await ambilKel(); if (!kel) return kirim(200, { ok: true, ditambah: 0 }); let n = 0; Object.keys(s).filter((k) => nyata(k) && s[k].hasil).forEach((k) => { const idx = +k.slice(1); if (sudahMasuk(kel.kel, idx) < 0 && B.tambahKelompok(kel.kel, { idx, skor: s[k].hasil.skor }, ctx().kl) >= 0) n++; }); await simpanKel(kel); if (n) await arsipkan(kel, 'otomatis', true); return kirim(200, { ok: true, ditambah: n }); }
@@ -137,6 +138,7 @@ const handler = async (req, res) => {
         if (b.buka === true) { if (!kelX || !kelX.kel.some((g) => g.length)) return kirim(409, { error: 'belum-ada-kelompok' }); await redis('SET', ctx().K.KB, '1'); await redis('SET', ctx().K.G, 'buka'); } else await redis('SET', ctx().K.KB, '0');
         return kirim(200, { ok: true });
       }
+      if (b.a === 'g-slide') { const c = Number(b.c), bb = Number(b.b); if (!Number.isInteger(c) || !Number.isInteger(bb) || c < 0 || c > 30 || bb < 0 || bb > 40) return kirim(400, { error: 'posisi-tidak-valid' }); await redis('SET', ctx().K.SL, JSON.stringify({ c, b: bb })); return kirim(200, { ok: true, c, b: bb }); }
       if (b.a === 'g-pameran') { const n = Math.max(0, Math.min(9, Number(b.n) || 0)); await redis('SET', ctx().K.P, String(n)); return kirim(200, { ok: true, n }); }
       if (b.a === 'g-arsip') { const arr = await ambilArsip(); return kirim(200, { ok: true, arsip: arr.map((x) => ({ id: x.id, t: x.t, label: x.label, n: x.kel.length, total: x.kel.reduce((s, g) => s + g.length, 0), kel: tampilKel(x.kel) })) }); }
       if (b.a === 'g-simpan-kelompok') { const kel = await ambilKel(); if (!kel) return kirim(409, { error: 'belum-ada-kelompok' }); const sn = await arsipkan(kel, String(b.label || 'Disimpan guru').slice(0, 40), false); return kirim(200, { ok: true, id: sn.id }); }

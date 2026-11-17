@@ -46,7 +46,7 @@
 .cip-titik { display: inline-flex; align-items: center; padding: .15rem .8rem; border-radius: .8rem; background: var(--markisa-muda); color: var(--markisa-tua); font-weight: 700; font-size: 1.15rem; border: .1rem solid var(--markisa-100); }
 .plot-adegan { flex: 1; display: grid; grid-template-columns: 17rem 1fr; gap: 1rem; min-height: 0; }
 .tabel-titik { background: #fff; border: 1px solid var(--garis); border-radius: 1.2rem; padding: .8rem; display: flex; flex-direction: column; gap: .4rem; align-self: center; }
-.tabel-titik .b { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem; text-align: center; font-weight: 700; padding: .35rem; border-radius: .7rem; font-size: 1.2rem; background: #F7F4EC; transition: all .3s; }
+.tabel-titik .b { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem; text-align: center; font-weight: 700; padding: .35rem; border-radius: .7rem; font-size: 1.2rem; background: #F3F5FA; transition: all .3s; }
 .tabel-titik .b.kepala { background: transparent; font-size: .85rem; color: var(--tinta-3); text-transform: uppercase; letter-spacing: .04em; }
 .tabel-titik .b.sorot { background: var(--mentari-100); transform: scale(1.06); box-shadow: 0 .3rem 1rem -.3rem rgba(122,86,0,.4); }
 .tabel-titik .b.selesai { background: var(--markisa-muda); color: var(--markisa-tua); }
@@ -74,7 +74,7 @@
 
 .layar-hitung { white-space: nowrap; overflow: hidden; display: block; text-align: center; line-height: 2.1rem; }
 
-.kecepatan { display: flex; align-items: center; gap: .35rem; padding: .2rem .3rem .2rem .7rem; border: 1px solid var(--garis); border-radius: 99px; background: #F7F4EC; } .kecepatan button { min-width: 2.6rem; min-height: 2.2rem; border: 0; border-radius: 99px; background: transparent; font-weight: 700; color: var(--tinta-2); cursor: pointer; } .kecepatan button.aktif { background: var(--markisa); color: #fff; box-shadow: 0 .12rem 0 var(--markisa-tua); }
+.kecepatan { display: flex; align-items: center; gap: .35rem; padding: .2rem .3rem .2rem .7rem; border: 1px solid var(--garis); border-radius: 99px; background: #F3F5FA; } .kecepatan button { min-width: 2.6rem; min-height: 2.2rem; border: 0; border-radius: 99px; background: transparent; font-weight: 700; color: var(--tinta-2); cursor: pointer; } .kecepatan button.aktif { background: var(--markisa); color: #fff; box-shadow: 0 .12rem 0 var(--markisa-tua); }
 .chip-angka.ketuk { cursor: pointer; }
 /* ---------- alur grafik + penjelasan bertahap ---------- */
 .alur { flex: 1; min-height: 0; width: 100%; display: grid; grid-template-columns: 1.12fr 1fr; gap: 1rem; align-items: stretch; }

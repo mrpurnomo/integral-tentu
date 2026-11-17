@@ -38,7 +38,7 @@
   function ke(t) { tab = t; gambarAtas(); bersih(); if (!BS.cfg(kelas).siap && t !== 'pantau') return belumSiap(); ({ penjelasan: tPenjelasan, pantau: tPantau, kelompok: tKelompok, t2: tTahap2, kode: tKode })[t](); }
 
   /* ---------------- penjelasan = pengantar yang sama dengan siswa ---------------- */
-  function tPenjelasan() { const host = el('div', { gaya: 'position:absolute;inset:0' }); pg.append(host); intro = Intro.mount(host, { guru: true, mulai: LS('intro', 0), played: LS('played', []), saatMain: (a) => LSset('played', a), labelAkhir: 'Tes awal dimulai', saatLangkah: (i) => LSset('intro', i), saatSelesai: () => ke('pantau') }); }
+  function tPenjelasan() { const host = el('div', { gaya: 'position:absolute;inset:0' }); pg.append(host); intro = Intro.mount(host, { guru: true, mulai: LS('intro', 0), played: LS('played', []), saatMain: (a) => LSset('played', a), labelAkhir: 'Tes awal dimulai', saatLangkah: (i) => LSset('intro', i), saatPosisi: (c, b) => { ga('g-slide', { c, b }); }, saatSelesai: () => ke('pantau') }); }
 
   /* ---------------- pantau ---------------- */
   async function tPantau() {

@@ -38,7 +38,7 @@ Setelah itu commit dan **jadikan repositori privat** (daftar nama ikut di dalamn
 
 ## Alur di kelas (3 JP)
 
-1. **Guru** membuka `/guru` → PIN → pilih kelas → tab **Penjelasan** (12 adegan; murid melihat yang sama di tablet, mulai setelah aba-aba).
+1. **Guru** membuka `/guru` → PIN → pilih kelas → tab **Penjelasan** (pengantar 9 bab, satu adegan bersambung bergaya Manim). Guru memutar **satu langkah setiap menekan Lanjut** (atau tombol panah kanan / spasi); Mundur membangun ulang adegan ke langkah sebelumnya; Ulangi langkah memutar ulang langkah itu. Tablet murid **mengikuti langkah guru** (posisi dibaca tiap ±2,5 detik, tombol murid menjadi "Mengikuti guru"); bila server belum tersambung atau guru belum mulai, murid berjalan sendiri. Grafik punya tombol zoom + / − / ⌂ dan sumbu x dan y berangka kelipatan 1.
 2. **Murid**: pilih kelas dan nama → konfirmasi → pengantar → tes diagnostik (10 menit, 5 soal pilihan ganda) → hasil dan pembahasan → *Lihat kelompok*.
 3. **Kelompok langsung**: begitu seorang murid menekan *Lihat kelompok*, ia otomatis masuk ke kelompok yang kurang anggota (seimbang menurut skor) dan tablet murid lain ikut menampilkannya dalam ±4 detik tanpa memuat ulang. Murid yang sudah masuk tidak pernah berpindah. Guru tidak perlu membuka apa pun; tab **Kelompok** punya tombol *Kunci* bila perlu menahan.
 4. **Pewaktu** (ikon jam di header) mengikuti rancangan: *Lanjut ke tahap berikutnya* membuka langkah yang sesuai dan mengumumkan Putaran 1–3 serta Transfer ilmu 1–2 ke tablet murid. Tombol-tombol yang sama ada di tab **Tahap 2** (buka/tutup tiap langkah, pengumuman putaran, tabel siapa-ke-mana).
@@ -66,7 +66,7 @@ Skrip uji menolak berjalan bila server tidak mengirim `x-dev-redis: tiruan` (men
 - Alur murid **asli** (bukan akun uji coba): sambutan → nama → pengantar → tes → hasil → kelompok → langkah dibuka guru → kartu pakar → pameran → tebak → cocokkan → sintesis → tiket → refleksi → penghargaan → PDF.
 - Header guru muat di 1280 px: di konsol `document.getElementById('atas').scrollWidth` harus sama dengan `clientWidth`.
 - PDF tidak terpotong: untuk tiap `#catatan .hal` dan `#cetak-kel .kh`, elemen berkelas `.jenis, .cocok, .pakar, .kasus, .soal, .kotak, .kk` harus punya `scrollHeight <= clientHeight`.
-- Animasi: tombol *Ulangi animasi* dan kecepatan 1×/2×/3× pada pengantar; adegan yang sudah diputar langsung menampilkan bingkai akhir.
+- Animasi: tombol *Ulangi langkah*, kecepatan 1×/2×/3×, zoom grafik, dan Mundur. Tidak ada animasi yang berjalan sampai akhir sendirian: setiap langkah menunggu tombol Lanjut guru.
 
 ## Struktur
 
@@ -87,4 +87,4 @@ tools/isi-nama.js     pengisi daftar nama
 - Jaringan sekolah: tablet memeriksa guru tiap ±4 detik; bila gagal, status "Belum bisa memeriksa guru" tampil dan ada tombol **Segarkan**.
 - Tablet nyata belum diuji (hanya peramban desktop dengan ukuran 1280×800): cek ketukan, layar penuh, dan kunci orientasi pada gladi.
 
-Font: Fraunces dan Plus Jakarta Sans (SIL OFL 1.1), ditanam ke halaman.
+Font: Bricolage Grotesque, Instrument Sans, Instrument Serif, dan Geist Mono (SIL OFL 1.1), ditanam ke halaman (folder `sumber/fonts`).

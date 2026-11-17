@@ -44,3 +44,12 @@ Dicatat dari pertanyaan awal ke guru (06 §3) dan dari `rancangan-materi-integra
 | Kelompok | Langsung: murid masuk kelompok saat menekan Lihat kelompok; tablet lain terbarui sendiri. Tanpa gerbang guru (guru masih bisa mengunci) |
 | Tujuh pos | Tetap seperti rancangan (mesin yang sudah direncanakan) |
 | Belum | Materi dan tes XII-D; daftar nama asli tiap kelas |
+
+## Revisi 17 November 2026 (kedua)
+
+| Hal | Keputusan |
+|---|---|
+| Tampilan | Bahasa visual baru "Panggung dan Meja Kerja": PANGGUNG navy tua dengan benda matematika bercahaya (emas, merah, biru muda) untuk penjelasan; MEJA KERJA putih kebiruan untuk murid. Font Bricolage Grotesque (judul), Instrument Sans (isi), Instrument Serif (rumus), Geist Mono (angka). Tanpa sudut bingkai, penggaris kuningan, atau latar krem |
+| Pengantar | Satu adegan bersambung (grafik dan papan hitungan bertahan antarbab, perubahan berupa morf: kurva berubah wujud, zoom, token angka bergerak dan berubah warna) |
+| Kendali | Guru memutar satu langkah per tekan; murid mengikuti guru (sinkron lewat posisi slide di server, aditif pada t2s) |
+| Grafik pengantar | Sumbu x dan y berpanah, angka kelipatan 1, zoom + / − / ⌂ dan zoom terskrip ke titik potong |

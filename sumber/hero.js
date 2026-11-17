@@ -6,7 +6,7 @@
     for (let x = 60; x <= 520; x += 40) kisi += '<path d="M' + x + ' 40V470" class="hs-kisi' + (x % 120 === 0 ? ' mayor' : '') + '"/>';
     for (let y = 50; y <= 470; y += 40) kisi += '<path d="M40 ' + y + 'H530" class="hs-kisi' + (y % 120 === 50 ? ' mayor' : '') + '"/>';
     return '<svg viewBox="0 0 560 520" class="hero-svg" role="img" aria-label="Daerah di antara dua kurva diarsir">'
-      + '<defs><pattern id="hh" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="9" height="9" fill="#E0AE4A" fill-opacity=".14"/><line x1="0" y1="0" x2="0" y2="9" stroke="#E0AE4A" stroke-width="3.2" stroke-opacity=".9"/></pattern>'
+      + '<defs><pattern id="hh" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="9" height="9" fill="#FFC94A" fill-opacity=".14"/><line x1="0" y1="0" x2="0" y2="9" stroke="#FFC94A" stroke-width="3.2" stroke-opacity=".9"/></pattern>'
       + '<clipPath id="hc"><rect class="hs-sapu" x="100" y="0" width="420" height="520"/></clipPath></defs>'
       + '<rect x="14" y="14" width="532" height="492" rx="26" class="hs-panel"/>' + kisi
       + '<path d="M60 430H525M90 470V46" class="hs-sumbu"/>'

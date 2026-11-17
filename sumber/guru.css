@@ -5,15 +5,15 @@
 .stat-guru { display: flex; gap: .8rem; align-items: stretch; margin-bottom: .7rem; } .stat-guru .stat { padding: .6rem 1.2rem; min-width: 11rem; background: var(--tt); border: 0; box-shadow: none; } .stat-guru .stat b { font-family: var(--tampil); font-size: 2.2rem; color: var(--td); line-height: 1.1; display: block; }
 .grid-pantau { flex: 1; min-height: 0; display: grid; grid-template-columns: repeat(6, 1fr); grid-auto-rows: 1fr; gap: .6rem; overflow: auto; }
 .tile-pantau { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .25rem; padding: .4rem; background: #fff; border: .12rem solid var(--garis); border-radius: 1.1rem; cursor: pointer; text-align: center; }
-.tile-pantau .av { width: 2.4rem; height: 2.4rem; border-radius: 50%; background: var(--t); color: #fff; display: grid; place-items: center; font-weight: 700; font-size: .95rem; font-family: var(--tampil); } .tile-pantau .nm { font-weight: 700; font-size: .85rem; line-height: 1.12; max-height: 2.3em; overflow: hidden; } .tile-pantau .st { font-size: .74rem; font-weight: 700; padding: .05rem .5rem; border-radius: 99px; background: #ECE7D6; color: var(--tinta-2); }
-.tile-pantau.belum { background: #F2EEE2; } .tile-pantau.belum .nm { color: var(--tinta-3); } .tile-pantau.aktif { border-color: var(--f-parab); } .tile-pantau.aktif .st { background: var(--f-parab-t); color: var(--f-parab-d); }
+.tile-pantau .av { width: 2.4rem; height: 2.4rem; border-radius: 50%; background: var(--t); color: #fff; display: grid; place-items: center; font-weight: 700; font-size: .95rem; font-family: var(--tampil); } .tile-pantau .nm { font-weight: 700; font-size: .85rem; line-height: 1.12; max-height: 2.3em; overflow: hidden; } .tile-pantau .st { font-size: .74rem; font-weight: 700; padding: .05rem .5rem; border-radius: 99px; background: #E4E9F2; color: var(--tinta-2); }
+.tile-pantau.belum { background: #EEF1F7; } .tile-pantau.belum .nm { color: var(--tinta-3); } .tile-pantau.aktif { border-color: var(--f-parab); } .tile-pantau.aktif .st { background: var(--f-parab-t); color: var(--f-parab-d); }
 .tile-pantau.selesai { border-color: var(--mint); background: var(--mint-100); } .tile-pantau.selesai .st { background: var(--mint); color: #0B3A24; } .tile-pantau.diam .st { background: var(--jingga-100); color: var(--jingga-800); }
 .tile-pantau .kg { position: absolute; top: .3rem; right: .35rem; font-size: .7rem; font-weight: 700; background: var(--markisa); color: #fff; border-radius: 99px; padding: 0 .45rem; }
 
 .stat-guru .btn { align-self: center; }
 .kode-wrap .grid-pantau { flex: none; grid-auto-rows: 7.2rem; align-content: start; }
 
-.bar-pemahaman { flex: 1; display: flex; height: 1.2rem; background: #ECE6D6; border-radius: 99px; overflow: hidden; } .bar-pemahaman i { display: block; height: 100%; } .bar-pemahaman .p { background: var(--mint); } .bar-pemahaman .b { background: var(--jingga); }
+.bar-pemahaman { flex: 1; display: flex; height: 1.2rem; background: #E1E6F0; border-radius: 99px; overflow: hidden; } .bar-pemahaman i { display: block; height: 100%; } .bar-pemahaman .p { background: var(--mint); } .bar-pemahaman .b { background: var(--jingga); }
 
 .tabs-guru button { white-space: nowrap; padding: 0 .9rem; }
 #atas { flex-wrap: nowrap; } #atas .btn, #atas .chip { flex: none; }
@@ -32,7 +32,7 @@
 .tm-atur { justify-content: center; flex-wrap: wrap; }
 
 .ctrl-langkah { align-items: stretch; } .langkah-guru { flex: 1; display: grid; grid-template-columns: repeat(4, 1fr); gap: .6rem; }
-.lg { border: .14rem solid var(--garis-2); border-radius: 1.1rem; padding: .6rem .8rem; display: flex; flex-direction: column; gap: .3rem; background: #fff; } .lg.buka { border-color: var(--mint); background: var(--mint-100); } .lg.tutup { background: #F2EEE2; }
+.lg { border: .14rem solid var(--garis-2); border-radius: 1.1rem; padding: .6rem .8rem; display: flex; flex-direction: column; gap: .3rem; background: #fff; } .lg.buka { border-color: var(--mint); background: var(--mint-100); } .lg.tutup { background: #EEF1F7; }
 .lg-kep { display: flex; align-items: center; gap: .4rem; flex-wrap: wrap; } .lg-kep b { flex: 1; font-size: .92rem; line-height: 1.15; min-width: 6rem; } .lg-kep .no { width: 1.8rem; height: 1.8rem; border-radius: 50%; background: var(--markisa); color: #fff; display: grid; place-items: center; font-family: var(--tampil); font-weight: 700; flex: none; } .lg-kep .chip { font-size: .7rem; }
 .lg-bar { height: .6rem; background: #fff; border-radius: 99px; overflow: hidden; border: 1px solid var(--garis); } .lg-bar i { display: block; height: 100%; background: var(--mint); }
 .lg .btn { min-height: 2.6rem; font-size: .95rem; } .lg-samping { display: flex; flex-direction: column; gap: .4rem; justify-content: center; }

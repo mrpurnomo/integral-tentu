@@ -16,15 +16,15 @@
   function bidang(o) {
     const W = o.W || 640, H = o.H || 440, m = { l: 54, r: 26, t: 26, b: 48 }, pw = W - m.l - m.r, ph = H - m.t - m.b;
     const sx = (x) => m.l + (x - o.xmin) / (o.xmax - o.xmin) * pw, sy = (y) => m.t + ph - (y - o.ymin) / (o.ymax - o.ymin) * ph;
-    const svg = S('svg', { viewBox: '0 0 ' + W + ' ' + H, class: 'bidang', role: 'img', 'aria-label': o.label || 'Grafik', style: 'width:100%;height:100%;display:block;overflow:visible;font-family:Jakarta,Segoe UI,sans-serif' });
+    const svg = S('svg', { viewBox: '0 0 ' + W + ' ' + H, class: 'bidang', role: 'img', 'aria-label': o.label || 'Grafik', style: 'width:100%;height:100%;display:block;overflow:visible;font-family:InstrumentSans,Segoe UI,sans-serif' });
     const lapis = {}; ['grid', 'isi', 'sumbu', 'label', 'putus', 'kurva', 'titik', 'atas'].forEach((n) => { lapis[n] = S('g', { class: 'l-' + n }); svg.append(lapis[n]); });
     /* arsiran gaya gambar teknik: garis diagonal emas (luas positif), merah (bagian negatif), navy (pembantu); id unik per grafik */
     const uid = 'ar' + (++idPola), POLA = [['#C9922F', '#E0AE4A'], ['#B3232D', '#C23A3F'], ['#13294B', '#2A5AA7']], defs = S('defs');
     POLA.forEach((c, i) => defs.append(S('pattern', { id: uid + i, width: 9, height: 9, patternUnits: 'userSpaceOnUse', patternTransform: 'rotate(45)' }, S('rect', { width: 9, height: 9, fill: c[1], 'fill-opacity': .16 }), S('line', { x1: 0, y1: 0, x2: 0, y2: 9, stroke: c[0], 'stroke-width': 3.6, 'stroke-opacity': .9 }))));
     svg.insertBefore(defs, svg.firstChild);
-    svg.insertBefore(S('rect', { x: m.l, y: m.t, width: pw, height: ph, fill: '#fff', stroke: '#E2DCCB', rx: 6 }), lapis.grid);
-    (o.xt || []).forEach((v) => { lapis.grid.append(S('line', { x1: sx(v), x2: sx(v), y1: m.t, y2: m.t + ph, stroke: '#ECE6D6' })); lapis.label.append(S('text', { x: sx(v), y: m.t + ph + 20, 'font-size': 15, 'text-anchor': 'middle', fill: '#2B3F58' }, fmt(v))); });
-    (o.yt || []).forEach((v) => { lapis.grid.append(S('line', { x1: m.l, x2: m.l + pw, y1: sy(v), y2: sy(v), stroke: '#ECE6D6' })); lapis.label.append(S('text', { x: m.l - 9, y: sy(v) + 5, 'font-size': 15, 'text-anchor': 'end', fill: '#2B3F58' }, fmt(v))); });
+    svg.insertBefore(S('rect', { x: m.l, y: m.t, width: pw, height: ph, fill: '#fff', stroke: '#D8DEEA', rx: 6 }), lapis.grid);
+    (o.xt || []).forEach((v) => { lapis.grid.append(S('line', { x1: sx(v), x2: sx(v), y1: m.t, y2: m.t + ph, stroke: '#E1E6F0' })); lapis.label.append(S('text', { x: sx(v), y: m.t + ph + 20, 'font-size': 15, 'text-anchor': 'middle', fill: '#2B3F58' }, fmt(v))); });
+    (o.yt || []).forEach((v) => { lapis.grid.append(S('line', { x1: m.l, x2: m.l + pw, y1: sy(v), y2: sy(v), stroke: '#E1E6F0' })); lapis.label.append(S('text', { x: m.l - 9, y: sy(v) + 5, 'font-size': 15, 'text-anchor': 'end', fill: '#2B3F58' }, fmt(v))); });
     const ax = S('line', { class: 'sx', x1: m.l, x2: m.l + pw, y1: sy(Math.max(o.ymin, Math.min(o.ymax, 0))), y2: sy(Math.max(o.ymin, Math.min(o.ymax, 0))), stroke: '#12254A', 'stroke-width': 2.6, 'stroke-linecap': 'round' });
     const ay = S('line', { class: 'sy', x1: sx(Math.max(o.xmin, Math.min(o.xmax, 0))), x2: sx(Math.max(o.xmin, Math.min(o.xmax, 0))), y1: m.t, y2: m.t + ph, stroke: '#12254A', 'stroke-width': 2.6, 'stroke-linecap': 'round' });
     lapis.sumbu.append(ax, ay);
@@ -57,7 +57,7 @@
   const pv = (p, x) => p.reduce((s, c, i) => s + c * Math.pow(x, i), 0);
   const poli = (spec, i) => (i < 0 ? [0] : spec.k[i]);
   const WARNA_KURVA = ['#13294B', '#B3232D', '#2A5AA7', '#8C5A1E'];
-  const langkahTick = (lo, hi) => { const raw = (hi - lo) / 6; let st = 1; for (const k of [1, 2, 5, 10, 20, 50, 100]) { st = k; if (k >= raw) break; } const o = []; for (let v = Math.ceil(lo / st) * st; v <= hi + 1e-9; v += st) o.push(Math.round(v * 1e6) / 1e6); return o; };
+  const langkahTick = (lo, hi) => { const raw = (hi - lo) / 14; let st = 1; for (const k of [1, 2, 5, 10, 20, 50, 100]) { st = k; if (k >= raw) break; } const o = []; for (let v = Math.ceil(lo / st) * st; v <= hi + 1e-9; v += st) o.push(Math.round(v * 1e6) / 1e6); return o; };
   function lihat(spec) {
     if (spec.v) return Object.assign({ xt: langkahTick(spec.v.xmin, spec.v.xmax), yt: langkahTick(spec.v.ymin, spec.v.ymax) }, spec.v);
     const tipe = spec.tipe || 'x', d0 = Math.min.apply(null, spec.z.map((q) => q.a)), d1 = Math.max.apply(null, spec.z.map((q) => q.b)), pad = Math.max(1, (d1 - d0) * .28);
