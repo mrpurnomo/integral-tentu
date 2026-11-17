@@ -1,0 +1,4 @@
+Font yang ditanam ke halaman (berkas .woff2 di folder ini), semuanya berlisensi SIL Open Font License 1.1:
+- Fraunces (Undercase Type) — judul dan huruf matematika miring
+- Plus Jakarta Sans (Tokotype) — teks isi
+Salinan berasal dari paket fontsource (@fontsource/fraunces, @fontsource/plus-jakarta-sans). Lisensi lengkap: https://openfontlicense.org

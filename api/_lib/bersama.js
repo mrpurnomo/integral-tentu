@@ -162,8 +162,8 @@
   function gBawah(r) {
     const h = cari(() => { const s = pil(r, [4, 6, 8]), k = pil(r, [1, 2, 3]), a = rint(r, 0, s - 1), b = rint(r, a + 1, s), p = [0, -k * s, k], v = i12(p, a, b); return v < 0 && (-v) % 12 === 0 && -v / 12 <= 400 ? { a, b, p, L: -v / 12 } : null; });
     const { a, b, p, L } = h, t = rint(r, 0, 1), H = hit(p, a, b);
-    const tanya = (t ? 'Lengkung bawah jembatan kayu di kawasan mangrove: tinggi lengkung dari lantai jembatan (meter) adalah ' + kurvaX(p) + '. Nilai negatif karena lengkung berada di bawah lantai. ' : 'Dasar sebuah parit di tambak diukur dari permukaan tanah (meter): ' + kurvaX(p) + '. Nilai negatif berarti di bawah permukaan tanah. ') + 'Berapa luas daerah (m²) yang dibatasi kurva, sumbu-<i>x</i>, garis <i>x</i> = ' + a + ', dan <i>x</i> = ' + b + '?';
-    return { det: { f: p, g: [0], a, b }, kunci: L, tanya, jelas: 'Pada [' + a + ', ' + b + '] nilai ' + fx(p) + ' ≤ 0, jadi kurva berada di bawah sumbu-x. Luas = −' + igH(a, b) + ' (' + fx(p) + ') ' + dx + '.<br>' + H.html + '.<br>Luas = −(' + rH(H.nilai) + ') = <b>' + L + '</b> ' + NA + '. Tanda minus di depan integral membuat luasnya positif.' };
+    const tanya = (t ? 'Lengkung bawah jembatan kayu di kawasan mangrove: tinggi lengkung dari lantai jembatan (meter) adalah ' + kurvaX(p) + '. Nilai negatif karena lengkung berada di bawah lantai. ' : 'Dasar sebuah parit di tambak diukur dari permukaan tanah (meter): ' + kurvaX(p) + '. Nilai negatif berarti di bawah permukaan tanah. ') + 'Berapa luas daerah (m²) yang dibatasi kurva, sumbu-<i>x</i>, garis <i>x</i> = ' + mn(a) + ', dan <i>x</i> = ' + mn(b) + '?';
+    return { det: { f: p, g: [0], a, b }, kunci: L, tanya, jelas: 'Pada [' + mn(a) + ', ' + b + '] nilai ' + fx(p) + ' ≤ 0, jadi kurva berada di bawah sumbu-x. Luas = −' + igH(a, b) + ' (' + fx(p) + ') ' + dx + '.<br>' + H.html + '.<br>Luas = −(' + rH(H.nilai) + ') = <b>' + L + '</b> ' + NA + '. Tanda minus di depan integral membuat luasnya positif.' };
   }
   function gPotong(r) {
     const h = cari(() => {
@@ -172,9 +172,9 @@
       return v % 12 === 0 && v / 12 <= 300 && i12(p, a, c) !== 0 && i12(p, c, b) !== 0 ? { p, a, b, c, L: v / 12 } : null;
     });
     const { p, a, b, c, L } = h, H1 = hit(p, a, c), H2 = hit(p, c, b), t = rint(r, 0, 1);
-    const tanya = (t ? 'Tinggi tanggul pesisir terhadap permukaan air laut (meter) dirumuskan ' : 'Tinggi permukaan tanah di pesisir terhadap permukaan air (meter) dirumuskan ') + kurvaX(p) + '. Nilai negatif berarti di bawah permukaan air, nilai positif di atasnya. Berapa luas daerah (m²) yang dibatasi kurva, sumbu-<i>x</i>, <i>x</i> = ' + a + ', dan <i>x</i> = ' + b + '? (Jumlahkan bagian di bawah dan di atas sumbu.)';
+    const tanya = (t ? 'Tinggi tanggul pesisir terhadap permukaan air laut (meter) dirumuskan ' : 'Tinggi permukaan tanah di pesisir terhadap permukaan air (meter) dirumuskan ') + kurvaX(p) + '. Nilai negatif berarti di bawah permukaan air, nilai positif di atasnya. Berapa luas daerah (m²) yang dibatasi kurva, sumbu-<i>x</i>, <i>x</i> = ' + mn(a) + ', dan <i>x</i> = ' + mn(b) + '? (Jumlahkan bagian di bawah dan di atas sumbu.)';
     const s1 = H1.nilai.n < 0 ? '−' : '', s2 = H2.nilai.n < 0 ? '−' : '';
-    return { det: { f: p, g: [0], a, b }, kunci: L, tanya, jelas: 'Kurva memotong sumbu-x di x = ' + c + ' (di dalam [' + a + ', ' + b + ']), jadi integral dipecah di x = ' + c + '.<br>Bagian 1: ' + igH(a, c) + ' (' + fx(p) + ') ' + dx + ' = ' + H1.html + (H1.nilai.n < 0 ? ' (negatif → luasnya ' + rH(rt(-H1.nilai.n, H1.nilai.d)) + ')' : '') + '.<br>Bagian 2: ' + igH(c, b) + ' (' + fx(p) + ') ' + dx + ' = ' + H2.html + (H2.nilai.n < 0 ? ' (negatif → luasnya ' + rH(rt(-H2.nilai.n, H2.nilai.d)) + ')' : '') + '.<br>Luas = ' + rH(rt(Math.abs(H1.nilai.n), H1.nilai.d)) + ' + ' + rH(rt(Math.abs(H2.nilai.n), H2.nilai.d)) + ' = <b>' + L + '</b> ' + NA + '. (Tanpa dipecah, bagian negatif dan positif saling mengurangi.)' };
+    return { det: { f: p, g: [0], a, b }, kunci: L, tanya, jelas: 'Kurva memotong sumbu-x di x = ' + mn(c) + ' (di dalam [' + mn(a) + ', ' + mn(b) + ']), jadi integral dipecah di x = ' + mn(c) + '.<br>Bagian 1: ' + igH(a, c) + ' (' + fx(p) + ') ' + dx + ' = ' + H1.html + (H1.nilai.n < 0 ? ' (negatif → luasnya ' + rH(rt(-H1.nilai.n, H1.nilai.d)) + ')' : '') + '.<br>Bagian 2: ' + igH(c, b) + ' (' + fx(p) + ') ' + dx + ' = ' + H2.html + (H2.nilai.n < 0 ? ' (negatif → luasnya ' + rH(rt(-H2.nilai.n, H2.nilai.d)) + ')' : '') + '.<br>Luas = ' + rH(rt(Math.abs(H1.nilai.n), H1.nilai.d)) + ' + ' + rH(rt(Math.abs(H2.nilai.n), H2.nilai.d)) + ' = <b>' + L + '</b> ' + NA + '. (Tanpa dipecah, bagian negatif dan positif saling mengurangi.)' };
   }
   /* parabola dan garis / dua parabola / kanan − kiri: selisih = K(x − x1)(x − x2), luas = K d³ / 6 */
   function kuad(r, mode) {
@@ -223,7 +223,7 @@
       return v % 12 === 0 && v / 12 <= 400 && v > 0 ? { Q, a, b, f, k, kata, L: v / 12 } : null;
     });
     const { Q, a, b, f, kata, L } = h, kanan = f !== 2, t = rint(r, 0, 1);
-    const batas = (kata === 'penuh') ? ' dan sumbu-<i>y</i>' : ', sumbu-<i>y</i>, garis <i>y</i> = ' + a + ', dan <i>y</i> = ' + b;
+    const batas = (kata === 'penuh') ? ' dan sumbu-<i>y</i>' : ', sumbu-<i>y</i>, garis <i>y</i> = ' + mn(a) + ', dan <i>y</i> = ' + mn(b);
     const tanya = (t ? 'Sebuah petak mangrove di tepi jalan (sumbu-<i>y</i> = tepi jalan) dibatasi lengkung ' : 'Sebuah petak tambak di samping sungai lurus (sumbu-<i>y</i> = tepi sungai) dibatasi lengkung ') + kurvaY(Q) + ' (satuan meter). Berapa luas petak (m²) yang dibatasi kurva' + batas + '?';
     const titik = (kata === 'penuh') ? [a, 0, b] : [a, b];
     const bagian = titik.slice(0, -1).map((u, i) => hit(Q, u, titik[i + 1], 'y')), pot = (kata === 'penuh');
