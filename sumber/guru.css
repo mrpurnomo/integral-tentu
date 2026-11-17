@@ -65,3 +65,12 @@
 .pam-guru { display: block; }
 .pam-meja { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: .4rem; margin-top: .7rem; }
 .pm { background: var(--tt); border-radius: .8rem; padding: .4rem .5rem; display: flex; flex-direction: column; gap: .05rem; color: var(--td); font-size: .82rem; line-height: 1.25; } .pm b { font-size: .95rem; }
+.logo { white-space: nowrap; flex: none; }
+/* header guru harus muat di 1280 px (ukur #atas.scrollWidth setiap menambah elemen) */
+.bar-atas { padding-left: 1.1rem; padding-right: 1.1rem; gap: .5rem; }
+.bar-atas .logo { font-size: 1.2rem; }
+.kelas-aktif { padding: .15rem .6rem .15rem .6rem; gap: .35rem; }
+.kelas-aktif b { display: block; max-width: 7.5rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: .98rem; }
+.kelas-aktif.k-xiia { background: var(--f-garis-t); border-color: var(--f-garis); } .kelas-aktif.k-xiib { background: var(--f-potong-t); border-color: var(--f-potong); }
+.tm-chip { padding: 0 .7rem; }
+.pam-guru .eyebrow { display: block; }
