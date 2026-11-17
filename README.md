@@ -4,7 +4,7 @@ Pembelajaran **luas daerah dengan integral tentu** (di bawah kurva dan antara du
 
 | Halaman | Alamat | Untuk |
 |---|---|---|
-| Murid | `/` | pengantar animasi (9 slide) → tes diagnostik 5 soal → kelompok langsung → 6 langkah → Kartu Penghargaan + catatan PDF |
+| Murid | `/` | pengantar animasi (9 bagian) → tes diagnostik 5 soal (dengan coretan) → kelompok langsung → dasbor (pilih peran) → 6 kartu → ringkasan akhir + catatan A4 |
 | Guru | `/guru` (atau tombol **Guru** di layar sambutan) | penjelasan (pengantar yang sama), pantau, kelompok, tahap 2, kode hasil, pewaktu |
 
 Empat kelas terdaftar: **XII-A Teknik**, **XII-B Teknik**, **XII-C Kesehatan** (materi: luas daerah di antara dua kurva dan semua variasinya; siap dipakai) dan **XII-D Soshum** (dasar integral tentu dalam dua pertemuan; materinya menyusul, kelasnya sudah terdaftar). Kelas uji tersembunyi `ujim` hanya untuk uji otomatis.
@@ -38,11 +38,18 @@ Setelah itu commit dan **jadikan repositori privat** (daftar nama ikut di dalamn
 
 ## Alur di kelas (3 JP)
 
-1. **Guru** membuka `/guru` → PIN → pilih kelas → tab **Penjelasan** (pengantar 9 bab, satu adegan bersambung bergaya Manim). Guru memutar **satu langkah setiap menekan Lanjut** (atau tombol panah kanan / spasi); Mundur membangun ulang adegan ke langkah sebelumnya; Ulangi langkah memutar ulang langkah itu. Tablet murid **mengikuti langkah guru** (posisi dibaca tiap ±2,5 detik, tombol murid menjadi "Mengikuti guru"); bila server belum tersambung atau guru belum mulai, murid berjalan sendiri. Grafik punya tombol zoom + / − / ⌂ dan sumbu x dan y berangka kelipatan 1.
-2. **Murid**: pilih kelas dan nama → konfirmasi → pengantar → tes diagnostik (10 menit, 5 soal pilihan ganda) → hasil dan pembahasan → *Lihat kelompok*.
-3. **Kelompok langsung**: begitu seorang murid menekan *Lihat kelompok*, ia otomatis masuk ke kelompok yang kurang anggota (seimbang menurut skor) dan tablet murid lain ikut menampilkannya dalam ±4 detik tanpa memuat ulang. Murid yang sudah masuk tidak pernah berpindah. Guru tidak perlu membuka apa pun; tab **Kelompok** punya tombol *Kunci* bila perlu menahan.
-4. **Pewaktu** (ikon jam di header) mengikuti rancangan: *Lanjut ke tahap berikutnya* membuka langkah yang sesuai dan mengumumkan Putaran 1–3 serta Transfer ilmu 1–2 ke tablet murid. Tombol-tombol yang sama ada di tab **Tahap 2** (buka/tutup tiap langkah, pengumuman putaran, tabel siapa-ke-mana).
-5. Akhir: **Panggung Kelas** (guru), Kartu Penghargaan dan Catatan belajar (PDF) di tablet murid.
+1. **Guru** membuka `/guru` → PIN → pilih kelas → tab **Penjelasan** (pengantar 9 bagian, satu adegan bersambung bergaya Manim). Guru memutar **satu langkah** dengan tombol Lanjut / panah kanan; **Mundur / panah kiri memutar animasi yang sama terbalik** (bukan potong dari awal). Setiap langkah hitungan berhenti sendiri-sendiri, jadi mudah dijelaskan. Tablet murid **mengikuti langkah guru** (±2,5 detik). Zoom pada grafik adalah animasi penyorot yang dijalankan skenario (titik potong x = −1, lalu x = 2, lalu zoom out), bukan tombol manual. Rumus dirender KaTeX.
+2. **Murid**: pilih kelas dan nama → konfirmasi → pengantar → tes diagnostik (10 menit, 5 soal PG, ada **coretan layar**) → hasil dan pembahasan → *Lihat kelompok*. Tipe dan tingkat kesulitan soal sama untuk semua murid, angka berbeda tiap murid.
+3. **Kelompok langsung**: murid yang menekan *Lihat kelompok* otomatis masuk kelompok (seimbang menurut skor); tablet lain ikut menampilkannya dalam ±4 detik. Setelah *Saya sudah di meja kelompok*, muncul pop-up kelompok, teman, dan materi.
+4. **Dasbor tahap lanjutan**: kiri = anggota kelompok dan **pilih peran** (Host, Penjelajah A, Penjelajah B; realtime, tidak bisa ganda; tombol *Simpan peran*). Kanan = enam kartu yang dibuka guru:
+   1. **Belajar Kelompok**: penjelasan animasi materi kelompok + latihan soal bergambar (selalu baru) + pembahasan beranimasi → *Selesai belajar*.
+   2. **Sesi Berkeliling**: Host mengajar (tombol *Mengajar*: penjelasan animasi + latihan) dan menandai tamu; Penjelajah mengunjungi tiga kelompok (bebas urutan) dan menandai *Sudah belajar*, lalu memilih Paham / Lumayan / Tidak paham, lalu *Lihat materi*. **Penanda hanya sah bila kode cocok**: Host menampilkan kode 3 karakter, Penjelajah memilih kode yang sama di antara tiga pilihan (seperti pencocokan angka pada autentikator). Tombol *Selesai* tetap bisa ditekan bila belum lengkap, tetapi berwarna lain, ada peringatan, dan bagian yang dilewati dicatat untuk guru.
+   3. **Titik Potong**: tiga soal, grafik tanpa angka pada sumbu, coretan; soal sama untuk satu kelompok.
+   4. **Bentuk Integral**: tujuh soal (satu per materi), grafik lengkap + arsiran, pilih bentuk integral; soal sama untuk satu kelompok.
+   5. **Hitung Luas**: tiga soal acak dari materi yang sudah dipelajari kelompok; tiap murid **memilih satu kartu soal secara langsung** (tidak bisa dipilih ganda); hasil kelompok terakumulasi.
+   6. **Tiket Keluar**: tiga soal bertingkat (mudah, sedang, sulit); soal sama untuk satu kelompok.
+5. **Ringkasan akhir** (menyala bila enam kartu selesai): capaian kegiatan, nilai kinerja (kartu 3–6), perbandingan dengan tes awal, statistik singkat, perayaan, tombol kembali ke dasbor, dan **Unduh catatan (A4)** berisi seluruh materi, soal kelompok, dan rapor.
+6. **Pewaktu** (ikon jam di header guru) mengikuti kartu: *Lanjut ke tahap berikutnya* membuka kartu yang sesuai. Tab **Tahap 2** memuat tombol buka/tutup tiap kartu, sebaran peran, jumlah pertemuan terverifikasi (dari 42), siswa yang melewati bagian, capaian dan nilai tiap siswa, serta *Rekap kelas*.
 
 Mengatur ulang satu nama (tablet berganti): **Pantau** → ketuk nama → *Atur ulang nama ini*. Reset seluruh kelas: **Pantau** → *Atur ulang semua* (arsip kelompok **tidak** terhapus). Menyimpan/memuat kelompok: tab **Kelompok** → *Simpan kelompok* / *Muat tersimpan* (kelompok otomatis terbentuk juga tersimpan sendiri). *Unduh PDF* menghasilkan kartu kelompok dan tabel rotasi.
 
@@ -55,6 +62,7 @@ node sumber/bangun.js          # WAJIB setelah mengubah sumber; hasil build (ind
 node uji/dev-server.js         # server lokal :3200 dengan Redis TIRUAN di memori
 node uji/uji-sifat.js          # sifat materi: 7 generator × 400 benih, tes diagnostik (kunci diverifikasi numerik), rute rotasi, kode hasil, kelompok, bank soal
 node uji/uji-web.js            # API kelas utama (xiia) + tiruan klien murid asli untuk bug PRD §7
+node uji/uji-lanjut.js         # API tahap lanjutan: peran tanpa ganda, pencocokan kode, kartu 5 serempak, rekap guru
 node uji/uji-manual.js         # API kelas uji tersembunyi (kelompok disusun guru)
 node uji/isi-kelas.js 3        # bantu uji manual: isi kelas dengan murid tiruan dan buka gerbang
 ```
@@ -63,10 +71,10 @@ Skrip uji menolak berjalan bila server tidak mengirim `x-dev-redis: tiruan` (men
 
 ### Daftar periksa peramban (dijalankan sebelum hari pakai)
 
-- Alur murid **asli** (bukan akun uji coba): sambutan → nama → pengantar → tes → hasil → kelompok → langkah dibuka guru → kartu pakar → pameran → tebak → cocokkan → sintesis → tiket → refleksi → penghargaan → PDF.
+- Alur murid **asli** (bukan akun uji coba): sambutan → nama → pengantar → tes → hasil → kelompok → dasbor (pilih peran) → kartu 1–6 → ringkasan akhir → catatan A4.
 - Header guru muat di 1280 px: di konsol `document.getElementById('atas').scrollWidth` harus sama dengan `clientWidth`.
-- PDF tidak terpotong: untuk tiap `#catatan .hal` dan `#cetak-kel .kh`, elemen berkelas `.jenis, .cocok, .pakar, .kasus, .soal, .kotak, .kk` harus punya `scrollHeight <= clientHeight`.
-- Animasi: tombol *Ulangi langkah*, kecepatan 1×/2×/3×, zoom grafik, dan Mundur. Tidak ada animasi yang berjalan sampai akhir sendirian: setiap langkah menunggu tombol Lanjut guru.
+- PDF tidak terpotong: untuk tiap `#catatan .hal` dan `#cetak-kel .kh`, `.h-isi` / `.kk` harus punya `scrollHeight <= clientHeight`.
+- Animasi: Lanjut/Mundur (panah kiri/kanan) memutar maju dan terbalik dengan mulus, tombol *Ulangi langkah*, kecepatan 1×/2×/3×. Tidak ada animasi yang berjalan sampai akhir sendirian.
 
 ## Struktur
 
@@ -75,7 +83,7 @@ api/app.js            satu fungsi serverless (semua aksi), Upstash Redis lewat R
 api/_lib/bersama.js   dimuat peramban DAN server: konfigurasi kelas, 7 pos, rute jigsaw, tes awal, generator soal, bank tebak/cocok, kode hasil, kelompok, skor
 api/_lib/daftar.js    nama murid (dibangun ke halaman)
 api/_lib/rahasia.js   PIN guru (HANYA server)
-sumber/               HTML/CSS/JS sumber (ui, grafik = mesin visual daerah, intro, siswa, tahap2, guru, catatan, cetak) + font OFL
+sumber/               HTML/CSS/JS sumber: ui, matematika (KaTeX), adegan (mesin animasi), panggung (pengantar), pelajaran (animasi materi dan pembahasan), coretan, lanjut (dasbor dan kartu), siswa, guru, catatan, cetak + font OFL dan KaTeX (MIT)
 uji/                  server uji dan uji otomatis
 tools/isi-nama.js     pengisi daftar nama
 ```
@@ -87,4 +95,4 @@ tools/isi-nama.js     pengisi daftar nama
 - Jaringan sekolah: tablet memeriksa guru tiap ±4 detik; bila gagal, status "Belum bisa memeriksa guru" tampil dan ada tombol **Segarkan**.
 - Tablet nyata belum diuji (hanya peramban desktop dengan ukuran 1280×800): cek ketukan, layar penuh, dan kunci orientasi pada gladi.
 
-Font: Bricolage Grotesque, Instrument Sans, Instrument Serif, dan Geist Mono (SIL OFL 1.1), ditanam ke halaman (folder `sumber/fonts`).
+Font: Bricolage Grotesque, Instrument Sans, Instrument Serif, dan Geist Mono (SIL OFL 1.1), ditanam ke halaman (folder `sumber/fonts`). Rumus: KaTeX 0.16 (MIT, `sumber/katex`), tertanam sehingga tidak butuh internet.

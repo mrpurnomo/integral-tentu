@@ -33,7 +33,7 @@
   /* ---------- DOM mini ---------- */
   function el(tag, attrs, ...anak) {
     const e = document.createElement(tag);
-    if (attrs) for (const k in attrs) { const v = attrs[k]; if (v == null || v === false) continue; if (k === 'kelas') e.className = v; else if (k === 'html') e.innerHTML = v; else if (k.startsWith('on')) e.addEventListener(k.slice(2), v); else if (k === 'gaya') e.style.cssText = v; else e.setAttribute(k, v === true ? '' : v); }
+    if (attrs) for (const k in attrs) { const v = attrs[k]; if (v == null || v === false) continue; if (k === 'kelas') e.className = v; else if (k === 'html') e.innerHTML = root.Mat ? root.Mat.h(v) : v; else if (k.startsWith('on')) e.addEventListener(k.slice(2), v); else if (k === 'gaya') e.style.cssText = v; else e.setAttribute(k, v === true ? '' : v); }
     anak.flat().forEach((a) => { if (a != null && a !== false) e.append(a.nodeType ? a : document.createTextNode(a)); });
     return e;
   }
@@ -53,10 +53,10 @@
   function dialog(o) {
     return new Promise((resolve) => {
       const tirai = el('div', { kelas: 'tirai', role: 'dialog', 'aria-modal': 'true' });
-      const kotak = el('div', { kelas: 'dialog' + (o.lebar ? ' lebar' : '') });
+      const kotak = el('div', { kelas: 'dialog' + (o.lebar ? ' lebar' : '') + (o.kelas ? ' ' + o.kelas : '') });
       const tutup = (v) => { tirai.classList.add('tutup'); setTimeout(() => { tirai.remove(); resolve(v); }, 190); };
       kotak.append(el('div', { kelas: 'kepala' }, o.ikon ? el('span', { html: o.ikon }) : null, el('h3', { html: o.judul || '' }), o.tutupX ? el('button', { kelas: 'tutup-x', 'aria-label': 'Tutup', html: ik('silang'), onclick: () => tutup(null) }) : null));
-      const badan = el('div', { kelas: 'badan gulir' }); if (typeof o.isi === 'string') badan.innerHTML = o.isi; else if (o.isi) badan.append(o.isi);
+      const badan = el('div', { kelas: 'badan gulir' }); if (typeof o.isi === 'string') badan.innerHTML = root.Mat.h(o.isi); else if (o.isi) badan.append(o.isi);
       kotak.append(badan);
       if (o.tombol && o.tombol.length) kotak.append(el('div', { kelas: 'kaki' }, o.tombol.map((t) => el('button', { kelas: 'btn ' + (t.kelas || ''), html: (t.ikon ? ik(t.ikon) : '') + esc(t.t), onclick: () => tutup(t.nilai === undefined ? t.t : t.nilai) }))));
       tirai.append(kotak);
@@ -65,6 +65,9 @@
       if (o.saatBuka) o.saatBuka(badan, tutup);
     });
   }
+  /* petunjuk yang rapi: judul besar + daftar butir berikon (o.butir = [{ik, t}]), subjudul opsional, tombol di bawah */
+  const petunjuk = (o) => dialog({ judul: o.judul, ikon: o.ikon, kelas: 'petunjuk', lebar: !!o.lebar, tutupX: !!o.tutupX, tombol: o.tombol || [{ t: 'Mengerti', nilai: true }],
+    isi: (o.sub ? '<p class="pt-sub">' + o.sub + '</p>' : '') + '<ol class="pt-daftar">' + (o.butir || []).map((b, i) => '<li><span class="pt-ik' + (b.warna ? ' ' + b.warna : '') + '">' + (b.ik ? ik(b.ik) : (i + 1)) + '</span><div class="pt-teks">' + b.t + '</div></li>').join('') + '</ol>' + (o.catatan ? '<p class="pt-cat">' + o.catatan + '</p>' : '') });
   const konfirmasi = (judul, isi, ya, tidak, o) => dialog(Object.assign({ judul, isi, tombol: [{ t: tidak || 'Batal', nilai: false, kelas: 'sekunder' }, { t: ya || 'Ya', nilai: true }] }, o));
   const info = (judul, isi, tombol, o) => dialog(Object.assign({ judul, isi, tombol: [{ t: tombol || 'Mengerti', nilai: true }] }, o));
   function toast(t, ikon) { const e = el('div', { kelas: 'toast', role: 'status', html: (ikon ? ik(ikon) : '') + esc(t) }); document.body.append(e); setTimeout(() => e.remove(), 2600); }
@@ -128,5 +131,5 @@
   }
   async function layarPenuh() { try { const d = document.documentElement; if (!document.fullscreenElement && d.requestFullscreen) await d.requestFullscreen(); if (screen.orientation && screen.orientation.lock) await screen.orientation.lock('landscape'); } catch (e) { /* abaikan */ } }
 
-  root.UI = { speed: 1, instan: false, IK, ik, glif, ubin, GLIF, URUT, NAMA, el, esc, tidur, anim, token, Batal, dialog, konfirmasi, info, toast, papanKetik, keypadAngka, seret, pasangPutar, layarPenuh, ALFA };
+  root.UI = { speed: 1, instan: false, IK, ik, glif, ubin, GLIF, URUT, NAMA, el, esc, tidur, anim, token, Batal, dialog, petunjuk, konfirmasi, info, toast, papanKetik, keypadAngka, seret, pasangPutar, layarPenuh, ALFA };
 })(window);

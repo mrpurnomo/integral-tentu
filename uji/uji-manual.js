@@ -22,11 +22,7 @@ const G = (a, o) => api(Object.assign({ a, pin: PIN, kelas: KL }, o)); const S =
   r = await G('g-status'); ok(r.daftar[3].detik === 600, 'durasi tes dibatasi 10 menit (480 detik)');
   r = await S({ a: 'kelompok', idx: 3, token: 'A' }); ok(r.ok && r.saya === 1 && r.kelompok.length === 7 && r.kelompok[1].some((s) => s.idx === 3), 'murid melihat kelompok yang disusun guru');
   r = await api({ a: 'status' }); ok(r.manual === false && r.diklaim.length === 0, 'kelas utama tidak terpengaruh (data terpisah)');
-  r = await S({ a: 't2s' }); ok(r.n === 6 && r.aktif.join() === '1' && r.pameran === 0, 't2s memuat 6 langkah dan putaran pameran 0');
-  await G('g-langkah', { n: 6, buka: true }); await G('g-pameran', { n: 4 }); r = await S({ a: 't2s' }); ok(r.aktif.join() === '1,6' && r.pameran === 4, 'langkah 6 dan putaran pameran 4 terbaca');
   r = await G('g-langkah', { n: 7, buka: true }); r = await S({ a: 't2s' }); ok(r.aktif.length === 2 || r.aktif.includes(6), 'nomor langkah dibatasi sesuai kelas');
-  r = await S({ a: 't2', idx: 3, token: 'A', t2: { sel: [true, false, false, false, false, false], fung: { skor: 2 }, poin: 50 } }); ok(r.ok, 't2 menerima 6 penanda langkah dan skor tantangan sintesis');
-  r = await G('g-status'); ok(r.tahap2.selStep.length === 6 && r.tahap2.selStep[0] === 1 && r.tahap2.fung === 2, 'progres 6 langkah dan rata-rata tantangan sintesis tampil');
   r = await S({ a: 'klaim', idx: B.DUMMY, token: 'D' }); ok(r.ok && r.uji, 'akun uji coba guru masuk');
   await S({ a: 'hasil', idx: B.DUMMY, token: 'D', jawab: B.soalSiswa(B.DUMMY, KL).map((q) => q.kunci), detik: 10 }); r = await S({ a: 'kelompok', idx: B.DUMMY, token: 'D' }); ok(r.ok && r.uji && r.kelompok[0].some((s) => s.idx === B.DUMMY), 'akun uji coba melihat kelompok sementara tanpa mengubah kelompok asli');
   r = await G('g-status'); ok(r.kelompok[0].length === 3, 'kelompok asli tidak berubah oleh akun uji coba');

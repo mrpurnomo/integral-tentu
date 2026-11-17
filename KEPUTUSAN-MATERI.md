@@ -53,3 +53,13 @@ Dicatat dari pertanyaan awal ke guru (06 §3) dan dari `rancangan-materi-integra
 | Pengantar | Satu adegan bersambung (grafik dan papan hitungan bertahan antarbab, perubahan berupa morf: kurva berubah wujud, zoom, token angka bergerak dan berubah warna) |
 | Kendali | Guru memutar satu langkah per tekan; murid mengikuti guru (sinkron lewat posisi slide di server, aditif pada t2s) |
 | Grafik pengantar | Sumbu x dan y berpanah, angka kelipatan 1, zoom + / − / ⌂ dan zoom terskrip ke titik potong |
+
+
+## Revisi 18 November 2026 (ketiga)
+
+- **Rumus**: semua rumus dirender KaTeX (tertanam). Teks campuran memakai penanda dolar; generator soal menghasilkan LaTeX.
+- **Mesin animasi (adegan.js)**: tiap langkah = satu keadaan lengkap; perpindahan maju dan mundur adalah morf dari keadaan yang tampak, sehingga Mundur memutar animasi terbalik. Pengantar bab titik potong: dua baris y = … berubah menjadi x² = x + 2, suku terbang pindah ruas, zoom ke x = −1 lalu x = 2 dengan garis putus-putus dan substitusi ke salah satu fungsi, lalu zoom out. Kurva atas dan bawah dijelaskan dengan redup–terang, tanpa garis dan teks tambahan di grafik.
+- **Istilah baku**: tidak ada lagi "pameran pakar", "kartu pakar", "pos", dan konteks parit/bak/tanggul/pesisir. Enam kartu: Belajar Kelompok, Sesi Berkeliling, Titik Potong, Bentuk Integral, Hitung Luas, Tiket Keluar. Gelar dan lencana diganti capaian (kemajuan) dan nilai kinerja.
+- **Tes awal**: soal 4 disederhanakan (satu kurva y = mx² + c, pilih bentuk integral); tipe dan kesulitan sama untuk semua murid, angka tiap murid berbeda (ruang kombinasi dikocok dengan benih tetap dan dipilih menurut nomor murid); coretan layar.
+- **Peran dipilih murid** di dasbor (realtime, tanpa ganda). Kartu 3, 4, 6 memakai benih kelompok (sama dalam kelompok, beda antarkelompok). Kartu 5 soalnya dari materi yang sudah dipelajari kelompok pada kartu 2.
+- **Verifikasi sesi berkeliling**: dipilih **pencocokan kode** (Host menampilkan kode 3 karakter, Penjelajah memilih kode yang sama dari tiga pilihan) karena membuktikan pertemuan tatap muka saat itu juga; cocokan data pasca-kejadian hanya bisa mendeteksi ketidakjujuran setelahnya. Bagian yang dilewati tetap dicatat dan ditampilkan ke guru.
