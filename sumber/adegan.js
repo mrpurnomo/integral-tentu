@@ -59,7 +59,7 @@
   class Kanvas {
     constructor(host, o) {
       o = o || {}; this.tema = o.tema || 'gelap'; this.pal = PAL[this.tema]; this.W = o.W || 820; this.H = o.H || 740; this.m = o.m || { l: 54, r: 40, t: 28, b: 50 }; this.pw = this.W - this.m.l - this.m.r; this.ph = this.H - this.m.t - this.m.b; this.pool = new Map(); this.G = null;
-      const id = this.id = 'kv' + (++idKv), svg = this.svg = S('svg', { viewBox: '0 0 ' + this.W + ' ' + this.H, class: 'kv kv-' + this.tema, role: 'img', 'aria-label': o.label || 'Grafik pada bidang koordinat' });
+      const id = this.id = 'kv' + (++idKv), svg = this.svg = S('svg', { viewBox: '0 0 ' + this.W + ' ' + this.H, class: 'kv kv-' + this.tema, role: 'img', 'aria-label': o.label || 'Grafik pada bidang koordinat', style: '--fl:' + Math.round(this.W * .04) + 'px' });
       const defs = S('defs'); defs.append(S('clipPath', { id: id + 'c' }, S('rect', { x: this.m.l, y: this.m.t, width: this.pw, height: this.ph })));
       ['emas', 'merah', 'biru', 'hijau'].forEach((n) => { const c = this.pal[n]; defs.append(S('pattern', { id: id + n, width: 10, height: 10, patternUnits: 'userSpaceOnUse', patternTransform: 'rotate(45)' }, S('rect', { width: 10, height: 10, fill: c, 'fill-opacity': this.tema === 'gelap' ? .2 : .16 }), S('line', { x1: 0, y1: 0, x2: 0, y2: 10, stroke: c, 'stroke-width': 3.4, 'stroke-opacity': .9 }))); });
       svg.append(defs); this.L = {}; ['kotak', 'grid', 'sumbu', 'isi', 'guide', 'kurva', 'titik', 'teks'].forEach((n) => { const g = S('g', { class: 'kv-' + n }); if (['isi', 'guide', 'kurva'].includes(n)) g.setAttribute('clip-path', 'url(#' + id + 'c)'); svg.append(g); this.L[n] = g; });
@@ -83,9 +83,9 @@
       s += '<line class="ka" x1="' + m.l + '" x2="' + xe.toFixed(1) + '" y1="' + pyA.toFixed(1) + '" y2="' + pyA.toFixed(1) + '"/><line class="ka" x1="' + pxA.toFixed(1) + '" x2="' + pxA.toFixed(1) + '" y1="' + (m.t + ph) + '" y2="' + ye.toFixed(1) + '"/>';
       if (ax > .96) s += '<path class="kp" d="M' + (m.l + pw + 9) + ' ' + pyA.toFixed(1) + 'l-15 -7v14z"/><path class="kp" d="M' + pxA.toFixed(1) + ' ' + (m.t - 9) + 'l-7 15h14z"/><text class="kn" x="' + (m.l + pw - 4) + '" y="' + (pyA - 14).toFixed(1) + '" text-anchor="end">x</text><text class="kn" x="' + (pxA + 16).toFixed(1) + '" y="' + (m.t + 16) + '">y</text>';
       if (G.angka !== false) {
-        for (let x = Math.ceil(V.x0 / sxn - 1e-9) * sxn; x <= V.x1 + 1e-9; x += sxn) { if (x === 0) continue; const px = sx(x); s += '<line class="kt" x1="' + px.toFixed(1) + '" x2="' + px.toFixed(1) + '" y1="' + (pyA - 6).toFixed(1) + '" y2="' + (pyA + 6).toFixed(1) + '" opacity="' + a + '"/><text class="kl" x="' + px.toFixed(1) + '" y="' + Math.min(m.t + ph - 5, pyA + 27).toFixed(1) + '" text-anchor="middle" opacity="' + a + '">' + mn(Math.round(x * 100) / 100) + '</text>'; }
-        for (let y = Math.ceil(V.y0 / syn - 1e-9) * syn; y <= V.y1 + 1e-9; y += syn) { if (y === 0) continue; const py = sy(y); s += '<line class="kt" y1="' + py.toFixed(1) + '" y2="' + py.toFixed(1) + '" x1="' + (pxA - 6).toFixed(1) + '" x2="' + (pxA + 6).toFixed(1) + '" opacity="' + a + '"/><text class="kl" x="' + Math.max(m.l + 4, pxA - 13).toFixed(1) + '" y="' + (py + 6).toFixed(1) + '" text-anchor="end" opacity="' + a + '">' + mn(Math.round(y * 100) / 100) + '</text>'; }
-        if (V.x0 <= 0 && V.x1 >= 0 && V.y0 <= 0 && V.y1 >= 0) s += '<text class="kl" x="' + (pxA - 13).toFixed(1) + '" y="' + (pyA + 27).toFixed(1) + '" text-anchor="end" opacity="' + a + '">0</text>';
+        for (let x = Math.ceil(V.x0 / sxn - 1e-9) * sxn; x <= V.x1 + 1e-9; x += sxn) { if (x === 0) continue; const px = sx(x); s += '<line class="kt" x1="' + px.toFixed(1) + '" x2="' + px.toFixed(1) + '" y1="' + (pyA - 6).toFixed(1) + '" y2="' + (pyA + 6).toFixed(1) + '" opacity="' + a + '"/><text class="kl" x="' + px.toFixed(1) + '" y="' + Math.min(this.H - 12, pyA + 27).toFixed(1) + '" text-anchor="middle" opacity="' + a + '">' + mn(Math.round(x * 100) / 100) + '</text>'; }
+        for (let y = Math.ceil(V.y0 / syn - 1e-9) * syn; y <= V.y1 + 1e-9; y += syn) { if (y === 0) continue; const py = sy(y); s += '<line class="kt" y1="' + py.toFixed(1) + '" y2="' + py.toFixed(1) + '" x1="' + (pxA - 6).toFixed(1) + '" x2="' + (pxA + 6).toFixed(1) + '" opacity="' + a + '"/><text class="kl" x="' + Math.max(40, pxA - 13).toFixed(1) + '" y="' + (py + 6).toFixed(1) + '" text-anchor="end" opacity="' + a + '">' + mn(Math.round(y * 100) / 100) + '</text>'; }
+        if (V.x0 <= 0 && V.x1 >= 0 && V.y0 <= 0 && V.y1 >= 0) s += '<text class="kl" x="' + (pxA - 13).toFixed(1) + '" y="' + Math.min(this.H - 12, pyA + 27).toFixed(1) + '" text-anchor="end" opacity="' + a + '">0</text>';
       }
       this.L.sumbu.innerHTML = s;
       const kv = (id) => G.items[id];
@@ -117,7 +117,7 @@
           const px = sx(it.x), py = sy(it.y), sc = it.s == null ? 1 : it.s, r = 9 * sc;
           o.c.setAttribute('cx', px); o.c.setAttribute('cy', py); o.c.setAttribute('r', Math.max(0, r)); o.c.setAttribute('fill', col); o.c.setAttribute('stroke', pal.bg); o.c.setAttribute('opacity', it.op);
           o.h.setAttribute('cx', px); o.h.setAttribute('cy', py); o.h.setAttribute('r', Math.max(0, r + 8)); o.h.setAttribute('fill', col); o.h.setAttribute('opacity', .26 * sc * it.op);
-          o.t.textContent = G.angka === false ? '' : (it.lab || ''); o.t.setAttribute('x', px + (it.dx == null ? 14 : it.dx)); o.t.setAttribute('y', py + (it.dy == null ? -14 : it.dy)); o.t.setAttribute('fill', pal.putih); o.t.setAttribute('opacity', it.op * clamp(sc * 1.5 - .3, 0, 1)); o.t.setAttribute('text-anchor', it.an || 'start');
+          o.t.textContent = G.angka === false ? '' : (it.lab || ''); const lw = String(it.lab || '').length * 13 + 12, balik = it.an == null && px + 14 + lw > m.l + pw; o.t.setAttribute('x', px + (balik ? -14 : (it.dx == null ? 14 : it.dx))); o.t.setAttribute('y', py + (it.dy == null ? -14 : it.dy)); o.t.setAttribute('fill', pal.putih); o.t.setAttribute('opacity', it.op * clamp(sc * 1.5 - .3, 0, 1)); o.t.setAttribute('text-anchor', balik ? 'end' : (it.an || 'start'));
         } else if (it.t === 't') {
           const o = this.ambil(id, () => { const fo = S('foreignObject', { width: 2, height: 2, class: 'kv-fo' }), dv = el('div', { kelas: 'kv-fd' }); fo.append(dv); this.L.teks.append(fo); return { fo, dv, tex: null }; });
           let x = it.x, y = it.y; if (it.on) { const c = kv(it.on); if (c) { x = it.at; y = polyV(c.p, it.at); if (c.sw) { const tmp = x; x = y; y = tmp; } } }
@@ -147,10 +147,15 @@
       this.ukur(lebar);
     }
     /* ganti papan dengan morf: token ber-id sama terbang ke tempat barunya (dan berubah warna/isi), yang baru muncul, yang hilang memudar */
-    async tampil(m, o) {
-      o = o || {}; const r = this.root, lama = new Map(), lamaLn = new Map();
+    /* merekam posisi, warna, dan isi token yang tampak sekarang (termasuk yang sedang bergerak), lalu menghentikan animasinya */
+    rekam() {
+      const r = this.root, lama = new Map(), lamaLn = new Map();
       r.querySelectorAll('[data-id]').forEach((e) => { const rc = e.getBoundingClientRect(); if (e.classList.contains('bd-l')) lamaLn.set(e.dataset.id, { op: parseFloat(getComputedStyle(e).opacity) }); else lama.set(e.dataset.id, { r: rc, c: getComputedStyle(e).color, html: e.innerHTML, sig: e.dataset.sig, cls: e.className }); });
-      const hant = r.querySelectorAll('.bd-hantu'); hant.forEach((h) => h.remove()); r.getAnimations && r.getAnimations({ subtree: true }).forEach((a) => a.cancel());
+      r.querySelectorAll('.bd-hantu').forEach((h) => h.remove()); r.getAnimations && r.getAnimations({ subtree: true }).forEach((a) => a.cancel());
+      return { lama, lamaLn };
+    }
+    async tampil(m, o) {
+      o = o || {}; const r = this.root, { lama, lamaLn } = o.rekaman || this.rekam();
       this.bangun(m, o.lebar); this.model = m;
       if (o.instan || !lama.size && !m.lines.length) return;
       const rr = r.getBoundingClientRect(), ms = (o.ms || 1100) / spd(), dur = Math.max(300, ms * .9), job = [], sdh = new Set(); let n = 0;
@@ -164,9 +169,12 @@
             const g = el('span', { kelas: w.cls + ' bd-hantu', html: w.html, gaya: 'position:absolute;left:' + (w.r.left - rr.left) + 'px;top:' + (w.r.top - rr.top) + 'px;margin:0;pointer-events:none;white-space:nowrap;color:' + w.c }); r.append(g);
             job.push(A(g, [{ transform: 'none', opacity: 1 }, { transform: 'translate(' + (-dx) + 'px,' + (-dy) + 'px)', opacity: 0, offset: .6 }, { transform: 'translate(' + (-dx) + 'px,' + (-dy) + 'px)', opacity: 0 }], { duration: dur, fill: 'both' }).then(() => g.remove()));
             job.push(A(e, [{ transform: 'translate(' + dx + 'px,' + dy + 'px)', opacity: 0, color: w.c }, { opacity: 0, offset: .35 }, { transform: 'none', opacity: 1, color: warna }], { duration: dur }));
-          } else if (Math.abs(dx) > .5 || Math.abs(dy) > .5 || w.c !== warna) job.push(A(e, [{ transform: 'translate(' + dx + 'px,' + dy + 'px)', color: w.c }, { transform: 'none', color: warna }], { duration: dur }));
+          } else {
+            const sx = rc.width > 1 ? w.r.width / rc.width : 1, sy = rc.height > 1 ? w.r.height / rc.height : 1, beda2 = Math.abs(sx - 1) > .015 || Math.abs(sy - 1) > .015;
+            if (Math.abs(dx) > .5 || Math.abs(dy) > .5 || w.c !== warna || beda2) { e.style.transformOrigin = '0 0'; job.push(A(e, [{ transform: 'translate(' + dx + 'px,' + dy + 'px) scale(' + sx.toFixed(4) + ',' + sy.toFixed(4) + ')', color: w.c }, { transform: 'none', color: warna }], { duration: dur }).then(() => { e.style.transformOrigin = ''; })); }
+          }
         } else job.push(A(e, [{ opacity: 0, transform: 'translateY(.55rem) scale(.86)' }, { opacity: 1, transform: 'none' }], { duration: dur * .75, delay: Math.min(520, (n++) * 90) / spd(), easing: 'cubic-bezier(.2,.8,.2,1)' }));
-        if (e.dataset.hl && !o.mundur) job.push(A(e, [{ transform: 'scale(1)' }, { transform: 'scale(1.16)', offset: .4 }, { transform: 'scale(1)' }], { duration: 700 / spd(), delay: dur * .85, fill: 'none', easing: 'ease-in-out' }));
+        if (e.dataset.hl && !o.mundur) job.push(A(e, [{ transform: 'scale(1)' }, { transform: 'scale(1.16)', offset: .4 }, { transform: 'scale(1)' }], { duration: 700 / spd(), delay: dur * 1.02, fill: 'none', easing: 'ease-in-out' }));
       });
       lama.forEach((w, id) => { if (sdh.has(id)) return; const g = el('span', { kelas: w.cls + ' bd-hantu', html: w.html, gaya: 'position:absolute;left:' + (w.r.left - rr.left) + 'px;top:' + (w.r.top - rr.top) + 'px;margin:0;pointer-events:none;white-space:nowrap;color:' + w.c }); r.append(g); job.push(A(g, [{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(-.5rem) scale(.9)' }], { duration: dur * .6, fill: 'both' }).then(() => g.remove())); });
       await Promise.all(job);
@@ -206,7 +214,7 @@
     stage.append(gr, bdH); const judul = el('h2'), no = el('span', { kelas: 'chip' }), info = el('span', { kelas: 'ad-info' }); kepala.append(judul, no, el('span', { gaya: 'flex:1' }), info);
     ad.append(kepala, stage, kendali); host.append(ad);
     const kv = new Kanvas(gr, { tema: 'gelap' }), pp = new Papan(bdH); const tanyaEl = el('div', { kelas: 'ad-ket' }); gr.append(tanyaEl);
-    let c = 0, b = 1, sibuk = false, terkunci = false, pollId = null, posKirim = '', Gnow = null, raf = 0, jalanId = 0; const played = new Set(o.played || []);
+    let c = 0, b = 1, sibuk = false, terkunci = false, guruPos = null, pollId = null, posKirim = '', Gnow = null, raf = 0, jalanId = 0; const played = new Set(o.played || []);
     const sembunyi = !!o.tanpaKendali; if (sembunyi) kendali.hidden = true;
     const jml = (i) => BAB[i].langkah.length, model = (i, j) => BAB[i].langkah[clamp(j, 1, jml(i)) - 1];
     const kosong = { mode: 'papan', g: null, b: { lines: [], fs: 2.7 }, ket: '' };
@@ -214,22 +222,30 @@
     const bNext = el('button', { kelas: 'btn sorot besar', type: 'button', onclick: () => lanjut() });
     const bUlang = el('button', { kelas: 'btn sekunder', type: 'button', html: ik('ulang') + 'Ulangi langkah', onclick: () => ulang() });
     const kec = el('div', { kelas: 'kecepatan', role: 'group', 'aria-label': 'Kecepatan animasi' }, el('span', { kelas: 'muted kecil' }, 'Kecepatan'), [1, 2, 3].map((n) => el('button', { type: 'button', kelas: UI.speed === n ? 'aktif' : '', onclick: (e) => { UI.speed = n; try { localStorage.setItem('ac_speed', n); } catch (x) { /* abaikan */ } [...kec.querySelectorAll('button')].forEach((x) => x.classList.toggle('aktif', x === e.currentTarget)); } }, n + '×')));
-    const titik = el('div', { kelas: 'ad-titik' }); BAB.forEach((bb, i) => titik.append(el('i', { 'aria-label': 'Bagian ' + (i + 1), title: bb.judul, onclick: () => { if (!terkunci && (guru || played.has(i) || i <= c)) ke(i, 1); } })));
-    kendali.append(bBack, titik, kec, bUlang, bNext);
+    const titik = el('div', { kelas: 'ad-titik' }); BAB.forEach((bb, i) => titik.append(el('i', { 'aria-label': 'Bagian ' + (i + 1), title: bb.judul, onclick: () => { if (guru || played.has(i) || i <= c) ke(i, 1); } })));
+        const urut = (p) => p.c * 1000 + p.b, bIkut = el('button', { kelas: 'btn kecil sorot ad-ikut', type: 'button', hidden: true, onclick: () => { if (guruPos) kePos(guruPos.c, guruPos.b, { mundur: urut(guruPos) < urut({ c, b }) }); } });
+    kendali.append(bBack, titik, kec, bUlang, bIkut, bNext);
+    const lst = el('div', { kelas: 'ad-lst', hidden: true }); bdH.insertBefore(lst, pp.root); let lstBab = -1;
+    function daftarUi() {
+      const d = BAB[c].daftar; lst.hidden = !d; bdH.classList.toggle('ada-daftar', !!d); if (!d) { lstBab = -1; return; }
+      if (lstBab !== c) { lstBab = c; lst.innerHTML = ''; d.forEach((x, i) => lst.append(el('button', { type: 'button', kelas: 'ad-li', onclick: () => kePos(c, i + 1), html: '<span class="no">' + (i + 1) + '</span><span class="tt">' + Mat.h(x) + '</span>' }))); }
+      [...lst.children].forEach((e, i) => e.classList.toggle('aktif', i === b - 1));
+    }
     function ui() {
-      judul.textContent = BAB[c].judul; no.textContent = (c + 1) + ' / ' + BAB.length; [...titik.children].forEach((d, i) => { d.className = i === c ? 'aktif' : (i < c || played.has(i) ? 'sudah' : ''); });
+      daftarUi(); judul.textContent = BAB[c].judul; no.textContent = (c + 1) + ' / ' + BAB.length; [...titik.children].forEach((d, i) => { d.className = i === c ? 'aktif' : (i < c || played.has(i) ? 'sudah' : ''); });
       const n = jml(c), akhir = c === BAB.length - 1 && b >= n; info.textContent = 'Langkah ' + b + ' dari ' + n;
-      bBack.disabled = (c === 0 && b <= 1) || terkunci; bUlang.disabled = terkunci;
-      bNext.innerHTML = akhir ? (o.labelAkhir || 'Selesai') + ik('centang') : (b >= n ? 'Bagian berikutnya' + ik('panah') : 'Lanjut' + ik('panah'));
-      if (terkunci && !akhir) bNext.innerHTML = 'Mengikuti guru' + ik('jam'); bNext.className = 'btn sorot besar' + ((terkunci && !akhir) ? ' mati' : ' denyut') + (akhir ? ' hijau' : '');
-      ad.classList.toggle('ikut', terkunci);
+      const murid = !guru && !!o.ambilPosisi, sejajar = guruPos && guruPos.c === c && guruPos.b === b, tunggu = murid && guruPos && urut({ c, b }) >= urut(guruPos) && !(akhir && urut(guruPos) >= urut({ c, b }));
+      bBack.disabled = (c === 0 && b <= 1); bIkut.hidden = !(murid && guruPos && !sejajar); if (guruPos) bIkut.innerHTML = ik('jam', 'kecil') + 'Ikuti guru';
+      bNext.innerHTML = tunggu ? 'Menunggu guru' + ik('jam') : (akhir ? (o.labelAkhir || 'Selesai') + ik('centang') : (b >= n ? 'Bagian berikutnya' + ik('panah') : 'Lanjut' + ik('panah')));
+      bNext.className = 'btn sorot besar' + (tunggu ? ' mati' : ' denyut') + (akhir && !tunggu ? ' hijau' : ''); bNext.disabled = !!tunggu;
     }
     /* putar transisi dari keadaan yang sedang tampak ke keadaan tujuan */
     async function ke_(m, opt) {
       opt = opt || {}; const id = ++jalanId; cancelAnimationFrame(raf); const dari = Gnow, ke = m.g || (dari ? { v: dari.v, ax: 0, grid: 0, items: {}, angka: dari.angka } : null);
       const ms = (opt.ms || m.ms || 1300), instan = !!opt.instan;
+      const rekaman = pp.rekam();
       stage.className = 'ad-stage m-' + (m.g ? (m.mode || 'split') : 'papan'); tanyaEl.innerHTML = m.ket ? Mat.h(m.ket) : '';
-      const sw = stage.clientWidth, lebar = m.g ? (m.mode === 'gambar' ? 0 : sw * 1.1 / 2.1) : sw; const pr = pp.tampil(m.b, { ms, instan, mundur: opt.mundur, lebar });
+      const pr = pp.tampil(m.b, { ms, instan, mundur: opt.mundur, rekaman });
       if (instan || !dari && !ke) { Gnow = ke ? salin(ke) : null; kv.render(Gnow); await pr; return; }
       const t0 = performance.now(), dur = ms / spd(); sibuk = true;
       await new Promise((res) => { const f = (t) => { if (id !== jalanId) return res(); const k = clamp((t - t0) / dur, 0, 1); Gnow = campurG(dari, ke, k, !!opt.mundur); if (k >= 1) Gnow = salin(ke); kv.render(Gnow); if (k < 1) raf = requestAnimationFrame(f); else res(); }; raf = requestAnimationFrame(f); });
@@ -237,14 +253,21 @@
     }
     /* campurG memakai kemajuan k yang belum diperhalus supaya jeda per butir (d) bekerja; zoom diperhalus di dalamnya */
     const kePos = async (cc, bb, opt) => { opt = opt || {}; c = cc; b = clamp(bb, 1, jml(cc)); const m = model(c, b); ui(); await ke_(m, opt); sibuk = false; if (b >= jml(c)) { played.add(c); if (o.saatMain) o.saatMain([...played]); } if (o.saatLangkah) o.saatLangkah(c); kirimPos(); ui(); };
-    async function lanjut(paksa) { if (terkunci && !paksa && !(c === BAB.length - 1 && b >= jml(c))) return; if (b < jml(c)) return kePos(c, b + 1); if (c < BAB.length - 1) return kePos(c + 1, 1); if (o.saatSelesai) o.saatSelesai(); }
-    async function mundur() { if (terkunci) return; if (b > 1) return kePos(c, b - 1, { mundur: true }); if (c > 0) return kePos(c - 1, jml(c - 1), { mundur: true }); }
-    async function ulang() { if (terkunci) return; const cc = c, bb = b; if (bb > 1) await kePos(cc, bb - 1, { instan: true }); else if (cc > 0) await kePos(cc - 1, jml(cc - 1), { instan: true }); else await ke_(kosong, { instan: true }); await kePos(cc, bb); }
+    async function lanjut() { if (!guru && o.ambilPosisi && guruPos && urut({ c, b }) >= urut(guruPos) && !(c === BAB.length - 1 && b >= jml(c) && urut(guruPos) >= urut({ c, b }))) return; if (b < jml(c)) return kePos(c, b + 1); if (c < BAB.length - 1) return kePos(c + 1, 1); if (o.saatSelesai) o.saatSelesai(); }
+    async function mundur() { if (b > 1) return kePos(c, b - 1, { mundur: true }); if (c > 0) return kePos(c - 1, jml(c - 1), { mundur: true }); }
+    async function ulang() { const cc = c, bb = b; if (bb > 1) await kePos(cc, bb - 1, { instan: true }); else if (cc > 0) await kePos(cc - 1, jml(cc - 1), { instan: true }); else await ke_(kosong, { instan: true }); await kePos(cc, bb); }
     async function ke(i, j, opt) { if (i < 0 || i >= BAB.length) return; await kePos(i, j || 1, opt); }
     function kirimPos() { if (!guru || !o.saatPosisi) return; const k = c + ':' + b; if (k === posKirim) return; posKirim = k; o.saatPosisi(c, b); }
-    async function ikutGuru() { if (guru || !o.ambilPosisi) return; let p; try { p = await o.ambilPosisi(); } catch (e) { return; } if (p === undefined) return; if (!p) { if (terkunci) { terkunci = false; ui(); } return; } if (!terkunci) { terkunci = true; ui(); } p.c = clamp(p.c, 0, BAB.length - 1); p.b = clamp(p.b || 1, 1, jml(p.c)); if (p.c === c && p.b === b) return; const maju = (p.c === c && p.b === b + 1) || (p.c === c + 1 && p.b === 1 && b >= jml(c)), mnd = (p.c === c && p.b === b - 1) || (p.c === c - 1 && p.b === jml(c - 1) && b === 1); await kePos(p.c, p.b, { mundur: mnd && !maju }); }
-    if (!guru && o.ambilPosisi) pollId = setInterval(ikutGuru, 2500);
-    const tombol = (e) => { if (e.target && /INPUT|TEXTAREA/.test(e.target.tagName)) return; if (document.querySelector('.tirai') && !o.dalamDialog) return; if (terkunci) return; if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') { e.preventDefault(); lanjut(); } else if (e.key === 'ArrowLeft') { e.preventDefault(); mundur(); } };
+    async function ikutGuru() {
+      if (guru || !o.ambilPosisi) return; let p; try { p = await o.ambilPosisi(); } catch (e) { return; } if (p === undefined) return;
+      const lama = guruPos; if (!p) { guruPos = null; ui(); return; }
+      p.c = clamp(p.c, 0, BAB.length - 1); p.b = clamp(p.b || 1, 1, jml(p.c)); guruPos = p;
+      /* ikut otomatis hanya bila murid sedang sejajar dengan posisi guru sebelumnya; selain itu tombol "Ikuti guru" yang menyala */
+      if (lama && (lama.c !== p.c || lama.b !== p.b) && lama.c === c && lama.b === b) { await kePos(p.c, p.b, { mundur: urut(p) < urut(lama) }); return; }
+      ui();
+    }
+    if (!guru && o.ambilPosisi) { pollId = setInterval(ikutGuru, 2500); ikutGuru(); }
+    const tombol = (e) => { if (e.target && /INPUT|TEXTAREA/.test(e.target.tagName)) return; if (document.querySelector('.tirai') && !o.dalamDialog) return; if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') { e.preventDefault(); lanjut(); } else if (e.key === 'ArrowLeft') { e.preventDefault(); mundur(); } };
     document.addEventListener('keydown', tombol);
     const mulaiC = clamp(o.mulai || 0, 0, BAB.length - 1), mulaiB = clamp(o.mulaiB || 1, 1, jml(mulaiC));
     ui(); ke_(kosong, { instan: true }).then(() => kePos(mulaiC, mulaiB, { instan: !!o.mulai || !!o.langsung }));
@@ -260,7 +283,25 @@
     spec.k.forEach((p, i) => s.k('k' + i, p, { c: W[i % 3], sw }));
     if (o.arsir !== false) spec.z.forEach((z, i) => s.area('z' + i, z.u < 0 ? [0] : spec.k[z.u], z.l < 0 ? [0] : spec.k[z.l], z.a, z.b, { c: z.w ? 'merah' : 'emas', sw }));
     if (o.titik !== false && o.angka !== false) { const seen = new Set(); spec.z.forEach((z, i) => [z.a, z.b].forEach((t) => { const idx = z.u >= 0 ? z.u : z.l, y = polyV(spec.k[idx], t), P = sw ? [y, t] : [t, y], key = P.join(','); if (seen.has(key)) return; seen.add(key); s.pt('p' + i + '_' + t, P[0], P[1], { c: 'putih', lab: '(' + mn(P[0]) + ', ' + mn(P[1]) + ')' }); })); }
-    if (o.label) { const V = s.cur.g.v, pos = [.82, .2, .58, .7]; const pakai = []; spec.k.forEach((p, i) => { const lo = sw ? V.y0 : V.x0, hi = sw ? V.y1 : V.x1; let pilih = null; for (const f of pos) { const t = lo + (hi - lo) * f, val = polyV(p, t), cx = sw ? val : t, cy = sw ? t : val; if (cx < V.x0 + (V.x1 - V.x0) * .05 || cx > V.x1 - (V.x1 - V.x0) * .12 || cy < V.y0 + (V.y1 - V.y0) * .06 || cy > V.y1 - (V.y1 - V.y0) * .08) continue; if (pakai.some((q) => Math.hypot(q[0] - cx, q[1] - cy) < Math.max(V.x1 - V.x0, V.y1 - V.y0) * .35)) continue; pilih = [t, cx, cy]; break; } if (!pilih) pilih = [lo + (hi - lo) * .5, 0, 0]; pakai.push([pilih[1], pilih[2]]); s.tex('n' + i, (spec.nama && spec.nama[i] ? spec.nama[i].replace(/^\$|\$$/g, '') : ((sw ? 'x=' : 'y=') + BS.tPoly(p, sw ? 'y' : 'x'))), { on: 'k' + i, at: pilih[0], c: W[i % 3], dx: 12, dy: -20, an: 'l' }); }); }
+    if (o.label) {
+      const Wd = o.W || 760, Hd = o.H || 540, mg = { l: 54, r: 40, t: 28, b: 50 }, pw = Wd - mg.l - mg.r, ph = Hd - mg.t - mg.b, V = s.cur.g.v, FL = Math.round(Wd * .04), tepi = 6;
+      const px = (x) => mg.l + (x - V.x0) / (V.x1 - V.x0) * pw, py = (y) => mg.t + ph - (y - V.y0) / (V.y1 - V.y0) * ph, kena = (a, b) => a[0] < b[2] && a[2] > b[0] && a[1] < b[3] && a[3] > b[1];
+      const larang = []; Object.keys(s.cur.g.items).forEach((id) => { const it = s.cur.g.items[id]; if (it.t !== 'p') return; const X = px(it.x), Y = py(it.y), w = String(it.lab || '').length * 13 + 12; larang.push([X - 14, Y - 14, X + 14, Y + 14]); if (o.angka !== false) larang.push(X + 14 + w > mg.l + pw ? [X - 14 - w, Y - 36, X - 6, Y - 6] : [X + 6, Y - 36, X + 14 + w, Y - 6]); });
+      const ya = py(clamp(0, V.y0, V.y1)), xa = px(clamp(0, V.x0, V.x1)); larang.push([mg.l + pw - 46, ya - 54, mg.l + pw, ya - 6]); larang.push([xa + 4, mg.t, xa + 44, mg.t + 40]); if (o.angka !== false) { larang.push([mg.l, ya - 8, mg.l + pw, ya + 34]); larang.push([xa - 52, mg.t, xa + 10, mg.t + ph]); } else { larang.push([mg.l, ya - 10, mg.l + pw, ya + 10]); larang.push([xa - 10, mg.t, xa + 10, mg.t + ph]); }
+      const fr = [.9, .8, .7, .6, .5, .4, .3, .2, .1], tp = [{ an: 'l', dx: 14, dy: -22 }, { an: 'r', dx: -14, dy: -22 }, { an: 'l', dx: 14, dy: 24 }, { an: 'r', dx: -14, dy: 24 }];
+      spec.k.forEach((p, i) => {
+        const teks = (spec.nama && spec.nama[i] ? spec.nama[i].replace(/^\$|\$$/g, '') : ((sw ? 'x=' : 'y=') + BS.tPoly(p, sw ? 'y' : 'x'))), w = teks.replace(/\\[a-zA-Z]+|[{}^_]/g, '').length * FL * .72 + 26, h = FL * 1.4, lo = sw ? V.y0 : V.x0, hi = sw ? V.y1 : V.x1; let terbaik = null, skor = 1e9;
+        for (const f of fr) { const t = lo + (hi - lo) * f, val = polyV(p, t), cx = sw ? val : t, cy = sw ? t : val; if (cx < V.x0 || cx > V.x1 || cy < V.y0 || cy > V.y1) continue; const X = px(cx), Y = py(cy);
+          for (const q of tp) { const kiri = q.an === 'l' ? X + q.dx : X + q.dx - w, kotak = [kiri, Y + q.dy - h / 2, kiri + w, Y + q.dy + h / 2], keluar = kotak[0] < mg.l + tepi || kotak[2] > mg.l + pw - tepi || kotak[1] < mg.t + tepi || kotak[3] > mg.t + ph - tepi; let n = keluar ? 50 : 0; larang.forEach((z) => { if (kena(kotak, z)) n++; }); if (n < skor) { skor = n; terbaik = { t, q, kotak }; } if (n === 0) break; }
+          if (skor === 0) break; }
+        if (skor > 0) {   /* tidak ada tempat dekat kurva yang bebas: pakai sudut bidang yang kosong, tetap berwarna sama dengan kurvanya */
+          const t0 = lo + (hi - lo) * .5, v0 = polyV(p, t0), X0 = px(sw ? v0 : t0), Y0 = py(sw ? t0 : v0), sudut = [[mg.l + 10, mg.t + 10], [mg.l + pw - w - 10, mg.t + 10], [mg.l + 10, mg.t + ph - h - 10], [mg.l + pw - w - 10, mg.t + ph - h - 10]];
+          for (const [kx, ky] of sudut) { const kotak = [kx, ky, kx + w, ky + h]; if (!larang.some((z) => kena(kotak, z))) { terbaik = { t: t0, q: { an: 'l', dx: kx - X0, dy: ky + h / 2 - Y0 }, kotak }; skor = 0; break; } }
+        }
+        if (!terbaik) terbaik = { t: lo + (hi - lo) * .5, q: tp[0], kotak: null }; if (terbaik.kotak) larang.push(terbaik.kotak);
+        s.tex('n' + i, teks, { on: 'k' + i, at: terbaik.t, c: W[i % 3], dx: terbaik.q.dx, dy: terbaik.q.dy, an: terbaik.q.an });
+      });
+    }
     s.langkahBaru(); return s.langkah[0].g;
   }
   function statis(host, spec, o) {

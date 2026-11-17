@@ -38,8 +38,8 @@ Setelah itu commit dan **jadikan repositori privat** (daftar nama ikut di dalamn
 
 ## Alur di kelas (3 JP)
 
-1. **Guru** membuka `/guru` → PIN → pilih kelas → tab **Penjelasan** (pengantar 9 bagian, satu adegan bersambung bergaya Manim). Guru memutar **satu langkah** dengan tombol Lanjut / panah kanan; **Mundur / panah kiri memutar animasi yang sama terbalik** (bukan potong dari awal). Setiap langkah hitungan berhenti sendiri-sendiri, jadi mudah dijelaskan. Tablet murid **mengikuti langkah guru** (±2,5 detik). Zoom pada grafik adalah animasi penyorot yang dijalankan skenario (titik potong x = −1, lalu x = 2, lalu zoom out), bukan tombol manual. Rumus dirender KaTeX.
-2. **Murid**: pilih kelas dan nama → konfirmasi → pengantar → tes diagnostik (10 menit, 5 soal PG, ada **coretan layar**) → hasil dan pembahasan → *Lihat kelompok*. Tipe dan tingkat kesulitan soal sama untuk semua murid, angka berbeda tiap murid.
+1. **Guru** membuka `/guru` → PIN → pilih kelas → tab **Penjelasan** (pengantar 9 bagian, satu adegan bersambung bergaya Manim). Guru memutar **satu langkah** dengan tombol Lanjut / panah kanan; **Mundur / panah kiri memutar animasi yang sama terbalik** (bukan potong dari awal). Setiap langkah hitungan berhenti sendiri-sendiri, jadi mudah dijelaskan. Tablet murid **tidak pernah melompat sendiri**: murid boleh mundur, maju, dan mengulang langkah sampai posisi guru (tidak mendahului); bila sejajar dengan guru ia ikut otomatis, bila tidak ada tombol **Ikuti guru** (±2,5 detik). Pada bagian *Tujuh materi*, daftar materi dapat diketuk. Zoom pada grafik adalah animasi penyorot yang dijalankan skenario (titik potong x = −1, lalu x = 2, lalu zoom out), bukan tombol manual. Rumus dirender KaTeX.
+2. **Murid**: pilih kelas dan nama → konfirmasi → pengantar → tes diagnostik (10 menit, 5 soal PG, ada **coretan layar**, nonaktif di awal; tombol *Coretan* menyalakan alat dan memberi penanda aktif) → hasil dan pembahasan → *Lihat kelompok*. Tipe dan tingkat kesulitan soal sama untuk semua murid, angka berbeda tiap murid.
 3. **Kelompok langsung**: murid yang menekan *Lihat kelompok* otomatis masuk kelompok (seimbang menurut skor); tablet lain ikut menampilkannya dalam ±4 detik. Setelah *Saya sudah di meja kelompok*, muncul pop-up kelompok, teman, dan materi.
 4. **Dasbor tahap lanjutan**: kiri = anggota kelompok dan **pilih peran** (Host, Penjelajah A, Penjelajah B; realtime, tidak bisa ganda; tombol *Simpan peran*). Kanan = enam kartu yang dibuka guru:
    1. **Belajar Kelompok**: penjelasan animasi materi kelompok + latihan soal bergambar (selalu baru) + pembahasan beranimasi → *Selesai belajar*.
@@ -96,3 +96,8 @@ tools/isi-nama.js     pengisi daftar nama
 - Tablet nyata belum diuji (hanya peramban desktop dengan ukuran 1280×800): cek ketukan, layar penuh, dan kunci orientasi pada gladi.
 
 Font: Bricolage Grotesque, Instrument Sans, Instrument Serif, dan Geist Mono (SIL OFL 1.1), ditanam ke halaman (folder `sumber/fonts`). Rumus: KaTeX 0.16 (MIT, `sumber/katex`), tertanam sehingga tidak butuh internet.
+
+
+### Akun uji coba guru
+
+Semua tombol aktif (tanpa kunci): peran bebas dipilih dan diganti, *Sudah belajar* menerima kode apa pun, Host dapat menganggap tamu cocok, Paham/Lumayan/Tidak paham, Selesai belajar, Kumpulkan, dan Ringkasan akhir tidak terkunci. Data uji coba memakai ruang kunci terpisah sehingga tidak memengaruhi kelompok, peran, pertemuan, atau kartu 5 murid asli.

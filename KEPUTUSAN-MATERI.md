@@ -63,3 +63,12 @@ Dicatat dari pertanyaan awal ke guru (06 §3) dan dari `rancangan-materi-integra
 - **Tes awal**: soal 4 disederhanakan (satu kurva y = mx² + c, pilih bentuk integral); tipe dan kesulitan sama untuk semua murid, angka tiap murid berbeda (ruang kombinasi dikocok dengan benih tetap dan dipilih menurut nomor murid); coretan layar.
 - **Peran dipilih murid** di dasbor (realtime, tanpa ganda). Kartu 3, 4, 6 memakai benih kelompok (sama dalam kelompok, beda antarkelompok). Kartu 5 soalnya dari materi yang sudah dipelajari kelompok pada kartu 2.
 - **Verifikasi sesi berkeliling**: dipilih **pencocokan kode** (Host menampilkan kode 3 karakter, Penjelajah memilih kode yang sama dari tiga pilihan) karena membuktikan pertemuan tatap muka saat itu juga; cocokan data pasca-kejadian hanya bisa mendeteksi ketidakjujuran setelahnya. Bagian yang dilewati tetap dicatat dan ditampilkan ke guru.
+
+## Revisi 18 November 2026 (keempat)
+
+- Animasi: token papan kini ikut dianimasikan ukurannya dan posisi lama direkam sebelum tata letak berubah, sehingga tidak ada lagi "mengecil dulu baru pindah". Tata letak grafik–papan berpindah seketika, token yang terbang.
+- Murid tidak lagi dikunci pada guru: bebas mundur dan maju sampai posisi guru, ikut otomatis hanya bila sejajar.
+- Pengantar: pertanyaan satu token (tidak terpecah), fokus redup–terang untuk fungsi pertama dan kedua, daftar tujuh materi yang bisa diketuk, tujuan pembelajaran ditengahkan, slide bersiap tes lebih kaya. Kode LaTeX mentah dan tag HTML mentah dicegah di mana pun (el() menyisipkan HTML dan KaTeX bila ada).
+- Label fungsi ditempatkan dengan penghindar tabrakan terhadap titik, sumbu, angka, dan label lain (sisa tabrakan dengan angka sumbu sekitar 2–4% pada ukuran kecil).
+- Kartu 1: soal latihan di pop-up (benar dan salah dicatat); peran dipilih lewat pop-up dengan Refresh; Host dapat menjawab latihan tamu.
+- Coretan dinonaktifkan di awal dan dinyalakan lewat tombol dengan penanda aktif.

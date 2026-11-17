@@ -34,7 +34,7 @@
   function el(tag, attrs, ...anak) {
     const e = document.createElement(tag);
     if (attrs) for (const k in attrs) { const v = attrs[k]; if (v == null || v === false) continue; if (k === 'kelas') e.className = v; else if (k === 'html') e.innerHTML = root.Mat ? root.Mat.h(v) : v; else if (k.startsWith('on')) e.addEventListener(k.slice(2), v); else if (k === 'gaya') e.style.cssText = v; else e.setAttribute(k, v === true ? '' : v); }
-    anak.flat().forEach((a) => { if (a != null && a !== false) e.append(a.nodeType ? a : document.createTextNode(a)); });
+    anak.flat().forEach((a) => { if (a == null || a === false) return; if (a.nodeType) { e.append(a); return; } const t = String(a); if (/<\/?(b|i|em|strong|br|sup|sub|span|small|u)\b|\$[^$]+\$/i.test(t)) { const tp = document.createElement('template'); tp.innerHTML = root.Mat ? root.Mat.h(t) : t; e.append(tp.content); } else e.append(document.createTextNode(t)); });
     return e;
   }
   const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));

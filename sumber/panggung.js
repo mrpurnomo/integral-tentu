@@ -43,15 +43,17 @@
 
   /* ---------------------------------------------------------------- 3. bagaimana jika ada 2 fungsi? */
   function bab3() {
-    const s = new Sken(), q = L('q', [TX('q', 'Bagaimana jika ada ', 'putih'), TX('q2', '2 fungsi', 'emas'), TX('q3', '?', 'putih')], { sz: 'j' });
+    const s = new Sken(), q = L('q', [TX('q', 'Bagaimana jika ada <span class="em">2 fungsi</span>?', 'putih')], { sz: 'j' });
     s.baris([q], { fs: 2.8 }).langkahBaru({ ms: 1300 });
-    s.graf(V2).k('k1', PF, { c: 'emas', g: 1 }).tex('n1', 'y=x^{2}', { on: 'k1', at: -2.2, dx: -12, dy: -4, an: 'r', c: 'emas', d: .5 }).k('k2', PG, { c: 'merah', d: .35 }).tex('n2', 'y=x+2', { on: 'k2', at: 4.2, dx: 0, dy: -30, an: 'r', c: 'merah', d: .7 }).mode('split').baris([q], { fs: 2.6 }).langkahBaru({ ms: 2300 });
+    s.graf(V2).k('k1', PF, { c: 'emas' }).tex('n1', 'y=x^{2}', { on: 'k1', at: -2.2, dx: -12, dy: -4, an: 'r', c: 'emas' }).mode('split').baris([L('a', [T('ya', 'y=', 'putih'), T('fa', 'x^{2}', 'emas')], { ket: 'Fungsi pertama' })], { fs: 2.8 }).langkahBaru({ ms: 2000 });
+    s.redup(['k1', 'n1'], .2).k('k2', PG, { c: 'merah', op: 1 }).tex('n2', 'y=x+2', { on: 'k2', at: 4.2, dx: 0, dy: -30, an: 'r', c: 'merah' }).baris([L('a', [T('ya', 'y=', 'redup'), T('fa', 'x^{2}', 'redup')], { ket: 'Fungsi pertama', op: .4 }), L('b', [T('yb', 'y=', 'putih'), T('fb', 'x+2', 'merah')], { ket: 'Fungsi kedua' })], { fs: 2.8 }).langkahBaru({ ms: 2100 });
+    s.redup(['k1', 'n1'], 1).baris([q], { fs: 2.6 }).langkahBaru({ ms: 1500 });
     return { judul: 'Bagaimana jika ada 2 fungsi?', langkah: s.langkah };
   }
 
   /* ---------------------------------------------------------------- 4. luas di antara 2 kurva? */
   function bab4() {
-    const s = new Sken(), q = L('q', [TX('q', 'Bagaimana menghitung ', 'putih'), TX('q2', 'luas di antara', 'emas'), TX('q3', ' dua kurva?', 'putih')], { sz: 'j' });
+    const s = new Sken(), q = L('q', [TX('q', 'Bagaimana menghitung <span class="em">luas di antara</span> dua kurva?', 'putih')], { sz: 'j' });
     s.graf(V2).k('k1', PF, { c: 'emas' }).tex('n1', 'y=x^{2}', { on: 'k1', at: -2.2, dx: -12, dy: -4, an: 'r', c: 'emas' }).k('k2', PG, { c: 'merah' }).tex('n2', 'y=x+2', { on: 'k2', at: 4.2, dx: 0, dy: -30, an: 'r', c: 'merah' }).mode('split').baris([q], { fs: 2.6 }).langkahBaru({ ms: 1200 });
     s.area('z', PG, PF, -1, 2, { c: 'biru' }).baris([q, L('h', [TX('h1', 'Daerah di antara kedua kurva', 'biru')], { sz: 'm' })], { fs: 2.6 }).langkahBaru({ ms: 1900 });
     return { judul: 'Luas di antara dua kurva?', langkah: s.langkah };
@@ -62,7 +64,9 @@
     const s = new Sken(), O = { ms: 1400 };
     s.graf(V2).k('k1', PF, { c: 'emas' }).tex('n1', 'y=x^{2}', { on: 'k1', at: -2.2, dx: -12, dy: -4, an: 'r', c: 'emas' }).k('k2', PG, { c: 'merah' }).tex('n2', 'y=x+2', { on: 'k2', at: 4.2, dx: 0, dy: -30, an: 'r', c: 'merah' }).mode('split');
     const dua = [L('a', [T('ya', 'y=', 'putih'), T('r1', 'x^{2}', 'emas')], { ket: 'Fungsi pertama' }), L('b', [T('yb', 'y=', 'putih'), T('rx', 'x', 'merah'), T('rc', '+2', 'merah')], { ket: 'Fungsi kedua' })];
-    s.baris(dua, { fs: 2.7 }).langkahBaru({ ms: 1500 });
+    s.redup(['k2', 'n2'], .14).baris([dua[0]], { fs: 2.7 }).langkahBaru({ ms: 1500 });
+    s.redup(['k2', 'n2'], 1).redup(['k1', 'n1'], .14).baris([Object.assign({}, dua[0], { op: .4 }), dua[1]], { fs: 2.7 }).langkahBaru({ ms: 1500 });
+    s.redup(['k1', 'n1'], 1).baris(dua, { fs: 2.7 }).langkahBaru({ ms: 1300 });
     const sat = (a, b, c, d, e, ket) => L('akt', [a, b, c, d, e].filter(Boolean), { ket });
     s.baris([sat(T('r1', 'x^{2}', 'emas'), T('eq', '=', 'putih'), T('rx', 'x', 'merah'), T('rc', '+2', 'merah'), null, 'Di titik potong, nilai y kedua kurva sama')], { fs: 3 }).langkahBaru({ ms: 1700 });
     s.baris([sat(T('r1', 'x^{2}', 'emas'), T('rx', '-x', 'merah', { hl: true }), T('rc', '-2', 'merah', { hl: true }), T('eq', '=', 'putih'), T('z', '0', 'putih'), 'Pindahkan ke ruas kiri: tanda berubah')], { fs: 3 }).langkahBaru({ ms: 1900 });
@@ -92,7 +96,7 @@
     s.redup(['k1', 'n1'], .14).baris([L('a', [T('ya', 'y_{\\text{atas}}=', 'putih'), T('fa', 'x+2', 'merah', { hl: true })], { ket: 'Kurva atas' })], { fs: 3 }).langkahBaru({ ms: 1700 });
     s.redup(['k1', 'n1'], 1).redup(['k2', 'n2'], .14).baris([L('a', [T('ya', 'y_{\\text{atas}}=', 'redup'), T('fa', 'x+2', 'redup')], { ket: 'Kurva atas', op: .4 }), L('b', [T('yb', 'y_{\\text{bawah}}=', 'putih'), T('fb', 'x^{2}', 'emas', { hl: true })], { ket: 'Kurva bawah' })], { fs: 3 }).langkahBaru({ ms: 1700 });
     s.redup(['k2', 'n2'], 1).area('z', PG, PF, -1, 2, { c: 'biru' });
-    const R = [{ ket: 'Luas = ∫ (atas − bawah)', tok: [T('lh', 'L=', 'putih'), T('ig', '\\int_{' + RED + '-1}^{' + RED + '2}', 'putih'), T('e1', '\\left(', 'putih'), T('fa', 'x+2', 'merah'), T('mm', '-', 'putih'), T('fb', 'x^{2}', 'emas'), T('e2', '\\right)', 'putih'), T('dx', '\\,dx', 'putih')] }];
+    const R = [{ ket: 'Luas = ∫ (atas − bawah)', tok: [T('lh', 'L=', 'putih'), T('ig', '\\int_{' + RED + '-1}^{' + RED + '2}', 'putih'), T('e1', '\\Bigl(', 'putih'), T('fa', 'x+2', 'merah'), T('mm', '-', 'putih'), T('fb', 'x^{2}', 'emas'), T('e2', '\\Bigr)', 'putih'), T('dx', '\\,dx', 'putih')] }];
     s.baris(pile(R), { fs: 2.7 }).langkahBaru({ ms: 2100 });
     R.push({ ket: 'Sederhanakan', tok: [T('lh', 'L=', 'putih'), T('ig', '\\int_{' + RED + '-1}^{' + RED + '2}', 'putih'), T('fa', '\\left(-x^{2}+x+2\\right)', 'emas', { hl: true }), T('dx', '\\,dx', 'putih')] }); s.baris(pile(R), { fs: 2.7 }).langkahBaru({ ms: 1400 });
     R.push({ ket: 'Antiturunan', tok: [T('lh', 'L=', 'putih'), T('fa', '\\left[-\\frac{1}{3}x^{3}+\\frac{1}{2}x^{2}+2x\\right]_{-1}^{2}', 'emas', { hl: true })] }); s.baris(pile(R), { fs: 2.7 }).langkahBaru({ ms: 1400 });
@@ -104,14 +108,14 @@
     return { judul: 'Menghitung luas daerah', langkah: s.langkah };
   }
 
-  /* ---------------------------------------------------------------- 7. tujuh materi sekilas */
+  /* ---------------------------------------------------------------- 7. tujuh materi: daftar yang bisa diketuk */
   const RUMUS = {
     bawah: ['Di bawah sumbu-$x$', 'L=-\\int_{a}^{b}f(x)\\,dx'], potong: ['Memotong sumbu-$x$', 'L=\\left|\\int_{a}^{c}f\\right|+\\left|\\int_{c}^{b}f\\right|'], garis: ['Parabola dan garis', 'L=\\int_{a}^{b}\\left(y_{\\text{atas}}-y_{\\text{bawah}}\\right)dx'],
     parab: ['Dua parabola', 'L=\\int_{a}^{b}\\left(f(x)-g(x)\\right)dx'], silang: ['Dua kurva bersilangan', 'L=\\int_{a}^{c}(f-g)\\,dx+\\int_{c}^{b}(g-f)\\,dx'], sumbuy: ['Terhadap sumbu-$y$', 'L=\\int_{c}^{d}x\\,dy'], kanan: ['Kanan dikurangi kiri', 'L=\\int_{c}^{d}\\left(x_{\\text{kanan}}-x_{\\text{kiri}}\\right)dy']
   };
   function bab7() {
-    const s = new Sken(); let pertama = true; let sebelum = null;
-    B.URUT.forEach((fam, i) => {
+    const s = new Sken(); let pertama = true;
+    B.URUT.forEach((fam) => {
       const sp = GF.K[fam].varian[0].spec, sw = sp.tipe === 'y', W = ['emas', 'merah'], v = GF.lihat(sp), V = { x0: v.xmin, x1: v.xmax, y0: v.ymin, y1: v.ymax };
       if (pertama) { s.graf(V).mode('split'); pertama = false; } else s.view(V);
       Object.keys(s.cur.g.items).forEach((id) => { if (!id.startsWith(sw ? 'y' : 'x')) s.hapus(id); });
@@ -120,24 +124,26 @@
       for (let j = sp.k.length; j < 2; j++) s.hapus(pre + 'k' + j);
       sp.z.forEach((z, j) => s.area(pre + 'z' + j, z.u < 0 ? [0] : sp.k[z.u], z.l < 0 ? [0] : sp.k[z.l], z.a, z.b, { c: z.w ? 'merah' : 'emas', sw }));
       for (let j = sp.z.length; j < 2; j++) s.hapus(pre + 'z' + j);
-      s.baris([L('n', [TX('n1', (i + 1) + '. ' + RUMUS[fam][0], 'emas')], { sz: 'j' }), L('r', [T('r1', RUMUS[fam][1], 'putih')], { sz: 'm' })], { fs: 2.4 }).langkahBaru({ ms: 1900 });
+      s.baris([L('r', [T('r1', RUMUS[fam][1], 'emas')], { sz: 'm', ket: 'Rumus luas' })], { fs: 2.8 }).langkahBaru({ ms: 1800 });
     });
-    return { judul: 'Tujuh materi yang akan dipelajari', langkah: s.langkah };
+    return { judul: 'Tujuh materi yang akan dipelajari', daftar: B.URUT.map((f, i) => RUMUS[f][0]), langkah: s.langkah };
   }
 
   /* ---------------------------------------------------------------- 8. tujuan pembelajaran */
   function bab8() {
     const s = new Sken(), tj = ['Menghitung luas daerah di bawah kurva dan di antara dua kurva dengan integral tentu.', 'Menentukan titik potong dua kurva sebagai <b>batas</b> integral.', 'Memilih kurva <b>atas dan bawah</b> (atau kanan dan kiri) serta irisan $dx$ atau $dy$.', 'Menjelaskan satu materi kepada teman dan belajar dari teman.'];
-    const baris = (n) => [L('h', [TX('h1', 'Tujuan pembelajaran hari ini', 'emas')], { sz: 'm' })].concat(tj.slice(0, n).map((t, i) => L('t' + i, [TX('tj' + i, (i + 1) + '. ' + t, 'putih')], { kls: 'daftar', sz: 'm' })));
-    for (let n = 0; n <= tj.length; n++) s.baris(baris(n), { fs: 3.1, rata: 'kiri' }).langkahBaru({ ms: 1100 });
+    const baris = (n) => [L('h', [TX('h1', 'Tujuan pembelajaran hari ini', 'emas')], { sz: 'j' })].concat(tj.slice(0, n).map((t, i) => L('t' + i, [TX('tj' + i, '<b>' + (i + 1) + '.</b> ' + t, 'putih')], { kls: 'daftar' })));
+    for (let n = 0; n <= tj.length; n++) s.baris(baris(n), { fs: 3.3 }).langkahBaru({ ms: 1100 });
     return { judul: 'Tujuan pembelajaran', langkah: s.langkah };
   }
 
-  /* ---------------------------------------------------------------- 9. bersiap tes */
+  /* ---------------------------------------------------------------- 9. bersiap tes diagnostik */
   function bab9() {
-    const s = new Sken();
-    s.baris([L('a', [TX('a1', 'Bersiap untuk', 'putih')], { sz: 'j' }), L('b', [TX('b1', 'tes diagnostik awal', 'emas')], { sz: 'j' })], { fs: 2.8 }).langkahBaru({ ms: 1400 });
-    s.baris([L('a', [TX('a1', 'Bersiap untuk', 'putih')], { sz: 'j' }), L('b', [TX('b1', 'tes diagnostik awal', 'emas')], { sz: 'j' }), L('c', [TX('c1', '5 soal pilihan ganda · 10 menit · kerjakan sendiri', 'redup')], { sz: 'm' })], { fs: 2.8 }).langkahBaru({ ms: 1000 });
+    const s = new Sken(), judulL = [L('a', [TX('a1', 'Bersiap untuk', 'putih')], { sz: 'j' }), L('b', [TX('b1', 'tes diagnostik awal', 'emas')], { sz: 'j' })];
+    const chip = (t, id) => TX(id, t, 'putih', { kls: 'kotak' }), ci = L('c', [chip('5 soal pilihan ganda', 'c1'), chip('10 menit', 'c2'), chip('kerjakan sendiri', 'c3')], { sz: 'm' });
+    s.baris(judulL, { fs: 2.8 }).langkahBaru({ ms: 1400 });
+    s.baris(judulL.concat([ci]), { fs: 2.8 }).langkahBaru({ ms: 1200 });
+    s.graf(V2).k('k1', PF, { c: 'emas' }).k('k2', PG, { c: 'merah', d: .3 }).area('z', PG, PF, -1, 2, { c: 'biru', d: .6 }).mode('split').baris(judulL.concat([L('d', [TX('d1', 'Ini bukan nilai rapor. Tujuannya mengetahui titik awalmu.', 'redup', { kls: 'bungkus' })], { sz: 'm' })]), { fs: 2.4 }).langkahBaru({ ms: 2600 });
     return { judul: 'Bersiap tes awal', langkah: s.langkah };
   }
 

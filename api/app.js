@@ -47,13 +47,13 @@ const hashStr = (t) => { let h = 2166136261; for (let i = 0; i < t.length; i++) 
 async function posisiGrup(idx) { const kel = await ambilKel(), m = kel ? kel.kel : [], g = idx === B.DUMMY ? 0 : sudahMasuk(m, idx); if (g < 0) return null; const anggota = (m[g] || []).map((x) => x.idx); if (idx === B.DUMMY && !anggota.includes(idx)) anggota.push(idx); return { g, anggota }; }
 async function aksiLanjut(b, idx, d, kirim) {
   const K = ctx().K, pos = await posisiGrup(idx), now = Date.now(); if (!pos) return kirim(200, { ok: true, tanpa: true });
-  const g1 = pos.g + 1, fam = B.bagianKelompok(pos.g), PR = await hashObj(K.PR), saya = PR[String(idx)], maks = CFG().maks, simpanD = async () => { d.aktif = now; await simpanSiswa(idx, d); };
+  const g1 = pos.g + 1, gk = idx === B.DUMMY ? 0 : pos.g + 1, fam = B.bagianKelompok(pos.g), PR = await hashObj(K.PR), saya = PR[String(idx)], maks = CFG().maks, simpanD = async () => { d.aktif = now; await simpanSiswa(idx, d); };
   const adaLain = (p) => pos.anggota.some((m) => m !== idx && PR[String(m)] === p);
   const tujuan = () => (saya === 1 || saya === 2 ? B.daftarKunjungan(g1, saya === 1 ? 'A' : 'B', adaLain(saya === 1 ? 2 : 1)) : []);
   if (b.a === 'grup') return kirim(200, { ok: true, g: g1, fam, anggota: pos.anggota.map((m) => ({ idx: m, nama: nm(m), peran: PR[String(m)] == null ? null : PR[String(m)] })), kap: B.kapasitasPeran(maks), maks, aktif: await bacaLangkah() });
   if (b.a === 'peran') {
     const p = Number(b.peran); if (![0, 1, 2].includes(p)) return kirim(400, { error: 'peran-tidak-valid' });
-    if (pos.anggota.filter((m) => m !== idx && PR[String(m)] === p).length >= B.kapasitasPeran(maks)[p]) return kirim(409, { error: 'dipakai' });
+    if (idx !== B.DUMMY && pos.anggota.filter((m) => m !== idx && PR[String(m)] === p).length >= B.kapasitasPeran(maks)[p]) return kirim(409, { error: 'dipakai' });
     await redis('HSET', K.PR, String(idx), JSON.stringify(p)); return kirim(200, { ok: true, peran: p });
   }
   if (b.a.startsWith('k2-')) {
@@ -61,48 +61,50 @@ async function aksiLanjut(b, idx, d, kirim) {
     const PA = await hashObj(K.PA), pairKey = (h, g) => h + ':' + g;
     if (b.a === 'k2-status') {
       const o = { ok: true, peran: saya, selesai: !!(d.k2 && d.k2.selesai), skip: !!(d.k2 && d.k2.skip) };
-      if (saya === 0) o.tamu = B.tamuHost(g1).map(({ g, sub }) => { const pr = PA[pairKey(g1, g)]; return { g, sub, fam: B.bagianKelompok(g - 1), ok: !!(pr && pr.ok), siapa: pr && pr.ok ? nm(pr.siapa) : null, kode: pr && !pr.ok && pr.exp > now ? pr.kode : null }; });
-      else o.tujuan = tujuan().map((h) => { const pr = PA[pairKey(h, g1)]; return { h, fam: B.bagianKelompok(h - 1), ok: !!(pr && pr.ok), siap: !!(pr && !pr.ok && pr.exp > now), paham: ((d.k2 && d.k2.paham) || {})[h] || null }; });
+      if (saya === 0) o.tamu = B.tamuHost(g1).map(({ g, sub }) => { const pr = PA[pairKey(gk, g)]; return { g, sub, fam: B.bagianKelompok(g - 1), ok: !!(pr && pr.ok), siapa: pr && pr.ok ? nm(pr.siapa) : null, kode: pr && !pr.ok && pr.exp > now ? pr.kode : null }; });
+      else o.tujuan = tujuan().map((h) => { const pr = PA[pairKey(h, gk)]; return { h, fam: B.bagianKelompok(h - 1), ok: !!(pr && pr.ok), siap: !!(pr && !pr.ok && pr.exp > now), paham: ((d.k2 && d.k2.paham) || {})[h] || null }; });
       return kirim(200, o);
     }
     if (b.a === 'k2-kode' || b.a === 'k2-tarik') {
       const g = Number(b.g); if (saya !== 0 || !B.tamuHost(g1).some((x) => x.g === g)) return kirim(403, { error: 'bukan-host' });
-      const key = pairKey(g1, g);
+      const key = pairKey(gk, g);
       if (b.a === 'k2-tarik') { await redis('HDEL', K.PA, key); return kirim(200, { ok: true }); }
+      if (idx === B.DUMMY && b.paksa === true) { await redis('HSET', K.PA, key, JSON.stringify({ kode: 'UJI', exp: now, ok: true, siapa: idx, t: now })); return kirim(200, { ok: true, paksa: true }); }
       const ada = PA[key]; if (ada && ada.ok) return kirim(200, { ok: true, sudah: true });
       if (ada && ada.exp > now) return kirim(200, { ok: true, kode: ada.kode, exp: ada.exp });
       const kode = kodeAcak(B.mulberry(hashStr(key + ':' + now))), rec = { kode, exp: now + 180000, ok: false, salah: 0, t: now }; await redis('HSET', K.PA, key, JSON.stringify(rec)); return kirim(200, { ok: true, kode, exp: rec.exp });
     }
     if (b.a === 'k2-pilihan' || b.a === 'k2-cocok' || b.a === 'k2-paham') {
       const h = Number(b.h); if (!(saya === 1 || saya === 2) || !tujuan().includes(h)) return kirim(403, { error: 'bukan-tujuan' });
-      const key = pairKey(h, g1), pr = PA[key];
-      if (b.a === 'k2-paham') { if (!(pr && pr.ok) || !['paham', 'lumayan', 'tidak'].includes(b.nilai)) return kirim(409, { error: 'belum-belajar' }); d.k2 = d.k2 || {}; d.k2.paham = d.k2.paham || {}; d.k2.paham[h] = b.nilai; await simpanD(); return kirim(200, { ok: true }); }
-      if (!pr || pr.ok || pr.exp <= now) return kirim(200, { ok: true, ada: false });
-      if (b.a === 'k2-pilihan') { const r = B.mulberry(hashStr(pr.kode + ':' + idx)), lain = []; while (lain.length < 2) { const c = kodeAcak(r); if (c !== pr.kode && !lain.includes(c)) lain.push(c); } return kirim(200, { ok: true, ada: true, pilihan: B.acak(r, [pr.kode].concat(lain)) }); }
-      if (String(b.pilih).toUpperCase() === pr.kode) { pr.ok = true; pr.siapa = idx; pr.t = now; await redis('HSET', K.PA, key, JSON.stringify(pr)); d.k2 = d.k2 || {}; d.k2.belajar = d.k2.belajar || {}; d.k2.belajar[h] = true; await simpanD(); return kirim(200, { ok: true, benar: true }); }
-      pr.salah = (pr.salah || 0) + 1; let baru = false; if (pr.salah >= 3) { pr.kode = kodeAcak(B.mulberry(hashStr(key + ':' + now + 'x'))); pr.salah = 0; pr.exp = now + 180000; baru = true; } await redis('HSET', K.PA, key, JSON.stringify(pr)); return kirim(200, { ok: true, benar: false, baru });
+      const key = pairKey(h, gk), pr = PA[key];
+      if (b.a === 'k2-paham') { if ((!(pr && pr.ok) && idx !== B.DUMMY) || !['paham', 'lumayan', 'tidak'].includes(b.nilai)) return kirim(409, { error: 'belum-belajar' }); d.k2 = d.k2 || {}; d.k2.paham = d.k2.paham || {}; d.k2.paham[h] = b.nilai; await simpanD(); return kirim(200, { ok: true }); }
+      if (idx === B.DUMMY && (!pr || pr.ok || pr.exp <= now)) { const rec = { kode: kodeAcak(B.mulberry(hashStr(key + ':' + now))), exp: now + 180000, ok: false, salah: 0, t: now }; await redis('HSET', K.PA, key, JSON.stringify(rec)); PA[key] = rec; }
+      const pr2 = PA[key]; if (!pr2 || pr2.ok || pr2.exp <= now) return kirim(200, { ok: true, ada: false });
+      if (b.a === 'k2-pilihan') { const r = B.mulberry(hashStr(pr2.kode + ':' + idx)), lain = []; while (lain.length < 2) { const c = kodeAcak(r); if (c !== pr2.kode && !lain.includes(c)) lain.push(c); } return kirim(200, { ok: true, ada: true, pilihan: B.acak(r, [pr2.kode].concat(lain)) }); }
+      if (idx === B.DUMMY || String(b.pilih).toUpperCase() === pr2.kode) { pr2.ok = true; pr2.siapa = idx; pr2.t = now; await redis('HSET', K.PA, key, JSON.stringify(pr2)); d.k2 = d.k2 || {}; d.k2.belajar = d.k2.belajar || {}; d.k2.belajar[h] = true; await simpanD(); return kirim(200, { ok: true, benar: true }); }
+      pr2.salah = (pr2.salah || 0) + 1; let baru = false; if (pr2.salah >= 3) { pr2.kode = kodeAcak(B.mulberry(hashStr(key + ':' + now + 'x'))); pr2.salah = 0; pr2.exp = now + 180000; baru = true; } await redis('HSET', K.PA, key, JSON.stringify(pr2)); return kirim(200, { ok: true, benar: false, baru });
     }
     if (b.a === 'k2-selesai') {
-      const perlu = saya === 0 ? B.tamuHost(g1).map((x) => PA[pairKey(g1, x.g)]) : tujuan().map((h) => PA[pairKey(h, g1)]), lengkap = perlu.every((p) => p && p.ok) || idx === B.DUMMY;
+      const perlu = saya === 0 ? B.tamuHost(g1).map((x) => PA[pairKey(gk, x.g)]) : tujuan().map((h) => PA[pairKey(h, gk)]), lengkap = perlu.every((p) => p && p.ok) || idx === B.DUMMY;
       if (!lengkap && b.skip !== true) return kirim(409, { error: 'belum-lengkap' });
       d.k2 = d.k2 || {}; d.k2.selesai = true; d.k2.skip = !lengkap; d.k2.kurang = perlu.filter((p) => !(p && p.ok)).length; d.k2.waktu = now; await simpanD(); return kirim(200, { ok: true, skip: !lengkap });
     }
   }
   if (b.a.startsWith('k5-')) {
     const H = await hashObj(K.K5), PA = await hashObj(K.PA); let snap = H[g1 + ':set'];
-    if (!snap) { const fams = [fam]; Object.keys(PA).forEach((k) => { const [h, g] = k.split(':').map(Number); if (g === g1 && PA[k].ok) { const f = B.bagianKelompok(h - 1); if (!fams.includes(f)) fams.push(f); } }); snap = { fams, t: now }; await redis('HSET', K.K5, g1 + ':set', JSON.stringify(snap)); }
+    if (!snap) { const fams = [fam]; Object.keys(PA).forEach((k) => { const [h, g] = k.split(':').map(Number); if (g === gk && PA[k].ok) { const f = B.bagianKelompok(h - 1); if (!fams.includes(f)) fams.push(f); } }); snap = { fams, t: now }; await redis('HSET', K.K5, g1 + ':set', JSON.stringify(snap)); }
     const seed = B.seedKelompok(ctx().kl, g1, 5), klaim = {}, jawab = {};
-    [1, 2, 3].forEach((no) => { klaim[no] = (H[g1 + ':' + no] || []).map((m) => ({ idx: m, nama: nm(m) })); const j = H[g1 + ':' + no + ':j']; if (j) jawab[no] = { idx: j.idx, nama: nm(j.idx), benar: !!j.benar }; });
-    const saatIni = () => { for (const no of [1, 2, 3]) if ((H[g1 + ':' + no] || []).includes(idx)) return no; return null; };
+    [1, 2, 3].forEach((no) => { klaim[no] = (H[gk + ':' + no] || []).map((m) => ({ idx: m, nama: nm(m) })); const j = H[gk + ':' + no + ':j']; if (j) jawab[no] = { idx: j.idx, nama: nm(j.idx), benar: !!j.benar }; });
+    const saatIni = () => { for (const no of [1, 2, 3]) if ((H[gk + ':' + no] || []).includes(idx)) return no; return null; };
     if (b.a === 'k5-status') return kirim(200, { ok: true, fams: snap.fams, seed, klaim, jawab, saya: saatIni() });
     if (b.a === 'k5-pilih') {
       const no = Number(b.no); if (![1, 2, 3].includes(no)) return kirim(400, { error: 'no' }); if (saatIni()) return kirim(200, { ok: true, saya: saatIni() });
-      const semua = [1, 2, 3].every((n) => (H[g1 + ':' + n] || []).length); if ((H[g1 + ':' + no] || []).length && !semua) return kirim(409, { error: 'diambil' });
-      const arr = H[g1 + ':' + no] || []; arr.push(idx); await redis('HSET', K.K5, g1 + ':' + no, JSON.stringify(arr)); return kirim(200, { ok: true, saya: no });
+      const semua = [1, 2, 3].every((n) => (H[gk + ':' + n] || []).length); if ((H[gk + ':' + no] || []).length && !semua) return kirim(409, { error: 'diambil' });
+      const arr = H[gk + ':' + no] || []; arr.push(idx); await redis('HSET', K.K5, gk + ':' + no, JSON.stringify(arr)); return kirim(200, { ok: true, saya: no });
     }
     if (b.a === 'k5-jawab') {
-      const no = saatIni(); if (!no) return kirim(409, { error: 'belum-pilih' }); const ada = H[g1 + ':' + no + ':j']; if (ada && ada.idx === idx) return kirim(200, { ok: true, benar: !!ada.benar, kunci: B.luasSet(seed, snap.fams)[no - 1].kunci, sudah: true });
-      const kunci = B.luasSet(seed, snap.fams)[no - 1].kunci, benar = Number(b.nilai) === kunci; await redis('HSET', K.K5, g1 + ':' + no + ':j', JSON.stringify({ idx, benar, nilai: Number(b.nilai), t: now }));
+      const no = saatIni(); if (!no) return kirim(409, { error: 'belum-pilih' }); const ada = H[gk + ':' + no + ':j']; if (ada && ada.idx === idx) return kirim(200, { ok: true, benar: !!ada.benar, kunci: B.luasSet(seed, snap.fams)[no - 1].kunci, sudah: true });
+      const kunci = B.luasSet(seed, snap.fams)[no - 1].kunci, benar = Number(b.nilai) === kunci; await redis('HSET', K.K5, gk + ':' + no + ':j', JSON.stringify({ idx, benar, nilai: Number(b.nilai), t: now }));
       d.t2 = d.t2 || {}; d.t2.k5 = { no, benar: benar ? 1 : 0, selesai: true }; await simpanD(); return kirim(200, { ok: true, benar, kunci });
     }
   }
@@ -168,7 +170,7 @@ const handler = async (req, res) => {
         const uji = s['s' + B.DUMMY] ? { klaim: true, tahap: s['s' + B.DUMMY].tahap, skor: s['s' + B.DUMMY].hasil ? s['s' + B.DUMMY].hasil.skor : null } : { klaim: false };
         const PR = await hashObj(ctx().K.PR), PA = await hashObj(ctx().K.PA), aktifL = await bacaLangkah(), langkah = aktifL.length ? Math.max.apply(null, aktifL) : 0, selStep = [0, 0, 0, 0, 0, 0], peran = { host: 0, A: 0, B: 0, belum: 0 }; let pOk = 0, skip = 0, sel2 = 0, sumNilai = 0, nN = 0, sumCap = 0; const siswa = [], paham = { paham: 0, lumayan: 0, tidak: 0 };
         Object.keys(s).filter(nyata).forEach((k) => { const i = +k.slice(1), t = s[k].t2 || {}, p = PR[String(i)], tes = s[k].hasil ? s[k].hasil.skor : null, R = B.rapor(Object.assign({}, t, { k2: s[k].k2 }), tes); R.kartu.forEach((v, j) => { if (v) selStep[j]++; }); if (p === 0) peran.host++; else if (p === 1) peran.A++; else if (p === 2) peran.B++; else peran.belum++; if (s[k].k2 && s[k].k2.skip) skip++; if (s[k].k2 && s[k].k2.paham) Object.values(s[k].k2.paham).forEach((v) => { if (paham[v] != null) paham[v]++; }); if (R.kartu.some(Boolean)) { sumNilai += R.nilai; nN++; sumCap += R.capaian; } if (R.kartu.every(Boolean)) sel2++; siswa.push({ idx: i, nama: nm(i), kel: kel ? sudahMasuk(kel.kel, i) + 1 : 0, peran: p == null ? null : p, capaian: R.capaian, nilai: R.nilai, awal: R.awal, predikat: R.predikat, kartu: R.kartu, skip: !!(s[k].k2 && s[k].k2.skip), paham: (s[k].k2 && s[k].k2.paham) || {} }); });
-        Object.keys(PA).forEach((k) => { if (PA[k].ok) pOk++; });
+        Object.keys(PA).forEach((k) => { if (PA[k].ok && !k.startsWith('0:') && !k.endsWith(':0')) pOk++; });
         const tahap2 = { langkah, aktif: aktifL, selStep, peran, pasangan: { ok: pOk, total: 42 }, skip, selesai: sel2, nilaiRata: nN ? sumNilai / nN : null, capaianRata: nN ? sumCap / nN : null, paham, siswa };
         const daftar = CFG().daftar.map((_, i) => { const d = s['s' + i]; return { idx: i, nama: nm(i), klaim: !!d, aktif: d ? d.aktif : 0, tahap: d ? d.tahap : null, skor: d && d.hasil ? d.hasil.skor : null, detik: d && d.hasil ? d.hasil.detik : null, kel: kel ? sudahMasuk(kel.kel, i) : -1 }; });
         return kirim(200, { ok: true, sekarang: Date.now(), kelas: ctx().kl, manual: CFG().manual, kelasBuka: !CFG().manual || (await redis('GET', ctx().K.KB)) === '1', pameran: Number(await redis('GET', ctx().K.P)) || 0, nLangkah: NLANGKAH(), daftar, uji, tahap2, kelompok: kel ? tampilKel(kel.kel) : null, gerbang });

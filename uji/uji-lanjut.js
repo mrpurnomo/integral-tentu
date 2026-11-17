@@ -78,6 +78,19 @@ const tok = (i) => 'T' + i, S = (i, a, o) => api(Object.assign({ a, idx: i, toke
   r = await S(a0[0], 't2', { t2: { k3: { benar: 3, selesai: true }, k3x: 1 } }); ok(r.ok, 'bidang di luar daftar putih diabaikan');
   r = await api({ a: 't2', idx: a0[0], token: 'SALAH', t2: { k3: { benar: 3 } } }); ok(r._s === 403, 'tahap lanjutan butuh token yang benar');
   r = await api({ a: 'peran', idx: a0[0], token: 'SALAH', peran: 0 }); ok(r._s === 403, 'peran butuh token yang benar');
+  /* akun uji coba guru: semua tombol aktif, tetapi tidak memengaruhi kelompok asli */
+  const pOkSebelum = (await G('g-status')).tahap2.pasangan.ok;
+  await api({ a: 'klaim', idx: B.DUMMY, token: 'DUM' }); const D = (a, o) => api(Object.assign({ a, idx: B.DUMMY, token: 'DUM' }, o));
+  r = await D('peran', { peran: 0 }); ok(r.ok, 'uji coba: boleh memilih peran apa pun, walau sudah dipegang murid asli');
+  r = await S(a0[1], 'grup'); ok(r.anggota.length === 3 && r.anggota.every((a) => a.idx !== B.DUMMY), 'uji coba: tidak muncul di daftar anggota kelompok asli');
+  r = await D('k2-status'); ok(r.ok && r.tamu.length === 6 && r.tamu.every((x) => !x.ok), 'uji coba sebagai Host: enam tamu, pasangan terpisah dari kelompok asli');
+  r = await D('k2-kode', { g: r.tamu[0].g, paksa: true }); ok(r.ok && r.paksa, 'uji coba: Host bisa menganggap tamu cocok'); r = await D('k2-status'); ok(r.tamu.filter((x) => x.ok).length === 1, 'uji coba: tanda sudah mengajar tersimpan');
+  await D('peran', { peran: 1 }); r = await D('k2-status'); const h0 = r.tujuan[0].h;
+  r = await D('k2-pilihan', { h: h0 }); ok(r.ok && r.ada && r.pilihan.length === 3, 'uji coba sebagai Penjelajah: pilihan kode selalu tersedia');
+  r = await D('k2-cocok', { h: h0, pilih: 'XXX' }); ok(r.ok && r.benar === true, 'uji coba: kode apa pun diterima');
+  r = await D('k2-paham', { h: h0, nilai: 'paham' }); ok(r.ok, 'uji coba: tombol paham aktif'); r = await D('k2-selesai', {}); ok(r.ok, 'uji coba: selesai tanpa harus lengkap');
+  r = await D('k5-pilih', { no: 1 }); ok(r.ok, 'uji coba: kartu 5 memakai ruang sendiri'); r = await S(a0[2], 'k5-status'); ok(r.klaim[1].length === 1 && r.klaim[1][0].idx === a0[1], 'uji coba: tidak mengambil kartu soal kelompok asli');
+  ok((await G('g-status')).tahap2.pasangan.ok === pOkSebelum, 'uji coba: tidak menambah hitungan pertemuan terverifikasi di rekap guru');
   await G('g-reset', { idx: a0[0] }); r = await S(a0[1], 'grup'); ok(r.anggota.find((a) => a.idx === a0[0]) === undefined, 'reset satu murid melepas dari kelompok dan peran');
   await G('g-reset-semua'); r = await api({ a: 'cek' }); ok(r.ok, 'reset semua menghapus peran, pasangan, dan kartu 5 tanpa galat');
 })();

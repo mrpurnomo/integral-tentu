@@ -109,3 +109,22 @@
 .so-teks, .so-teks .opsi-wrap, .so-teks .teks-soal { min-width: 0; } .so-teks .opsi-wrap { grid-template-columns: 1fr; display: grid; gap: .45rem; }
 .so-teks .opsi { padding: .5rem .8rem; min-height: 0; } .so-isi { overflow-x: hidden; }
 .so-teks .teks-soal { overflow-wrap: anywhere; }
+
+/* coretan: tombol penyala + penanda aktif */
+.cor-bar { background: transparent; border: 0; padding: 0; gap: .3rem; } .cor-bar.terbuka { background: #F1F4FA; border: 1px solid var(--garis); padding: .22rem .35rem; border-radius: .9rem; }
+.cor-tog { display: inline-flex; align-items: center; gap: .4rem; padding: .35rem .8rem; border-radius: 99px; border: 1px solid var(--garis-2); background: #fff; color: var(--navy-800); font: 700 .92rem var(--isi); cursor: pointer; } .cor-tog svg { width: 1.15rem; height: 1.15rem; }
+.cor-tog.on { background: var(--navy-800); color: var(--emas-t); border-color: var(--navy-800); }
+.cor-titik { width: .55rem; height: .55rem; border-radius: 50%; background: #FF6B70; box-shadow: 0 0 0 0 rgba(255,107,112,.7); animation: corDenyut 1.4s ease-out infinite; } @keyframes corDenyut { 70% { box-shadow: 0 0 0 .5rem rgba(255,107,112,0); } 100% { box-shadow: 0 0 0 0 rgba(255,107,112,0); } }
+.cor-on { box-shadow: inset 0 0 0 3px rgba(255,201,74,.85) !important; }
+
+/* peran, latihan, kartu 1 */
+.peran-nama { padding: .5rem .7rem; border-radius: .8rem; background: #EDF1FA; font-size: 1.02rem; } .peran-nama.kosong { background: #FFF3D1; color: #7A5200; }
+.peran-opsi.besar { width: 100%; padding: .8rem 1rem; margin-bottom: .5rem; } .peran-opsi.besar .peran-ik { width: 2.6rem; height: 2.6rem; border-radius: .8rem; } .peran-opsi.besar b { font-size: 1.15rem; } .peran-opsi.besar small { font-size: .9rem; }
+.k1-grid { grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); }
+.k1-latihan { justify-content: flex-start; } .k1-stat { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; margin: .4rem 0 .9rem; } .k1-stat > div { padding: .6rem .4rem; border-radius: .9rem; background: #EDF1FA; text-align: center; } .k1-stat b { display: block; font: 700 1.9rem var(--tampil); color: var(--navy-800); } .k1-stat span { font-size: .85rem; color: var(--tinta-3); } .k1-stat .ok { background: #DDF3E7; } .k1-stat .ok b { color: #0F6B45; } .k1-stat .bad { background: #FDE4E4; } .k1-stat .bad b { color: #A3262B; }
+.mini-graf svg.kv { max-height: 19rem; }
+.lat { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 1.1rem; align-items: start; } .lat-graf { border-radius: 1rem; background: #fff; border: 1px solid var(--garis); padding: .3rem; } .lat-graf svg.kv { width: 100%; height: auto; max-height: 20rem; display: block; }
+.lat-kanan { display: grid; gap: .7rem; align-content: start; min-width: 0; } .lat-kanan .teks-soal { font-size: 1.3rem; line-height: 1.55; } .lat-info { display: flex; gap: .5rem; flex-wrap: wrap; } .lat-aksi { gap: .5rem; flex-wrap: wrap; }
+.dialog.latihan { max-width: 62rem; width: min(62rem, 96vw); }
+.mj-panel { background: #0F1B38; border-radius: 1.2rem; padding: 1.2rem 1.4rem; width: min(70rem, 96vw); } .mengajar .lat .teks-soal { color: #F4F7FF; } .mengajar .lat .umpan { color: #0B1530; }
+.mj-soal { position: absolute; inset: 0; display: grid; place-items: center; grid-template-columns: 1fr; overflow: auto; padding: 1rem; }
