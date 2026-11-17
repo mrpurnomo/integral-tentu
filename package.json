@@ -1,8 +1,12 @@
 {
-  "name": "grafik-fungsi",
+  "name": "area-calculus",
   "version": "1.0.0",
   "private": true,
-  "description": "Grafik Fungsi — pembelajaran fungsi untuk XI-F Soshum (tablet, landscape). Situs statis + satu fungsi serverless.",
+  "description": "Area & Calculus — pembelajaran luas daerah dengan integral tentu untuk kelas XII (tablet landscape, jigsaw 7 pos). Situs statis + satu fungsi serverless.",
   "engines": { "node": ">=18" },
-  "scripts": { "bangun": "node sumber/bangun.js" }
+  "scripts": {
+    "bangun": "node sumber/bangun.js",
+    "uji:sifat": "node uji/uji-sifat.js",
+    "dev": "node uji/dev-server.js"
+  }
 }

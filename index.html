@@ -385,10 +385,10 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
 
 .kelas-aktif { display: inline-flex; align-items: center; gap: .5rem; flex: none; border: .14rem solid var(--garis-2); background: #fff; border-radius: 1rem; padding: .15rem .8rem .15rem .7rem; cursor: pointer; text-align: left; line-height: 1.05; min-height: 2.6rem; box-shadow: 0 .15rem 0 var(--garis-2); }
 .kelas-aktif small { display: block; font-size: .6rem; letter-spacing: .08em; font-weight: 700; color: var(--tinta-3); } .kelas-aktif b { font-family: var(--tampil); font-size: 1.05rem; color: var(--tinta); } .kelas-aktif .ik { color: var(--tinta-3); }
-.kelas-aktif.k-xif { background: var(--f-parab-t); border-color: var(--f-parab); } .kelas-aktif.k-xig { background: var(--f-potong-t); border-color: var(--f-potong); }
+
 .pilih-kelas-isi { display: flex; flex-direction: column; gap: .7rem; } .kartu-pilih { display: flex; align-items: center; gap: 1rem; text-align: left; border: .16rem solid var(--garis-2); background: #fff; border-radius: 1.3rem; padding: .9rem 1.2rem; cursor: pointer; box-shadow: 0 .2rem 0 var(--garis-2); font-size: 1.1rem; }
 .kartu-pilih:active { transform: translateY(.15rem); box-shadow: none; } .kartu-pilih.sekarang { border-color: var(--mint); background: var(--mint-100); }
-.kp-ubin { width: 4.6rem; height: 4.6rem; border-radius: 1.2rem; display: grid; place-items: center; font-family: var(--tampil); font-size: 1.7rem; font-weight: 700; color: #fff; flex: none; } .k-xif .kp-ubin { background: var(--f-parab); } .k-xig .kp-ubin { background: var(--f-potong); }
+.kp-ubin { width: 4.6rem; height: 4.6rem; border-radius: 1.2rem; display: grid; place-items: center; font-family: var(--tampil); font-size: 1.7rem; font-weight: 700; color: #fff; flex: none; } .k-xiia .kp-ubin { background: var(--f-parab); } .k-xiib .kp-ubin { background: var(--f-potong); }
 .kp-teks { flex: 1; display: flex; flex-direction: column; } .kp-teks b { font-family: var(--tampil); font-size: 1.5rem; } .kp-teks small { color: var(--tinta-3); font-size: .95rem; }
 .tabs-guru button { padding: 0 .65rem; gap: .35rem; font-size: .92rem; } .tabs-guru { gap: .15rem; } #atas { gap: .5rem; }
 /* panel pameran guru */
@@ -1576,7 +1576,7 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
     gambar();
   }
 
-  /* ============================================================ langkah 2: tebak fungsinya (diskusi) */
+  /* ============================================================ langkah 2: tebak bagiannya (diskusi) */
   const PERAN = [['Pembaca', 'Bacakan konteks dan tabel dengan kata-katamu sendiri.'], ['Penebak', 'Sebutkan tebakanmu dan satu alasan.'], ['Penyanggah', 'Setuju atau beri pandangan lain, lengkap dengan alasannya.'], ['Pencatat', 'Ketuk jawaban setelah kelompok sepakat.']];
   function diskusi() {
     E.bawahKosong(); const t = T(), soal = B.diskusiSiswa(t.grup || (E.idx() % 7) + 1), semua = B.URUT; t.dis.rnd = t.dis.rnd || []; let no = Math.min(5, t.dis.rnd.filter((r) => r && r.selesai).length);
@@ -1964,7 +1964,7 @@ sub { font-size: .68em; line-height: 0; vertical-align: baseline; position: rela
 .galeri-m{display:grid;grid-template-columns:repeat(3,1fr);gap:3mm}.galeri-m>div{background:var(--t);border-radius:3.5mm;padding:2mm 2.6mm;display:flex;flex-direction:column;gap:.6mm}.gm-g{background:#fff;border-radius:2.5mm;height:19mm;padding:1mm}.galeri-m b{font-family:Fraunces,Georgia,serif;color:var(--d);font-size:10pt}.galeri-m span{font-size:7.8pt;color:#2B3F58;line-height:1.25}
 .sampul{padding:0;background:linear-gradient(165deg,#12263F 0%,#0F766E 55%,#1B9C8F 100%);color:#fff;justify-content:space-between}.s-hias{position:absolute;inset:0;width:100%;height:100%}.s-isi{position:relative;padding:34mm 20mm 0}.s-eye{font-size:10pt;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:#FBD9A6}.sampul h1{font-family:Fraunces,Georgia,serif;font-size:62pt;line-height:.95;margin:6mm 0 3mm;color:#fff}.s-sub{font-family:Fraunces,Georgia,serif;font-size:22pt}.s-sub b{background:#F3A64B;color:#12263F;padding:0 3mm;border-radius:2.5mm;display:inline-block;transform:rotate(-2deg)}.s-nama{margin-top:22mm;font-family:Fraunces,Georgia,serif;font-size:24pt;line-height:1.1;border-left:2mm solid #F3A64B;padding-left:5mm}.s-nama small{display:block;font-family:Jakarta,sans-serif;font-size:9pt;letter-spacing:.14em;text-transform:uppercase;color:#CFE8E4;margin-bottom:1.5mm}
 .s-bawah{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:4mm;margin:0 20mm}.s-bawah div{background:rgba(255,255,255,.16);border:.3mm solid rgba(255,255,255,.35);border-radius:4mm;padding:4mm;text-align:center;display:flex;flex-direction:column}.s-bawah b{font-family:Fraunces,Georgia,serif;font-size:19pt}.s-bawah span{font-size:8.5pt;letter-spacing:.1em;text-transform:uppercase;color:#CFE8E4}.s-kaki{position:relative;text-align:center;padding:10mm 0 12mm;font-size:9pt;color:#CFE8E4}
-.jenis.rapat .j-grafik{height:41mm}.jenis.rapat li:nth-child(n+2){display:none}.jenis.rapat .j-alias{display:none}.jenis.rapat{grid-template-columns:55mm 1fr}
+.jenis.rapat .j-grafik{height:41mm}.jenis.rapat{grid-template-columns:55mm 1fr}
 @page{size:A4 portrait;margin:0}
 @media print{html,body{background:#fff!important;height:auto!important;overflow:visible!important}body>*:not(#catatan){display:none!important}#catatan{position:static!important;overflow:visible!important;background:#fff!important}.cat-bar{display:none!important}.cat-lembar{display:block;padding:0}.hal{box-shadow:none!important;margin:0;page-break-after:always;break-after:page;-webkit-print-color-adjust:exact;print-color-adjust:exact}.hal:last-child{page-break-after:auto;break-after:auto}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 `;

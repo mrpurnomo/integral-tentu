@@ -176,7 +176,7 @@
     gambar();
   }
 
-  /* ============================================================ langkah 2: tebak fungsinya (diskusi) */
+  /* ============================================================ langkah 2: tebak bagiannya (diskusi) */
   const PERAN = [['Pembaca', 'Bacakan konteks dan tabel dengan kata-katamu sendiri.'], ['Penebak', 'Sebutkan tebakanmu dan satu alasan.'], ['Penyanggah', 'Setuju atau beri pandangan lain, lengkap dengan alasannya.'], ['Pencatat', 'Ketuk jawaban setelah kelompok sepakat.']];
   function diskusi() {
     E.bawahKosong(); const t = T(), soal = B.diskusiSiswa(t.grup || (E.idx() % 7) + 1), semua = B.URUT; t.dis.rnd = t.dis.rnd || []; let no = Math.min(5, t.dis.rnd.filter((r) => r && r.selesai).length);
