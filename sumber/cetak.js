@@ -20,8 +20,9 @@
   }
   function tabelRotasi(kel) {
     const nm = (g) => (kel[g] || []).map((x) => esc(bersih(x.nama).split(/\s+/).slice(0, 2).join(' '))).join(', ') || '–';
-    const baris = kel.map((g, gi) => { const no = gi + 1; return '<tr><td><b>' + no + '</b></td><td>' + UI.NAMA[B.bagianKelompok(gi)] + '</td><td>' + nm(gi) + '</td><td>' + B.rute3(no, 'A').join(', ') + '</td><td>' + B.rute3(no, 'B').join(', ') + '</td><td>' + B.tamuHost(no).map((x) => x.g).join(', ') + '</td></tr>'; }).join('');
-    return '<table class="rot"><thead><tr><th>Kel.</th><th>Materi</th><th>Anggota</th><th>Penjelajah A mengunjungi kelompok</th><th>Penjelajah B mengunjungi kelompok</th><th>Tamu Host dari kelompok</th></tr></thead><tbody>' + baris + '</tbody></table><p class="rot-cat">Peran (Host, Penjelajah A, Penjelajah B) dipilih sendiri oleh murid di dasbor tahap lanjutan. Urutan kunjungan bebas.</p>';
+    const rc = B.rencanaStatis(kel.map((g) => g.length));
+    const baris = kel.map((g, gi) => { const no = gi + 1, tamu = []; rc.forEach((sl, k) => sl.forEach((x) => { if (x.h.includes(no)) tamu.push(k + 1); })); return '<tr><td><b>' + no + '</b></td><td>' + UI.NAMA[B.bagianKelompok(gi)] + '</td><td>' + nm(gi) + '</td><td>' + (rc[gi].map((x) => '<b>' + x.sub + '</b>: ' + (x.h.join(', ') || '–')).join(' &nbsp;·&nbsp; ') || '–') + '</td><td>' + (tamu.join(', ') || '–') + '</td></tr>'; }).join('');
+    return '<table class="rot"><thead><tr><th>Kel.</th><th>Materi</th><th>Anggota</th><th>Tujuan tiap Penjelajah (dibagi rata, tidak sama)</th><th>Tamu Host dari kelompok</th></tr></thead><tbody>' + baris + '</tbody></table><p class="rot-cat">Peran (Host, Penjelajah A, Penjelajah B) dipilih sendiri oleh murid di dasbor tahap lanjutan. Urutan kunjungan bebas.</p>';
   }
   function kartuKelompok(g, gi, manual, jigsaw) {
     if (jigsaw) return kartuJigsaw(g, gi);

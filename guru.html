@@ -755,7 +755,7 @@ h1, h2, h3, h4 { font-weight: 700; letter-spacing: -.02em; }
 .cor-tog { display: inline-flex; align-items: center; gap: .4rem; padding: .35rem .8rem; border-radius: 99px; border: 1px solid var(--garis-2); background: #fff; color: var(--navy-800); font: 700 .92rem var(--isi); cursor: pointer; } .cor-tog svg { width: 1.15rem; height: 1.15rem; }
 .cor-tog.on { background: var(--navy-800); color: var(--emas-t); border-color: var(--navy-800); }
 .cor-titik { width: .55rem; height: .55rem; border-radius: 50%; background: #FF6B70; box-shadow: 0 0 0 0 rgba(255,107,112,.7); animation: corDenyut 1.4s ease-out infinite; } @keyframes corDenyut { 70% { box-shadow: 0 0 0 .5rem rgba(255,107,112,0); } 100% { box-shadow: 0 0 0 0 rgba(255,107,112,0); } }
-.cor-on { box-shadow: inset 0 0 0 3px rgba(255,201,74,.85) !important; }
+
 
 /* peran, latihan, kartu 1 */
 .peran-nama { padding: .5rem .7rem; border-radius: .8rem; background: #EDF1FA; font-size: 1.02rem; } .peran-nama.kosong { background: #FFF3D1; color: #7A5200; }
@@ -778,8 +778,8 @@ h1, h2, h3, h4 { font-weight: 700; letter-spacing: -.02em; }
 .lompat-teks { display: grid; flex: 1; line-height: 1.2; } .lompat-teks b { font: 700 1.1rem var(--tampil); color: var(--navy-800); } .lompat-teks small { color: var(--tinta-3); font-size: .85rem; } .lompat-p { color: var(--tinta-3); }
 
 /* coretan aktif: tombol lain nonaktif sementara */
-.tes-wrap:has(.cor-on) button:not(.cor-bar *), .dialog:has(.cor-on) button:not(.cor-bar *):not(.tutup-x) { pointer-events: none; opacity: .42; filter: grayscale(.5); }
-.cor-hint { font-size: .78rem; font-weight: 700; color: #A3262B; padding: 0 .4rem; }
+
+
 
 /* scrollbar bergaya */
 * { scrollbar-width: thin; scrollbar-color: #A9B6D3 transparent; }
@@ -803,6 +803,25 @@ h1, h2, h3, h4 { font-weight: 700; letter-spacing: -.02em; }
 .tuts-angka .tut { height: 4.2rem; border-radius: 1.2rem; border: 1px solid #C3CCE0; background: linear-gradient(180deg, #FFFFFF, #E9EEF8); color: var(--navy-800); font: 700 1.9rem var(--mono); box-shadow: 0 4px 0 #BFC9DF, 0 .6rem 1rem -.7rem rgba(10,20,40,.5); cursor: pointer; transition: transform .08s, box-shadow .08s; }
 .tuts-angka .tut:active { transform: translateY(3px); box-shadow: 0 1px 0 #BFC9DF; } .tuts-angka .tut.fungsi { background: linear-gradient(180deg, #FFE48F, #FFC94A); border-color: #D9A21F; box-shadow: 0 4px 0 #C8941A; }
 .layar-angka { background: linear-gradient(135deg, #0A1428, #12285A); color: var(--emas-t); border-radius: 1.2rem; font: 700 3.4rem var(--mono); min-height: 5.2rem; box-shadow: inset 0 0 0 2px rgba(255,201,74,.25); } .layar-angka.kosong { color: rgba(255,255,255,.28); }
+
+/* ---------- kertas coretan tersendiri (di sisi kanan kartu; tidak menutupi soal) ---------- */
+.cor-dock { padding-right: calc(var(--padw, 44%) + 1.7rem) !important; }
+.cor-pad { position: absolute; right: .8rem; top: .8rem; bottom: .8rem; width: var(--padw, 44%); z-index: 6; display: flex; flex-direction: column; border-radius: 1.1rem; background: #FFFDF5; border: 2px solid #E3C466; box-shadow: 0 1rem 1.8rem -1.3rem rgba(10,20,40,.55); overflow: hidden; }
+.cor-pad[hidden] { display: none; }
+.cor-pad-kepala { flex: none; display: flex; flex-direction: column; gap: .25rem; padding: .4rem .55rem .45rem; background: #F6EDCF; border-bottom: 1.5px solid #E3C466; }
+.cor-pad-judul { font: 700 .7rem var(--isi); letter-spacing: .14em; text-transform: uppercase; color: #7A5A12; }
+.cor-alat { display: flex; flex-wrap: wrap; align-items: center; gap: .15rem .2rem; }
+.cor-pad .cor-btn { width: 2.15rem; height: 2.15rem; } .cor-pad .cor-btn svg { width: 1.2rem; height: 1.2rem; } .cor-pad .cor-sw { width: 1.4rem; height: 1.4rem; } .cor-pad .cor-uk { width: 1.7rem; height: 1.7rem; } .cor-pad .cor-sk { height: 1.3rem; }
+.cor-pad-badan { position: relative; flex: 1; min-height: 8rem; background-image: radial-gradient(circle, rgba(18,37,74,.2) 1.1px, transparent 1.4px); background-size: 24px 24px; touch-action: none; }
+.cor-pad .cor-kanvas { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+.cor-bar, .cor-bar.terbuka { background: transparent; border: 0; padding: 0; }
+/* isi kartu yang menyempit: grafik di atas teks, bukan berdampingan */
+.cor-dock .lat-badan, .cor-dock .so-isi.dgrafik, .cor-dock .so-isi, .cor-dock .soal-bagi { grid-template-columns: minmax(0, 1fr); }
+.cor-dock .lat-graf svg.kv, .cor-dock .so-grafik svg.kv { max-height: min(15rem, 30vh); margin: 0 auto; }
+.cor-dock .gambar-soal svg { max-height: min(15rem, 30vh); }
+.cor-dock .lat-kanan .teks-soal { font-size: clamp(1.15rem, 2.3vh, 1.5rem); } .cor-dock .so-isi.besar .teks-soal { font-size: clamp(1.2rem, 2.4vh, 1.6rem); }
+/* pop-up latihan: kertas coretan memenuhi tinggi pop-up */
+.dialog.latihan .badan { display: flex; flex-direction: column; } .dialog.latihan .badan > div { flex: 1; min-height: 0; display: flex; flex-direction: column; } .dialog.latihan .lat { flex: 1; min-height: 0; }
 
 /* ADEGAN / PANGGUNG: permukaan navy untuk penjelasan. Benda matematika bercahaya (emas, merah, biru muda) di atas navy; hitungan besar dan di tengah.
    Rumus memakai KaTeX (tertanam). */
@@ -1387,6 +1406,22 @@ h1, h2, h3, h4 { font-weight: 700; letter-spacing: -.02em; }
   const tamuHost = (h) => [1, 2, 3, 4, 5, 6, 7].filter((g) => g !== h).map((g) => ({ g, sub: rute3(g, 'A').includes(h) ? 'A' : 'B' }));
   /* kelompok yang dikunjungi seorang Penjelajah: bila rekan A/B tidak ada, ia mengambil seluruh enam kelompok */
   const daftarKunjungan = (g, sub, adaRekan) => (adaRekan === false ? rute3(g, 'A').concat(rute3(g, 'B')) : rute3(g, sub));
+  /* PEMBAGIAN TUJUAN PENJELAJAH yang rata dan tanpa tabrakan, untuk kelompok berukuran berapa pun.
+     ada = nomor kelompok (1-based) yang berisi murid; g = kelompok asal; n = jumlah Penjelajah di kelompok g.
+     Kelompok lain yang ada diurut melingkar setelah g (g+1, g+2, …), lalu dipotong berurutan menjadi n bagian sama banyak (selisih paling banyak 1).
+     Hasil: n larik tujuan, saling lepas, gabungannya = semua kelompok lain. Tiap Penjelajah dari kelompok g punya satu bagian, jadi dua Penjelajah dalam satu
+     kelompok tidak pernah ditugaskan ke kelompok yang sama, dan tiap kelompok lain dikunjungi tepat satu Penjelajah dari g. Untuk 7 kelompok × 3 murid hasilnya sama dengan rute3. */
+  function bagiTujuan(ada, g, n) {
+    n = Math.max(1, n | 0); const lain = ada.filter((x) => x !== g).sort((p, q) => ((((p - g) % NPOS) + NPOS) % NPOS) - ((((q - g) % NPOS) + NPOS) % NPOS)), dasar = Math.floor(lain.length / n), lebih = lain.length % n, out = []; let i = 0;
+    for (let s = 0; s < n; s++) { const k = dasar + (s < lebih ? 1 : 0); out.push(lain.slice(i, i + k)); i += k; } return out;
+  }
+  /* label slot Penjelajah: slot peran A lebih dulu (A, atau A1, A2 bila lebih dari satu), lalu peran B */
+  const labelSlot = (n, s) => { const cA = Math.ceil(n / 2), cB = n - cA; return s < cA ? (cA > 1 ? 'A' + (s + 1) : 'A') : (cB > 1 ? 'B' + (s - cA + 1) : 'B'); };
+  /* rencana tanpa data peran (untuk kartu cetak): per kelompok, larik { sub, h } tiap Penjelajah menurut ukuran kelompok */
+  function rencanaStatis(ukuran) {
+    const ada = []; ukuran.forEach((u, i) => { if (u > 0) ada.push(i + 1); });
+    return ukuran.map((u, i) => { if (!u) return []; const E = Math.max(1, u - 1); return bagiTujuan(ada, i + 1, E).map((h, s) => ({ sub: labelSlot(E, s), h })); });
+  }
 
   /* =====================================================================================
      TES AWAL: lima butir; tipe dan tingkat kesulitan SAMA untuk semua murid, angka berbeda tiap murid.
@@ -1658,7 +1693,7 @@ h1, h2, h3, h4 { font-weight: 700; letter-spacing: -.02em; }
     return { kartu, capaian, nilai, predikat, benar: bnr, total: tot, awal, naik: awal == null ? null : nilai - awal, komponen: [['Titik potong', g('k3'), BOBOT.k3], ['Bentuk integral', g('k4'), BOBOT.k4], ['Hitung luas', g('k5'), BOBOT.k5], ['Tiket keluar', g('k6'), BOBOT.k6]] };
   }
 
-  const api = { KELAS_CFG, KELAS_ID, KELAS_TAMPIL, cfg, setKelas, durasi, kelasAktif: () => AKTIF, URUT, NAMA_FAM, NPOS, bagianKelompok, PERAN, peranDariPos, kapasitasPeran, rute3, tamuHost, daftarKunjungan, DAFTAR: DAFTAR_ALL, DUMMY, PIN_SHA, cekPinLokal, nama, judulKata, JUMLAH_SOAL, soalSiswa, nilai, buatKode, bacaKode, bentukKelompok, tambahKelompok, rencanaKelompok, ALFA,
+  const api = { KELAS_CFG, KELAS_ID, KELAS_TAMPIL, cfg, setKelas, durasi, kelasAktif: () => AKTIF, URUT, NAMA_FAM, NPOS, bagianKelompok, PERAN, peranDariPos, kapasitasPeran, rute3, tamuHost, daftarKunjungan, bagiTujuan, labelSlot, rencanaStatis, DAFTAR: DAFTAR_ALL, DUMMY, PIN_SHA, cekPinLokal, nama, judulKata, JUMLAH_SOAL, soalSiswa, nilai, buatKode, bacaKode, bentukKelompok, tambahKelompok, rencanaKelompok, ALFA,
     buat, tanyaP, jelasP, titikPotongSet, bentukSet, luasSet, tiketSet, latihan, seedKelompok, rapor, GEN, i12, pv, pa, ps, luas12, mulberry, acak, rint, pil, M, tPoly, tAnti, tInt, tEv, tHit, tR, tPar, tAbs, tSubst, selisihZ, eqP, kk, NA, BOBOT };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.BS = api;
 })(typeof window !== 'undefined' ? window : globalThis);
@@ -2292,8 +2327,9 @@ h1, h2, h3, h4 { font-weight: 700; letter-spacing: -.02em; }
   }
   function tabelRotasi(kel) {
     const nm = (g) => (kel[g] || []).map((x) => esc(bersih(x.nama).split(/\s+/).slice(0, 2).join(' '))).join(', ') || '–';
-    const baris = kel.map((g, gi) => { const no = gi + 1; return '<tr><td><b>' + no + '</b></td><td>' + UI.NAMA[B.bagianKelompok(gi)] + '</td><td>' + nm(gi) + '</td><td>' + B.rute3(no, 'A').join(', ') + '</td><td>' + B.rute3(no, 'B').join(', ') + '</td><td>' + B.tamuHost(no).map((x) => x.g).join(', ') + '</td></tr>'; }).join('');
-    return '<table class="rot"><thead><tr><th>Kel.</th><th>Materi</th><th>Anggota</th><th>Penjelajah A mengunjungi kelompok</th><th>Penjelajah B mengunjungi kelompok</th><th>Tamu Host dari kelompok</th></tr></thead><tbody>' + baris + '</tbody></table><p class="rot-cat">Peran (Host, Penjelajah A, Penjelajah B) dipilih sendiri oleh murid di dasbor tahap lanjutan. Urutan kunjungan bebas.</p>';
+    const rc = B.rencanaStatis(kel.map((g) => g.length));
+    const baris = kel.map((g, gi) => { const no = gi + 1, tamu = []; rc.forEach((sl, k) => sl.forEach((x) => { if (x.h.includes(no)) tamu.push(k + 1); })); return '<tr><td><b>' + no + '</b></td><td>' + UI.NAMA[B.bagianKelompok(gi)] + '</td><td>' + nm(gi) + '</td><td>' + (rc[gi].map((x) => '<b>' + x.sub + '</b>: ' + (x.h.join(', ') || '–')).join(' &nbsp;·&nbsp; ') || '–') + '</td><td>' + (tamu.join(', ') || '–') + '</td></tr>'; }).join('');
+    return '<table class="rot"><thead><tr><th>Kel.</th><th>Materi</th><th>Anggota</th><th>Tujuan tiap Penjelajah (dibagi rata, tidak sama)</th><th>Tamu Host dari kelompok</th></tr></thead><tbody>' + baris + '</tbody></table><p class="rot-cat">Peran (Host, Penjelajah A, Penjelajah B) dipilih sendiri oleh murid di dasbor tahap lanjutan. Urutan kunjungan bebas.</p>';
   }
   function kartuKelompok(g, gi, manual, jigsaw) {
     if (jigsaw) return kartuJigsaw(g, gi);

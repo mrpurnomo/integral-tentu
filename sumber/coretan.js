@@ -26,7 +26,11 @@
   /* host: elemen berposisi relatif (kartu soal). opsi.bar: elemen tempat bilah alat diletakkan (default: pojok host) */
   function pasang(host, kunci, opsi) {
     opsi = opsi || {}; const d = kertas(kunci); if (getComputedStyle(host).position === 'static') host.style.position = 'relative';
-    const cv = el('canvas', { kelas: 'cor-kanvas' }), ctx = cv.getContext('2d'), bar = el('div', { kelas: 'cor-bar' }); host.append(cv); (opsi.bar || host).append(bar);
+    /* KERTAS COretan tersendiri: saat aktif, sebuah kertas (dengan alatnya) muncul di sisi kanan kartu dan isi kartu menyempit ke kiri.
+       Goresan hanya terjadi di atas kertas, jadi soal, gambar, dan tombol tidak pernah tertutup coretan. */
+    const cv = el('canvas', { kelas: 'cor-kanvas' }), ctx = cv.getContext('2d'), tombolBar = el('div', { kelas: 'cor-bar' }), bar = el('div', { kelas: 'cor-alat' });
+    const badanPad = el('div', { kelas: 'cor-pad-badan' }, cv), pad = el('div', { kelas: 'cor-pad', hidden: true }, el('div', { kelas: 'cor-pad-kepala' }, el('div', { kelas: 'cor-pad-judul' }, 'Kertas coretan'), bar), badanPad);
+    host.append(pad); (opsi.bar || host).append(tombolBar);
     let W = 0, H = 0, dpr = 1, sedang = null, ids = new Map(), tersentuh = new Set(), tekanSuprs = false, bukaWarna = false;
     const ulangGambar = () => {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
@@ -36,9 +40,10 @@
       const p = g.t; if (!p.length) return; ctx.save(); ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.lineWidth = g.w * (g.mode === 'sorot' ? 3.4 : 1); ctx.strokeStyle = g.c; ctx.globalAlpha = g.mode === 'sorot' ? .32 : 1; ctx.globalCompositeOperation = g.mode === 'hapus' ? 'destination-out' : 'source-over';
       ctx.beginPath(); ctx.moveTo(p[0][0] * W, p[0][1] * H); if (p.length === 1) ctx.lineTo(p[0][0] * W + .01, p[0][1] * H); for (let i = 1; i < p.length; i++) { const a = p[i - 1], b = p[i]; ctx.quadraticCurveTo(a[0] * W, a[1] * H, (a[0] + b[0]) / 2 * W, (a[1] + b[1]) / 2 * H); } ctx.stroke(); ctx.restore();
     }
-    const ukur = () => { const r = host.getBoundingClientRect(); W = Math.max(1, Math.round(r.width)); H = Math.max(1, Math.round(r.height)); dpr = Math.min(2, window.devicePixelRatio || 1); cv.width = W * dpr; cv.height = H * dpr; cv.style.width = W + 'px'; cv.style.height = H + 'px'; ulangGambar(); };
-    const ro = new ResizeObserver(ukur); ro.observe(host); ukur();
-    const titik = (e) => { const r = host.getBoundingClientRect(); return [(e.clientX - r.left) / r.width, (e.clientY - r.top) / r.height]; };
+    const ukur = () => { const r = badanPad.getBoundingClientRect(); W = Math.max(1, Math.round(r.width)); H = Math.max(1, Math.round(r.height)); dpr = Math.min(2, window.devicePixelRatio || 1); cv.width = W * dpr; cv.height = H * dpr; cv.style.width = W + 'px'; cv.style.height = H + 'px'; ulangGambar(); };
+    const lebarPad = () => { const w = host.getBoundingClientRect().width; if (w > 0) host.style.setProperty('--padw', Math.max(250, Math.round(w * .44)) + 'px'); };
+    const ro = new ResizeObserver(() => requestAnimationFrame(() => { lebarPad(); ukur(); })); ro.observe(host); ro.observe(badanPad); lebarPad(); ukur();
+    const titik = (e) => { const r = badanPad.getBoundingClientRect(); return [(e.clientX - r.left) / r.width, (e.clientY - r.top) / r.height]; };
     const boleh = (e) => S.aktif && S.alat !== 'tangan' && (e.pointerType === 'pen' || e.pointerType === 'mouse' || (e.pointerType === 'touch' && !S.stylus));
     const jauh = (g) => { const t = g.t; let mnx = 1, mxx = 0, mny = 1, mxy = 0; t.forEach((q) => { mnx = Math.min(mnx, q[0]); mxx = Math.max(mxx, q[0]); mny = Math.min(mny, q[1]); mxy = Math.max(mxy, q[1]); }); return Math.hypot((mxx - mnx) * W, (mxy - mny) * H); };
     function hapusDekat(p) {
@@ -47,10 +52,10 @@
     }
     let hapusBatch = null;
     function mulai(e) {
-      if (!S.aktif || (e.target.closest && e.target.closest('.cor-bar'))) return;
+      if (!S.aktif) return;
       if (e.pointerType === 'touch') { tersentuh.add(e.pointerId); if (tersentuh.size > 1) { sedang = null; hapusBatch = null; ulangGambar(); return; } }
       if (!boleh(e)) return; if (e.pointerType === 'mouse' && e.button !== 0) return;
-      e.preventDefault(); try { host.setPointerCapture(e.pointerId); } catch (x) { /* abaikan */ } tekanSuprs = false; ids.set(e.pointerId, 1);
+      e.preventDefault(); try { badanPad.setPointerCapture(e.pointerId); } catch (x) { /* abaikan */ } tekanSuprs = false; ids.set(e.pointerId, 1);
       const p = titik(e);
       if (S.alat === 'hapusGoresan') { hapusBatch = []; const k = hapusDekat(p); k.forEach((g) => { d.goresan.splice(d.goresan.indexOf(g), 1); hapusBatch.push(g); }); ulangGambar(); return; }
       sedang = { t: [p], w: S.alat === 'hapusPiksel' ? UKURAN[S.ukuran] * 2.6 : UKURAN[S.ukuran], c: WARNA[S.warna], mode: S.alat === 'stabilo' ? 'sorot' : (S.alat === 'hapusPiksel' ? 'hapus' : 'pena') };
@@ -70,18 +75,17 @@
       if (jauh(g) < 6) { ulangGambar(); return; }   // ketukan biasa: bukan coretan
       tekanSuprs = true; setTimeout(() => { tekanSuprs = false; }, 80); d.goresan.push(g); d.batal.push({ tambah: g }); d.ulang.length = 0; ulangGambar(); ui();
     }
-    host.addEventListener('pointerdown', mulai, true); host.addEventListener('pointermove', gerak, true); ['pointerup', 'pointercancel'].forEach((n) => host.addEventListener(n, selesai, true));
-    host.addEventListener('click', (e) => { if (tekanSuprs) { e.stopPropagation(); e.preventDefault(); tekanSuprs = false; } }, true);
-    host.addEventListener('touchmove', (e) => { if (S.alat !== 'tangan' && (ids.size || e.touches.length > 1)) { if (e.cancelable && ids.size) e.preventDefault(); } }, { passive: false });
+    badanPad.addEventListener('pointerdown', mulai, true); badanPad.addEventListener('pointermove', gerak, true); ['pointerup', 'pointercancel'].forEach((n) => badanPad.addEventListener(n, selesai, true));
+    badanPad.addEventListener('click', (e) => { if (tekanSuprs) { e.stopPropagation(); e.preventDefault(); tekanSuprs = false; } }, true);
+    badanPad.addEventListener('touchmove', (e) => { if (S.alat !== 'tangan' && (ids.size || e.touches.length > 1)) { if (e.cancelable && ids.size) e.preventDefault(); } }, { passive: false });
     const urungkan = () => { const a = d.batal.pop(); if (!a) return; if (a.tambah) d.goresan.splice(d.goresan.indexOf(a.tambah), 1); else a.hapus.forEach((g) => d.goresan.push(g)); d.ulang.push(a); ulangGambar(); ui(); };
     const ulangi = () => { const a = d.ulang.pop(); if (!a) return; if (a.tambah) d.goresan.push(a.tambah); else a.hapus.forEach((g) => { const i = d.goresan.indexOf(g); if (i >= 0) d.goresan.splice(i, 1); }); d.batal.push(a); ulangGambar(); ui(); };
     const reset = () => { if (!d.goresan.length) return; const semua = d.goresan.slice(); d.goresan.length = 0; d.batal.push({ hapus: semua }); d.ulang.length = 0; ulangGambar(); ui(); };
     const btn = (id, judul, aksi, kelas) => el('button', { kelas: 'cor-btn ' + (kelas || ''), type: 'button', title: judul, 'aria-label': judul, 'data-a': id, html: ikon(id === 'stylus' ? (S.stylus ? 'stylus' : 'jari') : id), onclick: aksi });
     function ui() {
-      bar.innerHTML = ''; bar.classList.toggle('terbuka', S.aktif); host.classList.toggle('cor-on', S.aktif); cv.style.visibility = S.aktif ? 'visible' : 'hidden';
-      bar.append(el('button', { kelas: 'cor-tog' + (S.aktif ? ' on' : ''), type: 'button', title: S.aktif ? 'Matikan coretan (coretan disembunyikan)' : 'Aktifkan coretan', 'aria-pressed': S.aktif ? 'true' : 'false', html: ikon('pensil') + '<span>' + (S.aktif ? 'Coretan aktif' : 'Coretan') + '</span>' + (S.aktif ? '<i class="cor-titik"></i>' : ''), onclick: () => { S.aktif = !S.aktif; ui(); } }));
+      bar.innerHTML = ''; tombolBar.innerHTML = ''; pad.hidden = !S.aktif; host.classList.toggle('cor-dock', S.aktif); if (S.aktif) { lebarPad(); ukur(); }
+      tombolBar.append(el('button', { kelas: 'cor-tog' + (S.aktif ? ' on' : ''), type: 'button', title: S.aktif ? 'Matikan coretan (coretan disembunyikan)' : 'Aktifkan coretan', 'aria-pressed': S.aktif ? 'true' : 'false', html: ikon('pensil') + '<span>' + (S.aktif ? 'Coretan aktif' : 'Coretan') + '</span>' + (S.aktif ? '<i class="cor-titik"></i>' : ''), onclick: () => { S.aktif = !S.aktif; ui(); } }));
       if (!S.aktif) { cv.style.cursor = 'default'; return; }
-      bar.append(el('span', { kelas: 'cor-hint' }, 'Matikan coretan untuk memakai tombol lain'));
       const alat = [['pensil', 'Pensil'], ['stabilo', 'Stabilo'], ['hapusPiksel', 'Hapus per piksel'], ['hapusGoresan', 'Hapus per goresan'], ['tangan', 'Tangan: tidak mencoret, hanya memilih atau menggulir']];
       alat.forEach(([id, t]) => bar.append(btn(id, t, () => { S.alat = id; simpanS(); ui(); }, S.alat === id ? 'aktif' : '')));
       bar.append(el('span', { kelas: 'cor-sk' }));
@@ -89,10 +93,10 @@
       const ukr = el('div', { kelas: 'cor-ukuran' }, UKURAN.map((u, i) => el('button', { kelas: 'cor-uk' + (S.ukuran === i ? ' aktif' : ''), type: 'button', 'aria-label': 'Ukuran ' + (i + 1), onclick: () => { S.ukuran = i; simpanS(); ui(); } }, el('i', { gaya: 'width:' + (5 + i * 4) + 'px;height:' + (5 + i * 4) + 'px' }))));
       bar.append(warna, ukr, el('span', { kelas: 'cor-sk' }));
       const u = btn('urung', 'Urungkan', urungkan), r = btn('ulangi', 'Ulangi', ulangi); u.disabled = !d.batal.length; r.disabled = !d.ulang.length; bar.append(u, r, btn('reset', 'Hapus semua coretan', reset), el('span', { kelas: 'cor-sk' }), btn('stylus', S.stylus ? 'Mode stylus: hanya pena yang mencoret (ketuk untuk memakai jari)' : 'Mode jari: jari boleh mencoret (ketuk agar hanya stylus)', () => { S.stylus = !S.stylus; simpanS(); ui(); }, S.stylus ? 'aktif' : ''));
-      host.dataset.alat = S.alat; cv.style.cursor = S.alat === 'tangan' ? 'default' : 'crosshair';
+      host.dataset.alat = S.alat; cv.style.cursor = S.alat === 'tangan' ? 'default' : 'crosshair'; badanPad.style.touchAction = S.alat === 'tangan' ? 'pan-x pan-y pinch-zoom' : 'none';
     }
     ui();
-    return { lepas() { ro.disconnect(); cv.remove(); bar.remove(); }, urungkan, ulangi, reset, ada: () => d.goresan.length > 0 };
+    return { lepas() { ro.disconnect(); pad.remove(); tombolBar.remove(); host.classList.remove('cor-dock'); }, urungkan, ulangi, reset, ada: () => d.goresan.length > 0 };
   }
   root.Coretan = { pasang, ikon, S };
 })(window);

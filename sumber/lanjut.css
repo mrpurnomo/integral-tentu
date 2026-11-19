@@ -115,7 +115,7 @@
 .cor-tog { display: inline-flex; align-items: center; gap: .4rem; padding: .35rem .8rem; border-radius: 99px; border: 1px solid var(--garis-2); background: #fff; color: var(--navy-800); font: 700 .92rem var(--isi); cursor: pointer; } .cor-tog svg { width: 1.15rem; height: 1.15rem; }
 .cor-tog.on { background: var(--navy-800); color: var(--emas-t); border-color: var(--navy-800); }
 .cor-titik { width: .55rem; height: .55rem; border-radius: 50%; background: #FF6B70; box-shadow: 0 0 0 0 rgba(255,107,112,.7); animation: corDenyut 1.4s ease-out infinite; } @keyframes corDenyut { 70% { box-shadow: 0 0 0 .5rem rgba(255,107,112,0); } 100% { box-shadow: 0 0 0 0 rgba(255,107,112,0); } }
-.cor-on { box-shadow: inset 0 0 0 3px rgba(255,201,74,.85) !important; }
+
 
 /* peran, latihan, kartu 1 */
 .peran-nama { padding: .5rem .7rem; border-radius: .8rem; background: #EDF1FA; font-size: 1.02rem; } .peran-nama.kosong { background: #FFF3D1; color: #7A5200; }
@@ -138,8 +138,8 @@
 .lompat-teks { display: grid; flex: 1; line-height: 1.2; } .lompat-teks b { font: 700 1.1rem var(--tampil); color: var(--navy-800); } .lompat-teks small { color: var(--tinta-3); font-size: .85rem; } .lompat-p { color: var(--tinta-3); }
 
 /* coretan aktif: tombol lain nonaktif sementara */
-.tes-wrap:has(.cor-on) button:not(.cor-bar *), .dialog:has(.cor-on) button:not(.cor-bar *):not(.tutup-x) { pointer-events: none; opacity: .42; filter: grayscale(.5); }
-.cor-hint { font-size: .78rem; font-weight: 700; color: #A3262B; padding: 0 .4rem; }
+
+
 
 /* scrollbar bergaya */
 * { scrollbar-width: thin; scrollbar-color: #A9B6D3 transparent; }
@@ -163,3 +163,22 @@
 .tuts-angka .tut { height: 4.2rem; border-radius: 1.2rem; border: 1px solid #C3CCE0; background: linear-gradient(180deg, #FFFFFF, #E9EEF8); color: var(--navy-800); font: 700 1.9rem var(--mono); box-shadow: 0 4px 0 #BFC9DF, 0 .6rem 1rem -.7rem rgba(10,20,40,.5); cursor: pointer; transition: transform .08s, box-shadow .08s; }
 .tuts-angka .tut:active { transform: translateY(3px); box-shadow: 0 1px 0 #BFC9DF; } .tuts-angka .tut.fungsi { background: linear-gradient(180deg, #FFE48F, #FFC94A); border-color: #D9A21F; box-shadow: 0 4px 0 #C8941A; }
 .layar-angka { background: linear-gradient(135deg, #0A1428, #12285A); color: var(--emas-t); border-radius: 1.2rem; font: 700 3.4rem var(--mono); min-height: 5.2rem; box-shadow: inset 0 0 0 2px rgba(255,201,74,.25); } .layar-angka.kosong { color: rgba(255,255,255,.28); }
+
+/* ---------- kertas coretan tersendiri (di sisi kanan kartu; tidak menutupi soal) ---------- */
+.cor-dock { padding-right: calc(var(--padw, 44%) + 1.7rem) !important; }
+.cor-pad { position: absolute; right: .8rem; top: .8rem; bottom: .8rem; width: var(--padw, 44%); z-index: 6; display: flex; flex-direction: column; border-radius: 1.1rem; background: #FFFDF5; border: 2px solid #E3C466; box-shadow: 0 1rem 1.8rem -1.3rem rgba(10,20,40,.55); overflow: hidden; }
+.cor-pad[hidden] { display: none; }
+.cor-pad-kepala { flex: none; display: flex; flex-direction: column; gap: .25rem; padding: .4rem .55rem .45rem; background: #F6EDCF; border-bottom: 1.5px solid #E3C466; }
+.cor-pad-judul { font: 700 .7rem var(--isi); letter-spacing: .14em; text-transform: uppercase; color: #7A5A12; }
+.cor-alat { display: flex; flex-wrap: wrap; align-items: center; gap: .15rem .2rem; }
+.cor-pad .cor-btn { width: 2.15rem; height: 2.15rem; } .cor-pad .cor-btn svg { width: 1.2rem; height: 1.2rem; } .cor-pad .cor-sw { width: 1.4rem; height: 1.4rem; } .cor-pad .cor-uk { width: 1.7rem; height: 1.7rem; } .cor-pad .cor-sk { height: 1.3rem; }
+.cor-pad-badan { position: relative; flex: 1; min-height: 8rem; background-image: radial-gradient(circle, rgba(18,37,74,.2) 1.1px, transparent 1.4px); background-size: 24px 24px; touch-action: none; }
+.cor-pad .cor-kanvas { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+.cor-bar, .cor-bar.terbuka { background: transparent; border: 0; padding: 0; }
+/* isi kartu yang menyempit: grafik di atas teks, bukan berdampingan */
+.cor-dock .lat-badan, .cor-dock .so-isi.dgrafik, .cor-dock .so-isi, .cor-dock .soal-bagi { grid-template-columns: minmax(0, 1fr); }
+.cor-dock .lat-graf svg.kv, .cor-dock .so-grafik svg.kv { max-height: min(15rem, 30vh); margin: 0 auto; }
+.cor-dock .gambar-soal svg { max-height: min(15rem, 30vh); }
+.cor-dock .lat-kanan .teks-soal { font-size: clamp(1.15rem, 2.3vh, 1.5rem); } .cor-dock .so-isi.besar .teks-soal { font-size: clamp(1.2rem, 2.4vh, 1.6rem); }
+/* pop-up latihan: kertas coretan memenuhi tinggi pop-up */
+.dialog.latihan .badan { display: flex; flex-direction: column; } .dialog.latihan .badan > div { flex: 1; min-height: 0; display: flex; flex-direction: column; } .dialog.latihan .lat { flex: 1; min-height: 0; }

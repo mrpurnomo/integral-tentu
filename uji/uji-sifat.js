@@ -65,6 +65,12 @@ const pecah = (s) => { const m = String(s).replace(/\$/g, '').match(/^(-?)\\frac
   ok(tamu, 'rute: tiap Host menerima tepat satu tamu dari tiap kelompok lain, dan itu sesuai rute Penjelajah');
   const pasang = new Set(); for (let g = 1; g <= 7; g++) ['A', 'B'].forEach((s) => B.rute3(g, s).forEach((h) => pasang.add(g + ':' + h))); ok(pasang.size === 42, 'rute: 42 pertemuan unik (7 × 6)');
   ok(B.daftarKunjungan(3, 'A', false).length === 6 && B.daftarKunjungan(3, 'A', true).length === 3, 'Penjelajah tanpa rekan mengambil enam kelompok');
+  /* pembagian tujuan Penjelajah: rata, lepas satu sama lain, tiap kelompok lain dikunjungi tepat satu Penjelajah dari kelompok asal */
+  { let baik = true, pesan = '';
+    for (let K = 2; K <= 7; K++) { const ada = Array.from({ length: K }, (_, i) => i + 1); for (let g = 1; g <= K; g++) for (let n = 1; n <= 5; n++) { const c = B.bagiTujuan(ada, g, n), semua = [].concat(...c), uk = c.map((x) => x.length); if (c.length !== n || semua.length !== K - 1 || new Set(semua).size !== K - 1 || semua.includes(g) || Math.max(...uk) - Math.min(...uk) > 1) { baik = false; pesan = 'K=' + K + ' g=' + g + ' n=' + n; } } }
+    ok(baik, 'bagiTujuan: untuk 2–7 kelompok dan 1–5 Penjelajah, bagian lepas, rata (selisih ≤ 1), dan mencakup semua kelompok lain ' + pesan);
+    let sama = true; for (let g = 1; g <= 7; g++) { const c = B.bagiTujuan([1, 2, 3, 4, 5, 6, 7], g, 2); if (c[0].join() !== B.rute3(g, 'A').join() || c[1].join() !== B.rute3(g, 'B').join()) sama = false; } ok(sama, 'bagiTujuan untuk 7 kelompok × 2 Penjelajah sama dengan rute lama (A lalu B)');
+    const rc = B.rencanaStatis([4, 3, 3, 3, 3, 3, 3]), kunj = {}; rc.forEach((sl, gi) => sl.forEach((x) => x.h.forEach((h) => { const k = h + ':' + (gi + 1); kunj[k] = (kunj[k] || 0) + 1; }))); ok(Object.keys(kunj).length === 42 && Object.values(kunj).every((v) => v === 1) && rc[0].map((x) => x.sub).join() === 'A1,A2,B' && rc[0].every((x) => x.h.length === 2), 'rencana kelas XII-C (satu kelompok 4 orang): 42 pertemuan, masing-masing tepat sekali, kelompok 4 orang berlabel A1, A2, B dengan 2 tujuan'); }
   ok(B.kapasitasPeran(3).join() === '1,1,1' && B.kapasitasPeran(7).join() === '1,3,3', 'kapasitas peran per kelompok');
   /* rencana kelompok cerdas */
   let rcn = true; for (let n = 1; n <= 49; n++) { const r = B.rencanaKelompok(n), jml = r.ukuran.reduce((a, b) => a + b, 0), mx = Math.max(...r.ukuran), mn = Math.min(...r.ukuran); if (jml !== n || r.K > 7 || mx - mn > 1 || (n >= 14 && r.K !== 7) || (n >= 4 && mn < 2)) rcn = false; }

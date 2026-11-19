@@ -29,8 +29,9 @@ const tok = (i) => 'T' + i, S = (i, a, o) => api(Object.assign({ a, idx: i, toke
   r = await S(host, 'k2-status'); ok(r.ok && r.tamu.length === 6, 'Host kelompok 4 orang melihat enam kelompok tamu');
   /* kedua Penjelajah A dari kelompok 4 orang sama-sama punya tujuan */
   const pA1 = m4[1], pA2 = m4[2], pB = m4[3];
-  r = await S(pA1, 'k2-status'); const t1 = r.tujuan.map((x) => x.h).join(); r = await S(pA2, 'k2-status'); const t2 = r.tujuan.map((x) => x.h).join(); ok(r.ok && t1 === t2 && r.tujuan.length === 3, 'dua Penjelajah A satu kelompok sama-sama mengunjungi tiga kelompok yang sama');
-  r = await S(pB, 'k2-status'); ok(r.ok && r.tujuan.length === 3, 'Penjelajah B kelompok 4 orang mengunjungi tiga kelompok');
+  const tj = []; for (const m of [pA1, pA2, pB]) { r = await S(m, 'k2-status'); tj.push(r.ok ? r.tujuan.map((x) => x.h) : null); }
+  const semuaT = [].concat(...tj.map((x) => x || [])); ok(tj.every((x) => x && x.length === 2) && new Set(semuaT).size === 6 && !semuaT.includes(g4 + 1), 'kelompok 4 orang: tiga Penjelajah masing-masing 2 kelompok, tidak ada yang sama, semua enam kelompok lain tercakup (' + tj.map((x) => x.join('+')).join(' | ') + ')');
+  { const dari = new Set(); for (let hh = 1; hh <= 7; hh++) { if (hh === g4 + 1) continue; const hostI = anggota(hh - 1)[0]; r = await S(hostI, 'k2-status'); const x = r.tamu.find((q) => q.g === g4 + 1); if (x) dari.add(x.sub); } ok(dari.size === 3 && ['A1', 'A2', 'B'].every((q) => dari.has(q)), 'Host kelompok lain melihat tamu berlabel A1, A2, dan B dari kelompok 4 orang (' + [...dari].join(',') + ')'); }
   /* kode cocok untuk kedua Penjelajah A */
   const tuj = (await S(pA1, 'k2-status')).tujuan[0];
   const hostTujuan = (async () => { for (const i of anggota(tuj.h - 1)) { const g = await S(i, 'grup'); const me = g.anggota.find((a) => a.idx === i); if (me && me.peran === 0) return i; } return null; })();

@@ -755,7 +755,7 @@ h1, h2, h3, h4 { font-weight: 700; letter-spacing: -.02em; }
 .cor-tog { display: inline-flex; align-items: center; gap: .4rem; padding: .35rem .8rem; border-radius: 99px; border: 1px solid var(--garis-2); background: #fff; color: var(--navy-800); font: 700 .92rem var(--isi); cursor: pointer; } .cor-tog svg { width: 1.15rem; height: 1.15rem; }
 .cor-tog.on { background: var(--navy-800); color: var(--emas-t); border-color: var(--navy-800); }
 .cor-titik { width: .55rem; height: .55rem; border-radius: 50%; background: #FF6B70; box-shadow: 0 0 0 0 rgba(255,107,112,.7); animation: corDenyut 1.4s ease-out infinite; } @keyframes corDenyut { 70% { box-shadow: 0 0 0 .5rem rgba(255,107,112,0); } 100% { box-shadow: 0 0 0 0 rgba(255,107,112,0); } }
-.cor-on { box-shadow: inset 0 0 0 3px rgba(255,201,74,.85) !important; }
+
 
 /* peran, latihan, kartu 1 */
 .peran-nama { padding: .5rem .7rem; border-radius: .8rem; background: #EDF1FA; font-size: 1.02rem; } .peran-nama.kosong { background: #FFF3D1; color: #7A5200; }
@@ -778,8 +778,8 @@ h1, h2, h3, h4 { font-weight: 700; letter-spacing: -.02em; }
 .lompat-teks { display: grid; flex: 1; line-height: 1.2; } .lompat-teks b { font: 700 1.1rem var(--tampil); color: var(--navy-800); } .lompat-teks small { color: var(--tinta-3); font-size: .85rem; } .lompat-p { color: var(--tinta-3); }
 
 /* coretan aktif: tombol lain nonaktif sementara */
-.tes-wrap:has(.cor-on) button:not(.cor-bar *), .dialog:has(.cor-on) button:not(.cor-bar *):not(.tutup-x) { pointer-events: none; opacity: .42; filter: grayscale(.5); }
-.cor-hint { font-size: .78rem; font-weight: 700; color: #A3262B; padding: 0 .4rem; }
+
+
 
 /* scrollbar bergaya */
 * { scrollbar-width: thin; scrollbar-color: #A9B6D3 transparent; }
@@ -803,6 +803,25 @@ h1, h2, h3, h4 { font-weight: 700; letter-spacing: -.02em; }
 .tuts-angka .tut { height: 4.2rem; border-radius: 1.2rem; border: 1px solid #C3CCE0; background: linear-gradient(180deg, #FFFFFF, #E9EEF8); color: var(--navy-800); font: 700 1.9rem var(--mono); box-shadow: 0 4px 0 #BFC9DF, 0 .6rem 1rem -.7rem rgba(10,20,40,.5); cursor: pointer; transition: transform .08s, box-shadow .08s; }
 .tuts-angka .tut:active { transform: translateY(3px); box-shadow: 0 1px 0 #BFC9DF; } .tuts-angka .tut.fungsi { background: linear-gradient(180deg, #FFE48F, #FFC94A); border-color: #D9A21F; box-shadow: 0 4px 0 #C8941A; }
 .layar-angka { background: linear-gradient(135deg, #0A1428, #12285A); color: var(--emas-t); border-radius: 1.2rem; font: 700 3.4rem var(--mono); min-height: 5.2rem; box-shadow: inset 0 0 0 2px rgba(255,201,74,.25); } .layar-angka.kosong { color: rgba(255,255,255,.28); }
+
+/* ---------- kertas coretan tersendiri (di sisi kanan kartu; tidak menutupi soal) ---------- */
+.cor-dock { padding-right: calc(var(--padw, 44%) + 1.7rem) !important; }
+.cor-pad { position: absolute; right: .8rem; top: .8rem; bottom: .8rem; width: var(--padw, 44%); z-index: 6; display: flex; flex-direction: column; border-radius: 1.1rem; background: #FFFDF5; border: 2px solid #E3C466; box-shadow: 0 1rem 1.8rem -1.3rem rgba(10,20,40,.55); overflow: hidden; }
+.cor-pad[hidden] { display: none; }
+.cor-pad-kepala { flex: none; display: flex; flex-direction: column; gap: .25rem; padding: .4rem .55rem .45rem; background: #F6EDCF; border-bottom: 1.5px solid #E3C466; }
+.cor-pad-judul { font: 700 .7rem var(--isi); letter-spacing: .14em; text-transform: uppercase; color: #7A5A12; }
+.cor-alat { display: flex; flex-wrap: wrap; align-items: center; gap: .15rem .2rem; }
+.cor-pad .cor-btn { width: 2.15rem; height: 2.15rem; } .cor-pad .cor-btn svg { width: 1.2rem; height: 1.2rem; } .cor-pad .cor-sw { width: 1.4rem; height: 1.4rem; } .cor-pad .cor-uk { width: 1.7rem; height: 1.7rem; } .cor-pad .cor-sk { height: 1.3rem; }
+.cor-pad-badan { position: relative; flex: 1; min-height: 8rem; background-image: radial-gradient(circle, rgba(18,37,74,.2) 1.1px, transparent 1.4px); background-size: 24px 24px; touch-action: none; }
+.cor-pad .cor-kanvas { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+.cor-bar, .cor-bar.terbuka { background: transparent; border: 0; padding: 0; }
+/* isi kartu yang menyempit: grafik di atas teks, bukan berdampingan */
+.cor-dock .lat-badan, .cor-dock .so-isi.dgrafik, .cor-dock .so-isi, .cor-dock .soal-bagi { grid-template-columns: minmax(0, 1fr); }
+.cor-dock .lat-graf svg.kv, .cor-dock .so-grafik svg.kv { max-height: min(15rem, 30vh); margin: 0 auto; }
+.cor-dock .gambar-soal svg { max-height: min(15rem, 30vh); }
+.cor-dock .lat-kanan .teks-soal { font-size: clamp(1.15rem, 2.3vh, 1.5rem); } .cor-dock .so-isi.besar .teks-soal { font-size: clamp(1.2rem, 2.4vh, 1.6rem); }
+/* pop-up latihan: kertas coretan memenuhi tinggi pop-up */
+.dialog.latihan .badan { display: flex; flex-direction: column; } .dialog.latihan .badan > div { flex: 1; min-height: 0; display: flex; flex-direction: column; } .dialog.latihan .lat { flex: 1; min-height: 0; }
 
 /* ADEGAN / PANGGUNG: permukaan navy untuk penjelasan. Benda matematika bercahaya (emas, merah, biru muda) di atas navy; hitungan besar dan di tengah.
    Rumus memakai KaTeX (tertanam). */
@@ -1387,6 +1406,22 @@ h1, h2, h3, h4 { font-weight: 700; letter-spacing: -.02em; }
   const tamuHost = (h) => [1, 2, 3, 4, 5, 6, 7].filter((g) => g !== h).map((g) => ({ g, sub: rute3(g, 'A').includes(h) ? 'A' : 'B' }));
   /* kelompok yang dikunjungi seorang Penjelajah: bila rekan A/B tidak ada, ia mengambil seluruh enam kelompok */
   const daftarKunjungan = (g, sub, adaRekan) => (adaRekan === false ? rute3(g, 'A').concat(rute3(g, 'B')) : rute3(g, sub));
+  /* PEMBAGIAN TUJUAN PENJELAJAH yang rata dan tanpa tabrakan, untuk kelompok berukuran berapa pun.
+     ada = nomor kelompok (1-based) yang berisi murid; g = kelompok asal; n = jumlah Penjelajah di kelompok g.
+     Kelompok lain yang ada diurut melingkar setelah g (g+1, g+2, …), lalu dipotong berurutan menjadi n bagian sama banyak (selisih paling banyak 1).
+     Hasil: n larik tujuan, saling lepas, gabungannya = semua kelompok lain. Tiap Penjelajah dari kelompok g punya satu bagian, jadi dua Penjelajah dalam satu
+     kelompok tidak pernah ditugaskan ke kelompok yang sama, dan tiap kelompok lain dikunjungi tepat satu Penjelajah dari g. Untuk 7 kelompok × 3 murid hasilnya sama dengan rute3. */
+  function bagiTujuan(ada, g, n) {
+    n = Math.max(1, n | 0); const lain = ada.filter((x) => x !== g).sort((p, q) => ((((p - g) % NPOS) + NPOS) % NPOS) - ((((q - g) % NPOS) + NPOS) % NPOS)), dasar = Math.floor(lain.length / n), lebih = lain.length % n, out = []; let i = 0;
+    for (let s = 0; s < n; s++) { const k = dasar + (s < lebih ? 1 : 0); out.push(lain.slice(i, i + k)); i += k; } return out;
+  }
+  /* label slot Penjelajah: slot peran A lebih dulu (A, atau A1, A2 bila lebih dari satu), lalu peran B */
+  const labelSlot = (n, s) => { const cA = Math.ceil(n / 2), cB = n - cA; return s < cA ? (cA > 1 ? 'A' + (s + 1) : 'A') : (cB > 1 ? 'B' + (s - cA + 1) : 'B'); };
+  /* rencana tanpa data peran (untuk kartu cetak): per kelompok, larik { sub, h } tiap Penjelajah menurut ukuran kelompok */
+  function rencanaStatis(ukuran) {
+    const ada = []; ukuran.forEach((u, i) => { if (u > 0) ada.push(i + 1); });
+    return ukuran.map((u, i) => { if (!u) return []; const E = Math.max(1, u - 1); return bagiTujuan(ada, i + 1, E).map((h, s) => ({ sub: labelSlot(E, s), h })); });
+  }
 
   /* =====================================================================================
      TES AWAL: lima butir; tipe dan tingkat kesulitan SAMA untuk semua murid, angka berbeda tiap murid.
@@ -1658,7 +1693,7 @@ h1, h2, h3, h4 { font-weight: 700; letter-spacing: -.02em; }
     return { kartu, capaian, nilai, predikat, benar: bnr, total: tot, awal, naik: awal == null ? null : nilai - awal, komponen: [['Titik potong', g('k3'), BOBOT.k3], ['Bentuk integral', g('k4'), BOBOT.k4], ['Hitung luas', g('k5'), BOBOT.k5], ['Tiket keluar', g('k6'), BOBOT.k6]] };
   }
 
-  const api = { KELAS_CFG, KELAS_ID, KELAS_TAMPIL, cfg, setKelas, durasi, kelasAktif: () => AKTIF, URUT, NAMA_FAM, NPOS, bagianKelompok, PERAN, peranDariPos, kapasitasPeran, rute3, tamuHost, daftarKunjungan, DAFTAR: DAFTAR_ALL, DUMMY, PIN_SHA, cekPinLokal, nama, judulKata, JUMLAH_SOAL, soalSiswa, nilai, buatKode, bacaKode, bentukKelompok, tambahKelompok, rencanaKelompok, ALFA,
+  const api = { KELAS_CFG, KELAS_ID, KELAS_TAMPIL, cfg, setKelas, durasi, kelasAktif: () => AKTIF, URUT, NAMA_FAM, NPOS, bagianKelompok, PERAN, peranDariPos, kapasitasPeran, rute3, tamuHost, daftarKunjungan, bagiTujuan, labelSlot, rencanaStatis, DAFTAR: DAFTAR_ALL, DUMMY, PIN_SHA, cekPinLokal, nama, judulKata, JUMLAH_SOAL, soalSiswa, nilai, buatKode, bacaKode, bentukKelompok, tambahKelompok, rencanaKelompok, ALFA,
     buat, tanyaP, jelasP, titikPotongSet, bentukSet, luasSet, tiketSet, latihan, seedKelompok, rapor, GEN, i12, pv, pa, ps, luas12, mulberry, acak, rint, pil, M, tPoly, tAnti, tInt, tEv, tHit, tR, tPar, tAbs, tSubst, selisihZ, eqP, kk, NA, BOBOT };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.BS = api;
 })(typeof window !== 'undefined' ? window : globalThis);
@@ -2413,7 +2448,11 @@ h1, h2, h3, h4 { font-weight: 700; letter-spacing: -.02em; }
   /* host: elemen berposisi relatif (kartu soal). opsi.bar: elemen tempat bilah alat diletakkan (default: pojok host) */
   function pasang(host, kunci, opsi) {
     opsi = opsi || {}; const d = kertas(kunci); if (getComputedStyle(host).position === 'static') host.style.position = 'relative';
-    const cv = el('canvas', { kelas: 'cor-kanvas' }), ctx = cv.getContext('2d'), bar = el('div', { kelas: 'cor-bar' }); host.append(cv); (opsi.bar || host).append(bar);
+    /* KERTAS COretan tersendiri: saat aktif, sebuah kertas (dengan alatnya) muncul di sisi kanan kartu dan isi kartu menyempit ke kiri.
+       Goresan hanya terjadi di atas kertas, jadi soal, gambar, dan tombol tidak pernah tertutup coretan. */
+    const cv = el('canvas', { kelas: 'cor-kanvas' }), ctx = cv.getContext('2d'), tombolBar = el('div', { kelas: 'cor-bar' }), bar = el('div', { kelas: 'cor-alat' });
+    const badanPad = el('div', { kelas: 'cor-pad-badan' }, cv), pad = el('div', { kelas: 'cor-pad', hidden: true }, el('div', { kelas: 'cor-pad-kepala' }, el('div', { kelas: 'cor-pad-judul' }, 'Kertas coretan'), bar), badanPad);
+    host.append(pad); (opsi.bar || host).append(tombolBar);
     let W = 0, H = 0, dpr = 1, sedang = null, ids = new Map(), tersentuh = new Set(), tekanSuprs = false, bukaWarna = false;
     const ulangGambar = () => {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
@@ -2423,9 +2462,10 @@ h1, h2, h3, h4 { font-weight: 700; letter-spacing: -.02em; }
       const p = g.t; if (!p.length) return; ctx.save(); ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.lineWidth = g.w * (g.mode === 'sorot' ? 3.4 : 1); ctx.strokeStyle = g.c; ctx.globalAlpha = g.mode === 'sorot' ? .32 : 1; ctx.globalCompositeOperation = g.mode === 'hapus' ? 'destination-out' : 'source-over';
       ctx.beginPath(); ctx.moveTo(p[0][0] * W, p[0][1] * H); if (p.length === 1) ctx.lineTo(p[0][0] * W + .01, p[0][1] * H); for (let i = 1; i < p.length; i++) { const a = p[i - 1], b = p[i]; ctx.quadraticCurveTo(a[0] * W, a[1] * H, (a[0] + b[0]) / 2 * W, (a[1] + b[1]) / 2 * H); } ctx.stroke(); ctx.restore();
     }
-    const ukur = () => { const r = host.getBoundingClientRect(); W = Math.max(1, Math.round(r.width)); H = Math.max(1, Math.round(r.height)); dpr = Math.min(2, window.devicePixelRatio || 1); cv.width = W * dpr; cv.height = H * dpr; cv.style.width = W + 'px'; cv.style.height = H + 'px'; ulangGambar(); };
-    const ro = new ResizeObserver(ukur); ro.observe(host); ukur();
-    const titik = (e) => { const r = host.getBoundingClientRect(); return [(e.clientX - r.left) / r.width, (e.clientY - r.top) / r.height]; };
+    const ukur = () => { const r = badanPad.getBoundingClientRect(); W = Math.max(1, Math.round(r.width)); H = Math.max(1, Math.round(r.height)); dpr = Math.min(2, window.devicePixelRatio || 1); cv.width = W * dpr; cv.height = H * dpr; cv.style.width = W + 'px'; cv.style.height = H + 'px'; ulangGambar(); };
+    const lebarPad = () => { const w = host.getBoundingClientRect().width; if (w > 0) host.style.setProperty('--padw', Math.max(250, Math.round(w * .44)) + 'px'); };
+    const ro = new ResizeObserver(() => requestAnimationFrame(() => { lebarPad(); ukur(); })); ro.observe(host); ro.observe(badanPad); lebarPad(); ukur();
+    const titik = (e) => { const r = badanPad.getBoundingClientRect(); return [(e.clientX - r.left) / r.width, (e.clientY - r.top) / r.height]; };
     const boleh = (e) => S.aktif && S.alat !== 'tangan' && (e.pointerType === 'pen' || e.pointerType === 'mouse' || (e.pointerType === 'touch' && !S.stylus));
     const jauh = (g) => { const t = g.t; let mnx = 1, mxx = 0, mny = 1, mxy = 0; t.forEach((q) => { mnx = Math.min(mnx, q[0]); mxx = Math.max(mxx, q[0]); mny = Math.min(mny, q[1]); mxy = Math.max(mxy, q[1]); }); return Math.hypot((mxx - mnx) * W, (mxy - mny) * H); };
     function hapusDekat(p) {
@@ -2434,10 +2474,10 @@ h1, h2, h3, h4 { font-weight: 700; letter-spacing: -.02em; }
     }
     let hapusBatch = null;
     function mulai(e) {
-      if (!S.aktif || (e.target.closest && e.target.closest('.cor-bar'))) return;
+      if (!S.aktif) return;
       if (e.pointerType === 'touch') { tersentuh.add(e.pointerId); if (tersentuh.size > 1) { sedang = null; hapusBatch = null; ulangGambar(); return; } }
       if (!boleh(e)) return; if (e.pointerType === 'mouse' && e.button !== 0) return;
-      e.preventDefault(); try { host.setPointerCapture(e.pointerId); } catch (x) { /* abaikan */ } tekanSuprs = false; ids.set(e.pointerId, 1);
+      e.preventDefault(); try { badanPad.setPointerCapture(e.pointerId); } catch (x) { /* abaikan */ } tekanSuprs = false; ids.set(e.pointerId, 1);
       const p = titik(e);
       if (S.alat === 'hapusGoresan') { hapusBatch = []; const k = hapusDekat(p); k.forEach((g) => { d.goresan.splice(d.goresan.indexOf(g), 1); hapusBatch.push(g); }); ulangGambar(); return; }
       sedang = { t: [p], w: S.alat === 'hapusPiksel' ? UKURAN[S.ukuran] * 2.6 : UKURAN[S.ukuran], c: WARNA[S.warna], mode: S.alat === 'stabilo' ? 'sorot' : (S.alat === 'hapusPiksel' ? 'hapus' : 'pena') };
@@ -2457,18 +2497,17 @@ h1, h2, h3, h4 { font-weight: 700; letter-spacing: -.02em; }
       if (jauh(g) < 6) { ulangGambar(); return; }   // ketukan biasa: bukan coretan
       tekanSuprs = true; setTimeout(() => { tekanSuprs = false; }, 80); d.goresan.push(g); d.batal.push({ tambah: g }); d.ulang.length = 0; ulangGambar(); ui();
     }
-    host.addEventListener('pointerdown', mulai, true); host.addEventListener('pointermove', gerak, true); ['pointerup', 'pointercancel'].forEach((n) => host.addEventListener(n, selesai, true));
-    host.addEventListener('click', (e) => { if (tekanSuprs) { e.stopPropagation(); e.preventDefault(); tekanSuprs = false; } }, true);
-    host.addEventListener('touchmove', (e) => { if (S.alat !== 'tangan' && (ids.size || e.touches.length > 1)) { if (e.cancelable && ids.size) e.preventDefault(); } }, { passive: false });
+    badanPad.addEventListener('pointerdown', mulai, true); badanPad.addEventListener('pointermove', gerak, true); ['pointerup', 'pointercancel'].forEach((n) => badanPad.addEventListener(n, selesai, true));
+    badanPad.addEventListener('click', (e) => { if (tekanSuprs) { e.stopPropagation(); e.preventDefault(); tekanSuprs = false; } }, true);
+    badanPad.addEventListener('touchmove', (e) => { if (S.alat !== 'tangan' && (ids.size || e.touches.length > 1)) { if (e.cancelable && ids.size) e.preventDefault(); } }, { passive: false });
     const urungkan = () => { const a = d.batal.pop(); if (!a) return; if (a.tambah) d.goresan.splice(d.goresan.indexOf(a.tambah), 1); else a.hapus.forEach((g) => d.goresan.push(g)); d.ulang.push(a); ulangGambar(); ui(); };
     const ulangi = () => { const a = d.ulang.pop(); if (!a) return; if (a.tambah) d.goresan.push(a.tambah); else a.hapus.forEach((g) => { const i = d.goresan.indexOf(g); if (i >= 0) d.goresan.splice(i, 1); }); d.batal.push(a); ulangGambar(); ui(); };
     const reset = () => { if (!d.goresan.length) return; const semua = d.goresan.slice(); d.goresan.length = 0; d.batal.push({ hapus: semua }); d.ulang.length = 0; ulangGambar(); ui(); };
     const btn = (id, judul, aksi, kelas) => el('button', { kelas: 'cor-btn ' + (kelas || ''), type: 'button', title: judul, 'aria-label': judul, 'data-a': id, html: ikon(id === 'stylus' ? (S.stylus ? 'stylus' : 'jari') : id), onclick: aksi });
     function ui() {
-      bar.innerHTML = ''; bar.classList.toggle('terbuka', S.aktif); host.classList.toggle('cor-on', S.aktif); cv.style.visibility = S.aktif ? 'visible' : 'hidden';
-      bar.append(el('button', { kelas: 'cor-tog' + (S.aktif ? ' on' : ''), type: 'button', title: S.aktif ? 'Matikan coretan (coretan disembunyikan)' : 'Aktifkan coretan', 'aria-pressed': S.aktif ? 'true' : 'false', html: ikon('pensil') + '<span>' + (S.aktif ? 'Coretan aktif' : 'Coretan') + '</span>' + (S.aktif ? '<i class="cor-titik"></i>' : ''), onclick: () => { S.aktif = !S.aktif; ui(); } }));
+      bar.innerHTML = ''; tombolBar.innerHTML = ''; pad.hidden = !S.aktif; host.classList.toggle('cor-dock', S.aktif); if (S.aktif) { lebarPad(); ukur(); }
+      tombolBar.append(el('button', { kelas: 'cor-tog' + (S.aktif ? ' on' : ''), type: 'button', title: S.aktif ? 'Matikan coretan (coretan disembunyikan)' : 'Aktifkan coretan', 'aria-pressed': S.aktif ? 'true' : 'false', html: ikon('pensil') + '<span>' + (S.aktif ? 'Coretan aktif' : 'Coretan') + '</span>' + (S.aktif ? '<i class="cor-titik"></i>' : ''), onclick: () => { S.aktif = !S.aktif; ui(); } }));
       if (!S.aktif) { cv.style.cursor = 'default'; return; }
-      bar.append(el('span', { kelas: 'cor-hint' }, 'Matikan coretan untuk memakai tombol lain'));
       const alat = [['pensil', 'Pensil'], ['stabilo', 'Stabilo'], ['hapusPiksel', 'Hapus per piksel'], ['hapusGoresan', 'Hapus per goresan'], ['tangan', 'Tangan: tidak mencoret, hanya memilih atau menggulir']];
       alat.forEach(([id, t]) => bar.append(btn(id, t, () => { S.alat = id; simpanS(); ui(); }, S.alat === id ? 'aktif' : '')));
       bar.append(el('span', { kelas: 'cor-sk' }));
@@ -2476,10 +2515,10 @@ h1, h2, h3, h4 { font-weight: 700; letter-spacing: -.02em; }
       const ukr = el('div', { kelas: 'cor-ukuran' }, UKURAN.map((u, i) => el('button', { kelas: 'cor-uk' + (S.ukuran === i ? ' aktif' : ''), type: 'button', 'aria-label': 'Ukuran ' + (i + 1), onclick: () => { S.ukuran = i; simpanS(); ui(); } }, el('i', { gaya: 'width:' + (5 + i * 4) + 'px;height:' + (5 + i * 4) + 'px' }))));
       bar.append(warna, ukr, el('span', { kelas: 'cor-sk' }));
       const u = btn('urung', 'Urungkan', urungkan), r = btn('ulangi', 'Ulangi', ulangi); u.disabled = !d.batal.length; r.disabled = !d.ulang.length; bar.append(u, r, btn('reset', 'Hapus semua coretan', reset), el('span', { kelas: 'cor-sk' }), btn('stylus', S.stylus ? 'Mode stylus: hanya pena yang mencoret (ketuk untuk memakai jari)' : 'Mode jari: jari boleh mencoret (ketuk agar hanya stylus)', () => { S.stylus = !S.stylus; simpanS(); ui(); }, S.stylus ? 'aktif' : ''));
-      host.dataset.alat = S.alat; cv.style.cursor = S.alat === 'tangan' ? 'default' : 'crosshair';
+      host.dataset.alat = S.alat; cv.style.cursor = S.alat === 'tangan' ? 'default' : 'crosshair'; badanPad.style.touchAction = S.alat === 'tangan' ? 'pan-x pan-y pinch-zoom' : 'none';
     }
     ui();
-    return { lepas() { ro.disconnect(); cv.remove(); bar.remove(); }, urungkan, ulangi, reset, ada: () => d.goresan.length > 0 };
+    return { lepas() { ro.disconnect(); pad.remove(); tombolBar.remove(); host.classList.remove('cor-dock'); }, urungkan, ulangi, reset, ada: () => d.goresan.length > 0 };
   }
   root.Coretan = { pasang, ikon, S };
 })(window);
@@ -2651,7 +2690,7 @@ h1, h2, h3, h4 { font-weight: 700; letter-spacing: -.02em; }
         (S.tamu || []).forEach((x) => { const k = el('div', { kelas: 'kartu tamu fx-' + x.fam + (x.ok ? ' selesai' : '') }); k.append(el('div', { kelas: 'baris', html: '<span class="sapa-no kecil">' + x.g + '</span><div><b>Kelompok ' + x.g + '</b><div class="muted kecil">Penjelajah ' + x.sub + ' · ' + esc(famNama(x.fam)) + '</div></div>' }), el('button', { kelas: 'btn ' + (x.ok ? 'hijau' : 'sekunder'), type: 'button', html: x.ok ? ik('centang', 'kecil') + 'Sudah mengajar' + (x.siapa ? ' · ' + esc(nm1(x.siapa)) : '') : 'Sudah mengajar', onclick: () => (x.ok ? batalkan(x) : kodeHost(x)) })); kan.append(k); });
         area.append(kiri, kan);
       } else {
-        const kan = el('div', { kelas: 'k2-tamu lebar' }); kan.append(el('div', { kelas: 'eyebrow' }, 'Kelompok yang wajib kamu kunjungi · bebas urutannya'));
+        const kan = el('div', { kelas: 'k2-tamu lebar' }); kan.append(el('div', { kelas: 'eyebrow' }, 'Tugasmu: kelompok yang kamu kunjungi (dibagi rata, rekanmu mendapat kelompok yang berbeda) · bebas urutannya'));
         (S.tujuan || []).forEach((x) => { const k = el('div', { kelas: 'kartu tamu jelajah fx-' + x.fam + (x.ok ? ' selesai' : '') }); const aktifP = x.ok || E.idx() === B.DUMMY;
           k.append(el('div', { kelas: 'baris', html: '<span class="sapa-no kecil">' + x.h + '</span><div><b>Kelompok ' + x.h + '</b><div class="muted kecil">' + esc(famNama(x.fam)) + '</div></div>' + chipOk(x.ok, 'sudah belajar', 'belum') }),
             el('div', { kelas: 'baris aksi-j' }, el('button', { kelas: 'btn ' + (x.ok ? 'hijau' : ''), type: 'button', disabled: x.ok, html: x.ok ? ik('centang', 'kecil') + 'Sudah belajar' : 'Sudah belajar', onclick: () => cocokKode(x) }), ['paham', 'lumayan', 'tidak'].map((v) => el('button', { kelas: 'btn kecil ' + (x.paham === v ? 'sorot' : 'sekunder'), type: 'button', disabled: !aktifP, onclick: async () => { const r = await E.api('k2-paham', { idx: E.idx(), h: x.h, nilai: v }); if (r.ok) muat(); }, }, v === 'paham' ? 'Paham' : (v === 'lumayan' ? 'Lumayan' : 'Tidak paham'))), el('button', { kelas: 'btn kecil ' + (x.paham ? 'sekunder' : 'sekunder'), type: 'button', disabled: !(aktifP && (x.paham || E.idx() === B.DUMMY)), html: ik('buku', 'kecil') + 'Lihat materi', onclick: () => Pel.bukaPelajaran(x.fam, { labelAkhir: 'Selesai' }) }))); kan.append(k); });

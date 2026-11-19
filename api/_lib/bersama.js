@@ -107,6 +107,22 @@
   const tamuHost = (h) => [1, 2, 3, 4, 5, 6, 7].filter((g) => g !== h).map((g) => ({ g, sub: rute3(g, 'A').includes(h) ? 'A' : 'B' }));
   /* kelompok yang dikunjungi seorang Penjelajah: bila rekan A/B tidak ada, ia mengambil seluruh enam kelompok */
   const daftarKunjungan = (g, sub, adaRekan) => (adaRekan === false ? rute3(g, 'A').concat(rute3(g, 'B')) : rute3(g, sub));
+  /* PEMBAGIAN TUJUAN PENJELAJAH yang rata dan tanpa tabrakan, untuk kelompok berukuran berapa pun.
+     ada = nomor kelompok (1-based) yang berisi murid; g = kelompok asal; n = jumlah Penjelajah di kelompok g.
+     Kelompok lain yang ada diurut melingkar setelah g (g+1, g+2, …), lalu dipotong berurutan menjadi n bagian sama banyak (selisih paling banyak 1).
+     Hasil: n larik tujuan, saling lepas, gabungannya = semua kelompok lain. Tiap Penjelajah dari kelompok g punya satu bagian, jadi dua Penjelajah dalam satu
+     kelompok tidak pernah ditugaskan ke kelompok yang sama, dan tiap kelompok lain dikunjungi tepat satu Penjelajah dari g. Untuk 7 kelompok × 3 murid hasilnya sama dengan rute3. */
+  function bagiTujuan(ada, g, n) {
+    n = Math.max(1, n | 0); const lain = ada.filter((x) => x !== g).sort((p, q) => ((((p - g) % NPOS) + NPOS) % NPOS) - ((((q - g) % NPOS) + NPOS) % NPOS)), dasar = Math.floor(lain.length / n), lebih = lain.length % n, out = []; let i = 0;
+    for (let s = 0; s < n; s++) { const k = dasar + (s < lebih ? 1 : 0); out.push(lain.slice(i, i + k)); i += k; } return out;
+  }
+  /* label slot Penjelajah: slot peran A lebih dulu (A, atau A1, A2 bila lebih dari satu), lalu peran B */
+  const labelSlot = (n, s) => { const cA = Math.ceil(n / 2), cB = n - cA; return s < cA ? (cA > 1 ? 'A' + (s + 1) : 'A') : (cB > 1 ? 'B' + (s - cA + 1) : 'B'); };
+  /* rencana tanpa data peran (untuk kartu cetak): per kelompok, larik { sub, h } tiap Penjelajah menurut ukuran kelompok */
+  function rencanaStatis(ukuran) {
+    const ada = []; ukuran.forEach((u, i) => { if (u > 0) ada.push(i + 1); });
+    return ukuran.map((u, i) => { if (!u) return []; const E = Math.max(1, u - 1); return bagiTujuan(ada, i + 1, E).map((h, s) => ({ sub: labelSlot(E, s), h })); });
+  }
 
   /* =====================================================================================
      TES AWAL: lima butir; tipe dan tingkat kesulitan SAMA untuk semua murid, angka berbeda tiap murid.
@@ -378,7 +394,7 @@
     return { kartu, capaian, nilai, predikat, benar: bnr, total: tot, awal, naik: awal == null ? null : nilai - awal, komponen: [['Titik potong', g('k3'), BOBOT.k3], ['Bentuk integral', g('k4'), BOBOT.k4], ['Hitung luas', g('k5'), BOBOT.k5], ['Tiket keluar', g('k6'), BOBOT.k6]] };
   }
 
-  const api = { KELAS_CFG, KELAS_ID, KELAS_TAMPIL, cfg, setKelas, durasi, kelasAktif: () => AKTIF, URUT, NAMA_FAM, NPOS, bagianKelompok, PERAN, peranDariPos, kapasitasPeran, rute3, tamuHost, daftarKunjungan, DAFTAR: DAFTAR_ALL, DUMMY, PIN_SHA, cekPinLokal, nama, judulKata, JUMLAH_SOAL, soalSiswa, nilai, buatKode, bacaKode, bentukKelompok, tambahKelompok, rencanaKelompok, ALFA,
+  const api = { KELAS_CFG, KELAS_ID, KELAS_TAMPIL, cfg, setKelas, durasi, kelasAktif: () => AKTIF, URUT, NAMA_FAM, NPOS, bagianKelompok, PERAN, peranDariPos, kapasitasPeran, rute3, tamuHost, daftarKunjungan, bagiTujuan, labelSlot, rencanaStatis, DAFTAR: DAFTAR_ALL, DUMMY, PIN_SHA, cekPinLokal, nama, judulKata, JUMLAH_SOAL, soalSiswa, nilai, buatKode, bacaKode, bentukKelompok, tambahKelompok, rencanaKelompok, ALFA,
     buat, tanyaP, jelasP, titikPotongSet, bentukSet, luasSet, tiketSet, latihan, seedKelompok, rapor, GEN, i12, pv, pa, ps, luas12, mulberry, acak, rint, pil, M, tPoly, tAnti, tInt, tEv, tHit, tR, tPar, tAbs, tSubst, selisihZ, eqP, kk, NA, BOBOT };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.BS = api;
 })(typeof window !== 'undefined' ? window : globalThis);
