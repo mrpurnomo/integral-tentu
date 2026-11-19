@@ -17,47 +17,29 @@
   function bab1() {
     const s = new Sken();
     const j = [L('j1', [TX('t1', 'Luas Daerah', 'putih')], { sz: 'j' }), L('j2', [TX('t2', 'dengan Integral Tentu', 'emas')], { sz: 'j' })];
-    s.baris(j, { fs: 2.7 }).langkahBaru({ ms: 1400 });
+    s.baris(j, { fs: 2.8 }).langkahBaru({ ms: 1400 });
     s.baris(j.concat([L('j3', [TX('t3', 'Matematika Tingkat Lanjut · Kelas XII', 'redup')], { sz: 'm' })])).langkahBaru({ ms: 1000 });
     s.graf(V1).k('k', P1, { c: 'emas' }).area('z', P1, [0], 1, 3, { c: 'emas', d: .45 }).mode('split').baris([L('j1', [TX('t1', 'Luas Daerah', 'putih')], { sz: 'j' }), L('j2', [TX('t2', 'dengan Integral Tentu', 'emas')], { sz: 'j' }), L('j3', [TX('t3', 'Matematika Tingkat Lanjut · Kelas XII', 'redup')], { sz: 'm' })], { fs: 2.8 }).langkahBaru({ ms: 2000 });
     return { judul: 'Luas daerah dengan integral tentu', langkah: s.langkah };
   }
 
   /* ---------------------------------------------------------------- 2. yuk, ingat kembali */
-  const FR = (id, atas, bawah, c) => ({ id, kolom: { atas, bawah }, c: c || 'putih' });
-  const SUP = (id, tex, c, o) => T(id, tex, c, Object.assign({ kls: 'sup' }, o));
+  /* bab 2: integral tentu langkah demi langkah dengan pola aljabar baku (lihat aljabar.js): ∫ dan dx hilang → kurung siku berbatas + pangkat naik 1
+     → bagi pangkat baru → hitung → sederhanakan → substitusi → hitung → hasil */
   function bab2() {
-    const s = new Sken(), LIM = '\\int_{' + RED + '1}^{' + RED + '3}';
-    /* token soal x^2 - 4x + 5; tiap bagian punya id sendiri supaya bisa bergerak sendiri-sendiri */
-    const K = (o) => { o = o || {}; return {
-      ig: T('ig', LIM, 'putih', o.hlIg ? { hl: true } : null), lp: T('lp', '\\Bigl(', 'putih'), rp: T('rp', '\\Bigr)', 'putih'), dx: T('dx', '\\,dx', 'putih'), m1: T('m1', '-', 'putih'), p1: T('p1', '+', 'putih'),
-      x1: T('x1', 'x', 'emas'), e1: (t, c, hl) => SUP('e1', t, c || 'emas', hl ? { hl: true } : null), c2: (t) => T('c2', t || '4', 'emas'), x2: T('x2', 'x', 'emas'), e2: (t, c, hl) => SUP('e2', t, c || 'emas', hl ? { hl: true } : null), c3: T('c3', '5', 'emas') }; };
-    const k = K(), S0 = [k.ig, k.lp, k.x1, k.e1('2'), k.m1, k.c2(), k.x2, k.e2(''), k.p1, k.c3, k.rp, k.dx];
-    const lin = (ket, tok) => L('akt', tok, { ket });
-    s.baris([lin('Yuk, ingat kembali', S0), L('q', [TX('q1', 'Berapa luas daerah yang dibatasi kurva, sumbu-$x$, $x=1$, dan $x=3$?', 'redup')], { sz: 'm' })], { fs: 3.4 }).langkahBaru({ ms: 1300 });
-    s.graf(V1).k('k', P1, { c: 'emas' }).tex('nk', 'f(x)=x^{2}-4x+5', { on: 'k', at: 4.2, dx: -14, dy: -16, an: 'r', c: 'emas' }).mode('split').baris([lin('Fungsi yang diintegralkan', S0)], { fs: 2.9 }).langkahBaru({ ms: 1900 });
+    const s = new Sken(), D = P1, FS = 2.9, A = { v: 'x', D, a: 1, b: 3 }, S0 = Alj.tokIntegral(A), lin = (ket, tok) => L('akt', tok, { ket });
+    s.baris([lin('Yuk, ingat kembali', S0), L('q', [TX('q1', 'Berapa luas daerah yang dibatasi kurva, sumbu-$x$, $x=1$, dan $x=3$?', 'redup')], { sz: 'm' })], { fs: FS }).langkahBaru({ ms: 1300 });
+    s.graf(V1).k('k', P1, { c: 'emas' }).tex('nk', 'f(x)=x^{2}-4x+5', { on: 'k', at: 4.2, dx: -14, dy: -16, an: 'r', c: 'emas' }).mode('split').baris([lin('Fungsi yang diintegralkan', S0)], { fs: FS }).langkahBaru({ ms: 1900 });
     s.guide('g1', 1, 2, { c: 'merah', gy: 0 }).guide('g3', 3, 2, { c: 'merah', gy: 0 }).pt('p1', 1, 2, { c: 'merah', lab: '(1, 2)', dx: -62, dy: -16, d: .5 }).pt('p3', 3, 2, { c: 'merah', lab: '(3, 2)', dx: 12, dy: -16, d: .5 });
-    s.baris([lin('Batas integral: x = 1 sampai x = 3', S0)], { fs: 2.9 }).langkahBaru({ ms: 1700 });
-    s.area('z', P1, [0], 1, 3, { c: 'emas' }).tex('nl', 'L', { x: 2, y: 0.55, c: 'emas', an: 'c', dx: 0, dy: 0, d: .6 }).baris([lin('Daerah yang diarsir = integral tentu', S0)], { fs: 2.9 }).langkahBaru({ ms: 1700 });
-    /* antiturunan: pangkat + 1, lalu dibagi pangkat baru */
-    const B1 = (e1, e2, x3) => [k.ig, k.lp, k.x1, e1, k.m1, k.c2(), k.x2, e2, k.p1, k.c3].concat(x3 ? [x3] : [], [k.rp, k.dx]);
-    s.baris([lin('Langkah 1 · naikkan pangkat tiap suku, suku pertama dulu', B1(k.e1('2+1', 'merah', true), k.e2('')))], { fs: 2.9 }).langkahBaru({ ms: 1500 });
-    const d1 = T('d1', '2+1', 'merah', { kls: 'sup', dari: 'e1' }); d1.kls = ''; const FR1 = (e, d) => FR('fr1', [k.x1, e], [d]);
-    s.baris([lin('… lalu dibagi pangkat yang baru', [k.ig, k.lp, FR1(k.e1('2+1', 'merah'), d1), k.m1, k.c2(), k.x2, k.e2(''), k.p1, k.c3, k.rp, k.dx])], { fs: 2.9 }).langkahBaru({ ms: 1900 });
-    s.baris([lin('Suku kedua: −4x berpangkat 1, jadi 1 + 1', [k.ig, k.lp, FR1(k.e1('2+1', 'merah'), d1), k.m1, k.c2(), k.x2, k.e2('1+1', 'merah', true), k.p1, k.c3, k.rp, k.dx])], { fs: 2.9 }).langkahBaru({ ms: 1500 });
-    const d2 = T('d2', '1+1', 'merah', { dari: 'e2' }); const FR2 = FR('fr2', [k.c2(), k.x2, k.e2('1+1', 'merah')], [d2]);
-    s.baris([lin('… dibagi pangkat yang baru', [k.ig, k.lp, FR1(k.e1('2+1', 'merah'), d1), k.m1, FR2, k.p1, k.c3, k.rp, k.dx])], { fs: 2.9 }).langkahBaru({ ms: 1900 });
-    const x3 = T('x3', 'x', 'merah', { hl: true });
-    s.baris([lin('Suku ketiga: 5 adalah konstanta, cukup menjadi 5x', [k.ig, k.lp, FR1(k.e1('2+1', 'merah'), d1), k.m1, FR2, k.p1, k.c3, x3, k.rp, k.dx])], { fs: 2.9 }).langkahBaru({ ms: 1500 });
-    const d1b = T('d1', '3', 'emas', { kls: '' }), d2b = T('d2', '2', 'emas'), x3b = T('x3', 'x', 'emas'), FR1b = FR('fr1', [k.x1, k.e1('3')], [d1b]), FR2b = FR('fr2', [k.c2(), k.x2, k.e2('2')], [d2b]);
-    s.baris([lin('Hitung pangkat yang baru: 2+1 = 3 dan 1+1 = 2', [k.ig, k.lp, FR1b, k.m1, FR2b, k.p1, k.c3, x3b, k.rp, k.dx])], { fs: 2.9 }).langkahBaru({ ms: 1900 });
-    s.baris([lin('Sederhanakan: 4 dibagi 2 = 2', [k.ig, k.lp, FR1b, k.m1, k.c2('2'), k.x2, k.e2('2'), k.p1, k.c3, x3b, k.rp, k.dx])], { fs: 2.9 }).langkahBaru({ ms: 1700 });
-    const BR = [T('bl', '\\bigl[', 'putih'), FR1b, k.m1, k.c2('2'), k.x2, k.e2('2'), k.p1, k.c3, x3b, T('br', '\\bigr]', 'putih'), T('lim', '{}_{1}^{3}', 'putih', { hl: true })];
-    s.baris([lin('Langkah 2 · antiturunan selesai, tulis batasnya', BR)], { fs: 2.9 }).langkahBaru({ ms: 1700 });
-    const r = [{ ket: 'Luas daerah', tok: S0 }, { ket: 'Langkah 2 · antiturunan selesai, tulis batasnya', tok: BR }];
-    r.push({ ket: 'Langkah 3 · substitusi batas atas dan bawah', tok: [T('lh', 'L=', 'putih'), T('u', '\\left(9-18+15\\right)', 'emas', { hl: true }), T('m', '-', 'putih'), T('l', '\\left(\\frac{1}{3}-2+5\\right)', 'biru', { hl: true })] }); s.baris(pile(r), { fs: 2.9 }).langkahBaru({ ms: 1700 });
-    r.push({ ket: 'Langkah 4 · hitung masing-masing', tok: [T('lh', 'L=', 'putih'), T('u', '6', 'emas'), T('m', '-', 'putih'), T('l', '\\frac{10}{3}', 'biru')] }); s.baris(pile(r), { fs: 2.9 }).langkahBaru({ ms: 1300 });
-    r.push({ ket: 'Hasil', tok: [T('lh', 'L=', 'putih'), T('u', '\\frac{8}{3}', 'emas', { hl: true }), TX('sat', 'satuan luas', 'putih')] }); s.set('nl', { tex: 'L=\\frac{8}{3}', y: 0.9 }); s.baris(pile(r), { fs: 2.9 }).langkahBaru({ ms: 1500 });
+    s.baris([lin('Batas integral: x = 1 sampai x = 3', S0)], { fs: FS }).langkahBaru({ ms: 1700 });
+    const pre = [T('lh', 'L=', 'putih')], SL = Alj.tokIntegral(Object.assign({ pre }, A));
+    s.area('z', P1, [0], 1, 3, { c: 'emas' }).tex('nl', 'L', { x: 2, y: 0.55, c: 'emas', an: 'c', dx: 0, dy: 0, d: .6 }).baris([lin('Daerah yang diarsir = integral tentu', SL)], { fs: FS }).langkahBaru({ ms: 1700 });
+    const R = [{ ket: 'Luas daerah = integral tentu', tok: SL }];
+    Alj.langkahHitung(Object.assign({ pre, nm: 'L=' }, A)).forEach((rw) => {
+      if (rw.ganti && R.length) R[R.length - 1] = { ket: rw.ket, tok: rw.tok }; else R.push({ ket: rw.ket, tok: rw.tok });
+      if (rw.tag === 'hasil') s.set('nl', { tex: 'L=' + rw.nilai, y: 0.9 });
+      s.baris(pile(R), { fs: FS }).langkahBaru({ ms: rw.ms });
+    });
     return { judul: 'Yuk, ingat kembali', langkah: s.langkah };
   }
 
@@ -85,48 +67,47 @@
     const s = new Sken(), O = { ms: 1400 };
     s.graf(V2).k('k1', PF, { c: 'emas' }).tex('n1', 'y=x^{2}', { on: 'k1', at: -2.2, dx: -12, dy: -4, an: 'r', c: 'emas' }).k('k2', PG, { c: 'merah' }).tex('n2', 'y=x+2', { on: 'k2', at: 4.2, dx: 0, dy: -30, an: 'r', c: 'merah' }).mode('split');
     const dua = [L('a', [T('ya', 'y=', 'putih'), T('r1', 'x^{2}', 'emas')], { ket: 'Fungsi pertama' }), L('b', [T('yb', 'y=', 'putih'), T('rx', 'x', 'merah'), T('rc', '+2', 'merah')], { ket: 'Fungsi kedua' })];
-    s.redup(['k2', 'n2'], .14).baris([dua[0]], { fs: 2.7 }).langkahBaru({ ms: 1500 });
-    s.redup(['k2', 'n2'], 1).redup(['k1', 'n1'], .14).baris([Object.assign({}, dua[0], { op: .4 }), dua[1]], { fs: 2.7 }).langkahBaru({ ms: 1500 });
-    s.redup(['k1', 'n1'], 1).baris(dua, { fs: 2.7 }).langkahBaru({ ms: 1300 });
+    s.redup(['k2', 'n2'], .14).baris([dua[0]], { fs: 2.8 }).langkahBaru({ ms: 1500 });
+    s.redup(['k2', 'n2'], 1).redup(['k1', 'n1'], .14).baris([Object.assign({}, dua[0], { op: .4 }), dua[1]], { fs: 2.8 }).langkahBaru({ ms: 1500 });
+    s.redup(['k1', 'n1'], 1).baris(dua, { fs: 2.8 }).langkahBaru({ ms: 1300 });
     const sat = (a, b, c, d, e, ket) => L('akt', [a, b, c, d, e].filter(Boolean), { ket });
-    s.baris([sat(T('r1', 'x^{2}', 'emas'), T('eq', '=', 'putih'), T('rx', 'x', 'merah'), T('rc', '+2', 'merah'), null, 'Di titik potong, nilai y kedua kurva sama')], { fs: 3 }).langkahBaru({ ms: 1700 });
-    s.baris([sat(T('r1', 'x^{2}', 'emas'), T('eq', '=', 'putih'), T('rx', 'x', 'biru', { hl: true }), T('rc', '+2', 'biru', { hl: true }), null, 'Pindahkan x + 2 ke ruas kiri')], { fs: 3 }).langkahBaru({ ms: 1300 });
-    s.baris([sat(T('r1', 'x^{2}', 'emas'), T('rx', '-x', 'merah'), T('rc', '-2', 'merah'), T('eq', '=', 'putih'), T('z', '0', 'putih'), 'Terbang ke ruas kiri, tandanya berubah; ruas kanan jadi 0')], { fs: 3 }).langkahBaru({ ms: 2600 });
-    s.baris([sat(T('f1', '(x+1)', 'emas'), T('f2', '(x-2)', 'merah'), T('eq', '=', 'putih'), T('z', '0', 'putih'), null, 'Faktorkan')], { fs: 3 }).langkahBaru({ ms: 1500 });
-    s.baris([sat(T('f1', 'x+1=0', 'emas'), T('at', '\\text{atau}', 'redup'), T('f2', 'x-2=0', 'merah'), null, null, 'Salah satu faktor harus nol')], { fs: 3 }).langkahBaru({ ms: 1500 });
-    s.baris([sat(T('f1', 'x=-1', 'emas', { hl: true }), T('at', '\\text{atau}', 'redup'), T('f2', 'x=2', 'merah', { hl: true }), null, null, 'Absis kedua titik potong')], { fs: 3 }).langkahBaru({ ms: 1300 });
+    s.baris([sat(T('r1', 'x^{2}', 'emas'), T('eq', '=', 'putih'), T('rx', 'x', 'merah'), T('rc', '+2', 'merah'), null, 'Di titik potong, nilai y kedua kurva sama')], { fs: 2.8 }).langkahBaru({ ms: 1700 });
+    s.baris([sat(T('r1', 'x^{2}', 'emas'), T('eq', '=', 'putih'), T('rx', 'x', 'biru', { hl: true }), T('rc', '+2', 'biru', { hl: true }), null, 'Pindahkan x + 2 ke ruas kiri')], { fs: 2.8 }).langkahBaru({ ms: 1300 });
+    s.baris([sat(T('r1', 'x^{2}', 'emas'), T('rx', '-x', 'merah'), T('rc', '-2', 'merah'), T('eq', '=', 'putih'), T('z', '0', 'putih'), 'Terbang ke ruas kiri, tandanya berubah; ruas kanan jadi 0')], { fs: 2.8 }).langkahBaru({ ms: 2600 });
+    s.baris([sat(T('f1', '(x+1)', 'emas'), T('f2', '(x-2)', 'merah'), T('eq', '=', 'putih'), T('z', '0', 'putih'), null, 'Faktorkan')], { fs: 2.8 }).langkahBaru({ ms: 1500 });
+    s.baris([sat(T('f1', 'x+1=0', 'emas'), T('at', '\\text{atau}', 'redup'), T('f2', 'x-2=0', 'merah'), null, null, 'Salah satu faktor harus nol')], { fs: 2.8 }).langkahBaru({ ms: 1500 });
+    s.baris([sat(T('f1', 'x=-1', 'emas', { hl: true }), T('at', '\\text{atau}', 'redup'), T('f2', 'x=2', 'merah', { hl: true }), null, null, 'Absis kedua titik potong')], { fs: 2.8 }).langkahBaru({ ms: 1300 });
     /* titik kiri x = -1 */
     const ZL = { x0: -2.4, x1: 0.6, y0: -0.5, y1: 1.85 }, ZR = { x0: 0.4, x1: 3.4, y0: 2.75, y1: 5.1 };
-    s.view(ZL).guide('gA', -1, 1, { c: 'biru', gy: 0 }).baris([L('x', [T('f1', 'x=-1', 'emas'), T('at', '\\text{atau}', 'redup'), T('f2', 'x=2', 'redup')], { ket: 'Titik pertama: x = −1' })], { fs: 2.7 }).langkahBaru({ ms: 2400 });
-    s.baris([L('x', [T('f1', 'x=-1', 'emas'), T('at', '\\text{atau}', 'redup'), T('f2', 'x=2', 'redup')], { ket: 'Titik pertama: x = −1', op: 1 }), L('i', [TX('i1', 'Substitusikan ke <b>salah satu</b> fungsi. Boleh yang mana saja, hasil $y$-nya sama.', 'redup')], { sz: 'm', kls: 'info' })], { fs: 2.7 }).langkahBaru({ ms: 1100 });
-    s.baris([L('x', [T('f1', 'x=-1', 'emas'), T('at', '\\text{atau}', 'redup'), T('f2', 'x=2', 'redup')], { ket: 'Titik pertama: x = −1', op: .45 }), L('a', [T('s1', 'y=x+2=(-1)+2=1', 'merah', { hl: true })], { ket: 'Substitusi ke y = x + 2' }), L('b', [T('s2', 'y=x^{2}=(-1)^{2}=1', 'emas', { hl: true })], { ket: 'Dicek ke y = x²: hasilnya sama' })], { fs: 2.7 }).set('gA', { gy: 1 }).pt('pA', -1, 1, { c: 'putih', lab: '(−1, 1)', dx: 14, dy: -18, d: .55 }).langkahBaru({ ms: 2300 });
+    s.view(ZL).guide('gA', -1, 1, { c: 'biru', gy: 0 }).baris([L('x', [T('f1', 'x=-1', 'emas'), T('at', '\\text{atau}', 'redup'), T('f2', 'x=2', 'redup')], { ket: 'Titik pertama: x = −1' })], { fs: 2.8 }).langkahBaru({ ms: 2400 });
+    s.baris([L('x', [T('f1', 'x=-1', 'emas'), T('at', '\\text{atau}', 'redup'), T('f2', 'x=2', 'redup')], { ket: 'Titik pertama: x = −1', op: 1 }), L('i', [TX('i1', 'Substitusikan ke <b>salah satu</b> fungsi. Boleh yang mana saja, hasil $y$-nya sama.', 'redup')], { sz: 'm', kls: 'info' })], { fs: 2.8 }).langkahBaru({ ms: 1100 });
+    s.baris([L('x', [T('f1', 'x=-1', 'emas'), T('at', '\\text{atau}', 'redup'), T('f2', 'x=2', 'redup')], { ket: 'Titik pertama: x = −1', op: .45 }), L('a', [T('s1', 'y=x+2=(-1)+2=1', 'merah', { hl: true })], { ket: 'Substitusi ke y = x + 2' }), L('b', [T('s2', 'y=x^{2}=(-1)^{2}=1', 'emas', { hl: true })], { ket: 'Dicek ke y = x²: hasilnya sama' })], { fs: 2.8 }).set('gA', { gy: 1 }).pt('pA', -1, 1, { c: 'putih', lab: '(−1, 1)', dx: 14, dy: -18, d: .55 }).langkahBaru({ ms: 2300 });
     /* geser ke titik kanan x = 2 */
-    s.view(ZR).baris([L('x', [T('f1', 'x=-1', 'redup'), T('at', '\\text{atau}', 'redup'), T('f2', 'x=2', 'emas')], { ket: 'Titik kedua: x = 2' })], { fs: 2.7 }).guide('gB', 2, 4, { c: 'biru', gy: 0 }).langkahBaru({ ms: 2600 });
-    s.baris([L('x', [T('f1', 'x=-1', 'redup'), T('at', '\\text{atau}', 'redup'), T('f2', 'x=2', 'emas')], { ket: 'Titik kedua: x = 2', op: .45 }), L('a', [T('s1', 'y=x+2=2+2=4', 'merah', { hl: true })], { ket: 'Substitusi ke y = x + 2' }), L('b', [T('s2', 'y=x^{2}=2^{2}=4', 'emas', { hl: true })], { ket: 'Dicek ke y = x²: hasilnya sama' })], { fs: 2.7 }).set('gB', { gy: 1 }).pt('pB', 2, 4, { c: 'putih', lab: '(2, 4)', dx: 14, dy: 26, d: .55 }).langkahBaru({ ms: 2300 });
+    s.view(ZR).baris([L('x', [T('f1', 'x=-1', 'redup'), T('at', '\\text{atau}', 'redup'), T('f2', 'x=2', 'emas')], { ket: 'Titik kedua: x = 2' })], { fs: 2.8 }).guide('gB', 2, 4, { c: 'biru', gy: 0 }).langkahBaru({ ms: 2600 });
+    s.baris([L('x', [T('f1', 'x=-1', 'redup'), T('at', '\\text{atau}', 'redup'), T('f2', 'x=2', 'emas')], { ket: 'Titik kedua: x = 2', op: .45 }), L('a', [T('s1', 'y=x+2=2+2=4', 'merah', { hl: true })], { ket: 'Substitusi ke y = x + 2' }), L('b', [T('s2', 'y=x^{2}=2^{2}=4', 'emas', { hl: true })], { ket: 'Dicek ke y = x²: hasilnya sama' })], { fs: 2.8 }).set('gB', { gy: 1 }).pt('pB', 2, 4, { c: 'putih', lab: '(2, 4)', dx: 14, dy: 26, d: .55 }).langkahBaru({ ms: 2300 });
     /* zoom out */
-    s.view(V2).baris([L('t', [T('ta', '(-1,\\,1)', 'emas', { hl: true }), TX('tb', 'dan', 'redup'), T('tc', '(2,\\,4)', 'merah', { hl: true })], { ket: 'Kedua titik potong' })], { fs: 3.1 }).langkahBaru({ ms: 2400 });
+    s.view(V2).baris([L('t', [T('ta', '(-1,\\,1)', 'emas', { hl: true }), TX('tb', 'dan', 'redup'), T('tc', '(2,\\,4)', 'merah', { hl: true })], { ket: 'Kedua titik potong' })], { fs: 2.8 }).langkahBaru({ ms: 2400 });
     return { judul: 'Mencari titik potong', langkah: s.langkah };
   }
 
   /* ---------------------------------------------------------------- 6. menghitung luas daerah */
   function bab6() {
-    const s = new Sken();
+    const s = new Sken(), D = B.pa(PG, PF, -1), A = { v: 'x', D, a: -1, b: 2 }, pre = [T('lh', 'L=', 'putih')];
     s.graf(V2).k('k1', PF, { c: 'emas' }).tex('n1', 'y=x^{2}', { on: 'k1', at: -2.2, dx: -12, dy: -4, an: 'r', c: 'emas' }).k('k2', PG, { c: 'merah' }).tex('n2', 'y=x+2', { on: 'k2', at: 4.2, dx: 0, dy: -30, an: 'r', c: 'merah' }).mode('split')
       .guide('gA', -1, 1, { c: 'biru' }).guide('gB', 2, 4, { c: 'biru' }).pt('pA', -1, 1, { lab: '(−1, 1)', dx: -88, dy: -12 }).pt('pB', 2, 4, { lab: '(2, 4)', dx: 14, dy: 26 });
     const tanya = L('q', [TX('q', 'Pada $-1\\le x\\le 2$, kurva mana yang berada di <b>atas</b>?', 'putih')], { sz: 'm', ket: 'Titik potong menjadi batas integral' });
-    s.baris([tanya], { fs: 2.7 }).langkahBaru({ ms: 1500 });
-    s.redup(['k1', 'n1'], .14).baris([L('a', [T('ya', 'y_{\\text{atas}}=', 'putih'), T('fa', 'x+2', 'merah', { hl: true })], { ket: 'Kurva atas' })], { fs: 3 }).langkahBaru({ ms: 1700 });
-    s.redup(['k1', 'n1'], 1).redup(['k2', 'n2'], .14).baris([L('a', [T('ya', 'y_{\\text{atas}}=', 'redup'), T('fa', 'x+2', 'redup')], { ket: 'Kurva atas', op: .4 }), L('b', [T('yb', 'y_{\\text{bawah}}=', 'putih'), T('fb', 'x^{2}', 'emas', { hl: true })], { ket: 'Kurva bawah' })], { fs: 3 }).langkahBaru({ ms: 1700 });
+    s.baris([tanya], { fs: 2.8 }).langkahBaru({ ms: 1500 });
+    s.redup(['k1', 'n1'], .14).baris([L('a', [T('ya', 'y_{\\text{atas}}=', 'putih'), T('fa', 'x+2', 'merah', { hl: true })], { ket: 'Kurva atas' })], { fs: 2.8 }).langkahBaru({ ms: 1700 });
+    s.redup(['k1', 'n1'], 1).redup(['k2', 'n2'], .14).baris([L('a', [T('ya', 'y_{\\text{atas}}=', 'redup'), T('fa', 'x+2', 'redup')], { ket: 'Kurva atas', op: .4 }), L('b', [T('yb', 'y_{\\text{bawah}}=', 'putih'), T('fb', 'x^{2}', 'emas', { hl: true })], { ket: 'Kurva bawah' })], { fs: 2.8 }).langkahBaru({ ms: 1700 });
     s.redup(['k2', 'n2'], 1).area('z', PG, PF, -1, 2, { c: 'biru' });
-    const R = [{ ket: 'Luas = ∫ (atas − bawah)', tok: [T('lh', 'L=', 'putih'), T('ig', '\\int_{' + RED + '-1}^{' + RED + '2}', 'putih'), T('e1', '\\Bigl(', 'putih'), T('fa', 'x+2', 'merah'), T('mm', '-', 'putih'), T('fb', 'x^{2}', 'emas'), T('e2', '\\Bigr)', 'putih'), T('dx', '\\,dx', 'putih')] }];
-    s.baris(pile(R), { fs: 2.7 }).langkahBaru({ ms: 2100 });
-    R.push({ ket: 'Sederhanakan', tok: [T('lh', 'L=', 'putih'), T('ig', '\\int_{' + RED + '-1}^{' + RED + '2}', 'putih'), T('fa', '\\left(-x^{2}+x+2\\right)', 'emas', { hl: true }), T('dx', '\\,dx', 'putih')] }); s.baris(pile(R), { fs: 2.7 }).langkahBaru({ ms: 1400 });
-    R.push({ ket: 'Antiturunan', tok: [T('lh', 'L=', 'putih'), T('fa', '\\left[-\\frac{1}{3}x^{3}+\\frac{1}{2}x^{2}+2x\\right]_{-1}^{2}', 'emas', { hl: true })] }); s.baris(pile(R), { fs: 2.7 }).langkahBaru({ ms: 1400 });
-    R.push({ ket: 'Substitusi batas atas dan bawah', tok: [T('lh', 'L=', 'putih'), T('u', '\\left(-\\frac{8}{3}+2+4\\right)', 'emas', { hl: true }), T('m', '-', 'putih'), T('l', '\\left(\\frac{1}{3}+\\frac{1}{2}-2\\right)', 'biru', { hl: true })] }); s.baris(pile(R), { fs: 2.7 }).langkahBaru({ ms: 1600 });
-    R.push({ ket: 'Hitung masing-masing', tok: [T('lh', 'L=', 'putih'), T('u', '\\frac{10}{3}', 'emas'), T('m', '-', 'putih'), T('l', '\\left(-\\frac{7}{6}\\right)', 'biru')] }); s.baris(pile(R), { fs: 2.7 }).langkahBaru({ ms: 1400 });
-    R.push({ ket: 'Samakan penyebut', tok: [T('lh', 'L=', 'putih'), T('u', '\\frac{20}{6}', 'emas'), T('m', '+', 'putih'), T('l', '\\frac{7}{6}', 'biru')] }); s.baris(pile(R), { fs: 2.7 }).langkahBaru({ ms: 1300 });
-    R.push({ ket: 'Jumlahkan', tok: [T('lh', 'L=', 'putih'), T('u', '\\frac{27}{6}', 'emas')] }); s.baris(pile(R), { fs: 2.7 }).langkahBaru({ ms: 1300 });
-    R.push({ ket: 'Hasil', tok: [T('lh', 'L=', 'putih'), T('u', '\\frac{9}{2}', 'emas', { hl: true }), TX('sat', 'satuan luas', 'putih')] }); s.tex('nl', 'L=\\frac{9}{2}', { x: 0.5, y: 1.6, c: 'biru', an: 'c' }); s.baris(pile(R), { fs: 2.7 }).langkahBaru({ ms: 1700 });
+    const R = [{ ket: 'Luas = ∫ (atas − bawah)', tok: pre.concat([T('ig', '\\int_{' + RED + '-1}^{' + RED + '2}', 'putih'), T('lp', '\\Bigl(', 'putih'), T('fa', 'x+2', 'merah'), T('mm', '-', 'putih'), T('fb', 'x^{2}', 'emas'), T('rp', '\\Bigr)', 'putih'), T('dx', '\\,dx', 'putih')]) }];
+    s.baris(pile(R), { fs: 2.8 }).langkahBaru({ ms: 2100 });
+    R.push({ ket: 'Sederhanakan', tok: Alj.tokIntegral(Object.assign({ pre }, A)) }); s.baris(pile(R), { fs: 2.8 }).langkahBaru({ ms: 1500 });
+    Alj.langkahHitung(Object.assign({ pre, nm: 'L=' }, A)).forEach((rw) => {
+      if (rw.ganti && R.length) R[R.length - 1] = { ket: rw.ket, tok: rw.tok }; else R.push({ ket: rw.ket, tok: rw.tok });
+      if (rw.tag === 'hasil') s.tex('nl', 'L=' + rw.nilai, { x: 0.5, y: 1.6, c: 'biru', an: 'c' });
+      s.baris(pile(R), { fs: 2.8 }).langkahBaru({ ms: rw.ms });
+    });
     return { judul: 'Menghitung luas daerah', langkah: s.langkah };
   }
 

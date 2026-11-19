@@ -25,15 +25,14 @@
   /* ======================================================================== PEMBAHASAN SOAL (generik, dari objek soal P) */
   function bagianHitung(s, P, q, idx, banyak, o) {
     const v = dv(P), D = B.selisihZ(P, q), H = B.tHit(D, q.a, q.b, v), neg = H.nilai.n < 0, sat = B.tAbs(H.nilai), nm = banyak > 1 ? 'L_{' + (idx + 1) + '}=' : 'L=', limit = '\\int_{' + RED + q.a + '}^{' + RED + q.b + '}', d = '\\,d' + v;
-    const mn = neg ? [T('mn', '-', 'merah')] : [], ex1 = exprTex(P, q), simpel = B.tPoly(D, v);
-    const R = []; const push = (ket, tok, ms) => { R.push({ ket, tok }); s.baris(pile(R), { fs: 2.6 }).langkahBaru({ ms: ms || 1500 }); };
-    const nomor = banyak > 1 ? 'Bagian ' + (idx + 1) + ' · ' : '';
-    push(nomor + (P.fam === 'bawah' ? 'Kurva di bawah sumbu: luas = −integral' : (neg ? 'Bagian di bawah sumbu: diberi tanda minus' : (P.z[0].l < 0 || P.z[0].u < 0 ? 'Rumus luas' : (P.tipe === 'y' ? 'Kanan − kiri' : 'Atas − bawah')))), [T('lh', nm, 'putih')].concat(mn, [T('ig', limit, 'putih'), T('fx', '\\left(' + ex1 + '\\right)', 'emas', { hl: true }), T('dx', d, 'putih')]), 1700);
-    if (ex1 !== simpel) push(nomor + 'Sederhanakan', [T('lh', nm, 'putih')].concat(mn, [T('ig', limit, 'putih'), T('fx', '\\left(' + simpel + '\\right)', 'emas', { hl: true }), T('dx', d, 'putih')]), 1300);
-    push(nomor + 'Antiturunan', [T('lh', nm, 'putih')].concat(mn, [T('fx', H.ev, 'emas', { hl: true })]), 1400);
-    push(nomor + 'Substitusi batas atas dan bawah', [T('lh', nm, 'putih')].concat(mn, [T('u', '\\left(' + B.tSubst(D, q.b) + '\\right)', 'emas', { hl: true }), T('m', '-', 'putih'), T('l', '\\left(' + B.tSubst(D, q.a) + '\\right)', 'biru', { hl: true })]), 1600);
-    push(nomor + 'Hitung masing-masing', [T('lh', nm, 'putih')].concat(mn, [T('u', '\\left(' + B.tR(H.Fb) + '\\right)', 'emas'), T('m', '-', 'putih'), T('l', '\\left(' + B.tR(H.Fa) + '\\right)', 'biru')]), 1400);
-    push(nomor + 'Hasil' + (neg ? ' (minus di depan membuat luas positif)' : ''), [T('lh', nm, 'putih'), T('u', sat, 'emas', { hl: true }), TX('sat', 'satuan luas', 'putih')], 1500);
+    const pre = [T('lh', nm, 'putih')], ex1 = exprTex(P, q), simpel = B.tPoly(D, v), nomor = banyak > 1 ? 'Bagian ' + (idx + 1) + ' · ' : '';
+    const R = []; const push = (ket, tok, ms, ganti) => { const row = { ket, tok }; if (ganti && R.length) R[R.length - 1] = row; else R.push(row); s.baris(pile(R), { fs: 2.6 }).langkahBaru({ ms: ms || 1500 }); };
+    const ketAwal = nomor + (P.fam === 'bawah' ? 'Kurva di bawah sumbu: luas = −integral' : (q.u < 0 ? 'Bagian di bawah sumbu: luas = −integral' : (q.l < 0 ? 'Rumus luas' : (P.tipe === 'y' ? 'Kanan − kiri' : 'Atas − bawah'))));
+    const A = { v, D, a: q.a, b: q.b, pre, neg };
+    const dibawah = q.u < 0;   /* kurva di bawah sumbu: L = −∫ f dx, lalu tanda minus dimasukkan ke dalam kurung (−f) */
+    if (ex1 !== simpel || dibawah) { push(ketAwal, pre.concat(neg || dibawah ? [T('mn', '-', 'merah')] : [], [T('ig', limit, 'putih'), T('fx', '\\left(' + ex1 + '\\right)', 'emas', { hl: true }), T('dx', d, 'putih')]), 1700); push(nomor + (dibawah ? 'Masukkan tanda minus ke dalam kurung' : 'Sederhanakan'), Alj.tokIntegral(A), 1500); }
+    else push(ketAwal, Alj.tokIntegral(A), 1700);
+    Alj.langkahHitung(Object.assign({ nomor }, A)).forEach((rw) => push(rw.ket, rw.tok, rw.ms, rw.ganti));
     return sat;
   }
   function solusiBab(P, o) {
@@ -41,13 +40,11 @@
     s.baris([L('q', [TX('q', B.tanyaP(P), 'putih', { kls: 'bungkus' })], { sz: 'm', ket: 'Soal' })], { fs: 2.6 }).langkahBaru({ ms: 1900 });
     if (P.cari) {
       const sam = B.pa(P.k[0], P.k[1], -1), a0 = B.tPoly(P.k[0], v), a1 = B.tPoly(P.k[1], v);
-      const sat = (a, b, c, d, ket) => L('akt', [a, b, c, d].filter(Boolean), { ket });
-      s.baris([sat(T('l1', a0, 'emas'), T('eq', '=', 'putih'), T('l2', a1, 'merah'), null, 'Titik potong: samakan kedua fungsi')], { fs: 2.8 }).langkahBaru({ ms: 1500 });
-      s.baris([sat(T('l1', B.tPoly(sam, v), 'emas', { hl: true }), T('eq', '=', 'putih'), T('z', '0', 'putih'), null, 'Pindahkan semua suku ke satu ruas')], { fs: 2.8 }).langkahBaru({ ms: 1900 });
-      const aks = P.akar.map((r, i) => T('r' + i, v + '=' + r, WNA[i % 2], { hl: true })), gab = []; aks.forEach((t, i) => { if (i) gab.push(T('at' + i, '\\text{atau}', 'redup')); gab.push(t); });
-      s.baris([L('akt', gab, { ket: 'Selesaikan: akar-akarnya adalah batas integral' })], { fs: 2.8 }).langkahBaru({ ms: 1500 });
+      Alj.samakan({ v, f: P.k[0], g: P.k[1] }).forEach((r, i) => s.baris([L('akt', r.tok, { ket: r.ket })], { fs: 2.6 }).langkahBaru({ ms: i === 1 ? 2300 : 1600 }));
+            const aks = P.akar.map((r, i) => T('r' + i, v + '=' + r, WNA[i % 2], { hl: true })), gab = []; aks.forEach((t, i) => { if (i) gab.push(T('at' + i, '\\text{atau}', 'redup')); gab.push(t); });
+      s.baris([L('akt', gab, { ket: 'Selesaikan: akar-akarnya adalah batas integral' })], { fs: 2.6 }).langkahBaru({ ms: 1500 });
       P.titik.forEach((t, i) => { s.guide('g' + i, t.x, t.y, { c: 'biru', d: i * .12 }).pt('p' + i, t.x, t.y, { c: 'putih', d: .3 + i * .12, dx: i % 2 ? 14 : -90, dy: i % 2 ? 26 : -16 }); });
-      s.baris([L('akt', P.titik.map((t, i) => T('r' + i, '(' + t.x + ',\\,' + t.y + ')', WNA[i % 2], { hl: true })), { ket: 'Substitusi akar ke salah satu fungsi: titik potong' })], { fs: 2.8 }).langkahBaru({ ms: 2200 });
+      s.baris([L('akt', P.titik.map((t, i) => T('r' + i, '(' + t.x + ',\\,' + t.y + ')', WNA[i % 2], { hl: true })), { ket: 'Substitusi akar ke salah satu fungsi: titik potong' })], { fs: 2.6 }).langkahBaru({ ms: 2200 });
     } else if (P.fam === 'bawah' || P.fam === 'potong') {
       P.z.forEach((q, i) => { if (!(i === 0 && P.z.length > 1)) return; });
       const ujung = [P.z[0].a, P.z[P.z.length - 1].b]; ujung.forEach((t, i) => { const f = B.pv(P.k[0], t); s.guide('g' + i, P.tipe === 'x' ? t : f, P.tipe === 'x' ? f : t, { c: 'biru', d: i * .15 }); });
@@ -84,28 +81,28 @@
   function konsepBab(fam) {
     const D = LES[fam], P = contohP(fam), s = new Sken(), v = dv(P), sw = P.tipe === 'y'; grafAwal(s, P);
     const kep = (extra) => [L('h', [TX('h', D.j, 'emas')], { sz: 'j' }), L('c', [TX('c', D.ciri, 'redup', { kls: 'bungkus' })], { sz: 'm' })].concat(extra || []);
-    s.baris(kep(), { fs: 2.5 }).langkahBaru({ ms: 1900 });
+    s.baris(kep(), { fs: 2.6 }).langkahBaru({ ms: 1900 });
     P.z.forEach((q, i) => s.set('z' + i, { g: 1, d: i * .35 }));
-    s.baris(kep(), { fs: 2.5 }).langkahBaru({ ms: 1800 });
+    s.baris(kep(), { fs: 2.6 }).langkahBaru({ ms: 1800 });
     /* irisan tipis yang bergeser (daerah sempit berwarna biru) */
     const q0 = P.z[0], lebar = Math.max(.12, (q0.b - q0.a) * .06), idx = { u: q0.u, l: q0.l };
     const sl = (x) => s.cur.g.items.sl ? s.set('sl', { a: x, b: x + lebar }) : s.area('sl', P.k[idx.u] || [0], P.k[idx.l] || [0], x, x + lebar, { c: 'biru', sw, op: 1, g: 1 });
     if (fam === 'bawah') {
-      const f = P.k[0]; sl(q0.a + (q0.b - q0.a) * .25); s.baris([L('a', [TX('a', D.t[0], 'putih', { kls: 'bungkus' })], { sz: 'm', ket: 'Irisan tipis' }), L('b', [T('b', 'f(x)\\le 0', 'merah', { hl: true })], {})], { fs: 2.8 }).langkahBaru({ ms: 1500 });
-      sl(q0.a + (q0.b - q0.a) * .7); s.baris([L('a', [TX('a', D.t[1], 'putih', { kls: 'bungkus' })], { sz: 'm', ket: 'Integral menjumlahkan irisan' }), L('b', [T('b', B.tInt(q0.a, q0.b, B.tPoly(f), 'x') + '=-' + B.tAbs(B.tHit(f, q0.a, q0.b).nilai), 'merah', { hl: true })], {})], { fs: 2.5 }).langkahBaru({ ms: 1600 });
-      s.hapus('sl'); P.z.forEach((q, i) => s.set('z' + i, { c: 'emas' })); s.baris([L('a', [TX('a', D.t[2], 'putih', { kls: 'bungkus' })], { sz: 'm', ket: 'Luas harus positif' }), L('b', [T('b', D.rumus, 'emas', { hl: true })], {})], { fs: 2.8 }).langkahBaru({ ms: 1700 });
+      const f = P.k[0]; sl(q0.a + (q0.b - q0.a) * .25); s.baris([L('a', [TX('a', D.t[0], 'putih', { kls: 'bungkus' })], { sz: 'm', ket: 'Irisan tipis' }), L('b', [T('b', 'f(x)\\le 0', 'merah', { hl: true })], {})], { fs: 2.6 }).langkahBaru({ ms: 1500 });
+      sl(q0.a + (q0.b - q0.a) * .7); s.baris([L('a', [TX('a', D.t[1], 'putih', { kls: 'bungkus' })], { sz: 'm', ket: 'Integral menjumlahkan irisan' }), L('b', [T('b', B.tInt(q0.a, q0.b, B.tPoly(f), 'x') + '=-' + B.tAbs(B.tHit(f, q0.a, q0.b).nilai), 'merah', { hl: true })], {})], { fs: 2.6 }).langkahBaru({ ms: 1600 });
+      s.hapus('sl'); P.z.forEach((q, i) => s.set('z' + i, { c: 'emas' })); s.baris([L('a', [TX('a', D.t[2], 'putih', { kls: 'bungkus' })], { sz: 'm', ket: 'Luas harus positif' }), L('b', [T('b', D.rumus, 'emas', { hl: true })], {})], { fs: 2.6 }).langkahBaru({ ms: 1700 });
     } else if (fam === 'potong') {
       const f = P.k[0], c = P.c, h1 = B.tHit(f, P.z[0].a, c).nilai, h2 = B.tHit(f, c, P.z[P.z.length - 1].b).nilai, naive = B.tHit(f, P.z[0].a, P.z[P.z.length - 1].b).nilai;
       s.pt('pc', c, 0, { c: 'putih', lab: '(' + c + ', 0)', dx: 12, dy: 28 }).guide('gc', c, 0, { c: 'biru', lab: true });
-      s.baris([L('a', [TX('a', D.t[0], 'putih', { kls: 'bungkus' })], { sz: 'm', ket: 'Titik pemecah' }), L('b', [T('b', 'f(' + c + ')=0', 'biru', { hl: true })], {})], { fs: 2.8 }).langkahBaru({ ms: 1800 });
-      s.baris([L('a', [TX('a', D.t[1], 'putih', { kls: 'bungkus' })], { sz: 'm', ket: 'Jika tidak dipecah' }), L('b', [T('b', B.tInt(P.z[0].a, P.z[P.z.length - 1].b, B.tPoly(f)) + '=' + B.tR(naive), 'merah', { hl: true })], {})], { fs: 2.4 }).langkahBaru({ ms: 1500 });
-      s.baris([L('a', [TX('a', D.t[2], 'putih', { kls: 'bungkus' })], { sz: 'm', ket: 'Dipecah di titik potong' }), L('b', [T('b', 'L=\\left|' + B.tR(h1) + '\\right|+\\left|' + B.tR(h2) + '\\right|=' + B.tR({ n: Math.abs(h1.n) * h2.d + Math.abs(h2.n) * h1.d, d: h1.d * h2.d }) .replace(/^(\d+)$/, '$1'), 'emas', { hl: true })], {})], { fs: 2.5 }).langkahBaru({ ms: 1700 });
+      s.baris([L('a', [TX('a', D.t[0], 'putih', { kls: 'bungkus' })], { sz: 'm', ket: 'Titik pemecah' }), L('b', [T('b', 'f(' + c + ')=0', 'biru', { hl: true })], {})], { fs: 2.6 }).langkahBaru({ ms: 1800 });
+      s.baris([L('a', [TX('a', D.t[1], 'putih', { kls: 'bungkus' })], { sz: 'm', ket: 'Jika tidak dipecah' }), L('b', [T('b', B.tInt(P.z[0].a, P.z[P.z.length - 1].b, B.tPoly(f)) + '=' + B.tR(naive), 'merah', { hl: true })], {})], { fs: 2.6 }).langkahBaru({ ms: 1500 });
+      s.baris([L('a', [TX('a', D.t[2], 'putih', { kls: 'bungkus' })], { sz: 'm', ket: 'Dipecah di titik potong' }), L('b', [T('b', 'L=\\left|' + B.tR(h1) + '\\right|+\\left|' + B.tR(h2) + '\\right|=' + B.tR({ n: Math.abs(h1.n) * h2.d + Math.abs(h2.n) * h1.d, d: h1.d * h2.d }) .replace(/^(\d+)$/, '$1'), 'emas', { hl: true })], {})], { fs: 2.6 }).langkahBaru({ ms: 1700 });
     } else {
       const geser = (frac) => sl(q0.a + (q0.b - q0.a - lebar) * frac), isl = sw ? 'x_{\\text{kanan}}-x_{\\text{kiri}}' : 'y_{\\text{atas}}-y_{\\text{bawah}}';
-      geser(.12); s.baris([L('a', [TX('a', D.t[0], 'putih', { kls: 'bungkus' })], { sz: 'm', ket: 'Batas integral' }), L('b', [T('b', (P.akar || [q0.a, q0.b]).map((r) => v + '=' + r).join('\\;\\text{dan}\\;'), 'biru', { hl: true })], {})], { fs: 2.8 }).langkahBaru({ ms: 1600 });
-      geser(.4); s.baris([L('a', [TX('a', D.t[1], 'putih', { kls: 'bungkus' })], { sz: 'm', ket: 'Irisan ' + (sw ? 'datar' : 'tegak') + ' bergeser' }), L('b', [T('b', 'dL=\\left(' + isl + '\\right)d' + v, 'emas', { hl: true })], {})], { fs: 2.8 }).langkahBaru({ ms: 1800 });
-      geser(.78); s.baris([L('a', [TX('a', D.t[2], 'putih', { kls: 'bungkus' })], { sz: 'm', ket: 'Jumlahkan semua irisan' }), L('b', [T('b', D.rumus, 'emas', { hl: true })], {})], { fs: 2.4 }).langkahBaru({ ms: 1800 });
-      s.hapus('sl'); s.baris(kep([L('r', [T('r', D.rumus, 'emas', { hl: true })], { sz: 'm' })]), { fs: 2.4 }).langkahBaru({ ms: 1300 });
+      geser(.12); s.baris([L('a', [TX('a', D.t[0], 'putih', { kls: 'bungkus' })], { sz: 'm', ket: 'Batas integral' }), L('b', [T('b', (P.akar || [q0.a, q0.b]).map((r) => v + '=' + r).join('\\;\\text{dan}\\;'), 'biru', { hl: true })], {})], { fs: 2.6 }).langkahBaru({ ms: 1600 });
+      geser(.4); s.baris([L('a', [TX('a', D.t[1], 'putih', { kls: 'bungkus' })], { sz: 'm', ket: 'Irisan ' + (sw ? 'datar' : 'tegak') + ' bergeser' }), L('b', [T('b', 'dL=\\left(' + isl + '\\right)d' + v, 'emas', { hl: true })], {})], { fs: 2.6 }).langkahBaru({ ms: 1800 });
+      geser(.78); s.baris([L('a', [TX('a', D.t[2], 'putih', { kls: 'bungkus' })], { sz: 'm', ket: 'Jumlahkan semua irisan' }), L('b', [T('b', D.rumus, 'emas', { hl: true })], {})], { fs: 2.6 }).langkahBaru({ ms: 1800 });
+      s.hapus('sl'); s.baris(kep([L('r', [T('r', D.rumus, 'emas', { hl: true })], { sz: 'm' })]), { fs: 2.6 }).langkahBaru({ ms: 1300 });
     }
     return { judul: 'Konsep: ' + D.j.replace(/\$/g, ''), langkah: s.langkah };
   }

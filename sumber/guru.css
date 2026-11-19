@@ -74,3 +74,7 @@
 .kelas-aktif.k-xiia { background: var(--f-garis-t); border-color: var(--f-garis); } .kelas-aktif.k-xiib { background: var(--f-potong-t); border-color: var(--f-potong); }
 .tm-chip { padding: 0 .7rem; }
 .pam-guru .eyebrow { display: block; }
+/* ubin dan penanda untuk semua kelas (XII-C dan XII-D sebelumnya tanpa warna sehingga ubinnya kosong) */
+.k-xiic .kp-ubin { background: var(--f-bawah); } .k-xiid .kp-ubin { background: var(--f-sumbuy); }
+.kelas-aktif.k-xiic { background: var(--f-bawah-t); border-color: var(--f-bawah); } .kelas-aktif.k-xiid { background: var(--f-sumbuy-t); border-color: var(--f-sumbuy); }
+.kp-ubin { font-size: 1.45rem; letter-spacing: -.02em; }

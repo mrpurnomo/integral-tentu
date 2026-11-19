@@ -149,7 +149,14 @@
     const isi = K.isi; isi.innerHTML = ''; const area = el('div', { kelas: host ? 'k2-host' : 'k2-jelajah' }); isi.append(area);
     async function muat() { const r = await E.api('k2-status', { idx: E.idx() }); if (r.ok) { S = r; const tt = JSON.stringify(r); if (tt !== tanda) { tanda = tt; gambar(); } } }
     const chipOk = (ok, y, n) => '<span class="chip ' + (ok ? 'ok' : 'abu') + '">' + (ok ? ik('centang', 'kecil') + y : n) + '</span>';
+    /* menggambar ulang tidak boleh mengembalikan gulir ke atas: posisi gulir semua daftar dicatat lalu dipulihkan */
     function gambar() {
+      const gl = [...area.querySelectorAll('.k2-tamu, .k2-besar')].map((e) => e.scrollTop), gl0 = K.isi.scrollTop;
+      gambar0();
+      const pulih = () => { [...area.querySelectorAll('.k2-tamu, .k2-besar')].forEach((e, i) => { if (gl[i]) e.scrollTop = gl[i]; }); if (gl0) K.isi.scrollTop = gl0; };
+      pulih(); requestAnimationFrame(pulih);
+    }
+    function gambar0() {
       area.innerHTML = '';
       if (host) {
         const kiri = el('div', { kelas: 'kartu k2-besar fx-' + fam }); kiri.append(el('div', { kelas: 'k1-judul', html: UI.ubin(fam) + '<div><div class="eyebrow">Materi kelompokmu</div><h3>' + esc(famNama(fam)) + '</h3></div>' }), miniGraf(fam, 600), el('button', { kelas: 'btn besar denyut', type: 'button', html: ik('kelompok') + 'Mengajar', onclick: () => modeMengajar(fam) }), el('p', { kelas: 'muted kecil' }, 'Tekan Mengajar untuk membuka penjelasan beranimasi dan latihan soal khusus mengajar.'));

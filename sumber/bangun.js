@@ -17,7 +17,7 @@ const css = [katexCss].concat(['tema.css', 'intro.css', 'layar.css', 'guru.css',
 const daftar = fs.readFileSync(path.join(R, 'api', '_lib', 'daftar.js'), 'utf8'), bersama = fs.readFileSync(path.join(R, 'api', '_lib', 'bersama.js'), 'utf8');   // rahasia.js (PIN) sengaja TIDAK ikut dibangun
 const NAMA = 'Area & Calculus';
 function rakit(judul, jsAkhir, keluar, tambahan) {
-  const js = [baca('katex/katex.min.js'), baca('matematika.js'), baca('ui.js'), baca('hero.js'), baca('grafik.js'), daftar, bersama, baca('intro.js'), baca('adegan.js'), baca('panggung.js')].concat((tambahan || []).map(baca), [baca(jsAkhir)]).join('\n;\n');
+  const js = [baca('katex/katex.min.js'), baca('matematika.js'), baca('ui.js'), baca('hero.js'), baca('grafik.js'), daftar, bersama, baca('intro.js'), baca('adegan.js'), baca('aljabar.js'), baca('panggung.js')].concat((tambahan || []).map(baca), [baca(jsAkhir)]).join('\n;\n');
   const h = baca('halaman.html').replace('@JUDUL@', judul).replace('/*@FONTS*/', () => fonts).replace('/*@CSS*/', () => css).replace('/*@JS*/', () => js);
   fs.writeFileSync(path.join(R, keluar), h); console.log(keluar.padEnd(28), (Buffer.byteLength(h) / 1024).toFixed(0) + ' KB');
 }

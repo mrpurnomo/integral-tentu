@@ -1,8 +1,7 @@
 /* ADEGAN — mesin animasi bergaya Manim untuk pengantar, pelajaran kelompok, dan pembahasan soal.
-   Setiap LANGKAH adalah satu KEADAAN lengkap (grafik + papan hitung). Perpindahan antar keadaan (maju maupun mundur) adalah morf dari keadaan yang
-   sedang tampak ke keadaan tujuan: kurva menggambar/menghapus diri, arsiran menyapu, zoom bergeser, angka dan suku terbang ke posisi barunya.
-   Karena tujuannya selalu keadaan, tombol Mundur memutar animasi yang sama secara terbalik (bukan potong dari awal), dan menekan tombol
-   saat animasi berjalan melanjutkan dari posisi yang sedang tampak. */
+   Setiap LANGKAH adalah satu KEADAAN lengkap (grafik + papan hitung). Papan hitung berpindah dengan jalur animasi tetap (geser, pudar, muncul; tanpa morf
+   dan tanpa mengubah ukuran); maju memutar jalur itu, mundur memutar jalur yang SAMA dari belakang. Grafik: kurva menggambar/menghapus diri, arsiran
+   menyapu, zoom bergeser (simetris maju-mundur). Menekan tombol saat animasi berjalan menyelesaikan papan lebih dulu, lalu lanjut ke langkah berikutnya. */
 (function (root) {
   'use strict';
   const { el, ik } = UI, { S } = GF;
@@ -132,7 +131,7 @@
   /* ===================================================================== PAPAN: baris hitungan besar, token (KaTeX) bergerak */
   const TKN = (id, tex, c, o) => Object.assign({ id, tex, c: c || 'putih' }, o || {});
   class Papan {
-    constructor(host) { this.root = el('div', { kelas: 'bd' }); host.append(this.root); this.model = null; this.fi = 0; }
+    constructor(host) { this.root = el('div', { kelas: 'bd' }); host.append(this.root); this.host = host; this.model = null; this.animId = 0; this.ov = null; }
     ukur(lebar) {
       const rootW = (lebar || this.root.clientWidth || 600) - 40;
       this.root.querySelectorAll('.bd-l').forEach((ln) => { const e = ln.querySelector('.bd-e'); if (!e) return; ln.style.setProperty('--esk', 1); const w = e.scrollWidth, avail = rootW * .94; if (w > avail) ln.style.setProperty('--esk', (avail / w).toFixed(3)); });
@@ -156,41 +155,69 @@
       });
       this.ukur(lebar);
     }
-    /* ganti papan dengan morf: token ber-id sama terbang ke tempat barunya (dan berubah warna/isi), yang baru muncul, yang hilang memudar */
-    /* merekam posisi, warna, dan isi token yang tampak sekarang (termasuk yang sedang bergerak), lalu menghentikan animasinya */
-    rekam() {
-      const r = this.root, lama = new Map(), lamaLn = new Map();
-      r.querySelectorAll('[data-id]').forEach((e) => { const rc = e.getBoundingClientRect(); if (e.classList.contains('bd-l')) lamaLn.set(e.dataset.id, { op: parseFloat(getComputedStyle(e).opacity) }); else lama.set(e.dataset.id, { r: rc, c: getComputedStyle(e).color, html: e.innerHTML, sig: e.dataset.sig, cls: e.className, dari: e.dataset.dari || '' }); });
-      r.querySelectorAll('.bd-hantu').forEach((h) => h.remove()); r.getAnimations && r.getAnimations({ subtree: true }).forEach((a) => a.cancel());
-      return { lama, lamaLn };
+    /* ---- PERPINDAHAN PAPAN: tanpa morf. Dua papan tiruan (keadaan lama dan keadaan baru) ditumpuk di atas panggung. Setiap token punya SATU jalur
+       animasi dari keadaan awal (lo) ke keadaan akhir (hi): hilang = memudar; baru = muncul; ada di keduanya = bergeser lurus (tanpa mengubah ukuran);
+       isi berganti = isi lama bergeser sambil memudar dan isi baru bergeser sambil muncul. Maju memutar jalur itu; mundur memutar jalur YANG SAMA dari
+       belakang (playbackRate -1). Jadi mundur selalu cermin tepat dari maju: tidak ada token yang hilang atau mengecil tiba-tiba. ---- */
+    selesaiAnim() { this.animId++; if (this.ov) { this.ov.remove(); this.ov = null; } this.root.style.visibility = ''; }
+    /* posisi (relatif panggung), ukuran huruf, warna, isi, dan kepekatan tiap token pada papan yang tampil sekarang */
+    petaToken(sr) {
+      const m = new Map();
+      this.root.querySelectorAll('.bd-t[data-id]').forEach((e) => { const rc = e.getBoundingClientRect(), ln = e.closest('.bd-l'), cs = getComputedStyle(e);
+        m.set(e.dataset.id, { x: rc.left - sr.left, y: rc.top - sr.top, fs: parseFloat(cs.fontSize) || 1, c: cs.color, sig: e.dataset.sig, dari: e.dataset.dari || '', op: ln && ln.dataset.op != null ? parseFloat(ln.dataset.op) : 1 }); });
+      return m;
     }
     async tampil(m, o) {
-      o = o || {}; const r = this.root, { lama, lamaLn } = o.rekaman || this.rekam();
-      this.bangun(m, o.lebar); this.model = m;
-      if (o.instan || !lama.size && !m.lines.length) return;
-      const rr = r.getBoundingClientRect(), ms = (o.ms || 1100) / spd(), dur = Math.max(300, ms * .9), job = [], sdh = new Set(); let n = 0;
-      const A = (e, kf, opt) => { try { return e.animate(kf, Object.assign({ fill: 'backwards', easing: 'cubic-bezier(.65,0,.35,1)' }, opt)).finished.catch(() => {}); } catch (x) { return Promise.resolve(); } };
-      r.querySelectorAll('.bd-l').forEach((ln) => { const l0 = lamaLn.get(ln.dataset.id), op = parseFloat(ln.dataset.op); if (l0 && Math.abs(l0.op - op) > .01) job.push(A(ln, [{ opacity: l0.op }, { opacity: op }], { duration: dur })); });
-      r.querySelectorAll('.bd-t[data-id]').forEach((e) => {
-        const id = e.dataset.id, w = lama.get(id), rc = e.getBoundingClientRect(), warna = getComputedStyle(e).color; sdh.add(id);
-        if (w) {
-          const dx = w.r.left - rc.left, dy = w.r.top - rc.top, beda = w.sig !== e.dataset.sig;
-          if (beda) {
-            const g = el('span', { kelas: w.cls + ' bd-hantu', html: w.html, gaya: 'position:absolute;left:' + (w.r.left - rr.left) + 'px;top:' + (w.r.top - rr.top) + 'px;margin:0;pointer-events:none;white-space:nowrap;color:' + w.c }); r.append(g);
-            job.push(A(g, [{ transform: 'none', opacity: 1 }, { transform: 'translate(' + (-dx) + 'px,' + (-dy) + 'px)', opacity: 0, offset: .6 }, { transform: 'translate(' + (-dx) + 'px,' + (-dy) + 'px)', opacity: 0 }], { duration: dur, fill: 'both' }).then(() => g.remove()));
-            job.push(A(e, [{ transform: 'translate(' + dx + 'px,' + dy + 'px)', opacity: 0, color: w.c }, { opacity: 0, offset: .35 }, { transform: 'none', opacity: 1, color: warna }], { duration: dur }));
-          } else {
-            const sx = rc.width > 1 && !e.classList.contains('bd-k') ? w.r.width / rc.width : 1, sy = sx, beda2 = Math.abs(sx - 1) > .02;
-            if (Math.abs(dx) > .5 || Math.abs(dy) > .5 || w.c !== warna || beda2) { e.style.transformOrigin = '0 0'; job.push(A(e, [{ transform: 'translate(' + dx + 'px,' + dy + 'px) scale(' + sx.toFixed(4) + ',' + sy.toFixed(4) + ')', color: w.c }, { transform: 'none', color: warna }], { duration: dur }).then(() => { e.style.transformOrigin = ''; })); }
-          }
-        } else if (e.dataset.dari && lama.get(e.dataset.dari)) {   /* salinan: terbang dari token sumbernya */
-          const src = lama.get(e.dataset.dari), dx = src.r.left - rc.left, dy = src.r.top - rc.top; e.style.transformOrigin = '0 0';
-          job.push(A(e, [{ transform: 'translate(' + dx + 'px,' + dy + 'px)', opacity: 0 }, { opacity: 1, offset: .25 }, { transform: 'none', opacity: 1 }], { duration: dur }).then(() => { e.style.transformOrigin = ''; }));
-        } else job.push(A(e, [{ opacity: 0, transform: 'translateY(.55rem) scale(.86)' }, { opacity: 1, transform: 'none' }], { duration: dur * .75, delay: Math.min(520, (n++) * 90) / spd(), easing: 'cubic-bezier(.2,.8,.2,1)' }));
-        if (e.dataset.hl && !o.mundur) job.push(A(e, [{ transform: 'scale(1)' }, { transform: 'scale(1.16)', offset: .4 }, { transform: 'scale(1)' }], { duration: 700 / spd(), delay: dur * 1.02, fill: 'none', easing: 'ease-in-out' }));
+      o = o || {}; const r = this.root, stage = this.host.parentElement, sebelum = o.sebelumBangun || (() => {});
+      this.selesaiAnim();
+      if (o.instan || !this.model) { sebelum(); this.bangun(m, o.lebar); this.model = m; return; }
+      const sr = stage.getBoundingClientRect(), pA = this.petaToken(sr), rA = r.getBoundingClientRect(), cA = r.cloneNode(true);
+      sebelum(); this.bangun(m, o.lebar); this.model = m;
+      const rB = r.getBoundingClientRect(), pB = this.petaToken(sr), cB = r.cloneNode(true);
+      if (!pA.size && !pB.size) return;
+      const mundur = !!o.mundur, lo = mundur ? pB : pA, hi = mundur ? pA : pB, cLo = mundur ? cB : cA, cHi = mundur ? cA : cB;
+      const T = Math.max(380, (o.ms || 1100) / spd()), EASE = 'cubic-bezier(.45,0,.25,1)', anims = [];
+      const ov = el('div', { kelas: 'bd-ov' }); ov.style.cssText = 'position:absolute;inset:0;pointer-events:none;z-index:4;overflow:visible';
+      const taruh = (c, rc) => { c.style.cssText += ';position:absolute;left:' + (rc.left - sr.left) + 'px;top:' + (rc.top - sr.top) + 'px;width:' + rc.width + 'px;height:' + rc.height + 'px;margin:0;flex:none;visibility:visible'; ov.append(c); };
+      taruh(cA, rA); taruh(cB, rB);
+      const peta = (c) => { const mm = new Map(); c.querySelectorAll('.bd-t[data-id]').forEach((e) => mm.set(e.dataset.id, e)); c.querySelectorAll('.bd-l').forEach((ln) => { ln.style.opacity = 1; }); return mm; };
+      const eLo = peta(cLo), eHi = peta(cHi);
+      /* kepekatan tiap token = kepekatan barisnya; baris tiruan dibuat penuh agar kepekatan bisa dianimasikan langsung pada token */
+      eLo.forEach((e, id) => { e.style.opacity = lo.get(id).op; }); eHi.forEach((e, id) => { e.style.opacity = hi.get(id).op; });
+      const A_ = (e, prop, v0, v1, s0, t0) => {   /* satu properti, dari v0 ke v1 pada jendela waktu [s0, t0] dalam jalur 0..1 */
+        const kf = [{ offset: 0, [prop]: v0, easing: s0 > 0 ? 'linear' : EASE }]; if (s0 > 0) kf.push({ offset: s0, [prop]: v0, easing: EASE });
+        kf.push({ offset: t0, [prop]: v1, easing: 'linear' }); if (t0 < 1) kf.push({ offset: 1, [prop]: v1 });
+        let a; try { a = e.animate(kf, { duration: T, fill: 'both', easing: 'linear' }); } catch (x) { return null; } a.pause(); anims.push(a); return a;
+      };
+      const tr = (dx, dy) => 'translate(' + dx.toFixed(2) + 'px,' + dy.toFixed(2) + 'px)', NOL = 'translate(0px,0px)';
+      const KELUAR = [0, .38], GESER = [.16, .8], MASUK = [.52, 1]; let n = 0;
+      new Set([...lo.keys(), ...hi.keys()]).forEach((id) => {
+        const L = lo.get(id), H = hi.get(id), a = eLo.get(id), b = eHi.get(id);
+        if (L && !H) { A_(a, 'opacity', L.op, 0, KELUAR[0], KELUAR[1]); return; }
+        if (!L && H) {
+          const src = H.dari && lo.get(H.dari);
+          if (src) { A_(b, 'transform', tr(src.x - H.x, src.y - H.y), NOL, .1, .84); A_(b, 'opacity', 0, H.op, .1, .38); }   /* salinan terbang dari token sumbernya */
+          else { const k = Math.min(.16, n++ * .05), s0 = MASUK[0] + k * .5; A_(b, 'opacity', 0, H.op, s0, MASUK[1]); A_(b, 'transform', 'translateY(.45rem)', 'translateY(0rem)', s0, MASUK[1]); }
+          return;
+        }
+        const dx = L.x - H.x, dy = L.y - H.y, mirip = Math.abs(L.fs / H.fs - 1) < .06;
+        if (!mirip) { A_(a, 'opacity', L.op, 0, KELUAR[0], KELUAR[1]); A_(b, 'opacity', 0, H.op, MASUK[0], MASUK[1]); return; }   /* ukuran berbeda: bertukar di tempat, tanpa mengecil atau membesar */
+        if (L.sig === H.sig) {
+          a.style.opacity = 0;
+          if (Math.abs(dx) > .5 || Math.abs(dy) > .5) A_(b, 'transform', tr(dx, dy), NOL, GESER[0], GESER[1]);
+          if (L.c !== H.c) A_(b, 'color', L.c, H.c, GESER[0], GESER[1]);
+          if (Math.abs(L.op - H.op) > .01) A_(b, 'opacity', L.op, H.op, GESER[0], GESER[1]);
+        } else {   /* isi berganti: isi lama bergeser ke tempat baru sambil memudar, isi baru bergeser dari tempat lama sambil muncul */
+          if (Math.abs(dx) > .5 || Math.abs(dy) > .5) { A_(a, 'transform', NOL, tr(-dx, -dy), GESER[0], GESER[1]); A_(b, 'transform', tr(dx, dy), NOL, GESER[0], GESER[1]); }
+          A_(a, 'opacity', L.op, 0, .3, .56); A_(b, 'opacity', 0, H.op, .4, .66);
+        }
       });
-      lama.forEach((w, id) => { if (sdh.has(id)) return; const tgt = w.dari && r.querySelector('[data-id="' + w.dari + '"]'); if (tgt) { const tr = tgt.getBoundingClientRect(), g0 = el('span', { kelas: w.cls + ' bd-hantu', html: w.html, gaya: 'position:absolute;left:' + (w.r.left - rr.left) + 'px;top:' + (w.r.top - rr.top) + 'px;margin:0;pointer-events:none;white-space:nowrap;color:' + w.c }); r.append(g0); job.push(A(g0, [{ transform: 'none', opacity: 1 }, { transform: 'translate(' + (tr.left - w.r.left) + 'px,' + (tr.top - w.r.top) + 'px)', opacity: 0 }], { duration: dur, fill: 'both' }).then(() => g0.remove())); return; } const g = el('span', { kelas: w.cls + ' bd-hantu', html: w.html, gaya: 'position:absolute;left:' + (w.r.left - rr.left) + 'px;top:' + (w.r.top - rr.top) + 'px;margin:0;pointer-events:none;white-space:nowrap;color:' + w.c }); r.append(g); job.push(A(g, [{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(-.5rem) scale(.9)' }], { duration: dur * .6, fill: 'both' }).then(() => g.remove())); });
-      await Promise.all(job);
+      const id = ++this.animId; this.ov = ov; r.style.visibility = 'hidden'; stage.append(ov);
+      anims.forEach((a) => { a.currentTime = mundur ? T : 0; a.playbackRate = mundur ? -1 : 1; a.play(); });
+      await Promise.all(anims.map((a) => a.finished.catch(() => {})));
+      if (id !== this.animId || this.ov !== ov) return;
+      ov.remove(); this.ov = null; r.style.visibility = '';
+      if (!mundur) r.querySelectorAll('.bd-t[data-hl]').forEach((e) => { try { e.animate([{ filter: 'drop-shadow(0 0 0 rgba(255,201,74,0))' }, { filter: 'drop-shadow(0 0 .32em rgba(255,201,74,.95))', offset: .4 }, { filter: 'drop-shadow(0 0 0 rgba(255,201,74,0))' }], { duration: 800 / spd(), easing: 'ease-in-out' }); } catch (x) { /* abaikan */ } });
     }
   }
 
@@ -256,16 +283,14 @@
     async function ke_(m, opt) {
       opt = opt || {}; const id = ++jalanId; cancelAnimationFrame(raf); const dari = Gnow, ke = m.g || (dari ? { v: dari.v, ax: 0, grid: 0, items: {}, angka: dari.angka } : null);
       const ms = (opt.ms || m.ms || 1300), instan = !!opt.instan;
-      const rekaman = pp.rekam();
-      stage.className = 'ad-stage m-' + (m.g ? (m.mode || 'split') : 'papan'); tanyaEl.innerHTML = m.ket ? Mat.h(m.ket) : '';
-      const pr = pp.tampil(m.b, { ms, instan, mundur: opt.mundur, rekaman });
+      const pr = pp.tampil(m.b, { ms, instan, mundur: opt.mundur, sebelumBangun: () => { stage.className = 'ad-stage m-' + (m.g ? (m.mode || 'split') : 'papan'); tanyaEl.innerHTML = m.ket ? Mat.h(m.ket) : ''; } });
       if (instan || !dari && !ke) { Gnow = ke ? salin(ke) : null; kv.render(Gnow); await pr; return; }
       const t0 = performance.now(), dur = ms / spd(); sibuk = true;
       await new Promise((res) => { const f = (t) => { if (id !== jalanId) return res(); const k = clamp((t - t0) / dur, 0, 1); Gnow = campurG(dari, ke, k, !!opt.mundur); if (k >= 1) Gnow = salin(ke); kv.render(Gnow); if (k < 1) raf = requestAnimationFrame(f); else res(); }; raf = requestAnimationFrame(f); });
       if (id === jalanId) { sibuk = false; await pr; }
     }
     /* campurG memakai kemajuan k yang belum diperhalus supaya jeda per butir (d) bekerja; zoom diperhalus di dalamnya */
-    const kePos = async (cc, bb, opt) => { opt = Object.assign({}, opt || {}); if (BAB[cc].potong) opt.instan = true; c = cc; b = clamp(bb, 1, jml(cc)); const m = model(c, b); ui(); await ke_(m, opt); sibuk = false; if (b >= jml(c)) { played.add(c); if (o.saatMain) o.saatMain([...played]); } if (o.saatLangkah) o.saatLangkah(c); kirimPos(); ui(); };
+    const kePos = async (cc, bb, opt) => { opt = Object.assign({}, opt || {}); const asal = { c, b }; if (BAB[cc].potong || BAB[asal.c].potong) opt.instan = true; opt.mundur = urut({ c: cc, b: clamp(bb, 1, jml(cc)) }) < urut(asal); if (opt.mundur) opt.ms = (model(asal.c, asal.b) || {}).ms; c = cc; b = clamp(bb, 1, jml(cc)); const m = model(c, b); ui(); await ke_(m, opt); sibuk = false; if (b >= jml(c)) { played.add(c); if (o.saatMain) o.saatMain([...played]); } if (o.saatLangkah) o.saatLangkah(c); kirimPos(); ui(); };
     async function lanjut() { if (!guru && o.ambilPosisi && guruPos && urut({ c, b }) >= urut(guruPos) && !(c === BAB.length - 1 && b >= jml(c) && urut(guruPos) >= urut({ c, b }))) return; if (b < jml(c)) return kePos(c, b + 1); if (c < BAB.length - 1) return kePos(c + 1, 1); if (o.saatSelesai) o.saatSelesai(); }
     async function mundur() { if (b > 1) return kePos(c, b - 1, { mundur: true }); if (c > 0) return kePos(c - 1, jml(c - 1), { mundur: true }); }
     async function ulang() { const cc = c, bb = b; if (bb > 1) await kePos(cc, bb - 1, { instan: true }); else if (cc > 0) await kePos(cc - 1, jml(cc - 1), { instan: true }); else await ke_(kosong, { instan: true }); await kePos(cc, bb); }
