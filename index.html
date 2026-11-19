@@ -930,6 +930,69 @@ h1, h2, h3, h4 { font-weight: 700; letter-spacing: -.02em; }
 .bd-t.sup { margin-left: -.16em; }
 .ad-tutup { display: flex; gap: .5rem; background: none !important; border: 0 !important; box-shadow: none !important; padding: 0 !important; color: inherit !important; }
 .ad-tutup .btn.sekunder { background: rgba(244,247,255,.1) !important; color: #E3E9F8 !important; border-color: rgba(255,255,255,.2) !important; }
+
+/* Mode LKPD (XII-D): pilih pertemuan, dasbor, input jawaban, hasil. Tablet mendatar. */
+.lk-wrap { position: absolute; inset: 0; display: flex; flex-direction: column; min-height: 0; }
+.lk-pilih { align-items: center; justify-content: center; text-align: center; }
+.lk-pertemuan { display: grid; grid-template-columns: repeat(2, minmax(0, 24rem)); gap: 1.2rem; }
+.lk-kartu-p { display: flex; align-items: center; gap: 1rem; text-align: left; padding: 1.4rem 1.4rem; border-radius: 1.4rem; border: .14rem solid var(--garis-2); background: #fff; box-shadow: var(--bayang); cursor: pointer; font: inherit; color: var(--tinta); }
+.lk-kartu-p.aktif { border-color: var(--navy-800); background: linear-gradient(180deg, #fff, var(--navy-100)); } .lk-kartu-p.aktif:active { transform: scale(.98); }
+.lk-kartu-p.terkunci { opacity: .6; cursor: not-allowed; background: #F4F6FB; box-shadow: none; }
+.lk-no { flex: none; display: grid; place-items: center; width: 3.6rem; height: 3.6rem; border-radius: 1rem; background: var(--navy-800); color: var(--emas-m); font: 700 2rem var(--tampil); }
+.lk-kartu-p.terkunci .lk-no { background: #9AA6C0; color: #fff; }
+.lk-p-isi { flex: 1; display: flex; flex-direction: column; gap: .15rem; } .lk-p-isi b { font: 700 1.5rem var(--tampil); } .lk-p-isi span { font-weight: 600; } .lk-p-isi small { color: var(--tinta-3); font-size: .9rem; }
+
+/* dasbor */
+.lk-dasbor { display: grid; grid-template-columns: minmax(0, 1fr) 21rem; gap: 1.1rem; padding: .2rem 0; }
+.lk-kiri { display: flex; flex-direction: column; gap: .9rem; min-height: 0; padding: .2rem .5rem .6rem .1rem; }
+.lk-kanan { display: flex; flex-direction: column; gap: .8rem; min-height: 0; padding: 1rem 1.1rem; border-radius: 1.4rem; background: linear-gradient(160deg, var(--navy-800), var(--navy-700)); color: #E9EEF9; box-shadow: var(--bayang); }
+.lk-sapa h2 { margin: .1rem 0 .1rem; color: #fff; font-size: 1.7rem; } .lk-sapa p { margin: 0; color: #C9D4EC; } .lk-sapa .eyebrow { color: var(--emas-m); }
+.lk-langkah ol { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap: .2rem; font-size: .92rem; color: #D3DCF0; }
+.lk-tombol { display: flex; align-items: center; justify-content: flex-start; gap: .8rem; text-align: left; min-height: 4.4rem; padding: .7rem 1rem; width: 100%; }
+.lk-tombol span { display: flex; flex-direction: column; line-height: 1.15; } .lk-tombol b { font-size: 1.2rem; } .lk-tombol small { font-weight: 600; opacity: .85; font-size: .85rem; }
+.lk-tombol .ik.besar { width: 2rem; height: 2rem; flex: none; }
+.lk-kartu { padding: 1rem 1.2rem; display: flex; flex-direction: column; gap: .5rem; }
+.lk-kepala { display: flex; justify-content: space-between; align-items: flex-start; } .lk-kepala h3 { margin: .1rem 0 0; font-size: 1.2rem; display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
+.lk-hasilku { border-color: var(--mint); background: linear-gradient(180deg, #fff, #F2FBF6); }
+.lk-nomor-hasil { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .5rem; }
+.lk-no-h { display: flex; align-items: center; justify-content: center; gap: .3rem; padding: .35rem .3rem; border-radius: .8rem; border: .12rem solid; font-weight: 700; } .lk-no-h b { font: 700 1.2rem var(--tampil); } .lk-no-h span { font-size: .85rem; } .lk-no-h .ik { width: 1rem; height: 1rem; }
+.lk-no-h.benar { background: var(--mint-100); border-color: var(--mint); color: var(--mint-800); } .lk-no-h.salah { background: var(--koral-100); border-color: var(--koral); color: var(--koral-800); }
+.lk-ulang { margin: .1rem 0 0; font-weight: 600; }
+.lk-rank, .lk-t { display: flex; align-items: center; gap: .7rem; padding: .35rem .6rem; border-radius: .8rem; } .lk-rank:nth-child(odd) { background: #F6F8FC; }
+.lk-rank.saya, .lk-t.saya { background: var(--emas-p); box-shadow: inset 0 0 0 .1rem #F0D58C; }
+.lk-rk { flex: none; display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 50%; background: var(--navy-100); color: var(--navy-800); font: 700 1rem var(--tampil); } .lk-rk.r1 { background: #F2B134; color: #3A2500; } .lk-rk.r2 { background: #C9D2E3; color: #1F2C40; } .lk-rk.r3 { background: #E3B58A; color: #4A2A0B; }
+.lk-nama { flex: 1; min-width: 0; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .lk-nama em { font-style: normal; color: var(--tinta-3); font-weight: 500; }
+.lk-rank b, .lk-t b { font: 700 1.2rem var(--tampil); } .lk-rank small { font-size: .8rem; color: var(--tinta-3); }
+.lk-titik { text-align: center; color: var(--tinta-3); letter-spacing: .4em; }
+.lk-teman { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .3rem .8rem; } .lk-t { background: #F6F8FC; }
+.lk-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .6rem; }
+.lk-stat { padding: .6rem .8rem; border-radius: 1rem; background: var(--tt, #F3F5FA); border: .1rem solid var(--garis); display: flex; flex-direction: column; } .lk-stat small { font-size: .74rem; font-weight: 700; color: var(--tinta-3); letter-spacing: .04em; } .lk-stat b { font: 700 1.7rem var(--tampil); line-height: 1.1; } .lk-stat b small { font-size: .9rem; color: var(--tinta-3); font-weight: 600; }
+.lk-akur-judul { font-size: .8rem; font-weight: 700; color: var(--tinta-3); margin-top: .5rem; letter-spacing: .03em; }
+.lk-sebar, .lk-akur { display: grid; gap: .3rem; align-items: end; height: 5.4rem; } .lk-sebar { grid-template-columns: repeat(11, minmax(0, 1fr)); } .lk-akur { grid-template-columns: repeat(10, minmax(0, 1fr)); }
+.lk-b, .lk-a { position: relative; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; } .lk-b i, .lk-a i { display: block; width: 100%; border-radius: .3rem .3rem 0 0; background: var(--navy-700); min-height: .15rem; } .lk-a i.tinggi { background: var(--mint); } .lk-a i.sedang { background: #E0AE4A; } .lk-a i.rendah { background: var(--merah); }
+.lk-b em, .lk-a em { position: absolute; top: -.1rem; font-style: normal; font-size: .72rem; font-weight: 700; color: var(--tinta-3); } .lk-b span, .lk-a span { font-size: .75rem; font-weight: 700; color: var(--tinta-2); margin-top: .1rem; }
+.lk-b i { position: relative; } .lk-b { padding-top: 1rem; } .lk-a { padding-top: 1rem; }
+
+/* input jawaban */
+.lk-input { padding: .2rem 0 0; } .lk-atas { margin-bottom: .1rem; }
+.lk-input-grid { flex: 1; min-height: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .9rem; align-content: start; }
+.lk-kol { display: flex; flex-direction: column; gap: .8rem; min-height: 0; }
+.lk-bagian { padding: .6rem .9rem .7rem; display: flex; flex-direction: column; gap: .45rem; border-left: .35rem solid var(--t, var(--navy-800)); }
+.lk-b-kepala { display: flex; gap: .6rem; align-items: baseline; flex-wrap: wrap; } .lk-b-kepala b { font: 700 1.05rem var(--tampil); } .lk-b-kepala span { color: var(--tinta-3); font-weight: 600; font-size: .9rem; }
+.lk-baris { display: flex; align-items: center; gap: .55rem; }
+.lk-n { flex: none; display: grid; place-items: center; width: 2.2rem; height: 2.2rem; border-radius: 50%; background: var(--navy-800); color: var(--emas-m); font: 700 1rem var(--tampil); }
+.lk-opsi { flex: 1; min-height: 3rem; border-radius: .9rem; border: .13rem solid var(--garis-2); background: #fff; font: 700 1.25rem var(--tampil); color: var(--navy-800); cursor: pointer; box-shadow: 0 .15rem 0 var(--garis-2); touch-action: manipulation; transition: transform .1s, background .12s; }
+.lk-opsi:active { transform: scale(.94); }
+.lk-opsi.pilih { background: var(--navy-800); border-color: var(--navy-950); color: var(--emas-m); box-shadow: 0 .15rem 0 var(--navy-950), 0 0 0 .22rem rgba(15,31,68,.16); }
+.lk-bawah { padding: .5rem 0 .1rem; }
+
+/* hasil */
+.lk-hasil .lk-topik { display: flex; flex-direction: column; gap: .35rem; } .lk-tp { display: flex; justify-content: space-between; padding: .4rem .8rem; border-radius: .8rem; background: var(--koral-100); color: var(--koral-800); font-weight: 700; } .lk-tp.ok { background: var(--mint-100); color: var(--mint-800); }
+.lk-hasil .lk-nomor-hasil { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .6rem; } .lk-hasil .lk-no-h { flex-direction: column; padding: .6rem .2rem; gap: .1rem; } .lk-hasil .lk-no-h b { font-size: 1.7rem; }
+
+@media (max-height: 640px) { .lk-opsi { min-height: 2.6rem; } .lk-bagian { padding: .45rem .8rem .5rem; } .lk-kol { gap: .6rem; } .lk-n { width: 1.9rem; height: 1.9rem; } .lk-kanan { padding: .8rem .9rem; } .lk-tombol { min-height: 3.8rem; } .lk-sebar, .lk-akur { height: 4.2rem; } }
+.lk-kanan .btn.mati { opacity: 1; background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.22); color: #D3DCF0; box-shadow: none; cursor: default; }
+.lk-opsi { min-height: 3.4rem; } @media (max-height: 640px) { .lk-opsi { min-height: 3rem; } }
 </style>
 </head>
 <body>
@@ -1290,7 +1353,41 @@ h1, h2, h3, h4 { font-weight: 700; letter-spacing: -.02em; }
       "YELSI BALALEMBANG",
       "ZAHRAH IZZAH RAMADHANI"
     ],
-    xiid: buat('SISWA D', 21),
+    xiid: [
+      "AFNAN NABILA",
+      "AGNYA SYAHIRA",
+      "AINUN PERTIWI",
+      "ALEXANDRA TATSBITA ARDININGRUM",
+      "AMIRA ZHARA HAMIDAH",
+      "ANNISA DELVIANA JASMINE",
+      "AQILA ADHA RABITA",
+      "ARKANA SANTAYANA GANI",
+      "AURORA ESTELINA EDLEHEIT DJURUMUDI",
+      "BLESSA NATALIE EARLY KAKAMBONG",
+      "CALYA NIKESHA SURYA PUTRI",
+      "DIANDRA DAVINA PRAMESWARI",
+      "FADLAN NOFRIANSYAH",
+      "KALISHA SUCI RAIHANA",
+      "KANZA LATIFA RABBANI",
+      "KHAIFA SYIRA INAYA",
+      "KHALUNA HAURA WIBOWO",
+      "MUHAMMAD AFIIF FADHLILLAH",
+      "MUHAMMAD AGIL YAHYA",
+      "NASYA ANNAYA RAFIFA",
+      "NINDIRA HALIMATUS SA'DIYAH",
+      "NISRINA NAJLA AULIA YUFAWIJAYA",
+      "OLIVIA NEISIA LIMONDOW",
+      "PRINCESS WILFA PHOEBE HUTAURUK",
+      "RAFIE NAUFAL SANDI",
+      "SALSABILLA ATHAYA RYENDA PUTRI",
+      "SAYYIDIL HASANI ABDILLAH",
+      "SYARIF RAHMADANI",
+      "SYAUQI GHAZI AR RAYYAN",
+      "TIARA MUTMAINNA",
+      "VEGI JETRIA BELA",
+      "VIOLENEN ANABELLE TANDI PAYUNG",
+      "ZAKIYYAH WIJAYANTI"
+    ],
     ujim: buat('SISWA UJI', 21)
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = DAFTAR_KELAS; else root.DAFTAR_KELAS = DAFTAR_KELAS;
@@ -1333,7 +1430,7 @@ h1, h2, h3, h4 { font-weight: 700; letter-spacing: -.02em; }
     xiib: KJ('xiib', 'XII-B Teknik', 'Teknik'),
     xiic: KJ('xiic', 'XII-C Kesehatan', 'Kesehatan'),
     /* XII-D: dasar integral tentu (dua pertemuan) — materi disiapkan kemudian; kelas sudah terdaftar untuk guru */
-    xiid: KJ('xiid', 'XII-D Soshum', 'Soshum', { materi: 'dasar', siap: false }),
+    xiid: KJ('xiid', 'XII-D Soshum', 'Soshum', { materi: 'dasar', siap: true, mode: 'lkpd', jigsaw: false }),
     /* kelas uji tersembunyi: kelompok disusun guru (menguji mode manual) */
     ujim: KJ('ujim', 'Kelas uji (manual)', 'Uji', { manual: true, tampil: false })
   };
@@ -2915,6 +3012,149 @@ h1, h2, h3, h4 { font-weight: 700; letter-spacing: -.02em; }
 })(window);
 
 ;
+/* Mode LKPD (XII-D soshum): pilih pertemuan → dasbor (peringkat, teman sekelas, statistik, unduh LKPD, input jawaban) → input jawaban tiket keluar
+   (tinggal ketuk A–E) → hasil dengan perayaan. Kunci jawaban hanya di server: tablet hanya mengirim huruf dan menerima hasilnya.
+   Aksi server: l-status, l-unduh, l-kirim (lihat api/app.js). */
+(function (root) {
+  'use strict';
+  const { el, ik, esc } = UI, HURUF = 'ABCDE';
+  const BAGIAN = [{ judul: 'Integral tentu', sub: 'Hitung integral tanpa grafik', dari: 1, sampai: 5, warna: 'garis' }, { judul: 'Bentuk integral dari grafik', sub: 'Pilih bentuk integral untuk daerah arsiran', dari: 6, sampai: 8, warna: 'parab' }, { judul: 'Luas dari grafik', sub: 'Hitung luas daerah arsiran', dari: 9, sampai: 10, warna: 'potong' }];
+  const bagianDari = (no) => BAGIAN.find((b) => no >= b.dari && no <= b.sampai);
+  let E = null, S = null, tmr = null, sedangKirim = false;
+  const nm1 = (n) => String(n).split(/\s+/)[0];
+  const draf = { get: () => { try { const v = JSON.parse(localStorage.getItem('ac_lkpd_draf_' + E.idx())); return Array.isArray(v) && v.length === 10 ? v.map((x) => (Number.isInteger(x) && x >= 0 && x <= 4 ? x : null)) : Array(10).fill(null); } catch (e) { return Array(10).fill(null); } }, set: (a) => { try { localStorage.setItem('ac_lkpd_draf_' + E.idx(), JSON.stringify(a)); } catch (e) { /* abaikan */ } }, hapus: () => { try { localStorage.removeItem('ac_lkpd_draf_' + E.idx()); } catch (e) { /* abaikan */ } } };
+  const kirimApi = (a, d) => E.api(a, Object.assign({ idx: E.idx() }, d || {}));
+  const hentikan = () => { clearInterval(tmr); tmr = null; };
+  const f1 = (v) => (v == null ? '–' : (Math.round(v * 10) / 10).toString().replace('.', ','));
+  const motivasi = (s) => (s >= 10 ? ['Sempurna!', 'Semua jawabanmu benar. Kerja yang sangat rapi.'] : (s >= 8 ? ['Luar biasa!', 'Tinggal sedikit lagi menuju sempurna. Lihat nomor yang masih salah.'] : (s >= 6 ? ['Bagus sekali!', 'Kamu sudah di jalur yang tepat. Perbaiki bagian yang masih salah.'] : (s >= 4 ? ['Terus berlatih, ya!', 'Setiap latihan membuatmu makin lancar. Tanyakan bagian yang sulit ke gurumu.'] : ['Terima kasih sudah berusaha!', 'Tidak apa-apa. Bagian yang belum paham bisa kita bahas bersama gurumu.']))));
+  const ringkasTopik = (saya) => BAGIAN.map((b) => { let ben = 0, tot = 0; for (let n = b.dari; n <= b.sampai; n++) { tot++; if (saya.benar && saya.benar[n - 1]) ben++; } return { b, ben, tot }; });
+
+  /* ---------------------------------------------------------------- jaringan */
+  async function muat() {
+    const r = await kirimApi('l-status');
+    if (r._s === 403) { hentikan(); await UI.info('Namamu belum dikenali server', '<div class="tengah"><p>Minta gurumu mengatur ulang namamu, lalu masuk lagi.</p></div>', 'Mengerti', { ikon: ik('kunci', 'besar') }); return null; }
+    if (r.ok) { S = r; return r; }
+    return null;
+  }
+
+  /* ---------------------------------------------------------------- 1. pilih pertemuan */
+  function sPertemuan() {
+    hentikan(); E.bawahKosong(); E.gambarAtas();
+    const w = el('div', { kelas: 'lk-wrap lk-pilih' }); E.layar(w, 'tengah-layar');
+    w.append(el('div', { kelas: 'eyebrow', gaya: 'justify-content:center' }, 'XII-D · Integral tentu'), el('h2', { gaya: 'margin:.1rem 0 .3rem' }, 'Pilih pertemuan'), el('p', { kelas: 'muted', gaya: 'margin:0 0 1.2rem;font-size:1.1rem' }, 'Mulai dari Pertemuan 1.'));
+    const grid = el('div', { kelas: 'lk-pertemuan' }); w.append(grid);
+    grid.append(el('button', { kelas: 'lk-kartu-p aktif', type: 'button', onclick: sDasbor, html: '<span class="lk-no">1</span><span class="lk-p-isi"><b>Pertemuan 1</b><span>Integral tentu dan luas di bawah kurva</span><small>Hitung integral tentu, lalu baca grafik daerah arsiran</small></span>' + ik('panah', 'besar') }),
+      el('div', { kelas: 'lk-kartu-p terkunci', 'aria-disabled': 'true', html: '<span class="lk-no">2</span><span class="lk-p-isi"><b>Pertemuan 2</b><span>Luas daerah di antara dua kurva</span><small>Dibuka oleh gurumu setelah Pertemuan 1</small></span><span class="chip abu">' + ik('gembok', 'kecil') + 'Segera</span>' }));
+  }
+
+  /* ---------------------------------------------------------------- 2. dasbor */
+  const stat = (label, nilai, sub, f) => '<div class="lk-stat fx-' + f + '"><small>' + label + '</small><b>' + nilai + '</b>' + (sub ? '<span>' + sub + '</span>' : '') + '</div>';
+  function kartuHasilku(saya) {
+    const t = ringkasTopik(saya), salah = t.filter((x) => x.ben < x.tot), ulang = salah.length ? 'Perlu diulang: ' + salah.map((x) => '<b>' + esc(x.b.judul) + '</b> (' + x.ben + '/' + x.tot + ')').join(', ') + '.' : 'Semua bagian sudah benar.';
+    const cip = saya.benar.map((ok, i) => '<div class="lk-no-h ' + (ok ? 'benar' : 'salah') + '"><b>' + (i + 1) + '</b>' + ik(ok ? 'centang' : 'silang', 'kecil') + '<span>' + (ok ? HURUF[saya.jawab[i]] : HURUF[saya.jawab[i]] + ' → ' + HURUF[saya.kunci[i]]) + '</span></div>').join('');
+    return '<section class="kartu lk-kartu lk-hasilku"><div class="lk-kepala"><div><div class="eyebrow">Hasilku · tiket keluar</div><h3>' + saya.skor + ' dari 10 benar <span class="chip ok">Nilai ' + saya.nilai + '</span></h3></div></div><div class="lk-nomor-hasil">' + cip + '</div><p class="lk-ulang">' + ulang + '</p><p class="kecil muted" style="margin:.2rem 0 0">Pada nomor yang salah: huruf pertama = jawabanmu, huruf kedua = jawaban yang benar.</p></section>';
+  }
+  function kartuPeringkat(p) {
+    if (!p || !p.top || !p.top.length) return '<section class="kartu lk-kartu"><div class="lk-kepala"><div><div class="eyebrow">Peringkat</div><h3>Belum ada yang mengumpulkan</h3></div></div><p class="muted" style="margin:0">Peringkat muncul setelah ada teman yang mengumpulkan tiket keluar.</p></section>';
+    const baris = (x) => '<div class="lk-rank' + (x.saya ? ' saya' : '') + '"><span class="lk-rk r' + Math.min(x.rank, 4) + '">' + x.rank + '</span><span class="lk-nama">' + esc(x.nama) + (x.saya ? ' <em>(kamu)</em>' : '') + '</span><b>' + x.skor + '<small>/10</small></b></div>';
+    const adaSaya = p.top.some((x) => x.saya);
+    return '<section class="kartu lk-kartu"><div class="lk-kepala"><div><div class="eyebrow">Peringkat · ' + p.jumlah + ' sudah mengumpulkan</div><h3>5 skor tertinggi</h3></div></div>' + p.top.map(baris).join('') + (!adaSaya && p.rankSaya ? '<div class="lk-titik">· · ·</div>' + baris({ rank: p.rankSaya, nama: nm1(E.nama()) , skor: S.saya.skor, saya: true }) : '') + '</section>';
+  }
+  function kartuTeman(teman) {
+    const isi = teman && teman.length ? '<div class="lk-teman">' + teman.map((x) => '<div class="lk-t' + (x.saya ? ' saya' : '') + '"><span class="lk-nama">' + esc(x.nama) + (x.saya ? ' <em>(kamu)</em>' : '') + '</span><b>' + x.skor + '/10</b></div>').join('') + '</div>' : '<p class="muted" style="margin:0">Belum ada teman yang mengumpulkan. Daftarnya muncul di sini begitu ada yang selesai.</p>';
+    return '<section class="kartu lk-kartu"><div class="lk-kepala"><div><div class="eyebrow">Teman sekelas</div><h3>Hasil teman yang sudah mengumpulkan</h3></div></div>' + isi + '</section>';
+  }
+  function kartuStatistik(k) {
+    const maks = Math.max(1, ...(k.sebaran || [0])), batang = (k.sebaran || Array(11).fill(0)).map((n, s) => '<div class="lk-b"><i style="height:' + Math.round(100 * n / maks) + '%"></i><em>' + (n || '') + '</em><span>' + s + '</span></div>').join('');
+    const akur = k.akurasi ? '<div class="lk-akur-judul">Persen benar tiap nomor (seluruh kelas)</div><div class="lk-akur">' + k.akurasi.map((a, i) => '<div class="lk-a"><i style="height:' + Math.max(4, a) + '%" class="' + (a >= 70 ? 'tinggi' : (a >= 40 ? 'sedang' : 'rendah')) + '"></i><em>' + a + '</em><span>' + (i + 1) + '</span></div>').join('') + '</div>' : '';
+    return '<section class="kartu lk-kartu"><div class="lk-kepala"><div><div class="eyebrow">Statistik pengerjaan</div><h3>Bagaimana kelas mengerjakan</h3></div></div><div class="lk-stats">' + stat('Sudah unduh LKPD', k.unduh + '<small>/' + k.total + '</small>', '', 'garis') + stat('Sudah mengumpulkan', k.kirim + '<small>/' + k.total + '</small>', '', 'bawah') + stat('Skor rata-rata', f1(k.rata) + '<small>/10</small>', '', 'potong') + stat('Skor tertinggi', (k.tertinggi == null ? '–' : k.tertinggi) + '<small>/10</small>', '', 'parab') + '</div>' + (k.kirim ? '<div class="lk-akur-judul">Sebaran skor (jumlah murid per skor)</div><div class="lk-sebar">' + batang + '</div>' + akur : '<p class="muted" style="margin:.6rem 0 0">Grafik sebaran skor muncul setelah ada yang mengumpulkan.</p>') + '</section>';
+  }
+  async function sDasbor() {
+    hentikan(); E.bawahKosong(); E.gambarAtas();
+    const w = el('div', { kelas: 'lk-wrap lk-dasbor', id: 'lk-dasbor' }), kiri = el('div', { kelas: 'lk-kiri gulir' }), kanan = el('aside', { kelas: 'lk-kanan' }); w.append(kiri, kanan); E.layar(w);
+    let tanda = '';
+    const gambar = () => {
+      const s = S.saya, nama = nm1(E.nama());
+      kanan.innerHTML = '';
+      kanan.append(el('div', { kelas: 'lk-sapa', html: '<div class="eyebrow">Pertemuan 1</div><h2>Halo, ' + esc(nama) + '!</h2><p>Integral tentu dan luas di bawah kurva</p>' }),
+        el('div', { kelas: 'lk-langkah', html: '<ol><li>Unduh LKPD-mu dan ikuti arahan guru.</li><li>Kerjakan tiket keluar di lembar jawab.</li><li>Kembali ke sini, lalu ketuk jawabanmu.</li></ol>' }),
+        el('button', { kelas: 'btn besar sorot lk-tombol', type: 'button', html: ik('buku', 'besar') + '<span><b>Unduh LKPD-mu</b><small>Berkas PDF khusus untukmu</small></span>', onclick: unduh }),
+        el('button', { kelas: 'btn besar lk-tombol' + (s.terkirim ? ' mati' : ' hijau'), type: 'button', disabled: s.terkirim, html: (s.terkirim ? ik('centang', 'besar') + '<span><b>Sudah dikirim</b><small>Jawaban hanya bisa dikirim satu kali</small></span>' : ik('pensil', 'besar') + '<span><b>Input jawabanmu</b><small>Ketuk huruf jawaban tiap nomor</small></span>'), onclick: () => { if (!s.terkirim) sInput(); } }),
+        el('button', { kelas: 'btn sekunder kecil', type: 'button', gaya: 'align-self:flex-start;margin-top:auto', html: ik('kembali', 'kecil') + 'Pilih pertemuan', onclick: sPertemuan }));
+      kiri.innerHTML = (s.terkirim ? kartuHasilku(s) : '') + kartuPeringkat(S.peringkat) + kartuTeman(S.teman) + kartuStatistik(S.kelas);
+    };
+    const segar = async (diam) => { if (!w.isConnected) return hentikan(); const r = await muat(); if (!r) { if (!diam) UI.toast('Belum terhubung ke server', 'awas'); return; } const t = JSON.stringify(r); if (t !== tanda) { tanda = t; const g = kiri.scrollTop; gambar(); kiri.scrollTop = g; } };
+    if (!S) { kiri.append(el('div', { kelas: 'tengah-isi', html: '<div class="spinner"></div><p class="muted">Memuat dasbor…</p>' })); }
+    else gambar();
+    await segar(false); if (!S) { kiri.innerHTML = ''; kiri.append(el('div', { kelas: 'tengah-isi' }, el('h2', null, 'Belum terhubung ke server'), el('p', { kelas: 'muted' }, 'Pastikan tabletmu tersambung internet, lalu coba lagi.'), el('button', { kelas: 'btn', type: 'button', html: ik('ulang') + 'Coba lagi', onclick: sDasbor }))); }
+    tmr = setInterval(() => segar(true), 8000);
+  }
+  async function unduh() {
+    const r = await kirimApi('l-unduh'); const url = (r && r.ok && r.berkas) || (S && S.berkas);
+    if (!url) return UI.toast('Belum terhubung ke server. Coba lagi.', 'awas');
+    const a = document.createElement('a'); a.href = url; a.target = '_blank'; a.rel = 'noopener'; a.download = 'LKPD-1-Integral-Tentu.pdf'; document.body.append(a); a.click(); a.remove();
+    UI.toast('LKPD-mu sedang diunduh', 'centang');
+    if (S) S.kelas.unduh = Math.max(S.kelas.unduh, 1);
+  }
+
+  /* ---------------------------------------------------------------- 3. input jawaban */
+  function sInput() {
+    hentikan(); E.bawahKosong(); E.gambarAtas();
+    if (S && S.saya.terkirim) { UI.toast('Jawabanmu sudah dikirim', 'info'); return sDasbor(); }
+    let jawab = draf.get();
+    const w = el('div', { kelas: 'lk-wrap lk-input' }); E.layar(w);
+    const info = el('span', { kelas: 'chip sorot' }), kirimBtn = el('button', { kelas: 'btn besar hijau', type: 'button', html: ik('kirim') + 'Kirim jawaban', onclick: kirim });
+    w.append(el('div', { kelas: 'baris lk-atas', gaya: 'justify-content:space-between' }, el('div', null, el('div', { kelas: 'eyebrow' }, 'Pertemuan 1 · Tiket keluar'), el('h2', { gaya: 'margin:0' }, 'Input jawabanmu')), el('div', { kelas: 'baris' }, info, el('button', { kelas: 'btn sekunder', type: 'button', html: ik('kembali') + 'Kembali ke dasbor', onclick: sDasbor }))),
+      el('p', { kelas: 'muted', gaya: 'margin:.1rem 0 .6rem' }, 'Ketuk satu huruf untuk tiap nomor, sesuai lembar jawabmu. Ketuk lagi untuk membatalkan.'));
+    const isi = el('div', { kelas: 'lk-input-grid' }), kol1 = el('div', { kelas: 'lk-kol' }), kol2 = el('div', { kelas: 'lk-kol' }); isi.append(kol1, kol2); w.append(isi);
+    const tombol = [];
+    BAGIAN.forEach((b, bi) => {
+      const k = el('section', { kelas: 'kartu lk-bagian fx-' + b.warna }, el('div', { kelas: 'lk-b-kepala', html: '<b>Soal ' + b.dari + (b.sampai > b.dari ? '–' + b.sampai : '') + '</b><span>' + esc(b.judul) + '</span>' }));
+      for (let n = b.dari; n <= b.sampai; n++) {
+        const baris = el('div', { kelas: 'lk-baris' }, el('span', { kelas: 'lk-n' }, n));
+        HURUF.split('').forEach((h, j) => { const t = el('button', { kelas: 'lk-opsi', type: 'button', 'aria-label': 'Nomor ' + n + ' jawaban ' + h, onclick: () => { jawab[n - 1] = jawab[n - 1] === j ? null : j; draf.set(jawab); perbarui(); } }, h); tombol[(n - 1) * 5 + j] = t; baris.append(t); });
+        k.append(baris);
+      }
+      (bi === 0 ? kol1 : kol2).append(k);
+    });
+    w.append(el('div', { kelas: 'baris lk-bawah', gaya: 'justify-content:flex-end' }, kirimBtn));
+    function perbarui() { jawab.forEach((v, i) => { for (let j = 0; j < 5; j++) tombol[i * 5 + j].classList.toggle('pilih', v === j); }); const n = jawab.filter((v) => v != null).length; info.innerHTML = ik('pensil', 'kecil') + n + ' dari 10 terisi'; kirimBtn.disabled = n < 10; kirimBtn.className = 'btn besar ' + (n < 10 ? 'mati' : 'hijau denyut'); }
+    async function kirim() {
+      if (sedangKirim || jawab.some((v) => v == null)) return;
+      const ya = await UI.konfirmasi('Yakin mengirim?', '<div class="tengah"><p style="font-size:1.25rem">Kamu akan mengirim <b>10 jawaban</b>.</p><p class="muted">Jawaban hanya bisa dikirim <b>satu kali</b> dan tidak bisa diubah. Periksa lagi kalau masih ragu.</p></div>', 'Ya, kirim', 'Cek ulang');
+      if (!ya) return;
+      sedangKirim = true; kirimBtn.disabled = true; kirimBtn.className = 'btn besar mati';
+      const r = await kirimApi('l-kirim', { jawab }); sedangKirim = false;
+      if (r.ok) { draf.hapus(); S = null; return sHasil(r); }
+      if (r._s === 409 && r.error === 'sudah') { draf.hapus(); S = null; await UI.info('Jawabanmu sudah pernah dikirim', '<div class="tengah"><p>Tiket keluar hanya bisa dikirim satu kali. Hasilmu ada di dasbor.</p></div>', 'Ke dasbor', { ikon: ik('info', 'besar') }); return sDasbor(); }
+      if (r._s === 400) UI.toast('Jawaban belum lengkap atau tidak valid', 'awas'); else if (r._s === 403) UI.toast('Namamu belum dikenali server. Hubungi guru.', 'awas'); else UI.toast('Gagal terkirim. Jawabanmu tetap tersimpan, coba lagi.', 'awas');
+      perbarui();
+    }
+    perbarui();
+  }
+
+  /* ---------------------------------------------------------------- 4. hasil + perayaan */
+  function sHasil(r) {
+    hentikan(); E.bawahKosong(); E.gambarAtas();
+    const w = el('div', { kelas: 'hasil-wrap lk-hasil' }); E.layar(w);
+    const kiri = el('div', { kelas: 'kartu hasil-skor tengah' }), kanan = el('div', { kelas: 'hasil-kanan' }); w.append(kiri, kanan);
+    const m = motivasi(r.skor), kel = 2 * Math.PI * 70;
+    kiri.innerHTML = '<div class="eyebrow" style="justify-content:center">Tiket keluar terkirim</div><h2>' + m[0] + '</h2><div class="cincin"><svg viewBox="0 0 168 168"><circle cx="84" cy="84" r="70" fill="none" stroke="#E1E6F0" stroke-width="16"/><circle id="lk-arc" cx="84" cy="84" r="70" fill="none" stroke="var(--markisa)" stroke-width="16" stroke-linecap="round" stroke-dasharray="0 ' + kel.toFixed(1) + '"/></svg><div class="pusat"><b id="lk-angka">0</b><span class="muted">dari 10</span></div></div><div class="baris" style="justify-content:center"><span class="chip ok" style="font-size:1.05rem">' + ik('centang', 'kecil') + r.skor + ' benar</span><span class="chip bad" style="font-size:1.05rem">' + ik('silang', 'kecil') + (10 - r.skor) + ' salah</span><span class="chip sorot" style="font-size:1.05rem">Nilai ' + r.nilai + '</span></div><p class="muted" style="margin:.8rem 0 0">' + m[1] + '</p>';
+    const t = ringkasTopik({ benar: r.benar }), cip = r.benar.map((ok, i) => '<div class="lk-no-h ' + (ok ? 'benar' : 'salah') + '"><b>' + (i + 1) + '</b>' + ik(ok ? 'centang' : 'silang', 'kecil') + '<span>' + (ok ? HURUF[r.jawab[i]] : HURUF[r.jawab[i]] + ' → ' + HURUF[r.kunci[i]]) + '</span></div>').join('');
+    kanan.append(el('div', { kelas: 'eyebrow' }, 'Nomor yang benar dan salah'), el('div', { kelas: 'lk-nomor-hasil', html: cip }), el('p', { kelas: 'kecil muted', gaya: 'margin:0' }, 'Pada nomor yang salah: huruf pertama = jawabanmu, huruf kedua = jawaban yang benar.'),
+      el('div', { kelas: 'lk-topik', html: t.map((x) => '<div class="lk-tp ' + (x.ben === x.tot ? 'ok' : '') + '"><span>' + esc(x.b.judul) + '</span><b>' + x.ben + '/' + x.tot + '</b></div>').join('') }),
+      el('div', { kelas: 'kolom', gaya: 'margin-top:auto' }, el('button', { kelas: 'btn besar sorot denyut', type: 'button', html: ik('kembali') + 'Kembali ke dasbor', onclick: sDasbor })));
+    setTimeout(() => E.konfeti(innerWidth / 2, innerHeight * .3, r.skor >= 8 ? 110 : 70), 500); if (r.skor >= 6) setTimeout(() => E.konfeti(innerWidth * .3, innerHeight * .35, 40), 1100);
+    const arc = document.getElementById('lk-arc'), angka = document.getElementById('lk-angka'), t0 = performance.now(), dur = 1400, target = r.skor / 10 * kel;
+    (function f(tt) { const k = Math.min(1, (tt - t0) / dur), e = 1 - Math.pow(1 - k, 3); if (!arc || !arc.isConnected) return; arc.setAttribute('stroke-dasharray', (target * e).toFixed(1) + ' ' + kel.toFixed(1)); angka.textContent = Math.round(r.skor * e); if (k < 1) requestAnimationFrame(f); })(t0);
+  }
+
+  /* e = { idx(), P(), simpan(), api(a, data), layar(isi, kelas), net(), gambarAtas(), bawahKosong(), konfeti(x, y, n), nama() } */
+  function mulai(e) { E = e; S = null; const P = E.P(); P.tahap = 'lkpd'; E.simpan(); sPertemuan(); }
+  root.Lkpd = { mulai, BAGIAN, bagianDari };
+})(window);
+
+;
 /* Area & Calculus — aplikasi siswa (tablet, landscape): luas daerah dengan integral tentu. */
 (function () {
   'use strict';
@@ -2987,7 +3227,7 @@ h1, h2, h3, h4 { font-weight: 700; letter-spacing: -.02em; }
     if (B.KELAS_TAMPIL.length === 1) { setKelas(B.KELAS_TAMPIL[0]); return sNama(); }
     kosongkanBawah(); gambarAtas();
     const w = el('div', { kelas: 'tengah-isi' }); w.append(el('div', { kelas: 'eyebrow' }, 'Langkah 1 dari 2'), el('h2', null, 'Pilih kelasmu'));
-    const kartuK = (k) => { const c = B.cfg(k); return el('button', { kelas: 'kartu-kelas' + (c.siap ? '' : ' belum'), type: 'button', gaya: 'margin-bottom:.7rem', onclick: () => { if (!c.siap) return UI.info('Materi sedang disiapkan', '<div class="tengah"><p style="font-size:1.25rem"><b>' + esc(c.nama) + '</b> memakai materi dasar integral tentu.</p><p class="muted">Materinya belum dibuka. Tunggu arahan gurumu.</p></div>', 'Mengerti', { ikon: ik('jam', 'besar') }); setKelas(k); sNama(); }, html: '<span class="ubin fx-' + ({ Teknik: 'parab', Kesehatan: 'bawah', Soshum: 'potong' }[c.program] || 'garis') + '" style="font:700 2rem var(--tampil);color:#fff">' + esc((c.nama.match(/XII-([A-Z])/) || [0, '?'])[1]) + '</span><div><div class="kelas-nama">' + esc(c.nama) + '</div><div class="muted">Matematika Tingkat Lanjut · ' + (c.siap ? 'Luas daerah di antara dua kurva' : 'Dasar integral tentu (menyusul)') + '</div></div>' + (c.siap ? ik('panah', 'besar') : '<span class="chip abu">Segera</span>') }); };
+    const kartuK = (k) => { const c = B.cfg(k); return el('button', { kelas: 'kartu-kelas' + (c.siap ? '' : ' belum'), type: 'button', gaya: 'margin-bottom:.7rem', onclick: () => { if (!c.siap) return UI.info('Materi sedang disiapkan', '<div class="tengah"><p style="font-size:1.25rem"><b>' + esc(c.nama) + '</b> memakai materi dasar integral tentu.</p><p class="muted">Materinya belum dibuka. Tunggu arahan gurumu.</p></div>', 'Mengerti', { ikon: ik('jam', 'besar') }); setKelas(k); sNama(); }, html: '<span class="ubin fx-' + ({ Teknik: 'parab', Kesehatan: 'bawah', Soshum: 'potong' }[c.program] || 'garis') + '" style="font:700 2rem var(--tampil);color:#fff">' + esc((c.nama.match(/XII-([A-Z])/) || [0, '?'])[1]) + '</span><div><div class="kelas-nama">' + esc(c.nama) + '</div><div class="muted">Matematika Tingkat Lanjut · ' + (c.siap ? (c.mode === 'lkpd' ? 'Integral tentu dan luas (LKPD)' : 'Luas daerah di antara dua kurva') : 'Dasar integral tentu (menyusul)') + '</div></div>' + (c.siap ? ik('panah', 'besar') : '<span class="chip abu">Segera</span>') }); };
     const k = el('div', null, B.KELAS_TAMPIL.map(kartuK));
     w.append(k, el('button', { kelas: 'btn sekunder', type: 'button', gaya: 'margin-top:1.4rem', html: ik('kembali') + 'Kembali', onclick: sWelcome })); layar(w, 'tengah-layar');
   }
@@ -3017,11 +3257,12 @@ h1, h2, h3, h4 { font-weight: 700; letter-spacing: -.02em; }
     if (r._s === 409) { await UI.info('Nama ini sedang dipakai', '<div class="tengah"><p>Nama <b>' + esc(nm) + '</b> sudah dipakai di perangkat lain.</p><p class="muted">Kalau itu memang kamu (misalnya tablet berganti), minta <b>guru</b> untuk mengatur ulang nama ini.</p></div>', 'Mengerti', { ikon: ik('kunci', 'besar') }); return sNama(); }
     if (r.gagal || r._s >= 500 || r._s === 503) { net = 'offline'; } else if (r.ok) { net = 'online'; }
     idx = i; lsSet(kunciAk(), i); P = lsGet(kunciP(i), null) || baruP();
+    if (B.cfg(kelas).mode === 'lkpd') { P.tahap = 'lkpd'; simpan(); gambarAtas(); mulaiPing(); return sLkpd(); }   /* kelas LKPD: tanpa tes awal dan kelompok */
     if (r.hasil && r.hasil.jawab) { P.tes.jawab = r.hasil.jawab; P.tes.selesai = true; P.tes.detik = r.hasil.detik || 0; P.terkirim = true; if (['intro', 'tes'].includes(P.tahap)) P.tahap = 'hasil'; }
     simpan(); gambarAtas(); mulaiPing(); lanjutDari();
   }
   function mulaiPing() { clearInterval(ping); if (net !== 'online') return; ping = setInterval(() => api('ping', { idx, tahap: P && P.tahap }), 20000); }
-  function lanjutDari() { if (P.tahap === 'intro') return sIntro(); if (P.tahap === 'tes') return sTes(); if (P.tahap === 'hasil') return sHasil(); if (P.tahap === 'kelompok') return sKelompok(); return sLanjut(); }
+  function lanjutDari() { if (P.tahap === 'lkpd') return sLkpd(); if (P.tahap === 'intro') return sIntro(); if (P.tahap === 'tes') return sTes(); if (P.tahap === 'hasil') return sHasil(); if (P.tahap === 'kelompok') return sKelompok(); return sLanjut(); }
 
   /* ---------------------------------------------------------------- 4. pengantar */
   async function sIntro() {
@@ -3127,6 +3368,9 @@ h1, h2, h3, h4 { font-weight: 700; letter-spacing: -.02em; }
     muat();
   }
 
+  /* ---------------------------------------------------------------- 7b. mode LKPD (XII-D) */
+  function sLkpd() { gambarAtas(); Lkpd.mulai({ idx: () => idx, P: () => P, simpan, api, layar, net: () => net, gambarAtas, bawahKosong: kosongkanBawah, konfeti, nama: () => B.nama(idx) }); }
+
   /* ---------------------------------------------------------------- 8. tahap berikutnya */
   function sLanjut() {
     gambarAtas(); Tahap2.mulai({ idx: () => idx, P: () => P, simpan, api, layar, net: () => net, cekNet: cekJaringan, gambarAtas, bawahKosong: kosongkanBawah, konfeti }); return;
@@ -3136,7 +3380,7 @@ h1, h2, h3, h4 { font-weight: 700; letter-spacing: -.02em; }
 
   /* ---------------------------------------------------------------- mulai */
   UI.pasangPutar(); gambarAtas(); sWelcome(); cekJaringan();
-  window.acDebug = { intro: () => intro, P: () => P, idx: () => idx, net: () => net, ke: { welcome: sWelcome, kelas: sKelas, nama: sNama, intro: sIntro, tes: sTes, hasil: sHasil, kelompok: sKelompok, lanjut: sLanjut }, pilih: (i) => { idx = i; P = lsGet(kunciP(i), null) || baruP(); return P; }, set: (i, p) => { idx = i; P = p; simpan(); } };
+  window.acDebug = { intro: () => intro, P: () => P, idx: () => idx, net: () => net, ke: { welcome: sWelcome, kelas: sKelas, nama: sNama, intro: sIntro, tes: sTes, hasil: sHasil, kelompok: sKelompok, lanjut: sLanjut, lkpd: sLkpd }, pilih: (i) => { idx = i; P = lsGet(kunciP(i), null) || baruP(); return P; }, set: (i, p) => { idx = i; P = p; simpan(); } };
 })();
 </script>
 </body>

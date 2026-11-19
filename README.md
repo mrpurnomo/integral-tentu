@@ -102,3 +102,13 @@ Font: Bricolage Grotesque, Instrument Sans, Instrument Serif, dan Geist Mono (SI
 ### Akun uji coba guru
 
 Semua tombol aktif (tanpa kunci): peran bebas dipilih dan diganti, *Sudah belajar* menerima kode apa pun, Host dapat menganggap tamu cocok, Paham/Lumayan/Tidak paham, Selesai belajar, Kumpulkan, dan Ringkasan akhir tidak terkunci. Data uji coba memakai ruang kunci terpisah sehingga tidak memengaruhi kelompok, peran, pertemuan, atau kartu 5 murid asli.
+
+## XII-D (soshum): mode LKPD
+
+Kelas dengan `mode: 'lkpd'` (XII-D) tidak memakai jigsaw. Alurnya: pilih nama → pilih pertemuan (1 aktif, 2 menyusul) → dasbor (peringkat, teman sekelas, statistik, tombol **Unduh LKPD-mu** dan **Input jawabanmu**) → tap jawaban A–E → konfirmasi → skor, motivasi, konfeti. Jawaban hanya bisa dikirim **sekali**.
+
+- Tiket keluar unik per murid dibangkitkan oleh `api/_lib/lkpd.js` (hanya server dan pembuat PDF): tiap nomor dari keluarga soal yang sama (adil), hasil bilangan bulat, tidak sama dengan contoh/latihan/tiket contoh, dan kunci tiap murid berbeda di sekurang-kurangnya 6 dari 10 nomor. Kunci tidak pernah dikirim ke tablet sebelum murid mengumpulkan.
+- PDF per murid: `node lkpd-xiid/buat.js --siswa` menulis `lkpd/xiid/<kode>.pdf` (kode acak, tanpa nama murid). Versi contoh guru: `lkpd-xiid/LKPD-1-Integral-Tentu-v3.pdf` dan kuncinya.
+- Aksi API tambahan (siswa, wajib idx+token): `l-status`, `l-unduh`, `l-kirim`; rekap guru ada pada `g-status` (`lkpd`).
+- Uji: `node uji/uji-lkpd.js` (pembangkit tiket, keadilan, keunikan kunci, PDF ada, dan semua aksi server).
+- Jika daftar nama XII-D berubah, bangun ulang PDF (`node lkpd-xiid/buat.js --siswa`) karena kode berkas dan tiket mengikuti nomor urut.

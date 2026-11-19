@@ -15,7 +15,7 @@
 
   function gambarAtas() {
     atas.innerHTML = ''; atas.append(el('span', { kelas: 'logo' }, 'Area ', el('b', null, '& Calculus')));
-    const tabs = el('div', { kelas: 'tabs-guru' }); [['penjelasan', 'layar', 'Penjelasan'], ['pantau', 'siswa', 'Pantau'], ['kelompok', 'kelompok', 'Kelompok'], ['t2', 'bintang', 'Tahap 2'], ['kode', 'salin', 'Kode']].forEach(([id, ikon, t]) => tabs.append(el('button', { type: 'button', kelas: id === tab ? 'aktif' : '', html: ik(ikon, 'kecil') + t, onclick: () => ke(id) }))); atas.append(el('span', { kelas: 'ruang' }), tabs, el('span', { kelas: 'ruang' }));
+    const tabs = el('div', { kelas: 'tabs-guru' }); (BS.cfg(kelas).mode === 'lkpd' ? [['pantau', 'siswa', 'Pantau LKPD']] : [['penjelasan', 'layar', 'Penjelasan'], ['pantau', 'siswa', 'Pantau'], ['kelompok', 'kelompok', 'Kelompok'], ['t2', 'bintang', 'Tahap 2'], ['kode', 'salin', 'Kode']]).forEach(([id, ikon, t]) => tabs.append(el('button', { type: 'button', kelas: id === tab ? 'aktif' : '', html: ik(ikon, 'kecil') + t, onclick: () => ke(id) }))); atas.append(el('span', { kelas: 'ruang' }), tabs, el('span', { kelas: 'ruang' }));
     atas.append(el('button', { kelas: 'kelas-aktif k-' + kelas, type: 'button', title: 'Klik untuk mengganti kelas', onclick: () => pilihKelasDialog(false), html: '<small>KELAS AKTIF</small><b>' + esc(BS.cfg(kelas).nama) + '</b>' + ik('panah', 'kecil') }), tmChip(), el('span', { kelas: 'chip ' + (net === 'online' ? 'ok' : (net === 'cek' ? 'abu' : 'warn')), title: net === 'online' ? 'Server aktif' : (net === 'cek' ? 'Memeriksa…' : 'Mode mandiri'), html: ik(net === 'online' ? 'wifi' : 'putus', 'kecil') + (net === 'online' ? '' : (net === 'cek' ? 'Memeriksa…' : 'Mode mandiri')) }), el('button', { kelas: 'btn sekunder kecil', type: 'button', html: ik('ulang', 'kecil'), 'aria-label': 'Segarkan data', title: 'Segarkan data', onclick: segarkanGuru }), el('button', { kelas: 'btn sekunder kecil', type: 'button', html: ik('layar', 'kecil'), 'aria-label': 'Layar penuh', title: 'Layar penuh', onclick: UI.layarPenuh }), el('button', { kelas: 'btn bahaya kecil', type: 'button', html: ik('kembali', 'kecil'), 'aria-label': 'Keluar', title: 'Keluar', onclick: keluar }));
   }
   async function keluar() { if (!(await UI.konfirmasi('Keluar dari halaman guru?', '<p class="tengah">Kamu akan kembali ke layar sambutan dan harus memasukkan PIN lagi.</p>', 'Keluar', 'Batal'))) return; try { sessionStorage.removeItem('acg_pin'); } catch (e) { /* abaikan */ } location.href = 'index.html'; }
@@ -35,13 +35,33 @@
     if (k === kelas) return; tmJeda(); kelas = k; LSset('kelas', k); BS.setKelas(k); data = null; TAHAP = buatTahap(); TM = muatTM(); const r = await ga('g-status'); if (r.ok) { data = r; net = 'online'; } if (!tanpaKe) ke(tab); else gambarAtas();
   }
   function belumSiap() { pg.append(el('div', { kelas: 'tengah-isi' }, el('span', { kelas: 'ubin fx-potong', gaya: 'width:5.5rem;height:5.5rem', html: ik('jam') }), el('h2', null, 'Materi ' + esc(BS.cfg(kelas).nama) + ' sedang disiapkan'), el('p', { kelas: 'muted', gaya: 'max-width:38rem;font-size:1.2rem' }, 'Kelas ini memakai materi dasar integral tentu (dua pertemuan: sifat batas, luas di bawah kurva, dan latihan dengan Desmos). Daftar nama dan pengaturan kelas sudah siap; tab Pantau tetap bisa dipakai.'), el('button', { kelas: 'btn', type: 'button', html: ik('kelompok') + 'Ganti kelas', onclick: () => pilihKelasDialog(false) }))); }
-  function ke(t) { tab = t; gambarAtas(); bersih(); if (!BS.cfg(kelas).siap && t !== 'pantau') return belumSiap(); ({ penjelasan: tPenjelasan, pantau: tPantau, kelompok: tKelompok, t2: tTahap2, kode: tKode })[t](); }
+  function ke(t) { if (BS.cfg(kelas).mode === 'lkpd') t = 'pantau'; tab = t; gambarAtas(); bersih(); if (!BS.cfg(kelas).siap && t !== 'pantau') return belumSiap(); ({ penjelasan: tPenjelasan, pantau: tPantau, kelompok: tKelompok, t2: tTahap2, kode: tKode })[t](); }
 
   /* ---------------- penjelasan = pengantar yang sama dengan siswa ---------------- */
   function tPenjelasan() { const host = el('div', { gaya: 'position:absolute;inset:0' }); pg.append(host); intro = Intro.mount(host, { guru: true, mulai: LS('intro', 0), played: LS('played', []), saatMain: (a) => LSset('played', a), labelAkhir: 'Tes awal dimulai', saatLangkah: (i) => LSset('intro', i), saatPosisi: (c, b) => { ga('g-slide', { c, b }); }, saatSelesai: () => ke('pantau') }); }
 
   /* ---------------- pantau ---------------- */
+  /* kelas mode LKPD (XII-D): pantau unduhan, pengumpulan tiket keluar, skor, dan persen benar tiap nomor */
+  async function tLkpd() {
+    const w = el('div', { kelas: 'pantau' }); pg.append(w); clearInterval(poll);
+    const stat = (l, v, f) => el('div', { kelas: 'kartu stat fx-' + f, html: '<div class="eyebrow" style="margin:0">' + l + '</div><b>' + v + '</b>' });
+    const render = () => {
+      w.innerHTML = '';
+      if (net !== 'online' || !data) { w.append(el('div', { kelas: 'tengah-isi' }, el('span', { kelas: 'ubin fx-tangga', gaya: 'width:5rem;height:5rem', html: ik('putus') }), el('h2', null, 'Server belum terhubung'), el('p', { kelas: 'muted' }, 'Pemantauan LKPD memerlukan server. Coba segarkan.'))); return; }
+      const L = data.lkpd || { peserta: [], total: NSISWA(), kirim: 0, unduh: 0, rata: null, akurasi: null }, d = data.daftar || [], masuk = d.filter((x) => x.klaim).length, rata = L.rata == null ? '–' : (Math.round(L.rata * 10) / 10).toString().replace('.', ',');
+      w.append(el('div', { kelas: 'stat-guru' }, stat('Sudah masuk', masuk + '/' + L.total, 'bawah'), stat('Sudah unduh LKPD', L.unduh + '/' + L.total, 'garis'), stat('Sudah mengumpulkan', L.kirim + '/' + L.total, 'potong'), stat('Skor rata-rata', rata + ' / 10', 'parab'),
+        el('button', { kelas: 'btn bahaya kecil', type: 'button', gaya: 'margin-left:auto', html: ik('hapus', 'kecil') + 'Atur ulang semua', onclick: async () => { if (await UI.konfirmasi('Atur ulang semua?', '<p>Semua nama dan jawaban LKPD akan dihapus. Ini tidak bisa dibatalkan.</p>', 'Ya, hapus semua', 'Batal')) { await ga('g-reset-semua'); muat(); } } })));
+      if (L.akurasi) w.append(el('div', { kelas: 'kartu', gaya: 'padding:.6rem 1rem;margin-bottom:.6rem', html: '<div class="eyebrow" style="margin:0 0 .3rem">Persen benar tiap nomor tiket keluar</div><div style="display:grid;grid-template-columns:repeat(10,1fr);gap:.4rem">' + L.akurasi.map((a, i) => '<div style="text-align:center;padding:.25rem;border-radius:.7rem;font-weight:700;background:' + (a >= 70 ? 'var(--mint-100)' : (a >= 40 ? 'var(--mentari-100)' : 'var(--koral-100)')) + '"><small style="display:block;opacity:.75">No ' + (i + 1) + '</small>' + a + '%</div>').join('') + '</div>' }));
+      const grid = el('div', { kelas: 'grid-pantau' }); w.append(grid);
+      d.forEach((x, i) => { const p = (L.peserta || []).find((q) => q.idx === x.idx) || {}, st = p.terkirim ? 'selesai' : (p.unduh ? 'aktif' : (x.klaim ? 'diam' : 'belum')), lab = p.terkirim ? 'skor ' + p.skor + '/10' : (p.unduh ? 'sudah unduh' : (x.klaim ? 'sudah masuk' : 'belum masuk'));
+        grid.append(el('button', { kelas: 'tile-pantau ' + st + ' fx-' + warna[i % 7], type: 'button', onclick: () => detail(x, p), html: '<span class="av">' + inisial(x.nama) + '</span><span class="nm">' + esc(x.nama) + '</span><span class="st">' + lab + '</span>' })); });
+    };
+    function detail(x, p) { UI.dialog({ judul: x.nama, ikon: ik('siswa', 'besar'), isi: '<p>Status: <b>' + (p.terkirim ? 'tiket keluar terkumpul · skor ' + p.skor + ' dari 10' : (p.unduh ? 'sudah mengunduh LKPD' : (x.klaim ? 'sudah masuk' : 'belum masuk'))) + '</b></p>' + (p.benar ? '<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:.4rem">' + p.benar.map((b, k) => '<div class="chip ' + (b ? 'ok' : 'bad') + '" style="justify-content:center">' + (k + 1) + (b ? ' ✓' : ' ✗') + '</div>').join('') + '</div>' : ''), tombol: [{ t: 'Tutup', nilai: true }], tutupLuar: true }); }
+    async function muat() { const r = await ga('g-status'); if (r.ok) { data = r; net = 'online'; } else if (r._s === 401) { await mintaPin(true); return; } else { net = 'offline'; data = null; } gambarAtas(); render(); }
+    await muat(); poll = setInterval(() => { if (!w.isConnected) { clearInterval(poll); return; } muat(); }, 8000);
+  }
   async function tPantau() {
+    if (BS.cfg(kelas).mode === 'lkpd') return tLkpd();
     const w = el('div', { kelas: 'pantau' }); pg.append(w);
     const render = () => {
       w.innerHTML = '';

@@ -70,7 +70,7 @@
     if (B.KELAS_TAMPIL.length === 1) { setKelas(B.KELAS_TAMPIL[0]); return sNama(); }
     kosongkanBawah(); gambarAtas();
     const w = el('div', { kelas: 'tengah-isi' }); w.append(el('div', { kelas: 'eyebrow' }, 'Langkah 1 dari 2'), el('h2', null, 'Pilih kelasmu'));
-    const kartuK = (k) => { const c = B.cfg(k); return el('button', { kelas: 'kartu-kelas' + (c.siap ? '' : ' belum'), type: 'button', gaya: 'margin-bottom:.7rem', onclick: () => { if (!c.siap) return UI.info('Materi sedang disiapkan', '<div class="tengah"><p style="font-size:1.25rem"><b>' + esc(c.nama) + '</b> memakai materi dasar integral tentu.</p><p class="muted">Materinya belum dibuka. Tunggu arahan gurumu.</p></div>', 'Mengerti', { ikon: ik('jam', 'besar') }); setKelas(k); sNama(); }, html: '<span class="ubin fx-' + ({ Teknik: 'parab', Kesehatan: 'bawah', Soshum: 'potong' }[c.program] || 'garis') + '" style="font:700 2rem var(--tampil);color:#fff">' + esc((c.nama.match(/XII-([A-Z])/) || [0, '?'])[1]) + '</span><div><div class="kelas-nama">' + esc(c.nama) + '</div><div class="muted">Matematika Tingkat Lanjut · ' + (c.siap ? 'Luas daerah di antara dua kurva' : 'Dasar integral tentu (menyusul)') + '</div></div>' + (c.siap ? ik('panah', 'besar') : '<span class="chip abu">Segera</span>') }); };
+    const kartuK = (k) => { const c = B.cfg(k); return el('button', { kelas: 'kartu-kelas' + (c.siap ? '' : ' belum'), type: 'button', gaya: 'margin-bottom:.7rem', onclick: () => { if (!c.siap) return UI.info('Materi sedang disiapkan', '<div class="tengah"><p style="font-size:1.25rem"><b>' + esc(c.nama) + '</b> memakai materi dasar integral tentu.</p><p class="muted">Materinya belum dibuka. Tunggu arahan gurumu.</p></div>', 'Mengerti', { ikon: ik('jam', 'besar') }); setKelas(k); sNama(); }, html: '<span class="ubin fx-' + ({ Teknik: 'parab', Kesehatan: 'bawah', Soshum: 'potong' }[c.program] || 'garis') + '" style="font:700 2rem var(--tampil);color:#fff">' + esc((c.nama.match(/XII-([A-Z])/) || [0, '?'])[1]) + '</span><div><div class="kelas-nama">' + esc(c.nama) + '</div><div class="muted">Matematika Tingkat Lanjut · ' + (c.siap ? (c.mode === 'lkpd' ? 'Integral tentu dan luas (LKPD)' : 'Luas daerah di antara dua kurva') : 'Dasar integral tentu (menyusul)') + '</div></div>' + (c.siap ? ik('panah', 'besar') : '<span class="chip abu">Segera</span>') }); };
     const k = el('div', null, B.KELAS_TAMPIL.map(kartuK));
     w.append(k, el('button', { kelas: 'btn sekunder', type: 'button', gaya: 'margin-top:1.4rem', html: ik('kembali') + 'Kembali', onclick: sWelcome })); layar(w, 'tengah-layar');
   }
@@ -100,11 +100,12 @@
     if (r._s === 409) { await UI.info('Nama ini sedang dipakai', '<div class="tengah"><p>Nama <b>' + esc(nm) + '</b> sudah dipakai di perangkat lain.</p><p class="muted">Kalau itu memang kamu (misalnya tablet berganti), minta <b>guru</b> untuk mengatur ulang nama ini.</p></div>', 'Mengerti', { ikon: ik('kunci', 'besar') }); return sNama(); }
     if (r.gagal || r._s >= 500 || r._s === 503) { net = 'offline'; } else if (r.ok) { net = 'online'; }
     idx = i; lsSet(kunciAk(), i); P = lsGet(kunciP(i), null) || baruP();
+    if (B.cfg(kelas).mode === 'lkpd') { P.tahap = 'lkpd'; simpan(); gambarAtas(); mulaiPing(); return sLkpd(); }   /* kelas LKPD: tanpa tes awal dan kelompok */
     if (r.hasil && r.hasil.jawab) { P.tes.jawab = r.hasil.jawab; P.tes.selesai = true; P.tes.detik = r.hasil.detik || 0; P.terkirim = true; if (['intro', 'tes'].includes(P.tahap)) P.tahap = 'hasil'; }
     simpan(); gambarAtas(); mulaiPing(); lanjutDari();
   }
   function mulaiPing() { clearInterval(ping); if (net !== 'online') return; ping = setInterval(() => api('ping', { idx, tahap: P && P.tahap }), 20000); }
-  function lanjutDari() { if (P.tahap === 'intro') return sIntro(); if (P.tahap === 'tes') return sTes(); if (P.tahap === 'hasil') return sHasil(); if (P.tahap === 'kelompok') return sKelompok(); return sLanjut(); }
+  function lanjutDari() { if (P.tahap === 'lkpd') return sLkpd(); if (P.tahap === 'intro') return sIntro(); if (P.tahap === 'tes') return sTes(); if (P.tahap === 'hasil') return sHasil(); if (P.tahap === 'kelompok') return sKelompok(); return sLanjut(); }
 
   /* ---------------------------------------------------------------- 4. pengantar */
   async function sIntro() {
@@ -210,6 +211,9 @@
     muat();
   }
 
+  /* ---------------------------------------------------------------- 7b. mode LKPD (XII-D) */
+  function sLkpd() { gambarAtas(); Lkpd.mulai({ idx: () => idx, P: () => P, simpan, api, layar, net: () => net, gambarAtas, bawahKosong: kosongkanBawah, konfeti, nama: () => B.nama(idx) }); }
+
   /* ---------------------------------------------------------------- 8. tahap berikutnya */
   function sLanjut() {
     gambarAtas(); Tahap2.mulai({ idx: () => idx, P: () => P, simpan, api, layar, net: () => net, cekNet: cekJaringan, gambarAtas, bawahKosong: kosongkanBawah, konfeti }); return;
@@ -219,5 +223,5 @@
 
   /* ---------------------------------------------------------------- mulai */
   UI.pasangPutar(); gambarAtas(); sWelcome(); cekJaringan();
-  window.acDebug = { intro: () => intro, P: () => P, idx: () => idx, net: () => net, ke: { welcome: sWelcome, kelas: sKelas, nama: sNama, intro: sIntro, tes: sTes, hasil: sHasil, kelompok: sKelompok, lanjut: sLanjut }, pilih: (i) => { idx = i; P = lsGet(kunciP(i), null) || baruP(); return P; }, set: (i, p) => { idx = i; P = p; simpan(); } };
+  window.acDebug = { intro: () => intro, P: () => P, idx: () => idx, net: () => net, ke: { welcome: sWelcome, kelas: sKelas, nama: sNama, intro: sIntro, tes: sTes, hasil: sHasil, kelompok: sKelompok, lanjut: sLanjut, lkpd: sLkpd }, pilih: (i) => { idx = i; P = lsGet(kunciP(i), null) || baruP(); return P; }, set: (i, p) => { idx = i; P = p; simpan(); } };
 })();
