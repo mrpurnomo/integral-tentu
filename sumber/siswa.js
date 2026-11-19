@@ -22,7 +22,7 @@
     atas.innerHTML = '';
     atas.append(el('span', { kelas: 'logo' }, 'Area ', el('b', null, '& Calculus')), el('span', { kelas: 'ruang' }));
     if (idx !== null) atas.append(el('span', { kelas: 'chip' + (idx === B.DUMMY ? ' sorot' : ''), html: ik('siswa', 'kecil') + (idx === B.DUMMY ? 'UJI COBA' : esc(B.nama(idx).split(' ')[0])) }));
-    if (idx === B.DUMMY) atas.append(el('button', { kelas: 'btn sekunder kecil', type: 'button', html: ik('nyala', 'kecil') + 'Lompat ke…', onclick: lompatUji }));
+    if (idx === B.DUMMY && B.cfg(kelas).mode !== 'lkpd') atas.append(el('button', { kelas: 'btn sekunder kecil', type: 'button', html: ik('nyala', 'kecil') + 'Lompat ke…', onclick: lompatUji }));
     if (idx === B.DUMMY) atas.append(el('button', { kelas: 'btn sekunder kecil', type: 'button', html: ik('kembali', 'kecil') + 'Keluar uji coba', onclick: async () => { if (await UI.konfirmasi('Keluar dari uji coba?', '<p class="tengah">Progres uji coba tidak disimpan dan tidak memengaruhi siswa lain.</p>', 'Keluar', 'Batal')) { clearInterval(ping); lsSet(kunciP(B.DUMMY), null); idx = null; P = null; sWelcome(); } } }));
     if (idx !== null) atas.append(el('button', { kelas: 'btn sekunder kecil', type: 'button', html: ik('ulang', 'kecil') + 'Segarkan', onclick: segarkan }));
     atas.append(el('span', { kelas: 'chip ' + (net === 'online' ? 'ok' : (net === 'cek' ? 'abu' : 'warn')), html: ik(net === 'online' ? 'wifi' : 'putus', 'kecil') + (net === 'online' ? 'Terhubung ke guru' : (net === 'cek' ? 'Memeriksa…' : 'Mode mandiri')), title: net === 'offline' ? 'Tidak terhubung ke guru. Hasil diserahkan lewat kode.' : '' }));
@@ -63,7 +63,7 @@
   async function cekPinGuru(pin) { const r = await api('g-status', { pin }); if (r._s === 401) return false; if (r.ok) return true; return B.cekPinLokal(pin); }
   async function mintaPin(judul, salah) { const v = await UI.papanKetik({ judul, ikon: ik('kunci', 'besar'), panjang: 5, alfabet: '0123456789', kolom: 5, sembunyi: true, otomatis: true, keyboard: true, catatan: salah ? 'PIN salah. Coba lagi.' : 'Masukkan PIN guru (5 angka).' }); if (v == null) return null; if (await cekPinGuru(v)) return v; return mintaPin(judul, true); }
   async function loginGuru() { const v = await mintaPin('Masuk sebagai guru', false); if (v == null) return; try { sessionStorage.setItem('acg_pin', v); } catch (e) { /* abaikan */ } location.href = 'guru.html'; }
-  async function masukUji() { const v = await mintaPin('Akun uji coba (guru)', false); if (v == null) return; idx = B.DUMMY; lsSet(kunciP(idx), null); P = baruP(); const r = await api('klaim', { idx }); net = r.ok ? 'online' : 'offline'; gambarAtas(); mulaiPing(); lanjutDari(); }
+  async function masukUji() { const v = await mintaPin('Akun uji coba (guru)', false); if (v == null) return; idx = B.DUMMY; lsSet(kunciP(idx), null); P = baruP(); if (B.cfg(kelas).mode === 'lkpd') P.tahap = 'lkpd'; const r = await api('klaim', { idx }); net = r.ok ? 'online' : 'offline'; gambarAtas(); mulaiPing(); lanjutDari(); }
 
   /* ---------------------------------------------------------------- 2. pilih kelas */
   function sKelas() {

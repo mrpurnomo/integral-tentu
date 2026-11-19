@@ -34,7 +34,7 @@
     xiib: KJ('xiib', 'XII-B Teknik', 'Teknik'),
     xiic: KJ('xiic', 'XII-C Kesehatan', 'Kesehatan'),
     /* XII-D: dasar integral tentu (dua pertemuan) — materi disiapkan kemudian; kelas sudah terdaftar untuk guru */
-    xiid: KJ('xiid', 'XII-D Soshum', 'Soshum', { materi: 'dasar', siap: true, mode: 'lkpd', jigsaw: false }),
+    xiid: KJ('xiid', 'XII-D Soshum', 'Soshum', { materi: 'dasar', siap: true, mode: 'lkpd', jigsaw: false, lkpdBagian: 'tiket' }),
     /* kelas uji tersembunyi: kelompok disusun guru (menguji mode manual) */
     ujim: KJ('ujim', 'Kelas uji (manual)', 'Uji', { manual: true, tampil: false })
   };

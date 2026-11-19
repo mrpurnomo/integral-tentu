@@ -31,7 +31,10 @@ const integral = (p, a, b) => { const n = 4000; let s = 0; for (let k = 0; k < n
   ok(new Set(kode).size === N && kode.every((k) => /^[0-9a-f]{14}$/.test(k)) && kode.every((k, i) => !B.cfg(KL).daftar[i].toLowerCase().split(' ').some((w) => w.length > 2 && k.includes(w))), 'nama berkas PDF: kode acak 14 heksadesimal, unik, tanpa nama murid');
   const dir = path.join(ROOT, 'lkpd', 'xiid'), ada = kode.filter((k) => fs.existsSync(path.join(dir, k + '.pdf')) && fs.statSync(path.join(dir, k + '.pdf')).size > 100000);
   ok(ada.length === N, 'PDF LKPD tersedia untuk semua murid (' + ada.length + ' dari ' + N + ')');
-  const isi = fs.existsSync(dir) ? fs.readdirSync(dir) : []; ok(isi.every((f) => kode.includes(f.replace(/\.pdf$/, ''))) && isi.length === N, 'folder PDF hanya berisi berkas milik 33 murid, tanpa sisa');
+  const isi = fs.existsSync(dir) ? fs.readdirSync(dir) : []; const kodeU = L.kodeBerkas(B.DUMMY); ok(isi.every((f) => kode.concat([kodeU]).includes(f.replace(/\.pdf$/, ''))) && isi.length === N + 1 && isi.includes(kodeU + '.pdf'), 'folder PDF berisi 33 murid + 1 akun uji coba guru, tanpa sisa');
+  const idn = Array.from({ length: N }, (_, i) => L.identitas(i, '19 Nov 2026')); ok(idn.every((x, i) => x.nama === B.nama(i, KL) && x.kelas === 'XII-D' && x.absen === String(i + 1) && x.tanggal === '19 Nov 2026') && new Set(idn.map((x) => x.absen)).size === N, 'identitas otomatis: nama, kelas XII-D, nomor absen 1–33 (urut daftar), tanggal');
+  const iu = L.identitas(B.DUMMY, 'x'); ok(iu.nama === 'Uji Coba Guru' && iu.kelas === 'XII-D', 'identitas akun uji coba guru: Uji Coba Guru, XII-D');
+  ok(B.cfg(KL).lkpdBagian === 'tiket', 'XII-D: unduhan langsung ke tiket keluar (lkpdBagian = tiket); mode penuh tetap tersedia lewat --penuh');
 }
 
 /* ---------------- bagian 2: aksi server ---------------- */

@@ -63,8 +63,8 @@
       const s = S.saya, nama = nm1(E.nama());
       kanan.innerHTML = '';
       kanan.append(el('div', { kelas: 'lk-sapa', html: '<div class="eyebrow">Pertemuan 1</div><h2>Halo, ' + esc(nama) + '!</h2><p>Integral tentu dan luas di bawah kurva</p>' }),
-        el('div', { kelas: 'lk-langkah', html: '<ol><li>Unduh LKPD-mu dan ikuti arahan guru.</li><li>Kerjakan tiket keluar di lembar jawab.</li><li>Kembali ke sini, lalu ketuk jawabanmu.</li></ol>' }),
-        el('button', { kelas: 'btn besar sorot lk-tombol', type: 'button', html: ik('buku', 'besar') + '<span><b>Unduh LKPD-mu</b><small>Berkas PDF khusus untukmu</small></span>', onclick: unduh }),
+        el('div', { kelas: 'lk-langkah', html: '<ol><li>' + (BS.cfg().lkpdBagian === 'tiket' ? 'Unduh tiket keluarmu (PDF), lalu cetak atau buka di tablet.' : 'Unduh LKPD-mu dan ikuti arahan guru.') + '</li><li>Kerjakan tiket keluar di lembar jawab.</li><li>Kembali ke sini, lalu ketuk jawabanmu.</li></ol>' }),
+        el('button', { kelas: 'btn besar sorot lk-tombol', type: 'button', html: ik('buku', 'besar') + '<span><b>Unduh LKPD-mu</b><small>' + (BS.cfg().lkpdBagian === 'tiket' ? 'Tiket keluar khusus untukmu (PDF)' : 'Berkas PDF khusus untukmu') + '</small></span>', onclick: unduh }),
         el('button', { kelas: 'btn besar lk-tombol' + (s.terkirim ? ' mati' : ' hijau'), type: 'button', disabled: s.terkirim, html: (s.terkirim ? ik('centang', 'besar') + '<span><b>Sudah dikirim</b><small>Jawaban hanya bisa dikirim satu kali</small></span>' : ik('pensil', 'besar') + '<span><b>Input jawabanmu</b><small>Ketuk huruf jawaban tiap nomor</small></span>'), onclick: () => { if (!s.terkirim) sInput(); } }),
         el('button', { kelas: 'btn sekunder kecil', type: 'button', gaya: 'align-self:flex-start;margin-top:auto', html: ik('kembali', 'kecil') + 'Pilih pertemuan', onclick: sPertemuan }));
       kiri.innerHTML = (s.terkirim ? kartuHasilku(s) : '') + kartuPeringkat(S.peringkat) + kartuTeman(S.teman) + kartuStatistik(S.kelas);

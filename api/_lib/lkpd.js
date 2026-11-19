@@ -95,5 +95,7 @@ function percobaanSemua() {
 const tiketSiswa = (idx) => { const p = percobaanSemua(); return bangun(idx, idx >= 0 && idx < p.length ? p[idx] : 0); };
 const kunciSiswa = (idx) => tiketSiswa(idx).kunci;
 const kodeBerkas = (idx) => crypto.createHash('sha256').update(SALT + ':berkas:' + idx).digest('hex').slice(0, 14);
+/* identitas yang tercetak otomatis di halaman pertama PDF (akun uji coba guru: nama 'Uji Coba Guru') */
+const identitas = (idx, tanggal) => ({ nama: idx === B.DUMMY ? 'Uji Coba Guru' : B.nama(idx, KELAS), kelas: B.cfg(KELAS).nama.split(' ')[0], absen: idx === B.DUMMY ? '–' : String(idx + 1), tanggal: tanggal || '' });
 const berkas = (idx) => '/lkpd/' + KELAS + '/' + kodeBerkas(idx) + '.pdf';
-module.exports = { KELAS, HURUF, TOPIK, TERLARANG, JARAK_MIN, tiketSiswa, kunciSiswa, kodeBerkas, berkas, hitung, bentuk, tandaTangan, jarak, sig };
+module.exports = { KELAS, HURUF, TOPIK, TERLARANG, JARAK_MIN, tiketSiswa, kunciSiswa, kodeBerkas, berkas, identitas, hitung, bentuk, tandaTangan, jarak, sig };

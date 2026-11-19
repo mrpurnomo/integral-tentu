@@ -112,3 +112,6 @@ Kelas dengan `mode: 'lkpd'` (XII-D) tidak memakai jigsaw. Alurnya: pilih nama â†
 - Aksi API tambahan (siswa, wajib idx+token): `l-status`, `l-unduh`, `l-kirim`; rekap guru ada pada `g-status` (`lkpd`).
 - Uji: `node uji/uji-lkpd.js` (pembangkit tiket, keadilan, keunikan kunci, PDF ada, dan semua aksi server).
 - Jika daftar nama XII-D berubah, bangun ulang PDF (`node lkpd-xiid/buat.js --siswa`) karena kode berkas dan tiket mengikuti nomor urut.
+- **Bagian LKPD per kelas:** `lkpdBagian` pada konfigurasi kelas (`api/_lib/bersama.js`). XII-D = `'tiket'` (PDF langsung berisi tiket keluar karena materi dijelaskan guru). Untuk kelas lain yang membutuhkan LKPD dari awal: ubah menjadi `'penuh'` atau jalankan `node lkpd-xiid/buat.js --siswa --penuh`. Seluruh sistem LKPD penuh (contoh guru, latihan jam terbang, grafik) tetap tersimpan di `lkpd-xiid/buat.js`.
+- **Identitas otomatis:** halaman pertama tiap PDF memuat nama, kelas, nomor absen (urut daftar), dan tanggal pembuatan (`--tanggal="19 Nov 2026"` untuk mengganti). Karena PDF memuat nama murid, repositori harus privat.
+- **Akun uji coba guru XII-D:** tombol "Akun uji coba (guru)" di daftar nama (PIN guru) masuk ke alur LKPD yang sama dengan PDF uji coba sendiri ("Uji Coba Guru"); boleh mengirim jawaban berulang dan tidak masuk statistik.
