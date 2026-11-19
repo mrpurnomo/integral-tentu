@@ -92,50 +92,51 @@
     gambar(); const poll = setInterval(async () => { if (!isi.isConnected) return clearInterval(poll); await muatGrup(); gambar(); }, 2500);
     await UI.dialog({ judul: 'Pilih perananmu', ikon: ik('kelompok', 'besar'), kelas: 'petunjuk', isi, tombol: [{ t: 'Tutup', nilai: false, kelas: 'sekunder' }], saatBuka: (b, tutup) => { tutupFn = tutup; } }); clearInterval(poll);
   }
+  /* ============================================================ kerangka layar kartu */
+  function kerangka(no, judul, ket) {
+    const w = el('div', { kelas: 't2-bingkai' }), kep = el('div', { kelas: 't2-kepala' }), isi = el('div', { kelas: 't2-isi' }), nav = el('div', { kelas: 't2-nav' });
+    kep.append(el('div', null, el('div', { kelas: 'eyebrow' }, (no ? 'Kartu ' + no + ' · ' : '') + (ket || '')), el('h2', { gaya: 'margin:0' }, judul)), el('button', { kelas: 'btn sekunder kecil', type: 'button', html: ik('kembali', 'kecil') + 'Ke dasbor', onclick: kembaliHub })); w.append(kep, isi, nav); E.layar(w); return { w, isi, nav };
+  }
+  const miniGraf = (fam, ukuran) => { const d = el('div', { kelas: 'mini-graf' }); Adegan.statis(d, Pel.contohP(fam), { tema: 'terang', label: true, W: ukuran || 560, H: 440 }); return d; };
+
   /* panel latihan satu soal (kartu 1 dan modul mengajar): selalu soal baru; benar dan salah dicatat; pembahasan beranimasi */
   function panelLatihan(fam, o) {
-    o = o || {}; const t = T(), w = el('div', { kelas: 'lat' }); let q = null, kunciPil = false;
-    const stat = () => { const n = t.k1.latihan, b = t.k1.benar; return '<span class="chip ok">' + ik('centang', 'kecil') + 'Benar ' + b + '</span><span class="chip bad">' + ik('silang', 'kecil') + 'Salah ' + (n - b) + '</span>'; };
+    o = o || {}; const t = T(), w = el('div', { kelas: 'lat' }); let q = null, cor = null;
+    const stat = () => { const n = t.k1.latihan, b = t.k1.benar; return '<span class="chip ok">' + ik('centang', 'kecil') + 'Benar ' + b + '</span><span class="chip bad">' + ik('silang', 'kecil') + 'Salah ' + Math.max(0, n - b) + '</span>'; };
     function muat() {
+      if (cor) { cor.lepas(); cor = null; }
       q = B.latihan(fam, Math.floor(Math.random() * 1e6)); w.innerHTML = '';
-      const g = el('div', { kelas: 'lat-graf' }); Adegan.statis(g, q.P, { tema: 'terang', label: true, W: 560, H: 430 });
-      const info = el('div', { kelas: 'lat-info' }), aksi = el('div', { kelas: 'baris lat-aksi' });
-      if (o.catat) info.innerHTML = stat(); else info.innerHTML = '<span class="muted">Soal untuk tamu</span>';
+      const g = el('div', { kelas: 'lat-graf' }); Adegan.statis(g, q.P, { tema: 'terang', label: true, W: 640, H: 500 });
+      const info = el('div', { kelas: 'lat-info' }), aksi = el('div', { kelas: 'baris lat-aksi' }), slot = el('div', { kelas: 'cor-slot' });
+      info.innerHTML = o.catat ? stat() : '<span class="muted">Soal untuk tamu</span>';
+      /* pembahasan beranimasi: pop-up soal disembunyikan dulu agar fokus ke animasi */
+      const bahas = () => { const tirai = w.closest('.tirai'); if (tirai) tirai.style.display = 'none'; const pulih = () => { if (tirai) tirai.style.display = ''; }; Pel.bukaPembahasan(q.P, 'Pembahasan latihan', { kembaliSoal: pulih, saatTutup: () => { if (o.tutupDialog) o.tutupDialog(); else pulih(); } }); };
       const jawab = el('button', { kelas: 'btn', type: 'button', html: ik('pensil', 'kecil') + 'Jawab', onclick: async () => {
-        const v = await UI.keypadAngka({ tanya: q.tanya, judul: 'Jawabanmu (satuan luas)', keyboard: true }); if (v == null) return; const ok = v === q.kunci;
-        if (o.catat) { t.k1.latihan++; if (ok) t.k1.benar++; E.simpan(); kirimT2({ k1: t.k1 }); info.innerHTML = stat(); if (o.saatJawab) o.saatJawab(ok); }
-        aksi.innerHTML = ''; const nb = el('div', { kelas: 'umpan ' + (ok ? 'ok' : 'bad'), html: ik(ok ? 'centang' : 'silang') + '<span>' + (ok ? '<b>Benar!</b> Luasnya ' + q.kunci + ' satuan luas.' : '<b>Belum tepat.</b> Jawabanmu ' + String(v).replace('-', '−') + '.') + '</span>' });
-        aksi.append(nb); if (ok) { E.konfeti(innerWidth / 2, innerHeight / 3, 22); aksi.append(el('button', { kelas: 'btn', type: 'button', html: 'Soal berikutnya' + ik('panah', 'kecil'), onclick: muat })); } else aksi.append(el('button', { kelas: 'btn sorot', type: 'button', html: ik('main', 'kecil') + 'Bahas dengan animasi', onclick: () => Pel.bukaPembahasan(q.P, 'Pembahasan latihan') }), el('button', { kelas: 'btn sekunder', type: 'button', html: ik('ulang', 'kecil') + 'Soal baru', onclick: muat }));
+        const v = await UI.keypadAngka({ tanya: q.tanya, judul: 'Jawabanmu (satuan luas)', keyboard: true }); if (v == null) return; const ok = v === q.kunci; let catatan = '';
+        if (o.catat) { t.k1.latihan++; if (ok) t.k1.benar++; else if (t.k1.benar === 0 && t.k1.latihan - t.k1.benar >= 2) { t.k1.benar = 1; t.k1.catatan = true; catatan = ' Sudah dua kali salah, jadi soal ini <b>dicatat benar otomatis dengan catatan</b>. Pelajari pembahasannya ya.'; } E.simpan(); kirimT2({ k1: t.k1 }); info.innerHTML = stat(); if (o.saatJawab) o.saatJawab(ok); }
+        aksi.innerHTML = ''; aksi.append(el('div', { kelas: 'umpan ' + (ok ? 'ok' : 'bad'), html: ik(ok ? 'centang' : 'silang') + '<span>' + (ok ? '<b>Benar!</b> Luasnya ' + q.kunci + ' satuan luas.' : '<b>Belum tepat.</b> Jawabanmu ' + String(v).replace('-', '−') + '.' + catatan) + '</span>' }));
+        if (ok) { E.konfeti(innerWidth / 2, innerHeight / 3, 22); aksi.append(el('button', { kelas: 'btn', type: 'button', html: 'Soal berikutnya' + ik('panah', 'kecil'), onclick: muat })); } else aksi.append(el('button', { kelas: 'btn sorot', type: 'button', html: ik('main', 'kecil') + 'Bahas dengan animasi', onclick: bahas }), el('button', { kelas: 'btn sekunder', type: 'button', html: ik('ulang', 'kecil') + 'Soal baru', onclick: muat }));
       } });
-      aksi.append(jawab, el('button', { kelas: 'btn sekunder', type: 'button', html: ik('mata', 'kecil') + 'Pembahasan', onclick: () => Pel.bukaPembahasan(q.P, 'Pembahasan latihan') }), el('button', { kelas: 'btn sekunder', type: 'button', html: ik('ulang', 'kecil') + 'Soal baru', onclick: muat }));
-      w.append(el('div', { kelas: 'lat-kiri' }, g), el('div', { kelas: 'lat-kanan' }, info, el('div', { kelas: 'teks-soal', html: q.tanya }), aksi));
+      aksi.append(jawab, el('button', { kelas: 'btn sekunder', type: 'button', html: ik('mata', 'kecil') + 'Pembahasan', onclick: bahas }), el('button', { kelas: 'btn sekunder', type: 'button', html: ik('ulang', 'kecil') + 'Soal baru', onclick: muat }));
+      w.append(el('div', { kelas: 'lat-atas' }, info, slot), el('div', { kelas: 'lat-badan' }, el('div', { kelas: 'lat-kiri' }, g), el('div', { kelas: 'lat-kanan' }, el('div', { kelas: 'teks-soal', html: q.tanya }), aksi)));
+      cor = Coretan.pasang(w, 'lat_' + Date.now() + '_' + Math.floor(Math.random() * 1e6), { bar: slot });   /* kertas coretan baru untuk tiap soal */
     }
     muat(); return w;
   }
 
-
-
-  /* ============================================================ kerangka layar kartu */
-  function kerangka(no, judul, ket) {
-    const w = el('div', { kelas: 't2-bingkai' }), kep = el('div', { kelas: 't2-kepala' }), isi = el('div', { kelas: 't2-isi' }), nav = el('div', { kelas: 't2-nav' });
-    kep.append(el('div', null, el('div', { kelas: 'eyebrow' }, no ? 'Kartu ' + no + ' · ' + (ket || '') : (ket || '')), el('h2', { gaya: 'margin:0' }, judul)), el('button', { kelas: 'btn sekunder kecil', type: 'button', html: ik('kembali', 'kecil') + 'Ke dasbor', onclick: kembaliHub })); w.append(kep, isi, nav); E.layar(w); return { w, isi, nav };
-  }
-  const miniGraf = (fam, ukuran) => { const d = el('div', { kelas: 'mini-graf' }); Adegan.statis(d, Pel.contohP(fam), { tema: 'terang', label: true, W: ukuran || 560, H: 440 }); return d; };
-
-  /* ============================================================ kartu 1: belajar kelompok */
   function kartu1() {
     const t = T(), fam = aktifFam(), K = kerangka(1, 'Belajar Kelompok', 'Materi kelompokmu'), D = Pel.LES[fam], dummy = E.idx() === B.DUMMY;
     const kiri = el('div', { kelas: 'kartu k1-materi fx-' + fam }), kanan = el('div', { kelas: 'kartu k1-latihan' });
-    kiri.append(el('div', { kelas: 'k1-judul', html: UI.ubin(fam) + '<div><div class="eyebrow">Materi ' + G.g + '</div><h3>' + esc(famNama(fam)) + '</h3></div>' }), miniGraf(fam, 640), el('p', { kelas: 'k1-ciri', html: D.ciri }), el('div', { kelas: 'k1-rumus', html: M(D.rumus) }));
+    kiri.append(el('div', { kelas: 'k1-judul', html: UI.ubin(fam) + '<div><div class="eyebrow">Materi ' + G.g + '</div><h3>' + esc(famNama(fam)) + '</h3></div>' }), miniGraf(fam, 600), el('p', { kelas: 'k1-ciri', html: D.ciri }), el('div', { kelas: 'k1-rumus', html: M(D.rumus) }));
     kiri.append(el('button', { kelas: 'btn besar ' + (t.k1.lihat ? 'sekunder' : 'denyut'), type: 'button', html: ik('main') + (t.k1.lihat ? 'Putar penjelasan lagi' : 'Mulai belajar dengan animasi'), onclick: () => { Pel.bukaPelajaran(fam, { saatTutup: () => { t.k1.lihat = true; E.simpan(); kartu1(); } }); } }));
     const statEl = el('div', { kelas: 'k1-stat' });
-    const stat = () => { statEl.innerHTML = '<div><b>' + t.k1.latihan + '</b><span>soal dikerjakan</span></div><div class="ok"><b>' + t.k1.benar + '</b><span>benar</span></div><div class="bad"><b>' + (t.k1.latihan - t.k1.benar) + '</b><span>salah</span></div>'; };
-    kanan.append(el('div', { kelas: 'eyebrow' }, 'Latihan soal'), el('h3', { gaya: 'margin:.1rem 0 .3rem' }, 'Uji pemahamanmu'), el('p', { kelas: 'muted', gaya: 'margin:0 0 .7rem' }, 'Soal muncul di jendela tersendiri dan selalu baru. Salah? Lihat pembahasan beranimasi. Benar? Lanjut ke soal berikutnya.'), statEl,
-      el('button', { kelas: 'btn besar sorot' + (t.k1.latihan ? '' : ' denyut'), type: 'button', html: ik('pensil') + 'Kerjakan soal', onclick: async () => { const isi = el('div', null, panelLatihan(fam, { catat: true, saatJawab: () => { stat(); renderNav(); } })); await UI.dialog({ judul: 'Latihan: ' + famNama(fam), ikon: ik('pensil', 'besar'), lebar: true, kelas: 'petunjuk latihan', isi, tombol: [{ t: 'Selesai latihan', nilai: true }] }); stat(); renderNav(); } }));
+    const stat = () => { statEl.innerHTML = '<div><b>' + t.k1.latihan + '</b><span>soal dikerjakan</span></div><div class="ok"><b>' + t.k1.benar + '</b><span>benar</span></div><div class="bad"><b>' + Math.max(0, t.k1.latihan - t.k1.benar) + '</b><span>salah</span></div>'; };
+    kanan.append(el('div', { kelas: 'eyebrow' }, 'Latihan soal'), el('h3', { gaya: 'margin:.1rem 0 .3rem' }, 'Uji pemahamanmu'), el('p', { kelas: 'muted', gaya: 'margin:0 0 .7rem' }, 'Soal muncul di jendela besar dan selalu baru, ada coretan untuk berhitung. Salah? Lihat pembahasan beranimasi. Selesai belajar aktif setelah 1 soal benar.'), statEl,
+      el('button', { kelas: 'btn besar sorot' + (t.k1.latihan ? '' : ' denyut'), type: 'button', html: ik('pensil') + 'Kerjakan soal', onclick: async () => { let tutupLat = null; const isi = el('div', null, panelLatihan(fam, { catat: true, saatJawab: () => { stat(); renderNav(); }, tutupDialog: () => { if (tutupLat) tutupLat(true); } })); await UI.dialog({ judul: 'Latihan: ' + famNama(fam), ikon: ik('pensil', 'besar'), lebar: true, kelas: 'petunjuk latihan', isi, tombol: [{ t: 'Selesai latihan', nilai: true }], saatBuka: (b, tutup) => { tutupLat = tutup; } }); stat(); renderNav(); } }));
     K.isi.append(el('div', { kelas: 'k1-grid' }, kiri, kanan)); stat();
     function renderNav() {
-      K.nav.innerHTML = ''; const siap = (t.k1.lihat && t.k1.latihan >= 2) || dummy;
-      K.nav.append(el('div', { kelas: 'muted' }, siap ? 'Kamu sudah siap.' : 'Putar penjelasan dan kerjakan minimal 2 soal latihan.'), el('button', { kelas: 'btn hijau besar' + (siap ? ' denyut' : ' mati'), type: 'button', disabled: !siap, html: ik('centang') + 'Selesai belajar', onclick: () => { t.k1.selesai = true; E.simpan(); kirimT2({ k1: t.k1 }); UI.toast('Kartu 1 selesai', 'centang'); hub(); } }));
+      K.nav.innerHTML = ''; const siap = t.k1.benar >= 1 || dummy;
+      K.nav.append(el('div', { kelas: 'muted' }, siap ? 'Kamu sudah siap.' : 'Kerjakan latihan sampai ada 1 soal benar.'), el('button', { kelas: 'btn hijau besar' + (siap ? ' denyut' : ' mati'), type: 'button', disabled: !siap, html: ik('centang') + 'Selesai belajar', onclick: () => { t.k1.selesai = true; E.simpan(); kirimT2({ k1: t.k1 }); UI.toast('Kartu 1 selesai', 'centang'); hub(); } }));
     }
     renderNav();
   }
@@ -210,14 +211,14 @@
     const soal = c.soal, n = soal.length, st = c.simpan; let aktif = 0, final = !!st.selesai, cor = null;
     const w = el('div', { kelas: 'tes-wrap so-wrap' }); E.layar(w);
     const kiri = el('div', { kelas: 'soal-kartu kartu' }), kanan = el('div', { kelas: 'tes-samping' }); w.append(kiri, kanan);
-    const grid = el('div', { kelas: 'nomor-grid' }), info = el('div', { kelas: 'kecil tengah muted' }), kirim = el('button', { kelas: 'btn hijau besar', type: 'button', html: ik('kirim') + 'Kumpulkan', onclick: () => kumpulkan() });
-    kanan.append(el('div', { kelas: 'eyebrow' }, c.eyebrow), el('h3', { gaya: 'margin:.1rem 0 .4rem' }, c.judul), el('div', { kelas: 'eyebrow', gaya: 'margin-top:.3rem' }, 'Nomor soal'), grid, info, kirim, el('button', { kelas: 'btn sekunder kecil', type: 'button', html: ik('kembali', 'kecil') + 'Ke dasbor', onclick: kembaliHub }));
+    const grid = el('div', { kelas: 'nomor-grid' }), info = el('div', { kelas: 'kecil tengah muted' }), kirim = el('button', { kelas: 'btn hijau besar', type: 'button', html: ik('kirim') + 'Kirim jawaban', onclick: () => kumpulkan() });
+    kanan.append(el('div', { kelas: 'eyebrow' }, c.eyebrow), el('h3', { gaya: 'margin:.1rem 0 .4rem' }, c.judul), el('div', { kelas: 'eyebrow', gaya: 'margin-top:.3rem' }, 'Nomor soal'), grid, info, kirim, el('button', { kelas: 'btn sekunder kecil', type: 'button', html: ik('kembali', 'kecil') + (c.labelKembali || 'Ke dasbor'), onclick: c.kembali || kembaliHub }));
     const dijawab = (i) => st.jawab[i] != null;
     function gambar() {
       if (cor) { cor.lepas(); cor = null; } const q = soal[aktif]; kiri.innerHTML = '';
       const bar = el('div', { kelas: 'cor-slot' });
       kiri.append(el('div', { kelas: 'baris so-kepala' }, el('div', { kelas: 'eyebrow' }, 'Soal ' + (aktif + 1) + ' dari ' + n + (q.tingkat ? ' · ' + q.tingkat : '')), bar));
-      const badan = el('div', { kelas: 'so-isi' + (q.P ? ' dgrafik' : '') });
+      const badan = el('div', { kelas: 'so-isi' + (q.P ? ' dgrafik' : '') + (c.jenis === 'angka' ? ' besar' : '') });
       if (q.P) { const g = el('div', { kelas: 'so-grafik' }); const gopt = c.grafik ? c.grafik(q) : { label: true }; Adegan.statis(g, q.P, Object.assign({ tema: 'terang', W: 600, H: 480 }, gopt)); badan.append(g); }
       const teks = el('div', { kelas: 'so-teks' }); teks.append(el('div', { kelas: 'teks-soal', html: q.tanya }));
       if (c.jenis === 'angka') {
@@ -226,17 +227,17 @@
       } else {
         const ops = el('div', { kelas: 'opsi-wrap' }); q.opsi.forEach((o, k) => { let kls = 'opsi' + (st.jawab[aktif] === k ? ' pilih' : ''); if (final) kls = 'opsi' + (k === q.kunci ? ' benar' : (k === st.jawab[aktif] ? ' salah' : '')); ops.append(el('button', { kelas: kls, type: 'button', disabled: final, html: '<span class="huruf">' + HURUF[k] + '</span><span>' + o + '</span>' + (final && k === q.kunci ? '<span class="chip ok" style="margin-left:auto">benar</span>' : (final && k === st.jawab[aktif] ? '<span class="chip bad" style="margin-left:auto">jawabanmu</span>' : '')), onclick: () => { st.jawab[aktif] = k; E.simpan(); gambar(); } })); }); teks.append(ops);
       }
-      if (final) { teks.append(el('div', { kelas: 'umpan ok pembahasan', html: ik('info') + '<span>' + (q.jelas || '') + '</span>' })); if (q.P) teks.append(el('button', { kelas: 'btn sekunder', type: 'button', html: ik('main', 'kecil') + 'Pembahasan animasi', onclick: () => Pel.bukaPembahasan(q.P, 'Pembahasan soal ' + (aktif + 1)) })); }
+      if (final) { teks.append(el('div', { kelas: 'umpan ok pembahasan', html: ik('info') + '<span>' + (q.jelas || '') + '</span>' })); }
       badan.append(teks); kiri.append(badan, el('div', { kelas: 'baris', gaya: 'justify-content:space-between;margin-top:auto' }, el('button', { kelas: 'btn sekunder', type: 'button', html: ik('kembali') + 'Sebelumnya', disabled: aktif === 0, onclick: () => { aktif--; gambar(); } }), el('button', { kelas: 'btn sekunder', type: 'button', html: 'Berikutnya' + ik('panah'), disabled: aktif === n - 1, onclick: () => { aktif++; gambar(); } })));
       if (c.coretan !== false) cor = Coretan.pasang(kiri, c.kunci + '_' + aktif, { bar });
       grid.innerHTML = ''; soal.forEach((q2, i) => grid.append(el('button', { kelas: 'no' + (i === aktif ? ' aktif' : '') + (dijawab(i) ? ' isi' : '') + (final ? (st.jawab[i] === q2.kunci ? ' benar' : ' salah') : ''), type: 'button', onclick: () => { aktif = i; gambar(); } }, i + 1)));
       const sisa = soal.filter((_, i) => !dijawab(i)).length; info.textContent = final ? st.benar + ' dari ' + n + ' benar' : (sisa ? sisa + ' soal belum dijawab' : 'Semua soal sudah dijawab'); const kunciK = sisa > 0 && E.idx() !== B.DUMMY; kirim.disabled = final || kunciK; kirim.className = 'btn hijau besar' + (final ? ' hidden' : (kunciK ? ' mati' : ' denyut')); kirim.style.display = final ? 'none' : '';
     }
     async function kumpulkan() {
-      const ya = await UI.konfirmasi('Kumpulkan jawaban?', '<p class="tengah">Setelah dikumpulkan, jawaban tidak bisa diubah.</p>', 'Ya, kumpulkan', 'Periksa lagi'); if (!ya) return;
+      const ya = await UI.konfirmasi('Kirim jawaban?', '<p class="tengah">Setelah dikirim, jawaban tidak bisa diubah. Pembahasan akan muncul di layar soal.</p>', 'Ya, kirim', 'Periksa lagi'); if (!ya) return;
       let benar = soal.filter((q, i) => st.jawab[i] === q.kunci).length; st.jawab = st.jawab.map((v) => (v == null ? null : v)); if (c.submit) { const r = await c.submit(st.jawab[0]); if (!r) return; benar = r.benar ? 1 : 0; }
       st.benar = benar; st.selesai = true; final = true; E.simpan(); kirimT2({ [c.kunci]: { benar, selesai: true, jawab: st.jawab } }); if (c.sesudah) c.sesudah(benar); gambar();
-      await UI.dialog({ judul: benar === n ? 'Sempurna!' : 'Jawaban tercatat', ikon: ik(benar === n ? 'bintang' : 'centang', 'besar'), isi: '<div class="tengah"><p style="font-size:1.4rem"><b>' + benar + ' dari ' + n + '</b> benar.</p><p class="muted">Ketuk nomor soal untuk melihat pembahasan, termasuk animasinya.</p></div>', tombol: [{ t: 'Lihat pembahasan', nilai: true }] }); if (benar === n) E.konfeti(innerWidth / 2, innerHeight / 3, 60);
+      await UI.dialog({ judul: benar === n ? 'Sempurna!' : 'Jawaban tercatat', ikon: ik(benar === n ? 'bintang' : 'centang', 'besar'), isi: '<div class="tengah"><p style="font-size:1.4rem"><b>' + benar + ' dari ' + n + '</b> benar.</p><p class="muted">Baca pembahasan tertulis di bawah soal. Ketuk nomor soal untuk melihat soal yang lain.</p></div>', tombol: [{ t: 'Lihat pembahasan', nilai: true }] }); if (benar === n) E.konfeti(innerWidth / 2, innerHeight / 3, 60);
     }
     UI.petunjuk && c.petunjuk && !c.petunjuk.tampil && (async () => { c.petunjuk.tampil = true; await UI.petunjuk(c.petunjuk); })();
     gambar(); return { gambar };
@@ -265,7 +266,7 @@
     async function segar() { if (mati) return; const r = await E.api('k5-status', { idx: E.idx() }); if (r.ok) { const tt = JSON.stringify([r.klaim, r.jawab, r.saya]); if (tt !== tanda) { tanda = tt; S = r; if (JSON.stringify(r.fams) === JSON.stringify(S.fams)) soal = B.luasSet(r.seed, r.fams); layarPilih(); } } }
     function kerjakan(no) {
       tutupPoll(); const q = soal[no - 1], st = { jawab: [null], selesai: !!S.jawab[no], benar: S.jawab[no] && S.jawab[no].benar ? 1 : 0 }; if (S.jawab[no]) st.jawab[0] = S.jawab[no].benar ? q.kunci : null;
-      layarSoal({ eyebrow: 'Kartu 5 · Hitung Luas', judul: 'Soal ' + no, kunci: 'k5x', soal: [Object.assign({}, q, { tingkat: 'kartu ' + no })], jenis: 'angka', simpan: st, grafik: () => ({ angka: true, arsir: true, titik: true, label: true }), submit: async (v) => { const r = await E.api('k5-jawab', { idx: E.idx(), nilai: v }); if (!r.ok) { UI.toast('Gagal mengirim. Coba lagi.', 'awas'); return null; } S.jawab[no] = { idx: E.idx(), nama: B.nama(E.idx()), benar: r.benar }; return { benar: r.benar }; }, sesudah: () => { setTimeout(() => { mati = false; kartu5(); }, 4000); } });
+      layarSoal({ eyebrow: 'Kartu 5 · Hitung Luas', judul: 'Soal ' + no, kunci: 'k5x', soal: [Object.assign({}, q, { tingkat: 'kartu ' + no })], jenis: 'angka', simpan: st, grafik: () => ({ angka: true, arsir: true, titik: true, label: true }), submit: async (v) => { const r = await E.api('k5-jawab', { idx: E.idx(), nilai: v }); if (!r.ok) { UI.toast('Gagal mengirim. Coba lagi.', 'awas'); return null; } S.jawab[no] = { idx: E.idx(), nama: B.nama(E.idx()), benar: r.benar }; return { benar: r.benar }; }, kembali: () => { mati = false; kartu5(); }, labelKembali: 'Kembali ke daftar soal' });
     }
     layarPilih(); tanda = JSON.stringify([S.klaim, S.jawab, S.saya]); tmrG = setInterval(() => { if (!document.querySelector('.k5-kartu')) return tutupPoll(); segar(); }, 2500);
   }

@@ -59,6 +59,7 @@
   }
 
   /* ---------------- kelompok ---------------- */
+  const planTeks = (n) => { const r = BS.rencanaKelompok(n); return r.K ? r.K + ' kelompok, ukuran ' + [...new Set(r.ukuran)].sort((x, y) => y - x).join(' dan ') + (r.K < 7 ? ' (materi 1–' + r.K + ' dipakai)' : '') : 'belum ada'; };
   async function tKelompok() { if (MANUAL()) return tKelompokManual();
     const w = el('div', { kelas: 'kel-wrap' }); pg.append(w);
     const render = () => {
@@ -75,7 +76,7 @@
       if (net === 'online') {
         const selesaiTes = data ? data.daftar.filter((x) => x.skor != null).length : 0;
         const gerbang = el('div', { kelas: 'kartu gerbang ' + (tahan ? 'kunci' : 'buka') });
-        gerbang.append(el('span', { kelas: 'ubin ' + (tahan ? 'fx-tangga' : 'fx-garis'), html: ik(tahan ? 'gembok' : 'centang') }), el('div', { gaya: 'flex:1' }, el('div', { kelas: 'eyebrow', gaya: 'margin:0' }, 'Layar siswa saat ini'), el('h3', { gaya: 'margin:0;font-size:1.5rem' }, tahan ? 'Kelompok TERKUNCI. Siswa menunggu.' : 'Kelompok DIBUKA. Siswa bisa melihat kelompoknya.'), el('div', { kelas: 'muted' }, selesaiTes + ' siswa sudah selesai tes awal. ' + (tahan ? 'Buka setelah semua (atau cukup banyak) siswa selesai.' : 'Siswa yang menyusul masuk lewat “Tambahkan yang menyusul”.'))), el('button', { kelas: 'btn besar ' + (tahan ? 'hijau denyut-h' : 'sekunder'), type: 'button', html: ik(tahan ? 'nyala' : 'gembok') + (tahan ? 'Buka kelompok untuk siswa' : 'Kunci lagi'), onclick: async () => { if (tahan && !(selesaiTes >= 1)) { UI.toast('Belum ada siswa yang selesai tes awal', 'awas'); return; } await ga('g-gerbang', { buka: tahan }); muat(); } }));
+        gerbang.append(el('span', { kelas: 'ubin ' + (tahan ? 'fx-tangga' : 'fx-garis'), html: ik(tahan ? 'gembok' : 'centang') }), el('div', { gaya: 'flex:1' }, el('div', { kelas: 'eyebrow', gaya: 'margin:0' }, 'Layar siswa saat ini'), el('h3', { gaya: 'margin:0;font-size:1.5rem' }, tahan ? 'Kelompok TERKUNCI. Siswa menunggu.' : 'Kelompok DIBUKA. Siswa bisa melihat kelompoknya.'), el('div', { kelas: 'muted' }, selesaiTes + ' siswa sudah selesai tes awal. Rencana susun ulang untuk yang hadir: ' + planTeks(selesaiTes) + '. ' + (tahan ? 'Buka setelah semua (atau cukup banyak) siswa selesai.' : 'Siswa yang menyusul masuk lewat “Tambahkan yang menyusul”.'))), el('button', { kelas: 'btn besar ' + (tahan ? 'hijau denyut-h' : 'sekunder'), type: 'button', html: ik(tahan ? 'nyala' : 'gembok') + (tahan ? 'Buka kelompok untuk siswa' : 'Kunci lagi'), onclick: async () => { if (tahan && !(selesaiTes >= 1)) { UI.toast('Belum ada siswa yang selesai tes awal', 'awas'); return; } await ga('g-gerbang', { buka: tahan }); muat(); } }));
         w.append(gerbang);
       }
       if (!kel) { w.append(el('div', { kelas: 'tengah-isi' }, el('p', { kelas: 'muted' }, 'Kelompok disusun dari siswa yang sudah selesai tes awal, secara seimbang (nilai tinggi dan rendah dicampur).'))); return; }

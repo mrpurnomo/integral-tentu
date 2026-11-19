@@ -9,7 +9,30 @@
     /* nama samaran sampai guru mengisi daftar asli (urutan tetap). Jumlah murid per kelas bebas (maks 49); 7 kelompok, anggota per kelompok menyesuaikan. */
     xiia: buat('SISWA A', 21),
     xiib: buat('SISWA B', 21),
-    xiic: buat('SISWA C', 21),
+    xiic: [
+      "AFIF AHMAD ZAIDAN",
+      "AHMAD AFAN ADIYATMA",
+      "AHMAD HUDZAIFAH",
+      "ALMIRA QAIREEN KHAIRUNNISA",
+      "ANNISA AZH ZHAFIRAH RIZAL",
+      "ASYLLA THIESA PUTRI",
+      "CALISTA BALQIS PUTRI MAHROZI",
+      "DZAKYAH TALITA AZMI",
+      "FATHIYYA MAIZA SHABIRAH",
+      "GIFTANIA IRENE TIMBULENG",
+      "KAYYIZA AISKHA ELYASSIN",
+      "MUHAMMAD PASHA ATHALLAH",
+      "MUTHIA RANA FAIRUZ",
+      "NAILA AZARIA HERMAWAN",
+      "NAYYEFA NOOR ALTAHFUNNISA",
+      "NOURA FAZILLA LINGE",
+      "NUR ANNISA AKMAL",
+      "RAKHA ATHAYA SYAMIIL",
+      "RAYSHA RIZKI ANDRYANI",
+      "SITI WULANDARI",
+      "YELSI BALALEMBANG",
+      "ZAHRAH IZZAH RAMADHANI"
+    ],
     xiid: buat('SISWA D', 21),
     ujim: buat('SISWA UJI', 21)
   };

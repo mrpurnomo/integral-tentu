@@ -93,4 +93,14 @@ const tok = (i) => 'T' + i, S = (i, a, o) => api(Object.assign({ a, idx: i, toke
   ok((await G('g-status')).tahap2.pasangan.ok === pOkSebelum, 'uji coba: tidak menambah hitungan pertemuan terverifikasi di rekap guru');
   await G('g-reset', { idx: a0[0] }); r = await S(a0[1], 'grup'); ok(r.anggota.find((a) => a.idx === a0[0]) === undefined, 'reset satu murid melepas dari kelompok dan peran');
   await G('g-reset-semua'); r = await api({ a: 'cek' }); ok(r.ok, 'reset semua menghapus peran, pasangan, dan kartu 5 tanpa galat');
+  /* kelompok cerdas: hanya 10 murid hadir -> lima kelompok berdua; kunjungan hanya ke kelompok yang ada */
+  await G('g-reset-semua'); const hadir = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+  for (const i of hadir) { await api({ a: 'klaim', idx: i, token: tok(i) }); const so = B.soalSiswa(i); await S(i, 'hasil', { jawab: so.map((q) => q.kunci), detik: 100 }); }
+  r = await G('g-bentuk'); ok(r.ok && r.kelompok.slice(0, 5).every((g) => g.length === 2) && r.kelompok.slice(5).every((g) => g.length === 0), '10 hadir: susun ulang menjadi lima kelompok berdua');
+  r = await S(11, 'klaim'); await api({ a: 'klaim', idx: 11, token: tok(11) }); await S(11, 'hasil', { jawab: B.soalSiswa(11).map((q) => q.kunci), detik: 90 }); r = await S(11, 'kelompok'); ok(r.ok && r.saya < 5, 'murid yang menyusul masuk ke salah satu dari lima kelompok aktif');
+  const gm = r.kelompok.map((g) => g.map((x) => x.idx)); const ang = gm[0]; await S(ang[0], 'peran', { peran: 0 }); r = await S(ang[1], 'peran', { peran: 1 }); ok(r.ok, 'kelompok berdua: Host dan Penjelajah');
+  r = await S(ang[1], 'k2-status'); ok(r.ok && r.tujuan.length === 4 && r.tujuan.every((x) => x.h <= 5), 'Penjelajah tanpa rekan hanya mengunjungi empat kelompok yang ada (bukan enam)');
+  r = await S(ang[0], 'k2-status'); ok(r.tamu.length === 4 && r.tamu.every((x) => x.g <= 5), 'Host hanya menerima tamu dari kelompok yang ada');
+  r = await S(ang[0], 'k5-status'); ok(r.ok && r.fams.length === 1, 'kartu 5 memakai materi yang sudah dipelajari (belum ada kunjungan: materi sendiri)');
+  await G('g-reset-semua');
 })();

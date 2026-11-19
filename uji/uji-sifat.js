@@ -66,6 +66,14 @@ const pecah = (s) => { const m = String(s).replace(/\$/g, '').match(/^(-?)\\frac
   const pasang = new Set(); for (let g = 1; g <= 7; g++) ['A', 'B'].forEach((s) => B.rute3(g, s).forEach((h) => pasang.add(g + ':' + h))); ok(pasang.size === 42, 'rute: 42 pertemuan unik (7 × 6)');
   ok(B.daftarKunjungan(3, 'A', false).length === 6 && B.daftarKunjungan(3, 'A', true).length === 3, 'Penjelajah tanpa rekan mengambil enam kelompok');
   ok(B.kapasitasPeran(3).join() === '1,1,1' && B.kapasitasPeran(7).join() === '1,3,3', 'kapasitas peran per kelompok');
+  /* rencana kelompok cerdas */
+  let rcn = true; for (let n = 1; n <= 49; n++) { const r = B.rencanaKelompok(n), jml = r.ukuran.reduce((a, b) => a + b, 0), mx = Math.max(...r.ukuran), mn = Math.min(...r.ukuran); if (jml !== n || r.K > 7 || mx - mn > 1 || (n >= 14 && r.K !== 7) || (n >= 4 && mn < 2)) rcn = false; }
+  ok(rcn, 'rencana kelompok: jumlah hadir 1–49 habis terbagi, selisih ukuran ≤ 1, tujuh kelompok bila ≥ 14, minimal 2 orang bila ≥ 4');
+  { const sel = Array.from({ length: 18 }, (_, i) => ({ idx: i, skor: i % 6 })), k = B.bentukKelompok(sel, 'xiic', true), uk = k.map((g) => g.length).join(); ok(uk === '3,3,3,3,2,2,2' && k.flat().length === 18, 'susun ulang 18 hadir: 3,3,3,3,2,2,2 (' + uk + ')');
+    const rata = k.filter((g) => g.length).map((g) => g.reduce((a, s) => a + s.skor, 0) / g.length); ok(Math.max(...rata) - Math.min(...rata) <= 2, 'susun ulang: rata-rata skor antarkelompok seimbang');
+    const sedikit = Array.from({ length: 10 }, (_, i) => ({ idx: i, skor: i % 5 })), k2 = B.bentukKelompok(sedikit, 'xiic', true); ok(k2.slice(0, 5).every((g) => g.length === 2) && k2.slice(5).every((g) => !g.length), '10 hadir: lima kelompok berdua, dua kelompok terakhir kosong');
+    const tk = B.tambahKelompok(k2, { idx: 20, skor: 3 }, 'xiic', 5); ok(tk >= 0 && tk < 5, 'siswa yang menyusul masuk ke kelompok aktif, bukan kelompok kosong'); }
+  ok(B.kapasitasPeran(2).join() === '1,1,1' && B.kapasitasPeran(4).join() === '1,2,1' && B.kapasitasPeran(5).join() === '1,2,2', 'kapasitas peran menyesuaikan ukuran kelompok (2, 4, 5 orang)');
   const so = B.soalSiswa(5), jw = so.map((q) => q.kunci), kode = B.buatKode(5, jw), r = B.bacaKode(kode); ok(r.idx === 5 && r.jawab.join() === jw.join(), 'kode hasil: tulis dan baca kembali');
   const sel = Array.from({ length: 21 }, (_, i) => ({ idx: i, skor: (i * 7) % 6 })), kel = B.bentukKelompok(sel, 'xiia'); ok(kel.length === 7 && kel.every((g) => g.length === 3), 'kelompok: 7 × 3 dari 21 murid');
   const k2 = Array.from({ length: 7 }, () => []); const p = B.tambahKelompok(k2, { idx: 0, skor: 3 }, 'xiia'); ok(p >= 0 && k2[p].length === 1, 'kelompok langsung: murid ditambahkan ke kelompok yang kurang');

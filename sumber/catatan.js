@@ -85,7 +85,7 @@
     const cetak = () => { document.title = 'Catatan Belajar - ' + nama; setTimeout(() => { try { window.print(); } catch (e) { UI.toast('Peramban ini tidak mendukung cetak', 'awas'); } }, 50); };
     window.addEventListener('afterprint', () => { document.title = judulLama; }, { once: true });
     w.append(el('div', { kelas: 'cat-bar' }, el('b', null, 'Catatan belajarmu'), el('span', { kelas: 'muted' }, 'Tekan “Simpan sebagai PDF”, lalu pada jendela cetak pilih “Simpan sebagai PDF” (atau “Save as PDF”) sebagai printernya.'), el('span', { kelas: 'ruang' }), el('button', { kelas: 'btn hijau', type: 'button', html: ik('kirim') + 'Simpan sebagai PDF', onclick: cetak }), el('button', { kelas: 'btn sekunder', type: 'button', html: ik('silang', 'kecil') + 'Tutup', onclick: tutup })));
-    const lembar = el('div', { kelas: 'cat-lembar' }); lembar.innerHTML = bangunHalaman(d); w.append(lembar); document.body.append(w);
+    const lembar = el('div', { kelas: 'cat-lembar' }); lembar.innerHTML = Mat.h(bangunHalaman(d)); w.append(lembar); document.body.append(w);
     return w;
   }
   root.Catatan = { buka, bangunHalaman };

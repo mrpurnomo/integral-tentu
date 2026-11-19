@@ -61,7 +61,7 @@
     s.baris([L('akt', [T('lh', 'L=', 'putih'), T('u', String(P.L), 'emas', { hl: true }), TX('sat', 'satuan luas', 'putih')], { ket: 'Jawaban' })], { fs: 3.4 }).langkahBaru({ ms: 1500 });
     return [{ judul: o.judul || 'Pembahasan', langkah: s.langkah }];
   }
-  function bukaPembahasan(P, judul) { return Adegan.layarPenuh({ bab: solusiBab(P, { judul: judul || 'Pembahasan' }), labelAkhir: 'Selesai', saatSelesai: () => { const b = document.querySelector('.ad-tutup'); if (b) b.click(); } }); }
+  function bukaPembahasan(P, judul, opsi) { return Adegan.layarPenuh(Object.assign({ bab: solusiBab(P, { judul: judul || 'Pembahasan' }), labelAkhir: 'Selesai', saatSelesai: () => { const b = document.querySelector('.ad-tutup .btn:last-child'); if (b) b.click(); } }, opsi || {})); }
 
   /* ======================================================================== PELAJARAN TUJUH MATERI */
   const LES = {
@@ -110,7 +110,7 @@
     return { judul: 'Konsep: ' + D.j.replace(/\$/g, ''), langkah: s.langkah };
   }
   function pelajaranBab(fam) { const P = contohP(fam); return [konsepBab(fam)].concat(solusiBab(P, { judul: 'Contoh dihitung: ' + B.NAMA_FAM[fam] })); }
-  function bukaPelajaran(fam, opsi) { return Adegan.layarPenuh(Object.assign({ bab: pelajaranBab(fam), labelAkhir: 'Selesai belajar', saatSelesai: () => { const b = document.querySelector('.ad-tutup'); if (b) b.click(); } }, opsi || {})); }
+  function bukaPelajaran(fam, opsi) { return Adegan.layarPenuh(Object.assign({ bab: pelajaranBab(fam), labelAkhir: 'Selesai belajar', saatSelesai: () => { const b = document.querySelector('.ad-tutup .btn:last-child'); if (b) b.click(); } }, opsi || {})); }
   /* modul mengajar (Host): pelajaran + soal latihan beranimasi dari kartu belajar kelompok */
   root.Pel = { solusiBab, bukaPembahasan, pelajaranBab, bukaPelajaran, LES, contohP, konsepBab };
 })(window);

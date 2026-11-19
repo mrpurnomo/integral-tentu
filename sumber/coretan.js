@@ -81,6 +81,7 @@
       bar.innerHTML = ''; bar.classList.toggle('terbuka', S.aktif); host.classList.toggle('cor-on', S.aktif); cv.style.visibility = S.aktif ? 'visible' : 'hidden';
       bar.append(el('button', { kelas: 'cor-tog' + (S.aktif ? ' on' : ''), type: 'button', title: S.aktif ? 'Matikan coretan (coretan disembunyikan)' : 'Aktifkan coretan', 'aria-pressed': S.aktif ? 'true' : 'false', html: ikon('pensil') + '<span>' + (S.aktif ? 'Coretan aktif' : 'Coretan') + '</span>' + (S.aktif ? '<i class="cor-titik"></i>' : ''), onclick: () => { S.aktif = !S.aktif; ui(); } }));
       if (!S.aktif) { cv.style.cursor = 'default'; return; }
+      bar.append(el('span', { kelas: 'cor-hint' }, 'Matikan coretan untuk memakai tombol lain'));
       const alat = [['pensil', 'Pensil'], ['stabilo', 'Stabilo'], ['hapusPiksel', 'Hapus per piksel'], ['hapusGoresan', 'Hapus per goresan'], ['tangan', 'Tangan: tidak mencoret, hanya memilih atau menggulir']];
       alat.forEach(([id, t]) => bar.append(btn(id, t, () => { S.alat = id; simpanS(); ui(); }, S.alat === id ? 'aktif' : '')));
       bar.append(el('span', { kelas: 'cor-sk' }));

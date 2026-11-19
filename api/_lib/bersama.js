@@ -100,7 +100,7 @@
   const PERAN = [{ kode: 'host', sub: null, nama: 'Host', panjang: 'Host (pengajar)' }, { kode: 'kelana', sub: 'A', nama: 'Penjelajah A', panjang: 'Penjelajah A' }, { kode: 'kelana', sub: 'B', nama: 'Penjelajah B', panjang: 'Penjelajah B' }];
   const peranDariPos = (pos) => PERAN[Math.max(0, Math.min(2, pos | 0))];
   /* kapasitas tiap peran dalam satu kelompok: 1 Host; sisanya dibagi dua Penjelajah */
-  const kapasitasPeran = (maks) => [1, Math.max(1, Math.ceil((maks - 1) / 2)), Math.max(1, Math.floor((maks - 1) / 2))];
+  const kapasitasPeran = (n) => [1, Math.max(1, Math.ceil((n - 1) / 2)), Math.max(1, Math.floor((n - 1) / 2))];   /* n = jumlah anggota kelompok saat ini */
   /* kelompok (nomor 1-based) yang wajib dikunjungi Penjelajah sub 'A' | 'B' dari kelompok g: tiga kelompok lain, tidak bertabrakan */
   const rute3 = (g, sub) => [1, 2, 3].map((r) => ((g + r - 1 + (sub === 'B' ? 3 : 0)) % NPOS) + 1);
   /* tamu di meja Host kelompok h: enam kelompok lain (tiap kelompok mengirim satu Penjelajah) */
@@ -172,14 +172,28 @@
   }
 
   /* ---------- kelompok heterogen (pola ular), jumlah kelompok dan anggota maksimum dari konfigurasi kelas ---------- */
-  function bentukKelompok(selesai, kl) {
-    const c = cfg(kl), J = c.jmlKelompok, urut = selesai.slice().sort((a, b) => (b.skor - a.skor) || (a.idx - b.idx)), kel = Array.from({ length: J }, () => []), pola = [];
-    for (let p = 0; p < Math.ceil(c.daftar.length / J) + 1; p++) for (let i = 0; i < J; i++) pola.push(p % 2 ? J - 1 - i : i);
+  /* RENCANA KELOMPOK CERDAS: jumlah hadir tidak harus kelipatan 7. Tujuh kelompok dipakai bila hadir >= 14 (tiap kelompok minimal 2 orang);
+     bila lebih sedikit, jumlah kelompok = hadir / 2 (minimal 1) dan materi dipakai berurutan dari materi 1. Ukuran kelompok selisih paling banyak 1. */
+  function rencanaKelompok(n) {
+    n = Math.max(0, n | 0); if (!n) return { K: 0, ukuran: [] };
+    const K = n >= 14 ? NPOS : Math.max(1, Math.min(NPOS, Math.floor(n / 2))), dasar = Math.floor(n / K), lebih = n % K;
+    return { K, ukuran: Array.from({ length: K }, (_, i) => dasar + (i < lebih ? 1 : 0)) };
+  }
+  /* kelompok heterogen (pola ular menurut skor). rencana=true: pakai rencanaKelompok (jumlah hadir saat ini); selain itu tujuh kelompok (susun langsung). */
+  function bentukKelompok(selesai, kl, rencana) {
+    const c = cfg(kl), J = c.jmlKelompok, urut = selesai.slice().sort((a, b) => (b.skor - a.skor) || (a.idx - b.idx)), kel = Array.from({ length: J }, () => []);
+    if (rencana) {
+      const rp = rencanaKelompok(urut.length), K = Math.max(1, rp.K); let i = 0;
+      for (let baris = 0; i < urut.length; baris++) { const o = Array.from({ length: K }, (_, g) => (baris % 2 ? K - 1 - g : g)); for (const g of o) { if (i >= urut.length) break; if (kel[g].length < rp.ukuran[g]) { kel[g].push({ idx: urut[i].idx, skor: urut[i].skor }); i++; } } }
+      return kel;
+    }
+    const pola = []; for (let p = 0; p < Math.ceil(c.daftar.length / J) + 1; p++) for (let i = 0; i < J; i++) pola.push(p % 2 ? J - 1 - i : i);
     urut.forEach((s, i) => { if (pola[i] != null) kel[pola[i]].push({ idx: s.idx, skor: s.skor }); }); return kel;
   }
-  function tambahKelompok(kel, s, kl) {
-    const MAKS = cfg(kl).maks, rata = (g) => (g.length ? g.reduce((a, b) => a + b.skor, 0) / g.length : 0), semua = kel.flat(), rataAll = semua.length ? semua.reduce((a, b) => a + b.skor, 0) / semua.length : s.skor;
-    const buka = kel.map((g, i) => ({ g, i })).filter((x) => x.g.length < MAKS); if (!buka.length) return -1;
+  /* murid yang menyusul masuk ke kelompok terkecil di antara K kelompok aktif (K dari susun ulang guru; tanpa itu 7), dengan skor diseimbangkan */
+  function tambahKelompok(kel, s, kl, K) {
+    K = Math.max(1, Math.min(kel.length, K || kel.length)); const MAKS = Math.max(cfg(kl).maks, Math.ceil(cfg(kl).daftar.length / K)), rata = (g) => (g.length ? g.reduce((a, b) => a + b.skor, 0) / g.length : 0), semua = kel.flat(), rataAll = semua.length ? semua.reduce((a, b) => a + b.skor, 0) / semua.length : s.skor;
+    const buka = kel.map((g, i) => ({ g, i })).filter((x) => x.i < K && x.g.length < MAKS); if (!buka.length) return -1;
     const min = Math.min(...buka.map((x) => x.g.length)), kand = buka.filter((x) => x.g.length === min);
     kand.sort((a, b) => (s.skor >= rataAll ? rata(a.g) - rata(b.g) : rata(b.g) - rata(a.g))); const pilih = kand[0].i; kel[pilih].push({ idx: s.idx, skor: s.skor }); return pilih;
   }
@@ -320,10 +334,11 @@
     const uniq = [benar]; salah.forEach((s) => { if (!uniq.includes(s)) uniq.push(s); });
     return { benar, opsi: uniq.slice(0, 5) };
   }
+  const ALASAN = { bawah: 'Kurva berada di bawah sumbu-x, jadi nilai integralnya negatif. Luas diperoleh dengan memberi tanda minus di depan integral.', potong: 'Kurva memotong sumbu-x. Integral dipecah di titik potong sumbu, dan bagian yang berada di bawah sumbu diberi tanda minus supaya luasnya positif.', garis: 'Batas integral adalah titik potong kedua kurva. Irisan tegak (dx): tinggi irisan = kurva atas dikurangi kurva bawah.', parab: 'Batas integral adalah titik potong kedua parabola. Irisan tegak (dx): kurva atas dikurangi kurva bawah.', silang: 'Posisi atas dan bawah bertukar di titik potong tengah, jadi luas dihitung dengan dua integral: (atas − bawah) pada tiap bagian.', sumbuy: 'Daerah dibatasi sumbu-y, jadi irisan datar (dy): panjang irisan adalah x (di kanan sumbu-y) atau −x (di kiri), dan batasnya nilai y.', kanan: 'Kedua kurva ditulis x = …, jadi irisan datar (dy): panjang irisan = x kanan dikurangi x kiri, dengan batas nilai y.' };
   function bentukSet(seed) {
     return URUT.map((fam, i) => {
       const r = mulberry((seed | 0) * 53 + i * 1013 + 9), P = GEN[fam](r), { benar, opsi } = opsiBentuk(P), urut = acak(r, opsi.map((_, k) => k));
-      return { no: i + 1, fam, P, tanya: 'Perhatikan grafik di samping. Penulisan integral tentu yang <b>tepat</b> untuk luas daerah yang diarsir adalah …', opsi: urut.map((k) => M(opsi[k])), kunci: urut.indexOf(0), jelas: jelasP(P) };
+      return { no: i + 1, fam, P, tanya: 'Perhatikan grafik di samping. Penulisan integral tentu yang <b>tepat</b> untuk luas daerah yang diarsir adalah …', opsi: urut.map((k) => M(opsi[k])), kunci: urut.indexOf(0), jelas: '<b>Bentuk yang tepat:</b> ' + M(benar) + '<br><b>Alasan.</b> ' + ALASAN[fam] + '<br><b>Kalau dihitung sampai selesai:</b><br>' + jelasP(P) };
     });
   }
 
@@ -339,7 +354,7 @@
   function tiketSet(seed) {
     const r = mulberry((seed | 0) * 41 + 11), q = pilihRuangSeed(r);
     const mudah = { tingkat: 'Mudah', tanya: 'Hitunglah ' + M(tInt(q.a, q.b, tPoly([q.c, q.q, q.p]))) + '.', kunci: Math.round((q.p / 3) * (Math.pow(q.b, 3) - Math.pow(q.a, 3)) + (q.q / 2) * (q.b * q.b - q.a * q.a) + q.c * (q.b - q.a)), jelas: '' };
-    { const H = tHit([q.c, q.q, q.p], q.a, q.b); mudah.jelas = M(tInt(q.a, q.b, tPoly([q.c, q.q, q.p])) + '=' + H.ev + '=' + H.sub + '=' + H.val + '=' + H.res); }
+    { const H = tHit([q.c, q.q, q.p], q.a, q.b); mudah.jelas = '<b>1. Antiturunan.</b> ' + M('F(x)=' + H.anti) + '<br><b>2. Tulis batas.</b> ' + M(tInt(q.a, q.b, tPoly([q.c, q.q, q.p])) + '=' + H.ev) + '<br><b>3. Substitusi batas atas dikurangi batas bawah.</b> ' + M('=' + H.sub) + '<br><b>4. Hitung.</b> ' + M('=' + H.val + '=' + H.res) + '<br>Jadi nilainya <b>' + mudah.kunci + '</b>.'; }
     const Ps = buat('garis', (seed | 0) * 13 + 1), Pu = buat(pil(r, ['parab', 'silang', 'kanan']), (seed | 0) * 13 + 2);
     return [mudah, { tingkat: 'Sedang', P: Ps, tanya: tanyaP(Ps, { titik: true }), kunci: Ps.L, jelas: jelasP(Ps) }, { tingkat: 'Sulit', P: Pu, tanya: tanyaP(Pu), kunci: Pu.L, jelas: jelasP(Pu) }].map((x, i) => Object.assign({ no: i + 1 }, x));
   }
@@ -363,7 +378,7 @@
     return { kartu, capaian, nilai, predikat, benar: bnr, total: tot, awal, naik: awal == null ? null : nilai - awal, komponen: [['Titik potong', g('k3'), BOBOT.k3], ['Bentuk integral', g('k4'), BOBOT.k4], ['Hitung luas', g('k5'), BOBOT.k5], ['Tiket keluar', g('k6'), BOBOT.k6]] };
   }
 
-  const api = { KELAS_CFG, KELAS_ID, KELAS_TAMPIL, cfg, setKelas, durasi, kelasAktif: () => AKTIF, URUT, NAMA_FAM, NPOS, bagianKelompok, PERAN, peranDariPos, kapasitasPeran, rute3, tamuHost, daftarKunjungan, DAFTAR: DAFTAR_ALL, DUMMY, PIN_SHA, cekPinLokal, nama, judulKata, JUMLAH_SOAL, soalSiswa, nilai, buatKode, bacaKode, bentukKelompok, tambahKelompok, ALFA,
+  const api = { KELAS_CFG, KELAS_ID, KELAS_TAMPIL, cfg, setKelas, durasi, kelasAktif: () => AKTIF, URUT, NAMA_FAM, NPOS, bagianKelompok, PERAN, peranDariPos, kapasitasPeran, rute3, tamuHost, daftarKunjungan, DAFTAR: DAFTAR_ALL, DUMMY, PIN_SHA, cekPinLokal, nama, judulKata, JUMLAH_SOAL, soalSiswa, nilai, buatKode, bacaKode, bentukKelompok, tambahKelompok, rencanaKelompok, ALFA,
     buat, tanyaP, jelasP, titikPotongSet, bentukSet, luasSet, tiketSet, latihan, seedKelompok, rapor, GEN, i12, pv, pa, ps, luas12, mulberry, acak, rint, pil, M, tPoly, tAnti, tInt, tEv, tHit, tR, tPar, tAbs, tSubst, selisihZ, eqP, kk, NA, BOBOT };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.BS = api;
 })(typeof window !== 'undefined' ? window : globalThis);

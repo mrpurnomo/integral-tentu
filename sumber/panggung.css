@@ -86,3 +86,22 @@
 /* label fungsi pada grafik: latar tipis agar terbaca di atas arsiran dan garis */
 .kv-fd { padding: .02em .28em; border-radius: .35em; background: rgba(10,20,40,.55); }
 .kv-terang .kv-fd { background: rgba(255,255,255,.82); text-shadow: none; }
+
+/* ---- perbaikan animasi: token boleh terbang melewati batas panel, pecahan bertumpuk, pangkat, jam, bingkai ---- */
+.ad-bd, .ad-stage { overflow: visible; } .ad-bd { z-index: 2; } .ad-gr { z-index: 1; }
+.bd-t.sup { font-size: .62em; position: relative; top: -.7em; margin-left: .03em; margin-right: .08em; }
+.bd-frac { display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; margin: 0 .1em; }
+.bd-frac .fa, .bd-frac .fb { display: flex; align-items: baseline; justify-content: center; white-space: nowrap; }
+.bd-frac .fb { font-size: .82em; } .bd-frac .fbar { display: block; width: 100%; height: .06em; min-height: 2px; margin: .1em 0; background: currentColor; padding: 0; }
+.bd-t.jam { width: 1.1em; height: 1.1em; }
+.jam-svg { width: 100%; height: 100%; overflow: visible; }
+.jam-svg .cincin { fill: none; stroke: rgba(244,247,255,.16); stroke-width: 8; } .jam-svg .arc { fill: none; stroke: #FFC94A; stroke-width: 8; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; transform: rotate(-90deg); transform-origin: 100px 100px; animation: jamArc 9s linear infinite; filter: drop-shadow(0 0 6px rgba(255,201,74,.6)); }
+.jam-svg .tanda { stroke: rgba(244,247,255,.5); stroke-width: 3; stroke-linecap: round; } .jam-svg .jarum { stroke: #F4F7FF; stroke-width: 6; stroke-linecap: round; transform-origin: 100px 100px; animation: jamJarum 9s linear infinite; } .jam-svg .pusat { fill: #FFC94A; }
+@keyframes jamArc { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } } @keyframes jamJarum { to { transform: rotate(360deg); } }
+.bd-l.daftar .bd-t.bingkai { display: block; width: 100%; padding: .55em .9em; border-radius: .6em; background: rgba(244,247,255,.07); border: 1px solid rgba(255,255,255,.14); border-left: .28em solid var(--emas-t); line-height: 1.4; }
+.bd-l.daftar { gap: .6rem; }
+.bd-l.jamline .bd-e { font-size: calc(var(--fs) * 3.8); } .bd-l.jamline { margin-bottom: .2rem; }
+
+.bd-t.sup { margin-left: -.16em; }
+.ad-tutup { display: flex; gap: .5rem; background: none !important; border: 0 !important; box-shadow: none !important; padding: 0 !important; color: inherit !important; }
+.ad-tutup .btn.sekunder { background: rgba(244,247,255,.1) !important; color: #E3E9F8 !important; border-color: rgba(255,255,255,.2) !important; }

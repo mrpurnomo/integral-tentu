@@ -47,9 +47,9 @@ const hashStr = (t) => { let h = 2166136261; for (let i = 0; i < t.length; i++) 
 async function posisiGrup(idx) { const kel = await ambilKel(), m = kel ? kel.kel : [], g = idx === B.DUMMY ? 0 : sudahMasuk(m, idx); if (g < 0) return null; const anggota = (m[g] || []).map((x) => x.idx); if (idx === B.DUMMY && !anggota.includes(idx)) anggota.push(idx); return { g, anggota }; }
 async function aksiLanjut(b, idx, d, kirim) {
   const K = ctx().K, pos = await posisiGrup(idx), now = Date.now(); if (!pos) return kirim(200, { ok: true, tanpa: true });
-  const g1 = pos.g + 1, gk = idx === B.DUMMY ? 0 : pos.g + 1, fam = B.bagianKelompok(pos.g), PR = await hashObj(K.PR), saya = PR[String(idx)], maks = CFG().maks, simpanD = async () => { d.aktif = now; await simpanSiswa(idx, d); };
+  const g1 = pos.g + 1, gk = idx === B.DUMMY ? 0 : pos.g + 1, fam = B.bagianKelompok(pos.g), PR = await hashObj(K.PR), saya = PR[String(idx)], maks = Math.max(1, pos.anggota.length), kelAll = await ambilKel(), ada = (g) => idx === B.DUMMY || !!(kelAll && kelAll.kel[g - 1] && kelAll.kel[g - 1].length), tamuAda = () => B.tamuHost(g1).filter((x) => ada(x.g)), simpanD = async () => { d.aktif = now; await simpanSiswa(idx, d); };
   const adaLain = (p) => pos.anggota.some((m) => m !== idx && PR[String(m)] === p);
-  const tujuan = () => (saya === 1 || saya === 2 ? B.daftarKunjungan(g1, saya === 1 ? 'A' : 'B', adaLain(saya === 1 ? 2 : 1)) : []);
+  const tujuan = () => (saya === 1 || saya === 2 ? B.daftarKunjungan(g1, saya === 1 ? 'A' : 'B', adaLain(saya === 1 ? 2 : 1)).filter(ada) : []);
   if (b.a === 'grup') return kirim(200, { ok: true, g: g1, fam, anggota: pos.anggota.map((m) => ({ idx: m, nama: nm(m), peran: PR[String(m)] == null ? null : PR[String(m)] })), kap: B.kapasitasPeran(maks), maks, aktif: await bacaLangkah() });
   if (b.a === 'peran') {
     const p = Number(b.peran); if (![0, 1, 2].includes(p)) return kirim(400, { error: 'peran-tidak-valid' });
@@ -61,12 +61,12 @@ async function aksiLanjut(b, idx, d, kirim) {
     const PA = await hashObj(K.PA), pairKey = (h, g) => h + ':' + g;
     if (b.a === 'k2-status') {
       const o = { ok: true, peran: saya, selesai: !!(d.k2 && d.k2.selesai), skip: !!(d.k2 && d.k2.skip) };
-      if (saya === 0) o.tamu = B.tamuHost(g1).map(({ g, sub }) => { const pr = PA[pairKey(gk, g)]; return { g, sub, fam: B.bagianKelompok(g - 1), ok: !!(pr && pr.ok), siapa: pr && pr.ok ? nm(pr.siapa) : null, kode: pr && !pr.ok && pr.exp > now ? pr.kode : null }; });
+      if (saya === 0) o.tamu = tamuAda().map(({ g, sub }) => { const pr = PA[pairKey(gk, g)]; return { g, sub, fam: B.bagianKelompok(g - 1), ok: !!(pr && pr.ok), siapa: pr && pr.ok ? nm(pr.siapa) : null, kode: pr && !pr.ok && pr.exp > now ? pr.kode : null }; });
       else o.tujuan = tujuan().map((h) => { const pr = PA[pairKey(h, gk)]; return { h, fam: B.bagianKelompok(h - 1), ok: !!(pr && pr.ok), siap: !!(pr && !pr.ok && pr.exp > now), paham: ((d.k2 && d.k2.paham) || {})[h] || null }; });
       return kirim(200, o);
     }
     if (b.a === 'k2-kode' || b.a === 'k2-tarik') {
-      const g = Number(b.g); if (saya !== 0 || !B.tamuHost(g1).some((x) => x.g === g)) return kirim(403, { error: 'bukan-host' });
+      const g = Number(b.g); if (saya !== 0 || !tamuAda().some((x) => x.g === g)) return kirim(403, { error: 'bukan-host' });
       const key = pairKey(gk, g);
       if (b.a === 'k2-tarik') { await redis('HDEL', K.PA, key); return kirim(200, { ok: true }); }
       if (idx === B.DUMMY && b.paksa === true) { await redis('HSET', K.PA, key, JSON.stringify({ kode: 'UJI', exp: now, ok: true, siapa: idx, t: now })); return kirim(200, { ok: true, paksa: true }); }
@@ -85,7 +85,7 @@ async function aksiLanjut(b, idx, d, kirim) {
       pr2.salah = (pr2.salah || 0) + 1; let baru = false; if (pr2.salah >= 3) { pr2.kode = kodeAcak(B.mulberry(hashStr(key + ':' + now + 'x'))); pr2.salah = 0; pr2.exp = now + 180000; baru = true; } await redis('HSET', K.PA, key, JSON.stringify(pr2)); return kirim(200, { ok: true, benar: false, baru });
     }
     if (b.a === 'k2-selesai') {
-      const perlu = saya === 0 ? B.tamuHost(g1).map((x) => PA[pairKey(gk, x.g)]) : tujuan().map((h) => PA[pairKey(h, gk)]), lengkap = perlu.every((p) => p && p.ok) || idx === B.DUMMY;
+      const perlu = saya === 0 ? tamuAda().map((x) => PA[pairKey(gk, x.g)]) : tujuan().map((h) => PA[pairKey(h, gk)]), lengkap = perlu.every((p) => p && p.ok) || idx === B.DUMMY;
       if (!lengkap && b.skip !== true) return kirim(409, { error: 'belum-lengkap' });
       d.k2 = d.k2 || {}; d.k2.selesai = true; d.k2.skip = !lengkap; d.k2.kurang = perlu.filter((p) => !(p && p.ok)).length; d.k2.waktu = now; await simpanD(); return kirim(200, { ok: true, skip: !lengkap });
     }
@@ -154,11 +154,11 @@ const handler = async (req, res) => {
           const gM = sudahMasuk(kelM.kel, idx); if (gM < 0) return kirim(409, { error: 'tanpa-kelompok' }); return kirim(200, { ok: true, kelompok: tampilKel(kelM.kel), saya: gM });
         }
         if (idx === B.DUMMY) { /* akun uji coba: lihat kelompok sementara, tidak disimpan dan tidak mengubah kelompok asli */
-          const s0 = await semuaSiswa(), sel0 = selesaiNyata(s0); let k0 = await ambilKel(); k0 = k0 ? { kel: JSON.parse(JSON.stringify(k0.kel)) } : { kel: B.bentukKelompok(sel0, ctx().kl) }; const g0 = B.tambahKelompok(k0.kel, { idx, skor: d.hasil.skor }, ctx().kl); return kirim(200, { ok: true, kelompok: tampilKel(k0.kel), saya: g0 < 0 ? 0 : g0, uji: true }); }
+          const s0 = await semuaSiswa(), sel0 = selesaiNyata(s0); let k0 = await ambilKel(); k0 = k0 ? { kel: JSON.parse(JSON.stringify(k0.kel)) } : { kel: B.bentukKelompok(sel0, ctx().kl) }; const g0 = B.tambahKelompok(k0.kel, { idx, skor: d.hasil.skor }, ctx().kl, k0.k); return kirim(200, { ok: true, kelompok: tampilKel(k0.kel), saya: g0 < 0 ? 0 : g0, uji: true }); }
         const gerbang = (await redis('GET', ctx().K.G)) || 'buka'; let kel = await ambilKel();
         if (gerbang === 'tutup') return kirim(200, { ok: true, menunggu: true });
         if (!kel) { const s = await semuaSiswa(); kel = { kel: B.bentukKelompok(selesaiNyata(s), ctx().kl), dibuat: Date.now() }; await simpanKel(kel); await arsipkan(kel, 'otomatis', true); }
-        let g = sudahMasuk(kel.kel, idx); if (g < 0) { g = B.tambahKelompok(kel.kel, { idx, skor: d.hasil ? d.hasil.skor : 0 }, ctx().kl); if (g < 0) return kirim(409, { error: 'penuh' }); await simpanKel(kel); }
+        let g = sudahMasuk(kel.kel, idx); if (g < 0) { g = B.tambahKelompok(kel.kel, { idx, skor: d.hasil ? d.hasil.skor : 0 }, ctx().kl, kel.k); if (g < 0) return kirim(409, { error: 'penuh' }); await simpanKel(kel); }
         return kirim(200, { ok: true, kelompok: tampilKel(kel.kel), saya: g });
       }
     }
@@ -178,8 +178,8 @@ const handler = async (req, res) => {
       if (b.a === 'g-reset') { const idx = bersihIdx(b.idx); if (idx === null) return kirim(400, { error: 'idx' }); await redis('HDEL', ctx().K.S, 's' + idx); await redis('HDEL', ctx().K.PR, String(idx)); const kel = await ambilKel(); if (kel) { kel.kel = kel.kel.map((g) => g.filter((s) => s.idx !== idx)); await simpanKel(kel); } return kirim(200, { ok: true }); }
       if (b.a === 'g-reset-semua') { await redis('DEL', ctx().K.S); await redis('DEL', ctx().K.KEL); await redis('DEL', ctx().K.L); await redis('DEL', ctx().K.G); await redis('DEL', ctx().K.KB); await redis('DEL', ctx().K.P); await redis('DEL', ctx().K.SL); await redis('DEL', ctx().K.PR); await redis('DEL', ctx().K.PA); await redis('DEL', ctx().K.K5); return kirim(200, { ok: true }); }
       if (b.a === 'g-bentuk' && CFG().manual) return kirim(400, { error: 'kelompok-manual' });
-      if (b.a === 'g-bentuk') { const s = await semuaSiswa(); const kel = { kel: B.bentukKelompok(selesaiNyata(s), ctx().kl), dibuat: Date.now() }; await simpanKel(kel); await arsipkan(kel, 'otomatis', true); return kirim(200, { ok: true, kelompok: tampilKel(kel.kel) }); }
-      if (b.a === 'g-tambah') { const s = await semuaSiswa(); let kel = await ambilKel(); if (!kel) return kirim(200, { ok: true, ditambah: 0 }); let n = 0; Object.keys(s).filter((k) => nyata(k) && s[k].hasil).forEach((k) => { const idx = +k.slice(1); if (sudahMasuk(kel.kel, idx) < 0 && B.tambahKelompok(kel.kel, { idx, skor: s[k].hasil.skor }, ctx().kl) >= 0) n++; }); await simpanKel(kel); if (n) await arsipkan(kel, 'otomatis', true); return kirim(200, { ok: true, ditambah: n }); }
+      if (b.a === 'g-bentuk') { const s = await semuaSiswa(), sel = selesaiNyata(s); const kel = { kel: B.bentukKelompok(sel, ctx().kl, true), dibuat: Date.now(), k: Math.max(1, B.rencanaKelompok(sel.length).K) }; await simpanKel(kel); await arsipkan(kel, 'otomatis', true); return kirim(200, { ok: true, kelompok: tampilKel(kel.kel) }); }
+      if (b.a === 'g-tambah') { const s = await semuaSiswa(); let kel = await ambilKel(); if (!kel) return kirim(200, { ok: true, ditambah: 0 }); let n = 0; Object.keys(s).filter((k) => nyata(k) && s[k].hasil).forEach((k) => { const idx = +k.slice(1); if (sudahMasuk(kel.kel, idx) < 0 && B.tambahKelompok(kel.kel, { idx, skor: s[k].hasil.skor }, ctx().kl, kel.k) >= 0) n++; }); await simpanKel(kel); if (n) await arsipkan(kel, 'otomatis', true); return kirim(200, { ok: true, ditambah: n }); }
       if (b.a === 'g-hapus-kelompok') { await redis('DEL', ctx().K.KEL); return kirim(200, { ok: true }); }
       if (b.a === 'g-gerbang') { await redis('SET', ctx().K.G, b.buka ? 'buka' : 'tutup'); if (b.buka && !CFG().manual && !(await ambilKel())) { const s = await semuaSiswa(); const k1 = { kel: B.bentukKelompok(selesaiNyata(s), ctx().kl), dibuat: Date.now() }; await simpanKel(k1); await arsipkan(k1, 'otomatis', true); } return kirim(200, { ok: true }); }
       if (b.a === 'g-langkah') {

@@ -72,7 +72,7 @@
     ambil(id, buat) { let o = this.pool.get(id); if (!o) { o = buat(); o.pakai = true; this.pool.set(id, o); } o.pakai = true; return o; }
     render(G) {
       this.G = G; const { m, pw, ph } = this, pal = this.pal;
-      if (!G) return; const sx = (x) => this.sx(x), sy = (y) => this.sy(y), V = G.v;
+      if (!G) return; this.L.kotak.setAttribute('opacity', clamp(G.ax * 1.2, 0, 1).toFixed(3)); const sx = (x) => this.sx(x), sy = (y) => this.sy(y), V = G.v;
       this.pool.forEach((o) => { o.pakai = false; });
       /* grid, sumbu, angka (interval 1 selama ruangnya cukup) */
       const sxn = this.langkah(V.x1 - V.x0, pw, 34), syn = this.langkah(V.y1 - V.y0, ph, 28), yA = clamp(0, V.y0, V.y1), xA = clamp(0, V.x0, V.x1), pyA = sy(yA), pxA = sx(xA), a = G.grid, ax = G.ax; let g = '', s = '';
@@ -137,12 +137,22 @@
       const rootW = (lebar || this.root.clientWidth || 600) - 40;
       this.root.querySelectorAll('.bd-l').forEach((ln) => { const e = ln.querySelector('.bd-e'); if (!e) return; ln.style.setProperty('--esk', 1); const w = e.scrollWidth, avail = rootW * .94; if (w > avail) ln.style.setProperty('--esk', (avail / w).toFixed(3)); });
     }
+    /* satu token: teks KaTeX, teks biasa, HTML mentah, pangkat kecil (sup), atau pecahan bertumpuk (kolom) */
+    buatToken(t) {
+      if (t.kolom) {
+        const w = el('span', { kelas: 'bd-frac' }), a = el('span', { kelas: 'fa' }), b2 = el('span', { kelas: 'fb' }); (t.kolom.atas || []).forEach((x) => a.append(this.buatToken(x))); (t.kolom.bawah || []).forEach((x) => b2.append(this.buatToken(x)));
+        const bar = el('span', { kelas: 'bd-t fbar c-' + (t.c || 'putih'), 'data-id': t.id + ':bar', 'data-sig': 'B', 'data-c': t.c || 'putih' }); w.append(a, bar, b2); return w;
+      }
+      const sg = (t.raw ? 'R:' : (t.txt ? 'T:' : 'K:')) + (t.raw || t.tex || t.txt || ''), s = el('span', { kelas: 'bd-t c-' + (t.c || 'putih') + (t.txt ? ' txt' : '') + (t.kls ? ' ' + t.kls : ''), 'data-id': t.id, 'data-c': t.c || 'putih', 'data-sig': sg });
+      if (t.dari) s.dataset.dari = t.dari; if (t.hl) s.dataset.hl = 1;
+      s.innerHTML = t.raw ? t.raw : (t.txt ? Mat.h(t.txt) : (t.tex === '' ? '' : Mat.tex(t.tex))); return s;
+    }
     bangun(m, lebar) {
       const r = this.root; r.innerHTML = ''; r.style.setProperty('--fs', (m.fs || 2.7) + 'rem'); r.className = 'bd' + (m.rata === 'kiri' ? ' rata-kiri' : '');
       (m.lines || []).forEach((L) => {
         const ln = el('div', { kelas: 'bd-l sz-' + (L.sz || 'b') + (L.kls ? ' ' + L.kls : ''), 'data-id': L.id, 'data-op': L.op == null ? 1 : L.op }); ln.style.opacity = L.op == null ? 1 : L.op;
-        if (L.ket) ln.append(el('span', { kelas: 'bd-k bd-t', 'data-id': 'k:' + L.id, html: Mat.h(L.ket) }));
-        const e = el('div', { kelas: 'bd-e' }); (L.tok || []).forEach((t) => { const s = el('span', { kelas: 'bd-t c-' + (t.c || 'putih') + (t.txt ? ' txt' : '') + (t.kls ? ' ' + t.kls : ''), 'data-id': t.id, 'data-c': t.c || 'putih', 'data-sig': (t.txt ? 'T:' : 'K:') + (t.tex || t.txt) }); if (t.hl) s.dataset.hl = 1; s.innerHTML = t.txt ? Mat.h(t.txt) : Mat.tex(t.tex); e.append(s); }); ln.append(e); r.append(ln);
+        if (L.ket) ln.append(el('span', { kelas: 'bd-k bd-t', 'data-id': 'k:' + L.id, 'data-sig': 'T:' + L.ket, html: Mat.h(L.ket) }));
+        const e = el('div', { kelas: 'bd-e' }); (L.tok || []).forEach((t) => { e.append(this.buatToken(t)); }); ln.append(e); r.append(ln);
       });
       this.ukur(lebar);
     }
@@ -150,7 +160,7 @@
     /* merekam posisi, warna, dan isi token yang tampak sekarang (termasuk yang sedang bergerak), lalu menghentikan animasinya */
     rekam() {
       const r = this.root, lama = new Map(), lamaLn = new Map();
-      r.querySelectorAll('[data-id]').forEach((e) => { const rc = e.getBoundingClientRect(); if (e.classList.contains('bd-l')) lamaLn.set(e.dataset.id, { op: parseFloat(getComputedStyle(e).opacity) }); else lama.set(e.dataset.id, { r: rc, c: getComputedStyle(e).color, html: e.innerHTML, sig: e.dataset.sig, cls: e.className }); });
+      r.querySelectorAll('[data-id]').forEach((e) => { const rc = e.getBoundingClientRect(); if (e.classList.contains('bd-l')) lamaLn.set(e.dataset.id, { op: parseFloat(getComputedStyle(e).opacity) }); else lama.set(e.dataset.id, { r: rc, c: getComputedStyle(e).color, html: e.innerHTML, sig: e.dataset.sig, cls: e.className, dari: e.dataset.dari || '' }); });
       r.querySelectorAll('.bd-hantu').forEach((h) => h.remove()); r.getAnimations && r.getAnimations({ subtree: true }).forEach((a) => a.cancel());
       return { lama, lamaLn };
     }
@@ -170,13 +180,16 @@
             job.push(A(g, [{ transform: 'none', opacity: 1 }, { transform: 'translate(' + (-dx) + 'px,' + (-dy) + 'px)', opacity: 0, offset: .6 }, { transform: 'translate(' + (-dx) + 'px,' + (-dy) + 'px)', opacity: 0 }], { duration: dur, fill: 'both' }).then(() => g.remove()));
             job.push(A(e, [{ transform: 'translate(' + dx + 'px,' + dy + 'px)', opacity: 0, color: w.c }, { opacity: 0, offset: .35 }, { transform: 'none', opacity: 1, color: warna }], { duration: dur }));
           } else {
-            const sx = rc.width > 1 ? w.r.width / rc.width : 1, sy = rc.height > 1 ? w.r.height / rc.height : 1, beda2 = Math.abs(sx - 1) > .015 || Math.abs(sy - 1) > .015;
+            const sx = rc.width > 1 && !e.classList.contains('bd-k') ? w.r.width / rc.width : 1, sy = sx, beda2 = Math.abs(sx - 1) > .02;
             if (Math.abs(dx) > .5 || Math.abs(dy) > .5 || w.c !== warna || beda2) { e.style.transformOrigin = '0 0'; job.push(A(e, [{ transform: 'translate(' + dx + 'px,' + dy + 'px) scale(' + sx.toFixed(4) + ',' + sy.toFixed(4) + ')', color: w.c }, { transform: 'none', color: warna }], { duration: dur }).then(() => { e.style.transformOrigin = ''; })); }
           }
+        } else if (e.dataset.dari && lama.get(e.dataset.dari)) {   /* salinan: terbang dari token sumbernya */
+          const src = lama.get(e.dataset.dari), dx = src.r.left - rc.left, dy = src.r.top - rc.top; e.style.transformOrigin = '0 0';
+          job.push(A(e, [{ transform: 'translate(' + dx + 'px,' + dy + 'px)', opacity: 0 }, { opacity: 1, offset: .25 }, { transform: 'none', opacity: 1 }], { duration: dur }).then(() => { e.style.transformOrigin = ''; }));
         } else job.push(A(e, [{ opacity: 0, transform: 'translateY(.55rem) scale(.86)' }, { opacity: 1, transform: 'none' }], { duration: dur * .75, delay: Math.min(520, (n++) * 90) / spd(), easing: 'cubic-bezier(.2,.8,.2,1)' }));
         if (e.dataset.hl && !o.mundur) job.push(A(e, [{ transform: 'scale(1)' }, { transform: 'scale(1.16)', offset: .4 }, { transform: 'scale(1)' }], { duration: 700 / spd(), delay: dur * 1.02, fill: 'none', easing: 'ease-in-out' }));
       });
-      lama.forEach((w, id) => { if (sdh.has(id)) return; const g = el('span', { kelas: w.cls + ' bd-hantu', html: w.html, gaya: 'position:absolute;left:' + (w.r.left - rr.left) + 'px;top:' + (w.r.top - rr.top) + 'px;margin:0;pointer-events:none;white-space:nowrap;color:' + w.c }); r.append(g); job.push(A(g, [{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(-.5rem) scale(.9)' }], { duration: dur * .6, fill: 'both' }).then(() => g.remove())); });
+      lama.forEach((w, id) => { if (sdh.has(id)) return; const tgt = w.dari && r.querySelector('[data-id="' + w.dari + '"]'); if (tgt) { const tr = tgt.getBoundingClientRect(), g0 = el('span', { kelas: w.cls + ' bd-hantu', html: w.html, gaya: 'position:absolute;left:' + (w.r.left - rr.left) + 'px;top:' + (w.r.top - rr.top) + 'px;margin:0;pointer-events:none;white-space:nowrap;color:' + w.c }); r.append(g0); job.push(A(g0, [{ transform: 'none', opacity: 1 }, { transform: 'translate(' + (tr.left - w.r.left) + 'px,' + (tr.top - w.r.top) + 'px)', opacity: 0 }], { duration: dur, fill: 'both' }).then(() => g0.remove())); return; } const g = el('span', { kelas: w.cls + ' bd-hantu', html: w.html, gaya: 'position:absolute;left:' + (w.r.left - rr.left) + 'px;top:' + (w.r.top - rr.top) + 'px;margin:0;pointer-events:none;white-space:nowrap;color:' + w.c }); r.append(g); job.push(A(g, [{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(-.5rem) scale(.9)' }], { duration: dur * .6, fill: 'both' }).then(() => g.remove())); });
       await Promise.all(job);
     }
   }
@@ -252,7 +265,7 @@
       if (id === jalanId) { sibuk = false; await pr; }
     }
     /* campurG memakai kemajuan k yang belum diperhalus supaya jeda per butir (d) bekerja; zoom diperhalus di dalamnya */
-    const kePos = async (cc, bb, opt) => { opt = opt || {}; c = cc; b = clamp(bb, 1, jml(cc)); const m = model(c, b); ui(); await ke_(m, opt); sibuk = false; if (b >= jml(c)) { played.add(c); if (o.saatMain) o.saatMain([...played]); } if (o.saatLangkah) o.saatLangkah(c); kirimPos(); ui(); };
+    const kePos = async (cc, bb, opt) => { opt = Object.assign({}, opt || {}); if (BAB[cc].potong) opt.instan = true; c = cc; b = clamp(bb, 1, jml(cc)); const m = model(c, b); ui(); await ke_(m, opt); sibuk = false; if (b >= jml(c)) { played.add(c); if (o.saatMain) o.saatMain([...played]); } if (o.saatLangkah) o.saatLangkah(c); kirimPos(); ui(); };
     async function lanjut() { if (!guru && o.ambilPosisi && guruPos && urut({ c, b }) >= urut(guruPos) && !(c === BAB.length - 1 && b >= jml(c) && urut(guruPos) >= urut({ c, b }))) return; if (b < jml(c)) return kePos(c, b + 1); if (c < BAB.length - 1) return kePos(c + 1, 1); if (o.saatSelesai) o.saatSelesai(); }
     async function mundur() { if (b > 1) return kePos(c, b - 1, { mundur: true }); if (c > 0) return kePos(c - 1, jml(c - 1), { mundur: true }); }
     async function ulang() { const cc = c, bb = b; if (bb > 1) await kePos(cc, bb - 1, { instan: true }); else if (cc > 0) await kePos(cc - 1, jml(cc - 1), { instan: true }); else await ke_(kosong, { instan: true }); await kePos(cc, bb); }
@@ -310,9 +323,11 @@
 
   /* dialog layar penuh bergaya panggung (pelajaran kelompok, pembahasan animasi) */
   function layarPenuh(o) {
-    const tirai = el('div', { kelas: 'ad-layar' }), isi = el('div', { kelas: 'ad-isi' }), tutupB = el('button', { kelas: 'btn sekunder kecil ad-tutup', type: 'button', html: ik('silang', 'kecil') + (o.tutup || 'Tutup'), onclick: () => selesai() });
-    tirai.append(isi, tutupB); document.body.append(tirai); let pl = null;
-    const selesai = () => { if (pl) pl.stop(); tirai.classList.add('tutup'); setTimeout(() => tirai.remove(), 220); if (o.saatTutup) o.saatTutup(); };
+    const tirai = el('div', { kelas: 'ad-layar' }), isi = el('div', { kelas: 'ad-isi' }), grup = el('div', { kelas: 'ad-tutup' });
+    const tutupB = el('button', { kelas: 'btn sekunder kecil', type: 'button', html: ik('silang', 'kecil') + (o.tutup || 'Tutup'), onclick: () => selesai(false) });
+    if (o.kembaliSoal) grup.append(el('button', { kelas: 'btn kecil sorot', type: 'button', html: ik('kembali', 'kecil') + 'Kembali ke soal', onclick: () => selesai(true) }));
+    grup.append(tutupB); tirai.append(isi, grup); document.body.append(tirai); let pl = null, ditutup = false;
+    const selesai = (kembali) => { if (ditutup) return; ditutup = true; if (pl) pl.stop(); tirai.classList.add('tutup'); setTimeout(() => tirai.remove(), 220); if (kembali) { if (o.kembaliSoal) o.kembaliSoal(); } else if (o.saatTutup) o.saatTutup(); };
     pl = pasang(isi, Object.assign({ dalamDialog: true, langsung: true }, o)); return { selesai, pl, tirai };
   }
 

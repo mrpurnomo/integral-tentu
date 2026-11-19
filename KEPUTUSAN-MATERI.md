@@ -72,3 +72,13 @@ Dicatat dari pertanyaan awal ke guru (06 §3) dan dari `rancangan-materi-integra
 - Label fungsi ditempatkan dengan penghindar tabrakan terhadap titik, sumbu, angka, dan label lain (sisa tabrakan dengan angka sumbu sekitar 2–4% pada ukuran kecil).
 - Kartu 1: soal latihan di pop-up (benar dan salah dicatat); peran dipilih lewat pop-up dengan Refresh; Host dapat menjawab latihan tamu.
 - Coretan dinonaktifkan di awal dan dinyalakan lewat tombol dengan penanda aktif.
+
+## Revisi 19 November 2026 (kelima, kelas XII-C)
+
+- **Animasi pengantar**: grafik tidak lagi terpotong atau melar saat berpindah; token papan diskalakan seragam. Bab "ingat kembali" menampilkan antiturunan langkah demi langkah: naikkan pangkat (2+1), bagi pangkat baru (pecahan bertumpuk), sederhanakan, tulis batas, substitusi, hitung. Mundur memutar balik dengan keadaan yang sama persis. Bab tujuan pembelajaran memakai poin berbingkai; slide tes awal memakai jam beranimasi.
+- **Kartu 1**: latihan di pop-up besar (90% tinggi layar), soal selalu baru, coretan per soal; "Selesai belajar" aktif setelah 1 soal benar (atau otomatis setelah dua kali salah, dengan catatan). Pembahasan beranimasi menyembunyikan pop-up lalu kembali dengan tombol "Kembali ke soal".
+- **Kartu 4**: pembahasan berisi bentuk yang tepat, alasan, dan hitungan sampai selesai.
+- **Catatan belajar A4**: tidak ada lagi kode `$…$` atau `\…` yang bocor.
+- **Pengelompokan cerdas** (jumlah hadir tidak harus kelipatan 7): tujuh kelompok bila hadir ≥ 14; bila lebih sedikit, jumlah kelompok = hadir ÷ 2 (minimal 1) dan memakai materi 1 sampai K. Ukuran kelompok selisih paling banyak 1. Murid yang menyusul masuk ke kelompok aktif terkecil. Peran Host/Penjelajah menyesuaikan ukuran kelompok; kunjungan dan tamu hanya ke kelompok yang benar-benar ada. Guru menekan **Susun ulang dari hasil terkini** setelah kehadiran jelas (rencana tampil di tab Kelompok).
+- **Daftar kelas XII-C**: 22 murid.
+- Belum diuji di tablet sungguhan; materi XII-D belum ada.
